@@ -1,6 +1,6 @@
 #ifndef SEEK_H_
 #define SEEK_H_
-
+// a comment
 #include "Behavior.h"
 
 class Seek : public Behavior
