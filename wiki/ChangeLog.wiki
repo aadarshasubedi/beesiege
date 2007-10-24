@@ -5,7 +5,7 @@
 Post notes about the changes you made over here. Thank you.
 
 
-= Details =
+= Log =
 
 *21-Oct-2007* - _Vaios
 
