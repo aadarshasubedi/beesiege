@@ -19,6 +19,6 @@ Also we need to make sure that everybody is working on something. So I'm going t
 
 *24-Oct-2007* - _Vaios
 
-I added the [http://beesiege.googlecode.com/svn/trunk/ConfigurationManager.cpp cppFile]ConfigurationManager, which reads a configuration file which contains all of the  constant values that we use here and there. The configuration file is an XML file and its schema is configurationSchema.rng. This schema is written in RELAX NG, which is a type of validation language for XML. If you want to modify the XML file or add stuff to it, make sure you make the appropriate changes to the XML schema and validate it using jing. To run jing type the following: `java jing configurationSchema.rng configuration.xml`.
+I added the [http://beesiege.googlecode.com/svn/trunk/ConfigurationManager.cpp ConfigurationManager], which reads a configuration file which contains all of the  constant values that we use here and there. The configuration file is an XML file and its schema is configurationSchema.rng. This schema is written in RELAX NG, which is a type of validation language for XML. If you want to modify the XML file or add stuff to it, make sure you make the appropriate changes to the XML schema and validate it using jing. To run jing type the following: `java jing configurationSchema.rng configuration.xml`.
 
 That's it for now.
