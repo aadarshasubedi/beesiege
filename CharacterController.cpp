@@ -51,7 +51,9 @@ void CharacterController::Sense(const NxVec3& target)
 //-------------------------------------------------------------------------
 void CharacterController::UpdateForces()
 {
-	m_spAgentInfo->m_vForce = m_fcKv0 * (m_fcDamp*m_spAgentInfo->m_vDesiredVelocity - m_spAgentInfo->m_vVelocity);
+	m_spAgentInfo->m_vForce = - (-m_fcKv0 * (m_spAgentInfo->m_vDesiredVelocity - m_spAgentInfo->m_vVelocity)
+							     + m_fcDamp *  m_spAgentInfo->m_vVelocity);
+		
 }
 //-------------------------------------------------------------------------
 void CharacterController::UpdatePhysX()

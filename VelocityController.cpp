@@ -1,4 +1,5 @@
 #include "VelocityController.h"
+#include <math.h>
 
 VelocityController::VelocityController(float damping, float springConstant, float maxVel)
 : m_fDamping(damping), m_fSpringConstant(springConstant), m_fMaxVelocity(maxVel)
@@ -12,21 +13,31 @@ VelocityController::~VelocityController()
 
 void VelocityController::Update(NiPoint3 &currentVel, const NiPoint3 &desiredVel)
 {
-	float curVel = currentVel.Length();
-	float force  = m_fSpringConstant * (m_fDamping*desiredVel.Length() - curVel);
-	float newVel =  curVel + force;
+	NiPoint3 force  = -m_fSpringConstant * (desiredVel - currentVel) + m_fDamping*currentVel; 
+	NiPoint3 newVel =  currentVel - force*0.1;
 	
-	if (newVel < 0.0f)
+	float newVelLength = newVel.Length();
+	
+	if (newVelLength < 0.0f)
 	{
-		newVel = newVel < -m_fMaxVelocity ? -m_fMaxVelocity : newVel;
+		if (newVelLength < -m_fMaxVelocity)
+		{
+			NiPoint3 heading = newVel;
+			heading.Unitize();	
+			newVel = -m_fMaxVelocity*heading;
+		}
 	}
-	else if (newVel > 0.0f)
+	else if (newVelLength > 0.0f)
 	{
-		newVel = newVel > m_fMaxVelocity ? m_fMaxVelocity : newVel;
+		if (newVelLength > m_fMaxVelocity)
+		{
+			NiPoint3 heading = newVel;
+			heading.Unitize();	
+			newVel = m_fMaxVelocity*heading;
+		}
 	}
 
-	NiPoint3 heading = desiredVel;
-	heading.Unitize();
-	currentVel = newVel * heading;
+	
+	currentVel = newVel;
 
 }
