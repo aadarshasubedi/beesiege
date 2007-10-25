@@ -24,3 +24,7 @@ I added the [http://beesiege.googlecode.com/svn/trunk/ConfigurationManager.cpp C
 Also I added a UML diagram of the classes we are using. It is an HTML file but it works only in Internet Explorer... (sry not my fault :P). So check that out if you want.
 
 That's it for now.
+
+*25-Oct-2007* - _Vaios
+
+I changed the camera and character controllers so that the force is calculated correctly. Also I changed the way the camera moves. Now it doesn't rotate on its local z axis, but it only "strafes" on the y axis. This way we avoid the problem where the world is rotated.
