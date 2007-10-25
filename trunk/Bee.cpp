@@ -3,6 +3,9 @@
 #include "Wander.h"
 #include "BehaviorCombo.h"
 #include "ConfigurationManager.h"
+#include "Arrival.h"
+#include "Separation.h"
+
 #include <list>
 using namespace std;
 //------------------------------------------------------------------------
@@ -12,8 +15,7 @@ Bee::Bee() : GameCharacter(ResourceManager::RES_MODEL_BEE)
 //------------------------------------------------------------------------
 Bee::~Bee()
 {
-	m_spArrival  = 0;
-	m_spSep = 0;
+	
 }
 //------------------------------------------------------------------------
 void Bee::DoExtraUpdates(float fTime)
@@ -47,9 +49,6 @@ bool Bee::DoExtraInits()
 	BehaviorComboPtr aws = NiNew BehaviorCombo("", vAWS, vAWSCoef);
 
 	m_spAgent->GetController()->SetBehavior((Behavior*)aws);
-
-	m_spAgent->GetActor()->setLinearDamping(7.0f);
-	m_spAgent->GetActor()->setAngularDamping(10.0f);
 
 	return true;
 }

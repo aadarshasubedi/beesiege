@@ -69,10 +69,10 @@ void CameraController::UpdatePositionAndOrientation()
 	NiPoint3 pos(nxPos.x, nxPos.y, nxPos.z);
 	NiPoint3 targetPosition = pos - heading*m_fcDistanceFromTarget;
 	
-	NiPoint3 distance =  0.05f*(targetPosition - m_spCamera->GetWorldTranslate());
+	NiPoint3 distance =  (targetPosition - m_spCamera->GetWorldTranslate());
 
 	m_spVelController->Update(m_vVelocity, distance);
-	NiPoint3 newPos = m_spCamera->GetTranslate() + m_vVelocity*m_fDeltaTime;
+	NiPoint3 newPos = m_spCamera->GetTranslate() + m_vVelocity*m_fDeltaTime*0.5;
 	m_spCamera->SetTranslate(newPos);
 	
 	NxVec3 nxUp = rot.getColumn(1);

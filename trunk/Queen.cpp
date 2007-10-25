@@ -1,5 +1,6 @@
 #include "Queen.h"
 #include "ConfigurationManager.h"
+#include <math.h>
 //------------------------------------------------------------------------
 Queen::Queen() : GameCharacter(ResourceManager::RES_MODEL_QUEEN)		 
 {
@@ -13,7 +14,9 @@ Queen::~Queen()
 //------------------------------------------------------------------------
 void Queen::DoExtraUpdates(float fTime)
 {
-	
+	NxMat33 rotation = m_spAgent->GetActor()->getGlobalOrientation();
+	rotation.setColumn(1, NxVec3(0.0, 1.0, 0.0));
+	m_spAgent->GetActor()->setGlobalOrientation(rotation);
 }
 //------------------------------------------------------------------------
 bool Queen::DoExtraInits()
@@ -57,6 +60,7 @@ void Queen::StrafeRight()
 void Queen::Rotate(float dx, float dy)
 {
 	float rotationGain = ConfigurationManager::Get()->queen_rotationGain;
-	m_spAgent->GetActor()->addLocalTorque(NxVec3(0.0, -dx*rotationGain, -dy*rotationGain));
+	m_spAgent->GetActor()->addLocalTorque(NxVec3(0.0, -dx*rotationGain,0.0));
+	m_spAgent->GetActor()->addLocalForce(NxVec3(0.0, -dy*200.0, 0.0));
 }
 //------------------------------------------------------------------------

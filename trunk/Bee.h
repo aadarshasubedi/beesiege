@@ -3,8 +3,6 @@
 
 #include "GameCharacter.h"
 #include "Agent.h"
-#include "Arrival.h"
-#include "Separation.h"
 
 class Bee : public GameCharacter
 {
@@ -15,8 +13,6 @@ private:
 
 	void DoExtraUpdates(float fTime);
 	bool DoExtraInits();
-	ArrivalPtr m_spArrival;
-	SeparationPtr m_spSep;
 };
 
 NiSmartPointer(Bee);
