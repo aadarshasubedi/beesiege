@@ -28,8 +28,8 @@ bool ResourceManager::Init(NiStream* stream)
 {
 	bool bSuccess = false;
 
-	bSuccess = LoadNif(stream, string("bee.nif"), RES_MODEL_BEE);
-	bSuccess = LoadNif(stream, string("queen.nif"), RES_MODEL_QUEEN);
+	bSuccess = LoadNif(stream, string("models/bee.nif"), RES_MODEL_BEE);
+	bSuccess = LoadNif(stream, string("models/queen.nif"), RES_MODEL_QUEEN);
 
 	return bSuccess;
 	

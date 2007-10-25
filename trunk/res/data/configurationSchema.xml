@@ -1,0 +1,132 @@
+<element name="configuration" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"> 
+    <element name="controllers">
+        <interleave>
+            <element name="agent">
+                <interleave>
+                    <element name="maxForce"> 
+                        <data type="float"/>
+                    </element>
+                    <element name="maxTorque"> 
+                        <data type="float"/>
+                    </element>
+                    <element name="maxVelocity"> 
+                        <data type="float"/>
+                    </element>
+                    <element name="maxAngVel"> 
+                        <data type="float"/>
+                    </element>
+                </interleave>
+            </element>
+            
+            <element name="characterController">
+                <interleave>
+                    <element name="springConstant"> 
+                        <data type="float"/>
+                    </element>
+                    <element name="damping"> 
+                        <data type="float"/>
+                    </element>
+                </interleave>
+            </element>
+            
+            <element name="cameraController">
+                <interleave>
+                    <element name="springConstant"> 
+                        <data type="float"/>
+                    </element>
+                    <element name="damping"> 
+                        <data type="float"/>
+                    </element>
+                    <element name="maxVelocity"> 
+                        <data type="float"/>
+                    </element>
+                    <element name="distanceFromTarget"> 
+                        <data type="float"/>
+                    </element>
+                </interleave>
+            </element>
+            
+        </interleave>
+    </element>
+    
+    <element name="behaviors">
+        <interleave>
+            <element  name="arrival">
+                <element name="constant"> 
+                    <data type="float"/>
+                </element>
+            </element>
+            
+            <element  name="alignment">
+                <interleave>
+                    <element name="constant"> 
+                        <data type="float"/>
+                    </element>
+                    <element name="radius"> 
+                        <data type="float"/>
+                    </element>
+                </interleave>
+            </element>
+            
+            <element  name="cohesion">
+               <interleave>
+                    <element name="constant"> 
+                        <data type="float"/>
+                    </element>
+                    <element name="radius"> 
+                        <data type="float"/>
+                    </element>
+                </interleave>
+            </element>
+            
+            <element  name="departure">
+                <element name="constant"> 
+                    <data type="float"/>
+                </element>                
+            </element>
+            
+            <element  name="separation">
+                <interleave>
+                    <element name="constant"> 
+                        <data type="float"/>
+                    </element>
+                    <element name="radius"> 
+                        <data type="float"/>
+                    </element>
+                </interleave>
+            </element>
+            
+            <element  name="wander">
+                <interleave>
+                    <element name="constant"> 
+                        <data type="float"/>
+                    </element>
+                    <element name="noise"> 
+                        <data type="float"/>
+                    </element>
+                </interleave>
+            </element>
+        </interleave>
+    </element>
+    
+    <element name="characters">
+        <interleave>
+            <element name="bee">
+                <element name="distanceFromTarget">
+                    <data type="float"/>
+                </element>
+            </element>
+            <element name="queen">
+                <interleave>                
+                    <element name="speedGain">
+                        <data type="float"/>
+                    </element>
+                    <element name="rotationGain">
+                        <data type="float"/>
+                    </element>
+                </interleave>
+            </element>
+        </interleave>
+        
+    </element>
+</element>

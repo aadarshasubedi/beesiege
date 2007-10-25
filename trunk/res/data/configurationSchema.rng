@@ -1,0 +1,132 @@
+<element name="configuration" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"> 
+    <element name="controllers">
+        <interleave>
+            <element name="agent">
+                <interleave>
+                    <element name="maxForce"> 
+                        <data type="double"/>
+                    </element>
+                    <element name="maxTorque"> 
+                        <data type="double"/>
+                    </element>
+                    <element name="maxVelocity"> 
+                        <data type="double"/>
+                    </element>
+                    <element name="maxAngVel"> 
+                        <data type="double"/>
+                    </element>
+                </interleave>
+            </element>
+            
+            <element name="characterController">
+                <interleave>
+                    <element name="springConstant"> 
+                        <data type="double"/>
+                    </element>
+                    <element name="damping"> 
+                        <data type="double"/>
+                    </element>
+                </interleave>
+            </element>
+            
+            <element name="cameraController">
+                <interleave>
+                    <element name="springConstant"> 
+                        <data type="double"/>
+                    </element>
+                    <element name="damping"> 
+                        <data type="double"/>
+                    </element>
+                    <element name="maxVelocity"> 
+                        <data type="double"/>
+                    </element>
+                    <element name="distanceFromTarget"> 
+                        <data type="double"/>
+                    </element>
+                </interleave>
+            </element>
+            
+        </interleave>
+    </element>
+    
+    <element name="behaviors">
+        <interleave>
+            <element  name="arrival">
+                <element name="constant"> 
+                    <data type="double"/>
+                </element>
+            </element>
+            
+            <element  name="alignment">
+                <interleave>
+                    <element name="constant"> 
+                        <data type="double"/>
+                    </element>
+                    <element name="radius"> 
+                        <data type="double"/>
+                    </element>
+                </interleave>
+            </element>
+            
+            <element  name="cohesion">
+               <interleave>
+                    <element name="constant"> 
+                        <data type="double"/>
+                    </element>
+                    <element name="radius"> 
+                        <data type="double"/>
+                    </element>
+                </interleave>
+            </element>
+            
+            <element  name="departure">
+                <element name="constant"> 
+                    <data type="double"/>
+                </element>                
+            </element>
+            
+            <element  name="separation">
+                <interleave>
+                    <element name="constant"> 
+                        <data type="double"/>
+                    </element>
+                    <element name="radius"> 
+                        <data type="double"/>
+                    </element>
+                </interleave>
+            </element>
+            
+            <element  name="wander">
+                <interleave>
+                    <element name="constant"> 
+                        <data type="double"/>
+                    </element>
+                    <element name="noise"> 
+                        <data type="double"/>
+                    </element>
+                </interleave>
+            </element>
+        </interleave>
+    </element>
+    
+    <element name="characters">
+        <interleave>
+            <element name="bee">
+                <element name="distanceFromTarget">
+                    <data type="double"/>
+                </element>
+            </element>
+            <element name="queen">
+                <interleave>                
+                    <element name="speedGain">
+                        <data type="double"/>
+                    </element>
+                    <element name="rotationGain">
+                        <data type="double"/>
+                    </element>
+                </interleave>
+            </element>
+        </interleave>
+        
+    </element>
+</element>
