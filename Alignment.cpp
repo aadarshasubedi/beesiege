@@ -5,13 +5,14 @@
 #include "CharacterController.h"
 #include <NxVec3.h>
 #include <NxActor.h>
+#include "ConfigurationManager.h"
 #include <list>
 using namespace std;
 
 //------------------------------------------------------------------------------------------------------
 Alignment::Alignment() : Behavior(string("Alignment")),
-						 m_fcKAlignment(100.0f),
-						 m_fcKNeighborhood(50.0f)
+m_fcKAlignment(ConfigurationManager::Get()->alignment_constant),
+m_fcKNeighborhood(ConfigurationManager::Get()->alignment_radius)
 {
 	
 }
@@ -52,7 +53,6 @@ NxVec3 Alignment::Execute(AgentInfoPtr aInfo)
 	{
 		aInfo->m_vDesiredVelocity = aInfo->m_vOrientation * aInfo->m_fcMaxVelocity;
 	}
-	aInfo->m_fThetaDesired = aInfo->m_vOrientation.dot(NxVec3(1.0, 0.0, 0.0));
 
 	return aInfo->m_vDesiredVelocity;
 }

@@ -2,12 +2,13 @@
 #include "AgentInfo.h"
 #include <NxVec3.h>
 #include <stdio.h>
+#include "ConfigurationManager.h"
 using namespace std;
 //------------------------------------------------------------------------------------------------------
 Wander::Wander() : Behavior(string("Wander")),
-				   m_fcKNoise(10.0f),
-				   m_fcKWander(10.0f),
-				   m_vWander(1.0, 0.0, 0.0)
+m_fcKNoise(ConfigurationManager::Get()->wander_noise),
+m_fcKWander(ConfigurationManager::Get()->wander_constant),
+m_vWander(1.0, 0.0, 0.0)
 									   
 {
 }
@@ -34,8 +35,6 @@ NxVec3 Wander::Execute(AgentInfoPtr aInfo)
 	if (aInfo->m_vDesiredVelocity.magnitude() > aInfo->m_fcMaxVelocity)
 		aInfo->m_vDesiredVelocity = aInfo->m_vOrientation * aInfo->m_fcMaxVelocity;
 	
-	
-	aInfo->m_fThetaDesired = aInfo->m_vOrientation.dot(NxVec3(1.0, 0.0, 0.0));
 
 	return aInfo->m_vDesiredVelocity;
 	

@@ -3,20 +3,22 @@
 #include "VelocityController.h"
 #include "Bee.h"
 #include <NiPhysX.h>
+#include "ConfigurationManager.h"
 #include <fstream>
 using namespace std;
 NiImplementRTTI(CameraController, NiTimeController);
 
 //---------------------------------------------------------------------------
 CameraController::CameraController(NiCameraPtr camera, NxActor* target) : 														 
-														 m_spCamera(camera),
-														 m_pTarget(target),
-														 m_fLastUpdate(0.0f),
-														 m_fDeltaTime(0.0f),
-														 m_vVelocity(0.0f, 0.0f, 0.0f),
-														 m_fcDistanceFromTarget(350.0f),
-														 m_fcMaxVelocity(50.0f),
-														 m_spVelController(NiNew VelocityController(0.4f, 1.5f, m_fcMaxVelocity))
+ m_spCamera(camera),
+ m_pTarget(target),
+ m_fLastUpdate(0.0f),
+ m_fDeltaTime(0.0f),
+ m_vVelocity(0.0f, 0.0f, 0.0f),
+ m_fcDistanceFromTarget(ConfigurationManager::Get()->cameraController_distanceFromTarget),
+ m_fcMaxVelocity(ConfigurationManager::Get()->cameraController_maxVelocity),
+ m_spVelController(NiNew VelocityController(ConfigurationManager::Get()->cameraController_damping, 
+ ConfigurationManager::Get()->cameraController_springConstant, m_fcMaxVelocity))
 
 {
     

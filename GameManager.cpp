@@ -3,7 +3,10 @@
 #include "ResourceManager.h"
 #include <NiPhysXScene.h>
 #include "Bee.h"
+#include <NiApplication.h>
+#include "ConfigurationManager.h"
 using namespace std;
+
 
 //------------------------------------------------------------------------
 GameManager::GameManager()
@@ -27,14 +30,23 @@ GameManager::~GameManager()
 	m_lAgents.clear();
 
 	m_spQueen = 0;
+
+	ConfigurationManager::Destroy();
 }
 //------------------------------------------------------------------------
 bool GameManager::Init(NiNodePtr parent, NiPhysXScenePtr physXScene)
 {
+	
+	if (!ConfigurationManager::Get()->ReadConfigurationFile(
+		NiApplication::ConvertMediaFilename("data/configuration.xml")))
+	{
+		NiMessageBox("Could Not Read Configuration File", "Error");
+		return false;
+	}
+	
 	m_spQueen = NiNew Queen;
 	if (AddObject((GameObj3dPtr)m_spQueen, parent, physXScene))
 	{
-		
 		return true;
 	}
 
@@ -84,4 +96,3 @@ void GameManager::RemoveObject(GameObj3dPtr object)
 {
 	m_lObjects.remove(object);
 }
-//------------------------------------------------------------------------

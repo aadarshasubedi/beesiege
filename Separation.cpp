@@ -4,13 +4,14 @@
 #include "GameManager.h"
 #include "CharacterController.h"
 #include <NxVec3.h>
+#include "ConfigurationManager.h"
 #include <list>
 using namespace std;
 
 //------------------------------------------------------------------------------------------------------
 Separation::Separation() : Behavior(string("Separation")),
-						   m_fcKSeparation(2000.0f),
-						   m_fcKNeighborhood(1000.0f)
+m_fcKSeparation(ConfigurationManager::Get()->separation_constant),
+m_fcKNeighborhood(ConfigurationManager::Get()->separation_radius)
 {
 }
 //------------------------------------------------------------------------------------------------------
@@ -50,7 +51,6 @@ NxVec3 Separation::Execute(AgentInfoPtr aInfo)
 	{
 		aInfo->m_vDesiredVelocity = aInfo->m_vOrientation * aInfo->m_fcMaxVelocity;
 	}
-	aInfo->m_fThetaDesired = aInfo->m_vOrientation.dot(NxVec3(1.0, 0.0, 0.0));
 
 	return aInfo->m_vDesiredVelocity;
 	

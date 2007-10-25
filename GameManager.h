@@ -13,6 +13,7 @@ NiSmartPointer(GameObj3d);
 class NiPhysXScene;
 NiSmartPointer(NiPhysXScene);
 
+
 class GameManager : public SingletonObj<GameManager>
 {
 	friend SingletonObj<GameManager>;
@@ -24,7 +25,7 @@ public:
 	bool AddObject(GameObj3dPtr object, NiNodePtr parent, NiPhysXScenePtr physXScene);
 	void AddAgent(AgentPtr agent);
 	void RemoveObject(GameObj3dPtr object);
-
+	
 	inline QueenPtr GetQueen() const  { return m_spQueen; }
 	inline const std::list<AgentPtr>& GetAgents() const { return m_lAgents; }
 

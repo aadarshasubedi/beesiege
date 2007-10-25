@@ -37,9 +37,6 @@ protected:
 	const float m_fcKv0;
 	// damping constant
 	const float m_fcDamp;
-	// Heading control: 
-	const float m_fcKp1;
-	const float m_fcKv1;
 	// PI
 	const float m_fcPI;
 	// turn spring dynamics off

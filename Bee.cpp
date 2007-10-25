@@ -2,6 +2,7 @@
 #include "GameManager.h"
 #include "Wander.h"
 #include "BehaviorCombo.h"
+#include "ConfigurationManager.h"
 #include <list>
 using namespace std;
 //------------------------------------------------------------------------
@@ -20,7 +21,8 @@ void Bee::DoExtraUpdates(float fTime)
 	NxActor* queenActor = GameManager::Get()->GetQueen()->GetAgent()->GetActor();
 	NxMat33 rotation = queenActor->getGlobalOrientation();
 	NxVec3 nxHeading = rotation.getColumn(0);
-	NxVec3 nxTarget = queenActor->getGlobalPosition() - nxHeading*150.0f;
+	NxVec3 nxTarget = queenActor->getGlobalPosition() - 
+		nxHeading*ConfigurationManager::Get()->bee_distanceFromTarget;
 	NiPoint3 target(nxTarget.x, nxTarget.y, nxTarget.z);
 	m_spAgent->Update(target);
 }
@@ -43,9 +45,8 @@ bool Bee::DoExtraInits()
 	vAWSCoef.push_back(1.5f);
 
 	BehaviorComboPtr aws = NiNew BehaviorCombo("", vAWS, vAWSCoef);
-	m_spArrival = NiNew Arrival;
-	m_spSep= NiNew Separation;
-	m_spAgent->GetController()->SetBehavior((Behavior*)(BehaviorCombo*)aws);
+
+	m_spAgent->GetController()->SetBehavior((Behavior*)aws);
 
 	m_spAgent->GetActor()->setLinearDamping(7.0f);
 	m_spAgent->GetActor()->setAngularDamping(10.0f);

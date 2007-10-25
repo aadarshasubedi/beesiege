@@ -19,7 +19,7 @@ NiApplication* NiApplication::Create()
 GameApp::GameApp() : NiApplication("BeeSiege",
     DEFAULT_WIDTH, DEFAULT_HEIGHT, true)
 {
-	SetMediaPath("../../res/models/");
+	SetMediaPath("../../res/");
 }
 //----------------------------------------------------------------------
 bool GameApp::Initialize()
@@ -45,11 +45,11 @@ bool GameApp::CreateScene()
 
     // Load in the scenegraph for our world...
     bool bSuccess = kStream.Load(
-        NiApplication::ConvertMediaFilename("scene.nif"));
+        NiApplication::ConvertMediaFilename("models/scene.nif"));
     
     if (!bSuccess)
     {
-        NiMessageBox("WORLD.NIF file could not be loaded!", "NIF Error");
+        NiMessageBox("scene.nif file could not be loaded!", "NIF Error");
         return false;
     }
 

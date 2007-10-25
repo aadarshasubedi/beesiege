@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+
+<configuration>
+     <controllers>
+        <agent>
+            <maxForce> 10.0 </maxForce>
+            <maxTorque> 40.5 </maxTorque>
+            <maxVelocity> 300.0 </maxVelocity>
+            <maxAngVel> 10.0 </maxAngVel>
+        </agent>
+        <characterController>
+            <springConstant> 9.0 </springConstant>
+            <damping> 3.0 </damping>
+        </characterController>
+        <cameraController>
+            <distanceFromTarget> 350.0 </distanceFromTarget>
+            <maxVelocity> 50.0 </maxVelocity>
+            <damping> 0.4 </damping>
+            <springConstant> 1.5 </springConstant>
+        </cameraController>
+      </controllers>
+    <behaviors>
+        <arrival>
+            <constant> 10.0 </constant>
+        </arrival>
+        <alignment>
+            <constant> 100.0 </constant>
+            <radius> 50.0 </radius>
+        </alignment>
+        <cohesion>
+            <constant> 100.0 </constant>
+            <radius> 50.0 </radius>
+        </cohesion>
+        <departure>
+            <constant> 800.0 </constant>
+        </departure>
+        <separation>
+            <constant> 2000.0 </constant>
+            <radius> 1000.0 </radius>
+        </separation>
+        <wander>
+            <constant> 10.0 </constant>
+            <noise> 1.0 </noise>
+        </wander>
+    </behaviors>
+    <characters>
+        <bee>
+            <distanceFromTarget> 150.0 </distanceFromTarget>
+        </bee>
+        <queen>
+            <speedGain> 1000.0 </speedGain>
+            <rotationGain> 500.0 </rotationGain>
+        </queen>
+    </characters>
+</configuration>
