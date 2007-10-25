@@ -16,3 +16,9 @@ I created a repository so please use it.
 I am working on creating an XML configuration file, that will contain all of the constants that we will be using. I'll post more on this later. 
 
 Also we need to make sure that everybody is working on something. So I'm going to be working on creating a controller that will try to align the queen with the XZ plane. As far as I know Smiral will be working on the scene, creating bounding volumes for the mountains etc. Ruhi there are two things I can think of for you right now. The camera controller, that makes the camera slide on the bounding volumes of the scene or the AI Framework. I think the camera controller is more urgent so would you like to work on that?
+
+*24-Oct-2007* - _Vaios
+
+I added the ConfigurationManager, which reads a configuration file which contains all of the  constant values that we use here and there. The configuration file is an XML file and its schema is configurationSchema.rng. This schema is written in RELAX NG, which is a type of validation language for XML. If you want to modify the XML file or add stuff to it, make sure you make the appropriate changes to the XML schema and validate it using jing. To run jing type the following: `java jing configurationSchema.rng configuration.xml`.
+
+That's it for now.
