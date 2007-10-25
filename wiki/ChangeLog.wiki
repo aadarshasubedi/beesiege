@@ -21,4 +21,6 @@ Also we need to make sure that everybody is working on something. So I'm going t
 
 I added the [http://beesiege.googlecode.com/svn/trunk/ConfigurationManager.cpp ConfigurationManager], which reads a configuration file which contains all of the  constant values that we use here and there. The configuration file is an XML file and its schema is configurationSchema.rng. This schema is written in RELAX NG, which is a type of validation language for XML. If you want to modify the XML file or add stuff to it, make sure you make the appropriate changes to the XML schema and validate it using jing. To run jing type the following: `jing configurationSchema.rng configuration.xml`.
 
+Also I added a UML diagram of the classes we are using. It is an HTML file but it works only in Internet Explorer... (sry not my fault :P). So check that out if you want.
+
 That's it for now.
