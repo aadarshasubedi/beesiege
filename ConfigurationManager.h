@@ -35,6 +35,8 @@ public:
 	float bee_distanceFromTarget;
 	float queen_speedGain;
 	float queen_rotationGain;
+	float queen_viewRadius;
+	float timer_selectSoldiers;
 
 private:
 
@@ -56,6 +58,7 @@ private:
 	bool ReadCharacters(TiXmlElement* node);
 	bool ReadBee(TiXmlElement* node);
 	bool ReadQueen(TiXmlElement* node);
+	bool ReadTimers(TiXmlElement* node);
 };
 
 #endif

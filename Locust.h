@@ -1,13 +1,13 @@
-#ifndef BEE_H
-#define BEE_H
+#ifndef LOCUST_H
+#define LOCUST_H
 
 #include "GameCharacter.h"
 
-class Bee : public GameCharacter
+class Locust : public GameCharacter
 {
 public:
-	Bee();
-	~Bee();
+	Locust();
+	~Locust();
 
 private:
 
@@ -16,6 +16,6 @@ private:
 
 };
 
-NiSmartPointer(Bee);
+NiSmartPointer(Locust);
 
 #endif

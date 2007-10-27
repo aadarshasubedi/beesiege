@@ -124,9 +124,19 @@
                     <element name="rotationGain">
                         <data type="double"/>
                     </element>
+                    <element name="viewRadius">
+                        <data type="double"/>
+                    </element>
                 </interleave>
             </element>
         </interleave>
-        
+    </element>
+    
+    <element name="timers">
+        <interleave>
+            <element name="selectSoldiersTimer">
+                <data type="double"/>
+            </element>      
+        </interleave>
     </element>
 </element>

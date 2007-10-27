@@ -25,6 +25,8 @@ bool ConfigurationManager::ReadConfigurationFile(const char *file)
 				return false;
 			if (!ReadCharacters(root->FirstChildElement("characters")))
 				return false;
+			if (!ReadTimers(root->FirstChildElement("timers")))
+				return false;
 		}
 		else
 		{
@@ -250,7 +252,20 @@ bool ConfigurationManager::ReadQueen(TiXmlElement* node)
 	if (!node) return false;
 
 	if (ReadFloat(queen_speedGain, node, "speedGain") &&
-		ReadFloat(queen_rotationGain, node, "rotationGain"))
+		ReadFloat(queen_rotationGain, node, "rotationGain") &&
+		ReadFloat(queen_viewRadius, node, "viewRadius"))
+	{
+		return true;
+	}
+
+	return false;
+}
+//------------------------------------------------------------------------
+bool ConfigurationManager::ReadTimers(TiXmlElement* node)
+{
+	if (!node) return false;
+
+	if (ReadFloat(timer_selectSoldiers, node, "selectSoldiersTimer"))
 	{
 		return true;
 	}

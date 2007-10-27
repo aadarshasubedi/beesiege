@@ -3,20 +3,20 @@
 <configuration>
      <controllers>
         <agent>
-            <maxForce> 10.0 </maxForce>
+            <maxForce> 1100.0 </maxForce>
             <maxTorque> 40.5 </maxTorque>
-            <maxVelocity> 300.0 </maxVelocity>
+            <maxVelocity> 500.0 </maxVelocity>
             <maxAngVel> 10.0 </maxAngVel>
         </agent>
         <characterController>
-            <springConstant> 9.0 </springConstant>
-            <damping> 3.0 </damping>
+            <springConstant> 20.0 </springConstant>
+            <damping> 2.0 </damping>
         </characterController>
         <cameraController>
             <distanceFromTarget> 350.0 </distanceFromTarget>
             <maxVelocity> 50.0 </maxVelocity>
-            <damping> 0.4 </damping>
-            <springConstant> 1.5 </springConstant>
+            <damping> 10.0 </damping>
+            <springConstant> 1.0 </springConstant>
         </cameraController>
       </controllers>
     <behaviors>
@@ -24,19 +24,19 @@
             <constant> 10.0 </constant>
         </arrival>
         <alignment>
-            <constant> 100.0 </constant>
-            <radius> 50.0 </radius>
+            <constant> 2000.0 </constant>
+            <radius> 200.0 </radius>
         </alignment>
         <cohesion>
-            <constant> 100.0 </constant>
-            <radius> 50.0 </radius>
+            <constant> 2000.0 </constant>
+            <radius> 200.0 </radius>
         </cohesion>
         <departure>
-            <constant> 800.0 </constant>
+            <constant> 18000.0 </constant>
         </departure>
         <separation>
             <constant> 2000.0 </constant>
-            <radius> 1000.0 </radius>
+            <radius> 200.0 </radius>
         </separation>
         <wander>
             <constant> 10.0 </constant>
@@ -45,11 +45,15 @@
     </behaviors>
     <characters>
         <bee>
-            <distanceFromTarget> 150.0 </distanceFromTarget>
+            <distanceFromTarget> 0.0 </distanceFromTarget>
         </bee>
         <queen>
             <speedGain> 1000.0 </speedGain>
             <rotationGain> 500.0 </rotationGain>
+            <viewRadius> 500.0 </viewRadius>
         </queen>
     </characters>
+    <timers>
+        <selectSoldiersTimer> 0.5 </selectSoldiersTimer>
+    </timers>
 </configuration>

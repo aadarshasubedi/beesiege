@@ -9,7 +9,7 @@ using namespace std;
 
 
 //------------------------------------------------------------------------
-GameManager::GameManager()
+GameManager::GameManager() : m_fDeltaTime(0.0f)
 {
 }
 //------------------------------------------------------------------------
@@ -31,12 +31,13 @@ GameManager::~GameManager()
 
 	m_spQueen = 0;
 
+	m_lEnemies.RemoveAll();
 	ConfigurationManager::Destroy();
 }
 //------------------------------------------------------------------------
-bool GameManager::Init(NiNodePtr parent, NiPhysXScenePtr physXScene)
+bool GameManager::Init(NiNodePtr parent, NiPhysXScenePtr physXScene, NiApplication* app )
 {
-	
+	m_pGameApplication = (GameApp*)app;
 	if (!ConfigurationManager::Get()->ReadConfigurationFile(
 		NiApplication::ConvertMediaFilename("data/configuration.xml")))
 	{
@@ -57,6 +58,7 @@ bool GameManager::Init(NiNodePtr parent, NiPhysXScenePtr physXScene)
 //------------------------------------------------------------------------
 void GameManager::UpdateAll(float fTime)
 {
+	m_fDeltaTime = m_pGameApplication->GetFrameTime();
 	list<GameObj3dPtr>::iterator it;
 	for (it = m_lObjects.begin(); it != m_lObjects.end(); it++)
 	{
@@ -90,6 +92,16 @@ bool GameManager::AddObject(GameObj3dPtr object, NiNodePtr parent, NiPhysXSceneP
 void GameManager::AddAgent(AgentPtr agent)
 {
 	m_lAgents.push_back(agent);
+}
+//------------------------------------------------------------------------
+void GameManager::AddEnemy(GameCharacterPtr enemy)
+{
+	m_lEnemies.AddTail(enemy);
+}
+//------------------------------------------------------------------------
+void GameManager::RemoveEnemy(GameCharacterPtr enemy)
+{
+	m_lEnemies.Remove(enemy);
 }
 //------------------------------------------------------------------------
 void GameManager::RemoveObject(GameObj3dPtr object)

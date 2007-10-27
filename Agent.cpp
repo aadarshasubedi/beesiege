@@ -12,9 +12,8 @@ Agent::~Agent()
 	m_spController = 0;
 }
 //-------------------------------------------------------------------------
-void Agent::Update(const NiPoint3& target)
+void Agent::Update(const NxVec3& target)
 {
-	NxVec3 nxTarget(target.x, target.y, target.z);
-	m_spController->Update(nxTarget);
+	m_spController->Update(target);
 }
 //-------------------------------------------------------------------------

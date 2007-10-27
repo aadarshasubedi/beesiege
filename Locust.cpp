@@ -1,40 +1,34 @@
-#include "Bee.h"
+#include "Locust.h"
 #include "GameManager.h"
 #include "Wander.h"
 #include "BehaviorCombo.h"
-#include "ConfigurationManager.h"
 #include "ResourceManager.h"
-#include "Arrival.h"
-#include "Separation.h"
-#include "Cohesion.h"
-#include "Alignment.h"
-#include "Departure.h"
 #include "Agent.h"
+#include "Arrival.h"
+#include "Departure.h"
+#include "Wander.h"
+#include "BehaviorCombo.h"
 #include <list>
-#include <NiMaterialProperty.h>
-
-#include <NiGeometry.h>
-
 using namespace std;
 
-
 //------------------------------------------------------------------------
-Bee::Bee() : GameCharacter(ResourceManager::RES_MODEL_BEE)
+Locust::Locust() : GameCharacter(ResourceManager::RES_MODEL_LOCUST)
 {
 }
 //------------------------------------------------------------------------
-Bee::~Bee()
+Locust::~Locust()
 {
 
 }
 //------------------------------------------------------------------------
-void Bee::DoExtraUpdates(float fTime)
+void Locust::DoExtraUpdates(float fTime)
 {
+	m_vTarget = NxVec3(100.0, 300.0, 0.0);
 	m_spAgent->Update(m_vTarget);
 	
 }
 //------------------------------------------------------------------------
-bool Bee::DoExtraInits()
+bool Locust::DoExtraInits()
 {
 	if (!GameCharacter::DoExtraInits())
 	{
@@ -58,7 +52,7 @@ bool Bee::DoExtraInits()
 	BehaviorComboPtr behavior = NiNew BehaviorCombo("", vBehavior, vBehaviorCoef);
 
 	m_spAgent->GetController()->SetBehavior((Behavior*)behavior);
-	GameManager::Get()->GetQueen()->AddSoldier(this);
-
+	GameManager::Get()->AddEnemy(this);
+	
 	return true;
 }

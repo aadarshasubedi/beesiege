@@ -3,6 +3,7 @@
 #include "ResourceManager.h"
 #include "CameraController.h"
 #include "InputManager.h"
+#include "TextManager.h"
 
 #pragma comment(lib, "NiBinaryShaderLibDX9.lib")
 #pragma comment(lib, "NiD3D10BinaryShaderLibD3D10.lib")
@@ -17,7 +18,7 @@ NiApplication* NiApplication::Create()
 }
 //---------------------------------------------------------------------------
 GameApp::GameApp() : NiApplication("BeeSiege",
-    DEFAULT_WIDTH, DEFAULT_HEIGHT, true)
+    DEFAULT_WIDTH, DEFAULT_HEIGHT), m_fLastSimTime(0.0f)
 {
 	SetMediaPath("../../res/");
 }
@@ -69,23 +70,33 @@ bool GameApp::CreateScene()
 
 	HidePointer();
 
-	m_spScene->UpdateProperties();
-	m_spScene->UpdateEffects();
-
 	if (!CreatePhysXScene())
 	{
 		return false;
 	}
 
-	bSuccess = ResourceManager::Get()->Init(&kStream);
+	// Update the scene graph before rendering begins.
+    m_spScene->UpdateProperties();
+    m_spScene->UpdateEffects();
+    m_spScene->Update(0.0f);
+    
+    // Get simulation started. We give a small timestep to avoid zero length
+    // steps, which cause problems with PhysX hardware in v2.3.2
+    m_spPhysXScene->UpdateSources(0.001f);
+    m_spPhysXScene->Simulate(0.001f);
+    m_fLastSimTime = 0.001f;
+
+	bSuccess = ResourceManager::Get()->Init(&kStream, m_spRenderer);
 	if (!bSuccess) return false;
 
-	bSuccess = GameManager::Get()->Init(m_spScene, m_spPhysXScene);
+	bSuccess = GameManager::Get()->Init(m_spScene, m_spPhysXScene, this);
 	if (!bSuccess) return false;
 	
-	CameraControllerPtr pkCameraController = NiNew CameraController(m_spCamera, 
+	bSuccess = TextManager::Get()->Init(m_spRenderer);
+	if (!bSuccess) return false;
+
+	m_spCameraController = NiNew CameraController(m_spCamera, 
 		GameManager::Get()->GetQueen()->GetAgent()->GetActor());
-	pkCameraController->SetTarget(GameManager::Get()->GetQueen()->GetNode());
 
 	
     return bSuccess;
@@ -104,32 +115,36 @@ void GameApp::ProcessInput()
 //---------------------------------------------------------------------
 void GameApp::UpdateFrame()
 {
-	// update everything
-	NiApplication::UpdateFrame();
+	m_spPhysXScene->FetchResults(m_fLastSimTime, true);
+    m_spPhysXScene->UpdateDestinations(m_fLastSimTime);
 
-	// Update physics
-    if (m_spPhysXScene)
-    {
-        m_spPhysXScene->UpdateSources(m_fAccumTime);
-        if (m_spPhysXScene->Simulate(m_fAccumTime))
-        {
-            m_spPhysXScene->FetchResults(m_fAccumTime, true);
-            m_spPhysXScene->UpdateDestinations(m_fAccumTime);
-        }
-    }
+    NiApplication::UpdateFrame(); // Calls process input
 
+    m_spCameraController->Update(m_fAccumTime);
 	GameManager::Get()->UpdateAll(m_fAccumTime);
+	
 	m_spScene->Update(m_fAccumTime);
 	m_spScene->UpdateProperties();
 	m_spScene->UpdateEffects();
-	
-	
+
+    // Now we start the next step, giving a time that will actually be
+    // in the past by the time we get the results.
+    m_spPhysXScene->UpdateSources(m_fAccumTime);
+    m_spPhysXScene->Simulate(m_fAccumTime);
+    m_fLastSimTime = m_fAccumTime;	
+}
+//---------------------------------------------------------------------------
+void GameApp::RenderScreenItems()
+{
+	NiApplication::RenderScreenItems();
+	TextManager::Get()->DisplayText();
 }
 //---------------------------------------------------------------------
 void GameApp::Terminate()
 {
-
+	m_spCameraController = 0;
 	m_spPhysXScene = 0;
+	TextManager::Destroy();
 	GameManager::Destroy();
 	ResourceManager::Destroy();
 	InputManager::Destroy();
