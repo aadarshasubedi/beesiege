@@ -28,3 +28,14 @@ That's it for now.
 *25-Oct-2007* - _Vaios
 
 I changed the camera and character controllers so that the force is calculated correctly. Also I changed the way the camera moves. Now it doesn't rotate on its local z axis, but it only "strafes" on the y axis. This way we avoid the problem where the world is rotated.
+
+
+*26-Oct-2007* - _Vaios
+
+I added a lot of things now. First of all the user can now select a number of bees by holding down the left mouse button and when the button is released the selected bees will go to a target. When the left button is pressed a counter is increased and when it is released the queen sorts the soldiers according to their distance from a target, using Merge Sort. Then the desired number goes to the target. Also when a bee is selected its color changes to green. 
+
+I also added an enemy (Locust). The user can target an enemy and cycle through targets. Only the targets that are close to the queen can be selected. When an enemy is selected its color changes to red. A bee can go to an enemy if the queen commands it to do so, but the mechanism is not complete yet.
+
+Finally (I think), I added a TextManager which is used to display text on screen, and I currently use it to dispay the number of bees selected.
+
+A major problem is performance. For some reason the game is crawling when we add more than ten PhysX objects and I cannot tell why this is happening. I have a strong feeling though that there is something wrong with PhysX...
