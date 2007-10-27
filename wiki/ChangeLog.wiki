@@ -36,6 +36,6 @@ I added a lot of things now. First of all the user can now select a number of be
 
 I also added an enemy (Locust). The user can target an enemy and cycle through targets. Only the targets that are close to the queen can be selected. When an enemy is selected its color changes to red. A bee can go to an enemy if the queen commands it to do so, but the mechanism is not complete yet.
 
-Finally (I think), I added a TextManager which is used to display text on screen, and I currently use it to dispay the number of bees selected.
+Finally (I think), I added a [http://beesiege.googlecode.com/svn/trunk/TextManager.cpp TextManager] which is used to display text on screen, and I currently use it to display the number of bees selected.
 
 A major problem is performance. For some reason the game is crawling when we add more than ten PhysX objects and I cannot tell why this is happening. I have a strong feeling though that there is something wrong with PhysX...
