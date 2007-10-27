@@ -2,7 +2,8 @@
 #include "GameManager.h"
 
 //------------------------------------------------------------------------
-GameCharacter::GameCharacter(ResourceManager::ResourceType type) : GameObj3d(type)		 
+GameCharacter::GameCharacter(ResourceManager::ResourceType type) : GameObj3d(type)	, 									
+																   m_vTarget(0.0, 0.0, 0.0)
 {
 }
 //------------------------------------------------------------------------
@@ -24,6 +25,5 @@ bool GameCharacter::DoExtraInits()
 	myactor->setAngularDamping(5.0f);
 	m_spAgent = NiNew Agent(myactor);
 
-	GameManager::Get()->AddAgent(m_spAgent);
 	return true;
 }

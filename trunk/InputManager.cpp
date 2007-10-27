@@ -2,6 +2,7 @@
 #include "GameManager.h"
 #include "GameApp.h"
 #include "Bee.h"
+#include "Locust.h"
 //-------------------------------------------------------------------
 InputManager::InputManager()
 {
@@ -43,6 +44,19 @@ void InputManager::ProcessKeyboard(NiInputKeyboard* keyboard,GameApp* gameApp)
 		if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_SPACE))
 		{
 			gameMgr->AddObject((GameObj3dPtr)(NiNew Bee), gameApp->GetScene(), gameApp->GetPhysXScene());
+			
+		}
+
+		if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_E))
+		{
+			gameMgr->AddObject((GameObj3dPtr)(NiNew Locust), gameApp->GetScene(), gameApp->GetPhysXScene());
+			
+		}
+
+		if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_TAB))
+		{
+			gameMgr->GetQueen()->CycleTarget(gameMgr->GetEnemies());
+			
 		}
     }
 }
@@ -54,7 +68,17 @@ void InputManager::ProcessMouse(NiInputMouse* mouse, GameApp* gameApp)
 		int mx, my, mz;
 		mouse->GetPositionDelta(mx, my, mz);
 
-		GameManager::Get()->GetQueen()->Rotate((float)mx, (float)my);
+		GameManager* gameMgr = GameManager::Get();
+		gameMgr->GetQueen()->Rotate((float)mx, (float)my);
+
+		if(mouse->ButtonIsDown(NiInputMouse::NIM_LEFT))
+		{
+			gameMgr->GetQueen()->SelectMoreSoldiers();
+		}
+		else if(mouse->ButtonWasReleased(NiInputMouse::NIM_LEFT))
+		{
+			gameMgr->GetQueen()->StopSelectingSoldiers();
+		}
 	}
 	
 }

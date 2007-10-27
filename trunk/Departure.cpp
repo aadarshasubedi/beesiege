@@ -21,11 +21,13 @@ NxVec3 Departure::Execute(AgentInfoPtr aInfo)
 	NxVec3 e = aInfo->m_vTarget - aInfo->m_vPos;
 	e = -e / e.magnitudeSquared();
 	departure = m_fcKDeparture*e;
-	aInfo->m_vOrientation = departure;
-	aInfo->m_vOrientation.normalize();
-
+	
 	if (departure.magnitude() > aInfo->m_fcMaxVelocity)
+	{
+		aInfo->m_vOrientation = departure;
+		aInfo->m_vOrientation.normalize();
 		aInfo->m_vDesiredVelocity = aInfo->m_vOrientation *aInfo->m_fcMaxVelocity;
+	}
 	else
 		aInfo->m_vDesiredVelocity = departure;
 

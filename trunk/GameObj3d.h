@@ -16,15 +16,15 @@ public:
 	
 	GameObj3d(ResourceManager::ResourceType type);
 	virtual ~GameObj3d();
-
 	inline NiNodePtr      GetNode() const { return m_spNode; } 
 	inline NiPhysXPropPtr GetProp() const { return m_spProp; } 
+	void SetEmmitance(const NiColor& color);
 protected:
 
 	bool Init(NiNodePtr attachToThis);
 	bool Init(NiNodePtr attachToThis, NiPhysXScenePtr attachToScene);
 	void Update(float fTime);
-	
+
 	ResourceManager::ResourceType m_Type;
 	NiNodePtr m_spNode;
 	NiPhysXPropPtr m_spProp;
@@ -34,6 +34,8 @@ protected:
 private:
 	virtual void DoExtraUpdates(float fTime) = 0;
 	virtual bool DoExtraInits() = 0;
+	void SetEmmitanceForNode(NiAVObject* n, const NiColor& color);
+
 };
 
 NiSmartPointer(GameObj3d);

@@ -6,7 +6,7 @@
 #include "ConfigurationManager.h"
 #include <fstream>
 using namespace std;
-NiImplementRTTI(CameraController, NiTimeController);
+
 
 //---------------------------------------------------------------------------
 CameraController::CameraController(NiCameraPtr camera, NxActor* target) : 														 
@@ -28,28 +28,12 @@ CameraController::~CameraController()
 {
 	m_spVelController = 0;
 }
-//---------------------------------------------------------------------------
-bool CameraController::TargetIsRequiredType() const
-{
-    return NiIsKindOf(NiAVObject, m_pkTarget);
-}
+
 //---------------------------------------------------------------------------
 void CameraController::Update(float fTime)
 {
-	if (fTime > 0.0f)
-	{
-		m_fDeltaTime = fTime - m_fLastUpdate;
-		m_fLastUpdate = fTime;
-		if (m_fDeltaTime < 1.0f)
-		{
-			m_fDeltaTime = 1.0f;
-		}
-	}
-	else
-	{
-		m_fDeltaTime = 1.0f;
-	}
-
+	m_fDeltaTime = (fTime - m_fLastUpdate) * 50.0f;
+	m_fLastUpdate = fTime;
 	
 	if (m_pTarget)    
     {
@@ -72,7 +56,7 @@ void CameraController::UpdatePositionAndOrientation()
 	NiPoint3 distance =  (targetPosition - m_spCamera->GetWorldTranslate());
 
 	m_spVelController->Update(m_vVelocity, distance);
-	NiPoint3 newPos = m_spCamera->GetTranslate() + m_vVelocity*m_fDeltaTime*0.5;
+	NiPoint3 newPos = m_spCamera->GetTranslate() + m_vVelocity*m_fDeltaTime;
 	m_spCamera->SetTranslate(newPos);
 	
 	NxVec3 nxUp = rot.getColumn(1);

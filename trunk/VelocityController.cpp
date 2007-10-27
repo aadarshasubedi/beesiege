@@ -18,24 +18,19 @@ void VelocityController::Update(NiPoint3 &currentVel, const NiPoint3 &desiredVel
 	
 	float newVelLength = newVel.Length();
 	
-	if (newVelLength < 0.0f)
+	if (newVelLength < -m_fMaxVelocity)
 	{
-		if (newVelLength < -m_fMaxVelocity)
-		{
-			NiPoint3 heading = newVel;
-			heading.Unitize();	
-			newVel = -m_fMaxVelocity*heading;
-		}
+		NiPoint3 heading = newVel;
+		heading.Unitize();	
+		newVel = -m_fMaxVelocity*heading;
 	}
-	else if (newVelLength > 0.0f)
+	else if (newVelLength > m_fMaxVelocity)
 	{
-		if (newVelLength > m_fMaxVelocity)
-		{
-			NiPoint3 heading = newVel;
-			heading.Unitize();	
-			newVel = m_fMaxVelocity*heading;
-		}
+		NiPoint3 heading = newVel;
+		heading.Unitize();	
+		newVel = m_fMaxVelocity*heading;
 	}
+	
 
 	
 	currentVel = newVel;

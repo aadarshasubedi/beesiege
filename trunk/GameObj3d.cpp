@@ -53,6 +53,40 @@ bool GameObj3d::Init(NiNodePtr attachToThis, NiPhysXScenePtr attachToScene)
 void GameObj3d::Update(float fTime)
 {
 	DoExtraUpdates(fTime);
-	
+	if (m_spNode)
+	{
+		m_spNode->UpdateProperties();
+		m_spNode->UpdateEffects();
+		m_spNode->Update(fTime);
+	}
 }
 //----------------------------------------------------------------------
+void GameObj3d::SetEmmitance(const NiColor& color)
+{
+	SetEmmitanceForNode(m_spNode, color);
+}
+//----------------------------------------------------------------------
+void GameObj3d::SetEmmitanceForNode(NiAVObject* n, const NiColor& color)
+{
+	NiNodePtr node = 0;
+	NiGeometryPtr geom = 0;
+	if (NiIsKindOf(NiNode, n))
+	{
+		node = (NiNode*)n;
+		NiMaterialPropertyPtr mat = (NiMaterialProperty*)node->GetProperty(NiProperty::MATERIAL);
+		if (mat)
+			mat->NiMaterialProperty::SetEmittance(color);
+		for (int i=0; i<node->GetChildCount(); i++)
+		{
+			SetEmmitanceForNode(node->GetAt(i), color);
+		}
+	}
+	else if (NiIsKindOf(NiGeometry, n))
+	{
+		geom = (NiGeometry*)n;
+		NiMaterialPropertyPtr mat = (NiMaterialProperty*)geom->GetProperty(NiProperty::MATERIAL);
+		if (mat)
+			mat->NiMaterialProperty::SetEmittance(color);
+	}
+}
+

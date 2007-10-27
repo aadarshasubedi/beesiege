@@ -53,7 +53,16 @@ void CharacterController::UpdateForces()
 {
 	m_spAgentInfo->m_vForce = - (-m_fcKv0 * (m_spAgentInfo->m_vDesiredVelocity - m_spAgentInfo->m_vVelocity)
 							     + m_fcDamp *  m_spAgentInfo->m_vVelocity);
-		
+	NxVec3 heading = m_spAgentInfo->m_vForce;
+	heading.normalize();
+	if (m_spAgentInfo->m_vForce.magnitude() > m_spAgentInfo->m_fcMaxForce)
+	{
+		m_spAgentInfo->m_vForce = heading * m_spAgentInfo->m_fcMaxForce;
+	}
+	else if (m_spAgentInfo->m_vForce.magnitude() < -m_spAgentInfo->m_fcMaxForce)
+	{
+		m_spAgentInfo->m_vForce = heading * -m_spAgentInfo->m_fcMaxForce;
+	}	
 }
 //-------------------------------------------------------------------------
 void CharacterController::UpdatePhysX()
@@ -76,6 +85,10 @@ void CharacterController::UpdatePhysX()
 		NiMatrix3 newRotation = NiViewMath::LookAt(target, pos, up);
 		NxMat33 nxNewRotation;
 		NiPhysXTypes::NiMatrix3ToNxMat33(newRotation, nxNewRotation);
+		NxVec3 z = nxNewRotation.getColumn(2);
+		z.y = 0.0f;
+		z.normalize();
+		nxNewRotation.setColumn(2, z);
 		m_pAgent->GetActor()->setGlobalOrientation(nxNewRotation);
 		
 	}

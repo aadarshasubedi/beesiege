@@ -1,19 +1,17 @@
-#ifndef CAMERACONTROLLER_H
-#define CAMERACONTROLLER_H
+#ifndef CAMERACONTROLLER2_H
+#define CAMERACONTROLLER2_H
 
-#include <NiTimeController.h>
 #include <NxActor.h>
-class NiApplication;
+#include "GameObj.h"
 
 class VelocityController;
 NiSmartPointer(VelocityController);
 class GameObj3d;
 NiSmartPointer(GameObj3d);
 
-class CameraController : public NiTimeController 
+class CameraController : public GameObj
 {
-    NiDeclareRTTI;
-
+  
 public:
     CameraController(NiCameraPtr camera, NxActor* target);
 	~CameraController();
@@ -21,7 +19,7 @@ public:
 	
 
 private:
-    bool TargetIsRequiredType () const;
+    
     void UpdatePositionAndOrientation();
 	NiCameraPtr m_spCamera;
 	NxActor* m_pTarget;
