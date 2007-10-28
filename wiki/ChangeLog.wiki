@@ -39,3 +39,7 @@ I also added an enemy (Locust). The user can target an enemy and cycle through t
 Finally (I think), I added a [http://beesiege.googlecode.com/svn/trunk/TextManager.cpp TextManager] which is used to display text on screen, and I currently use it to display the number of bees selected.
 
 A major problem is performance. For some reason the game is crawling when we add more than ten PhysX objects and I cannot tell why this is happening. I have a strong feeling though that there is something wrong with PhysX...
+
+*28-Oct-2007* - _Vaios
+
+So the issue with the performance was actually an issue with the camera, which is now fixed. I also changed the way we select soldiers, so now soldiers are selected one by one. Therefore there is no need for Merge Sort (thx Ruhi). Now I really need the FSM framework.
