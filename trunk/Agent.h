@@ -15,6 +15,7 @@ public:
 	Agent(NxActor* actor);
 	virtual ~Agent();
 	void Update(const NxVec3& target);
+	void LookAt (const NxVec3& target);
 	inline CharacterControllerPtr GetController() const { return m_spController; }
 	inline NxActor* GetActor() const { return m_pActor; }
 	

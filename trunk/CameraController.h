@@ -28,6 +28,7 @@ private:
 	NiPoint3  m_vVelocity;
 	const float m_fcDistanceFromTarget;
 	const float m_fcMaxVelocity;
+	NiPoint3 m_vPosition;
 
 	VelocityControllerPtr m_spVelController;
 };

@@ -26,6 +26,7 @@ Queen::~Queen()
 //------------------------------------------------------------------------
 void Queen::DoExtraUpdates(float fTime)
 {
+	
 	NxMat33 rotation = m_spAgent->GetActor()->getGlobalOrientation();
 	rotation.setColumn(1, NxVec3(0.0, 1.0, 0.0));
 	m_spAgent->GetActor()->setGlobalOrientation(rotation);
@@ -75,15 +76,17 @@ void Queen::MoveBack()
 {
 	m_spAgent->GetActor()->addLocalForce(NxVec3(-ConfigurationManager::Get()->queen_speedGain, 0.0, 0.0));
 }
+
 //------------------------------------------------------------------------
 void Queen::StrafeLeft()
 {
 	m_spAgent->GetActor()->addLocalForce(NxVec3(0.0, 0.0, -ConfigurationManager::Get()->queen_speedGain));
+	
 }
 //------------------------------------------------------------------------
 void Queen::StrafeRight()
 {
-	m_spAgent->GetActor()->addLocalForce(NxVec3(0.0, 0.0, ConfigurationManager::Get()->queen_speedGain));
+	m_spAgent->GetActor()->addLocalForce(NxVec3(0.0, 0.0, ConfigurationManager::Get()->queen_speedGain));	
 }
 //------------------------------------------------------------------------
 void Queen::Rotate(float dx, float dy)

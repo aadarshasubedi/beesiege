@@ -15,8 +15,8 @@
         <cameraController>
             <distanceFromTarget> 350.0 </distanceFromTarget>
             <maxVelocity> 50.0 </maxVelocity>
-            <damping> 10.0 </damping>
-            <springConstant> 1.0 </springConstant>
+            <damping> 5.0 </damping>
+            <springConstant> 0.5 </springConstant>
         </cameraController>
       </controllers>
     <behaviors>
@@ -32,7 +32,7 @@
             <radius> 200.0 </radius>
         </cohesion>
         <departure>
-            <constant> 18000.0 </constant>
+            <constant> 22000.0 </constant>
         </departure>
         <separation>
             <constant> 2000.0 </constant>
