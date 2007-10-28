@@ -108,6 +108,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				Optimization="0"
 				AdditionalIncludeDirectories="C:\Program Files\AGEIA Technologies\AGEIA PhysX SDK\v2.6.4\SDKs\PhysXLoader\include;C:\Program Files\AGEIA Technologies\AGEIA PhysX SDK\v2.6.4\SDKs\Cooking\include;C:\Program Files\AGEIA Technologies\AGEIA PhysX SDK\v2.6.4\SDKs\Physics\include;C:\Program Files\AGEIA Technologies\AGEIA PhysX SDK\v2.6.4\SDKs\Foundation\include;"
 				PreprocessorDefinitions="_WINDOWS;NOMINMAX"
 				ExceptionHandling="1"
