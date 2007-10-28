@@ -71,26 +71,6 @@ void CharacterController::UpdatePhysX()
 	if (!m_bTurnSpringsOff)
 	{	
 		m_pAgent->GetActor()->addForce(m_spAgentInfo->m_vForce, NX_FORCE);
-	
-		NxVec3 axis = NxVec3(0.0, 0.0, 1.0);
-	
-		NxMat33 rotation = m_pAgent->GetActor()->getGlobalOrientation();
-		NxVec3 nxUp = rotation.getColumn(1);
-		NiPoint3 up(nxUp.x, nxUp.y, nxUp.z);
-		
-		NxActor* queenActor = GameManager::Get()->GetQueen()->GetAgent()->GetActor();
-		NxVec3 nxTarget = queenActor->getGlobalPosition();
-		NiPoint3 target(nxTarget.x,nxTarget.y,nxTarget.z);
-		NiPoint3 pos(m_spAgentInfo->m_vPos.x,m_spAgentInfo->m_vPos.y,m_spAgentInfo->m_vPos.z);
-		NiMatrix3 newRotation = NiViewMath::LookAt(target, pos, up);
-		NxMat33 nxNewRotation;
-		NiPhysXTypes::NiMatrix3ToNxMat33(newRotation, nxNewRotation);
-		NxVec3 z = nxNewRotation.getColumn(2);
-		z.y = 0.0f;
-		z.normalize();
-		nxNewRotation.setColumn(2, z);
-		m_pAgent->GetActor()->setGlobalOrientation(nxNewRotation);
-		
 	}
 	
 	

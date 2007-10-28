@@ -3,6 +3,7 @@
 #include "VelocityController.h"
 #include "Bee.h"
 #include <NiPhysX.h>
+#include <NiViewMath.h>
 #include "ConfigurationManager.h"
 #include <fstream>
 using namespace std;
@@ -18,7 +19,8 @@ CameraController::CameraController(NiCameraPtr camera, NxActor* target) :
  m_fcDistanceFromTarget(ConfigurationManager::Get()->cameraController_distanceFromTarget),
  m_fcMaxVelocity(ConfigurationManager::Get()->cameraController_maxVelocity),
  m_spVelController(NiNew VelocityController(ConfigurationManager::Get()->cameraController_damping, 
- ConfigurationManager::Get()->cameraController_springConstant, m_fcMaxVelocity))
+ ConfigurationManager::Get()->cameraController_springConstant, m_fcMaxVelocity)),
+ m_vPosition(0.0, 0.0, 0.0)
 
 {
     
@@ -45,23 +47,21 @@ void CameraController::Update(float fTime)
 //---------------------------------------------------------------------------
 void CameraController::UpdatePositionAndOrientation()
 {    
-	NxVec3 nxHeading;
-	NxMat33 rot = m_pTarget->getGlobalOrientation();
-	nxHeading = rot.getColumn(0);
-	NiPoint3 heading(nxHeading.x, nxHeading.y, nxHeading.z);
-	NxVec3 nxPos = m_pTarget->getGlobalPosition();
-	NiPoint3 pos(nxPos.x, nxPos.y, nxPos.z);
-	NiPoint3 targetPosition = pos - heading*m_fcDistanceFromTarget;
-	
-	NiPoint3 distance =  (targetPosition - m_spCamera->GetWorldTranslate());
-
+	NiNodePtr m_spTarget = m_spCamera->GetParent();
+	NiMatrix3 rotation = m_spTarget->GetWorldRotate();
+	NiPoint3 heading;
+	rotation.GetCol(0, heading);
+	NiPoint3 targetPosition = m_spTarget->GetWorldTranslate() - heading*m_fcDistanceFromTarget;
+	NiPoint3 distance =  (targetPosition - m_vPosition);
 	m_spVelController->Update(m_vVelocity, distance);
-	NiPoint3 newPos = m_spCamera->GetTranslate() + m_vVelocity*m_fDeltaTime;
-	m_spCamera->SetTranslate(newPos);
-	
-	NxVec3 nxUp = rot.getColumn(1);
-	NiPoint3 up(nxUp.x, nxUp.y, nxUp.z);
-	m_spCamera->LookAtWorldPoint(pos, up);
+	m_vPosition = m_vPosition + m_vVelocity * m_fDeltaTime;
+	m_spCamera->SetWorldTranslate(m_vPosition);
+	NiMatrix3 rot;
+	rot.MakeIdentity();
+	m_spCamera->SetWorldRotate(rot);
+	NiMatrix3 newRotation = NiViewMath::LookAt(m_spTarget->GetWorldTranslate(), m_vPosition, NiPoint3(0.0, 1.0, 0.0));
+	m_spCamera->SetWorldRotate(newRotation);
+	//m_spCamera->LookAtWorldPoint(m_spTarget->GetWorldTranslate(), NiPoint3(0.0, 1.0, 0.0));
 		
 }
 //---------------------------------------------------------------------------

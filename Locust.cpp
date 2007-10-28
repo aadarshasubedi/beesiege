@@ -25,6 +25,7 @@ void Locust::DoExtraUpdates(float fTime)
 {
 	m_vTarget = NxVec3(100.0, 300.0, 0.0);
 	m_spAgent->Update(m_vTarget);
+	m_spAgent->LookAt(GameManager::Get()->GetQueen()->GetAgent()->GetActor()->getGlobalPosition());
 	
 }
 //------------------------------------------------------------------------

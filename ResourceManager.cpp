@@ -22,7 +22,7 @@ bool ResourceManager::Init(NiStream* stream, NiRenderer* renderer)
 
 	bSuccess = LoadNif(stream, string("models/bee2.nif"), RES_MODEL_BEE);
 	if (!bSuccess) return false;
-	bSuccess = LoadNif(stream, string("models/queen2.nif"), RES_MODEL_QUEEN);
+	bSuccess = LoadNif(stream, string("models/queen4.nif"), RES_MODEL_QUEEN);
 	if (!bSuccess) return false;
 	bSuccess = LoadNif(stream, string("models/enemy1.nif"), RES_MODEL_LOCUST);
 	if (!bSuccess) return false;

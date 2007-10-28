@@ -56,15 +56,6 @@ bool GameApp::CreateScene()
 
     m_spScene = (NiNode*) kStream.GetObjectAt(0);
     NIASSERT(NiIsKindOf(NiNode, m_spScene));
-
-	// We expect the world to have been exported with a camera, so we 
-    // look for it here.
-    m_spCamera = FindFirstCamera(m_spScene);
-    if (!m_spCamera)
-    {
-        NiMessageBox("The NIF file has no camera!", "Camera Error");
-        return false;
-    }
 	
 	SetMaxFrameRate(120.0f);
 
@@ -95,6 +86,15 @@ bool GameApp::CreateScene()
 	bSuccess = TextManager::Get()->Init(m_spRenderer);
 	if (!bSuccess) return false;
 
+	// We expect the world to have been exported with a camera, so we 
+    // look for it here.
+	m_spCamera = FindFirstCamera(GameManager::Get()->GetQueen()->GetNode());
+    if (!m_spCamera)
+    {
+        NiMessageBox("The NIF file has no camera!", "Camera Error");
+        return false;
+    }
+
 	m_spCameraController = NiNew CameraController(m_spCamera, 
 		GameManager::Get()->GetQueen()->GetAgent()->GetActor());
 
@@ -120,17 +120,17 @@ void GameApp::UpdateFrame()
 
     NiApplication::UpdateFrame(); // Calls process input
 
-    m_spCameraController->Update(m_fAccumTime);
 	GameManager::Get()->UpdateAll(m_fAccumTime);
 	
 	m_spScene->Update(m_fAccumTime);
 	m_spScene->UpdateProperties();
 	m_spScene->UpdateEffects();
-
+	
     // Now we start the next step, giving a time that will actually be
     // in the past by the time we get the results.
     m_spPhysXScene->UpdateSources(m_fAccumTime);
-    m_spPhysXScene->Simulate(m_fAccumTime);
+	m_spCameraController->Update(m_fAccumTime);
+	m_spPhysXScene->Simulate(m_fAccumTime);
     m_fLastSimTime = m_fAccumTime;	
 }
 //---------------------------------------------------------------------------

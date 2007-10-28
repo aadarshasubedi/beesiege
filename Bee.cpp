@@ -31,7 +31,7 @@ Bee::~Bee()
 void Bee::DoExtraUpdates(float fTime)
 {
 	m_spAgent->Update(m_vTarget);
-	
+	m_spAgent->LookAt(m_vTarget);
 }
 //------------------------------------------------------------------------
 bool Bee::DoExtraInits()
