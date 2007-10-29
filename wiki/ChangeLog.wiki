@@ -45,3 +45,7 @@ A major problem is performance. For some reason the game is crawling when we add
 So the issue with the performance was actually an issue with the camera, which is now fixed. I also changed the way we select soldiers, so now soldiers are selected one by one. Therefore there is no need for Merge Sort (thx Ruhi). Now I really need the FSM framework.
 
 Also I replaced std::lists with NiTPointerLists. I think it's faster.
+
+*28-Oct-2007* - _Vaios
+
+I added 3D sound. It's not completely ready yet I'm just making sure the framework works fine. It's not bad... 
