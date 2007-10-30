@@ -49,3 +49,7 @@ Also I replaced std::lists with NiTPointerLists. I think it's faster.
 *28-Oct-2007* - _Vaios
 
 I added 3D sound. It's not completely ready yet I'm just making sure the framework works fine. It's not bad... 
+
+*30-Oct-2007* - _Smiral
+
+I am working on the scene... Would be testing in the lab around 5 today ... as the nif viewer on my machine is not working.
