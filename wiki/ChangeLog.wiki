@@ -53,3 +53,6 @@ I added 3D sound. It's not completely ready yet I'm just making sure the framewo
 *30-Oct-2007* - _Smiral
 
 I am working on the scene... Would be testing in the lab around 5 today ... as the nif viewer on my machine is not working.
+
+*31-Oct-2007* - _Smiral
+I have made a scene with surrouding walls as passive physx boxes. Please check it out. 
