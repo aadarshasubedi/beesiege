@@ -5,6 +5,8 @@
 #include <NiRefObject.h>
 #include <NiSmartPointer.h>
 
+#pragma warning(disable: 4018)
+
 class GameObj : public NiRefObject
 {
 	

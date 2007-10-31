@@ -1,7 +1,9 @@
 #include "ResourceManager.h"
+#include "SoundManager.h"
 #include <NiApplication.h>
 #include <NiPhysX.h>
 #include <NiCloningProcess.h>
+#include <fstream>
 using namespace std;
 
 //------------------------------------------------------------------------
@@ -11,9 +13,10 @@ ResourceManager::ResourceManager()
 //------------------------------------------------------------------------
 ResourceManager::~ResourceManager()
 {
-	m_tResourcesModels.RemoveAll();
+	//SoundManager::Destroy();
+	m_tResourcesSounds.RemoveAll();
 	m_tResourcesFonts.RemoveAll();
-
+	m_tResourcesModels.RemoveAll();
 }
 //------------------------------------------------------------------------
 bool ResourceManager::Init(NiStream* stream, NiRenderer* renderer)
@@ -29,6 +32,14 @@ bool ResourceManager::Init(NiStream* stream, NiRenderer* renderer)
 	
 	bSuccess = LoadFont(string("fonts/trebuchet.nff"), renderer, RES_FONT_SELECTEDSOLDIERS);
 	if (!bSuccess) return false;
+
+	//bSuccess = SoundManager::Get()->Init();
+	//if (!bSuccess) return false;
+
+	//bSuccess = LoadSound(string("sounds/bee4.mp3"), 
+	//RES_SOUND_BEE); 
+	//if (!bSuccess) return false;
+
 
 	return bSuccess;
 	
@@ -67,6 +78,18 @@ NiFontPtr ResourceManager::GetFont(ResourceType type)
 	if (m_tResourcesFonts.GetAt(type, font))
 	{
 		return font;
+	}
+	
+	return 0;
+}
+//------------------------------------------------------------------------
+SoundPtr ResourceManager::GetSound(ResourceType type)
+{
+	SoundDescPtr soundDesc;
+	if (m_tResourcesSounds.GetAt(type, soundDesc))
+	{
+		SoundPtr sound = SoundManager::Get()->CreateSound(soundDesc);
+		return sound;
 	}
 	
 	return 0;
@@ -133,4 +156,23 @@ bool ResourceManager::LoadFont(const std::string &filename, NiRenderer* renderer
 		return false;
 	}
 	
+}
+//------------------------------------------------------------------------
+bool ResourceManager::LoadSound(const std::string& filename, ResourceType type)
+{
+	const char *convertedFilename = NiApplication::ConvertMediaFilename(filename.c_str());
+	ifstream f;
+	f.open(convertedFilename, ifstream::in);
+	f.close();
+	if (f.fail())
+	{
+		string err("Error sound: " + filename + " was not found");
+		NiMessageBox(err.c_str(), "Error");
+		return false;
+	}
+
+	SoundDescPtr desc = NiNew SoundDesc(convertedFilename);
+	desc->mode = FMOD_LOOP_NORMAL | FMOD_3D | FMOD_HARDWARE;
+	m_tResourcesSounds.SetAt(type, desc);
+	return true;
 }

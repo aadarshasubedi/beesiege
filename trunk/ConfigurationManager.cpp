@@ -253,6 +253,7 @@ bool ConfigurationManager::ReadQueen(TiXmlElement* node)
 
 	if (ReadFloat(queen_speedGain, node, "speedGain") &&
 		ReadFloat(queen_rotationGain, node, "rotationGain") &&
+		ReadFloat(queen_moveUpSpeedGain, node, "moveUpSpeedGain") &&
 		ReadFloat(queen_viewRadius, node, "viewRadius"))
 	{
 		return true;

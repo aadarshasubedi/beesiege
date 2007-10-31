@@ -4,7 +4,6 @@
 #include "SingletonObj.h"
 #include <NiSmartPointer.h>
 #include <NiPhysXProp.h>
-#include <list>
 #include <NiNode.h>
 #include <NiTPointerList.h>
 #include "Queen.h"
@@ -14,6 +13,17 @@ NiSmartPointer(GameObj3d);
 class NiPhysXScene;
 NiSmartPointer(NiPhysXScene);
 
+template <class T>
+void CopyLists (const NiTPointerList<T> &from, NiTPointerList<T> &to)
+{
+	to.RemoveAll();
+	NiTListIterator it = from.GetHeadPos();
+	for (unsigned int i=0; i<from.GetSize(); i++)
+	{
+		to.AddTail(from.Get(it));
+		it = from.GetNextPos(it);
+	}
+}
 
 class GameManager : public SingletonObj<GameManager>
 {
@@ -30,7 +40,7 @@ public:
 	void RemoveObject(GameObj3dPtr object);
 	
 	inline QueenPtr GetQueen() const  { return m_spQueen; }
-	inline const std::list<AgentPtr>& GetAgents() const { return m_lAgents; }
+	inline const NiTPointerList<AgentPtr>& GetAgents() const { return m_lAgents; }
 	inline GameApp* GetGameApp() const {return m_pGameApplication; }
 	inline const NiTPointerList<GameCharacterPtr>& GetEnemies() const {return m_lEnemies;}
 	inline const float GetDeltaTime() const {return m_fDeltaTime; }
@@ -39,8 +49,8 @@ private:
 	GameManager();
 	~GameManager();
 
-	std::list<GameObj3dPtr> m_lObjects;
-	std::list<AgentPtr> m_lAgents;
+	NiTPointerList<GameObj3dPtr> m_lObjects;
+	NiTPointerList<AgentPtr> m_lAgents;
 	NiTPointerList<GameCharacterPtr> m_lEnemies;
 
 	QueenPtr m_spQueen;

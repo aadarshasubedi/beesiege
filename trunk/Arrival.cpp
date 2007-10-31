@@ -3,10 +3,9 @@
 #include <NxVec3.h>
 #include <math.h>
 #include "ConfigurationManager.h"
-using namespace std;
+
 //------------------------------------------------------------------------------------------------------
-Arrival::Arrival() : Behavior(string("Arrival")),
-m_fcKArrival(ConfigurationManager::Get()->arrival_constant)
+Arrival::Arrival() : m_fcKArrival(ConfigurationManager::Get()->arrival_constant)
 {
 }
 //------------------------------------------------------------------------------------------------------

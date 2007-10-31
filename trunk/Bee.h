@@ -2,6 +2,7 @@
 #define BEE_H
 
 #include "GameCharacter.h"
+#include "Sound.h"
 
 class Bee : public GameCharacter
 {
@@ -13,6 +14,7 @@ private:
 
 	void DoExtraUpdates(float fTime);
 	bool DoExtraInits();
+	SoundPtr m_spSound;
 
 };
 

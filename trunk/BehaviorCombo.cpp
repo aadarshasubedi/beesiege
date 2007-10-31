@@ -1,44 +1,42 @@
 #include "BehaviorCombo.h"
 #include "AgentInfo.h"
 #include <NxVec3.h>
-using namespace std;
-//------------------------------------------------------------------------------------------------------
-BehaviorCombo::BehaviorCombo (const string& type, 
-							  const list<BehaviorPtr>& behaviors, 
-							  const list<float>& coefficients) : Behavior(type),
-																 m_lBehaviors(behaviors),
-																 m_lCoefficients(coefficients)
-																	
-{
+#include "GameManager.h"
 
+//------------------------------------------------------------------------------------------------------
+BehaviorCombo::BehaviorCombo (const NiTPointerList<BehaviorPtr>& behaviors, 
+							   const NiTPointerList<float>& coefficients) 																														
+{
+	CopyLists(behaviors, m_lBehaviors);
+	CopyLists(coefficients, m_lCoefficients);
 }
 //------------------------------------------------------------------------------------------------------
 BehaviorCombo::~BehaviorCombo()
 {
-	list<BehaviorPtr>::iterator behaviorIter;
-	for (behaviorIter = m_lBehaviors.begin(); behaviorIter != m_lBehaviors.end(); behaviorIter++)
-	{
-		(*behaviorIter) = 0;
-	}
-	m_lBehaviors.clear();
-	
-	m_lCoefficients.clear();
+	m_lBehaviors.RemoveAll();	
+	m_lCoefficients.RemoveAll();	
 }
 //------------------------------------------------------------------------------------------------------
 NxVec3 BehaviorCombo::Execute(AgentInfoPtr aInfo)
 {
+	if (m_lBehaviors.IsEmpty() || m_lCoefficients.IsEmpty()) 
+	{
+		return 0;
+	}
 
 	NxVec3 desiredVel = NxVec3(0.0, 0.0, 0.0);
-	list<BehaviorPtr>::iterator behaviorIter;
-	list<float>::iterator coefIter;
+	NiTListIterator behaviorIter = m_lBehaviors.GetHeadPos();
+	NiTListIterator coefIter = m_lCoefficients.GetHeadPos();
 	
-	for (behaviorIter  = m_lBehaviors.begin(), 
-		 coefIter      = m_lCoefficients.begin(); 
-		 behaviorIter != m_lBehaviors.end() && 
-		 coefIter     != m_lCoefficients.end(); 
-		 behaviorIter++, coefIter++)
+	int size = m_lBehaviors.GetSize() > m_lCoefficients.GetSize() ? m_lCoefficients.GetSize() :
+																	m_lBehaviors.GetSize();
+	for (int i=0; i<size; i++)
 	{
-		desiredVel += (*coefIter) * (*behaviorIter)->Execute(aInfo);	 
+		BehaviorPtr behavior = m_lBehaviors.Get(behaviorIter);
+		float coefficient = m_lCoefficients.Get(coefIter);
+		desiredVel += coefficient * behavior->Execute(aInfo);	
+		behaviorIter = m_lBehaviors.GetNextPos(behaviorIter);
+		coefIter = m_lCoefficients.GetNextPos(coefIter);
 	}
 	
 	aInfo->m_vDesiredVelocity = desiredVel;
@@ -48,7 +46,6 @@ NxVec3 BehaviorCombo::Execute(AgentInfoPtr aInfo)
 		aInfo->m_vDesiredVelocity = aInfo->m_vOrientation * aInfo->m_fcMaxVelocity;
 	
 	return aInfo->m_vDesiredVelocity;
-	
 	
 }
 //------------------------------------------------------------------------------------------------------

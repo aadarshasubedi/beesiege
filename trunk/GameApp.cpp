@@ -1,9 +1,14 @@
+/**
+ * The project's 'main' class. It inherits from NiApplication 
+ * and is responsible for running the game 
+ */
 #include "GameApp.h"
 #include "GameManager.h"
 #include "ResourceManager.h"
 #include "CameraController.h"
 #include "InputManager.h"
 #include "TextManager.h"
+#include "SoundManager.h"
 
 #pragma comment(lib, "NiBinaryShaderLibDX9.lib")
 #pragma comment(lib, "NiD3D10BinaryShaderLibD3D10.lib")
@@ -11,20 +16,36 @@
 #pragma comment(lib, "NSFParserLibDX9.lib")
 
 
-//---------------------------------------------------------------------------
+//--------------------------------------------------------------------------- 
+/** Creates a new NiApplication
+ *                      *
+ * 
+ * @return NiApplication*
+ */
 NiApplication* NiApplication::Create()
 {
     return NiNew GameApp;
 }
-//---------------------------------------------------------------------------
+//--------------------------------------------------------------------------- 
+/** 
+ * The constructor
+ * 
+ */
 GameApp::GameApp() : NiApplication("BeeSiege",
     DEFAULT_WIDTH, DEFAULT_HEIGHT), m_fLastSimTime(0.0f)
 {
 	SetMediaPath("../../res/");
 }
-//----------------------------------------------------------------------
+//---------------------------------------------------------------------- 
+/** 
+ * Initializes NiApplication
+ * 
+ * 
+ * @return bool
+ */
 bool GameApp::Initialize()
 {
+	// initialize PhysX
 	m_pPhysXManager = NiPhysXManager::GetPhysXManager();
 	if (!m_pPhysXManager->Initialize())
         return false;
@@ -32,7 +53,13 @@ bool GameApp::Initialize()
 
 	return NiApplication::Initialize();
 }
-//----------------------------------------------------------------------
+//---------------------------------------------------------------------- 
+/** 
+ * Creates the NiApplication's scene
+ * 
+ * 
+ * @return bool
+ */
 bool GameApp::CreateScene()
 {
 	// Because our scene will have some billboards with alpha, we use 
@@ -46,7 +73,7 @@ bool GameApp::CreateScene()
 
     // Load in the scenegraph for our world...
     bool bSuccess = kStream.Load(
-        NiApplication::ConvertMediaFilename("models/scene.nif"));
+        NiApplication::ConvertMediaFilename("models/scene2.nif"));
     
     if (!bSuccess)
     {
@@ -61,6 +88,7 @@ bool GameApp::CreateScene()
 
 	HidePointer();
 
+	// create the main PhysX scene
 	if (!CreatePhysXScene())
 	{
 		return false;
@@ -77,17 +105,20 @@ bool GameApp::CreateScene()
     m_spPhysXScene->Simulate(0.001f);
     m_fLastSimTime = 0.001f;
 
+	// load resources
 	bSuccess = ResourceManager::Get()->Init(&kStream, m_spRenderer);
 	if (!bSuccess) return false;
 
+	// init game manager
 	bSuccess = GameManager::Get()->Init(m_spScene, m_spPhysXScene, this);
 	if (!bSuccess) return false;
-	
+
+	// init text manager
 	bSuccess = TextManager::Get()->Init(m_spRenderer);
 	if (!bSuccess) return false;
 
-	// We expect the world to have been exported with a camera, so we 
-    // look for it here.
+	// We expect the queen to have been exported with a camera, so
+	// we look for it here.
 	m_spCamera = FindFirstCamera(GameManager::Get()->GetQueen()->GetNode());
     if (!m_spCamera)
     {
@@ -95,13 +126,17 @@ bool GameApp::CreateScene()
         return false;
     }
 
-	m_spCameraController = NiNew CameraController(m_spCamera, 
-		GameManager::Get()->GetQueen()->GetAgent()->GetActor());
+	// create a new CameraController for our camera
+	m_spCameraController = NiNew CameraController(m_spCamera);
 
 	
     return bSuccess;
 }
-//----------------------------------------------------------------------
+//---------------------------------------------------------------------- 
+/** 
+ * Processes user input
+ * 
+ */
 void GameApp::ProcessInput()
 {
 	NiApplication::ProcessInput();
@@ -112,20 +147,38 @@ void GameApp::ProcessInput()
 	}
 	
 }
-//---------------------------------------------------------------------
+//--------------------------------------------------------------------- 
+/** 
+ * Updates the current frame
+ * 
+ */
 void GameApp::UpdateFrame()
 {
+	// fetch previous frame's simulation results
 	m_spPhysXScene->FetchResults(m_fLastSimTime, true);
     m_spPhysXScene->UpdateDestinations(m_fLastSimTime);
 
-    NiApplication::UpdateFrame(); // Calls process input
+	 // Calls process input
+    NiApplication::UpdateFrame();
 
+	// Update all of our GameObj3ds
 	GameManager::Get()->UpdateAll(m_fAccumTime);
 	
 	m_spScene->Update(m_fAccumTime);
 	m_spScene->UpdateProperties();
 	m_spScene->UpdateEffects();
+
+	// Update the current listener position (for sound - FMOD)
+	NxActor* queenActor = GameManager::Get()->GetQueen()->GetAgent()->GetActor();
+	NxVec3 nxPos = queenActor->getGlobalPosition()/50.0f;
+	NxVec3 nxVel = queenActor->getLinearVelocity() / 50.0f;
+	NxVec3 nxFor = queenActor->getGlobalOrientation().getColumn(0);
 	
+	SoundManager::Get()->Update(nxPos,
+							    nxVel,
+								NxVec3(0.0, 1.0, 0.0),
+								nxFor);
+
     // Now we start the next step, giving a time that will actually be
     // in the past by the time we get the results.
     m_spPhysXScene->UpdateSources(m_fAccumTime);
@@ -133,13 +186,21 @@ void GameApp::UpdateFrame()
 	m_spPhysXScene->Simulate(m_fAccumTime);
     m_fLastSimTime = m_fAccumTime;	
 }
-//---------------------------------------------------------------------------
+//--------------------------------------------------------------------------- 
+/** 
+ * Renders HUD
+ * 
+ */
 void GameApp::RenderScreenItems()
 {
 	NiApplication::RenderScreenItems();
 	TextManager::Get()->DisplayText();
 }
-//---------------------------------------------------------------------
+//--------------------------------------------------------------------- 
+/** 
+ * Frees memory
+ * 
+ */
 void GameApp::Terminate()
 {
 	m_spCameraController = 0;
@@ -152,7 +213,12 @@ void GameApp::Terminate()
 	if (m_pPhysXManager)
         m_pPhysXManager->Shutdown();
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Sets the default PhysX parameters
+ * 
+ * @param kParam
+ */
 void GameApp::SetPhysXSDKParams(const NxParameter kParam)
 {
     if (!m_pPhysXManager)
@@ -179,7 +245,13 @@ void GameApp::SetPhysXSDKParams(const NxParameter kParam)
     m_pPhysXManager->ReleaseSDKLock();
 	
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * 
+ * Creates the main PhysX scene
+ * 
+ * @return bool
+ */
 bool GameApp::CreatePhysXScene()
 {
     // check for hardware
@@ -232,3 +304,4 @@ bool GameApp::CreatePhysXScene()
     
     return true;
 }
+

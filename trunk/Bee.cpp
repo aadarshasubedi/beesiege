@@ -10,12 +10,8 @@
 #include "Alignment.h"
 #include "Departure.h"
 #include "Agent.h"
-#include <list>
 #include <NiMaterialProperty.h>
 
-#include <NiGeometry.h>
-
-using namespace std;
 
 
 //------------------------------------------------------------------------
@@ -25,13 +21,29 @@ Bee::Bee() : GameCharacter(ResourceManager::RES_MODEL_BEE)
 //------------------------------------------------------------------------
 Bee::~Bee()
 {
-
+		m_spSound = 0;	
 }
 //------------------------------------------------------------------------
 void Bee::DoExtraUpdates(float fTime)
 {
-	m_spAgent->Update(m_vTarget);
-	m_spAgent->LookAt(m_vTarget);
+	if (m_pTarget)
+	{
+		NxVec3 target = m_pTarget->GetAgent()->GetActor()->getGlobalPosition();
+		m_spAgent->Update(target);
+		if (m_pTarget == (GameCharacter*)GameManager::Get()->GetQueen())
+		{
+			m_spAgent->GetActor()->setGlobalOrientation(m_pTarget->GetAgent()->GetActor()->getGlobalOrientation());
+		}
+		else
+		{
+			m_spAgent->LookAt(target);
+		}
+		
+	}
+	
+	//m_spSound->Update(m_spAgent->GetActor()->getGlobalPosition()/50.0f,
+	//	m_spAgent->GetActor()->getLinearVelocity()/50.0f);
+
 }
 //------------------------------------------------------------------------
 bool Bee::DoExtraInits()
@@ -41,24 +53,35 @@ bool Bee::DoExtraInits()
 		return false;
 	}
 
-	list<BehaviorPtr> vBehavior;
-	vBehavior.push_back(NiNew Arrival());
-	vBehavior.push_back(NiNew Wander());
-	vBehavior.push_back(NiNew Departure());
-
+ 	NiTPointerList<BehaviorPtr> lBehavior;
+	lBehavior.AddTail(NiNew Arrival());
+	lBehavior.AddTail(NiNew Wander());
+	lBehavior.AddTail(NiNew Departure());
+	lBehavior.AddTail(NiNew Separation());
 	float arrivalC    = 1.0f;
 	float wanderC     = 0.3f;
 	float departureC  = 1.0f;
+	float separationC = 2.0f;
 
-	list<float> vBehaviorCoef;
-	vBehaviorCoef.push_back(arrivalC);
-	vBehaviorCoef.push_back(wanderC);
-	vBehaviorCoef.push_back(departureC);
+	NiTPointerList<float> lBehaviorCoef;
+	lBehaviorCoef.AddTail(arrivalC);
+	lBehaviorCoef.AddTail(wanderC);
+	lBehaviorCoef.AddTail(departureC);
+	lBehaviorCoef.AddTail(separationC);
 
-	BehaviorComboPtr behavior = NiNew BehaviorCombo("", vBehavior, vBehaviorCoef);
+	BehaviorComboPtr behavior = NiNew BehaviorCombo(lBehavior, lBehaviorCoef);
 
 	m_spAgent->GetController()->SetBehavior((Behavior*)behavior);
 	GameManager::Get()->GetQueen()->AddSoldier(this);
+	GameManager::Get()->AddAgent(m_spAgent);
+	m_pTarget = GameManager::Get()->GetQueen();
+
+	m_spAgent->GetActor()->setLinearDamping(1.0f);
+	
+	//m_spSound = 
+	//ResourceManager::Get()->GetSound(ResourceManager::RES_SOUND_BEE); 
+	//m_spSound->Play();
+
 
 	return true;
 }

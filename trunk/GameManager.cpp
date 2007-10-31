@@ -5,8 +5,7 @@
 #include "Bee.h"
 #include <NiApplication.h>
 #include "ConfigurationManager.h"
-using namespace std;
-
+#include "LevelManager.h"
 
 //------------------------------------------------------------------------
 GameManager::GameManager() : m_fDeltaTime(0.0f)
@@ -15,24 +14,12 @@ GameManager::GameManager() : m_fDeltaTime(0.0f)
 //------------------------------------------------------------------------
 GameManager::~GameManager()
 {
-	list<GameObj3dPtr>::iterator it;
-	for (it = m_lObjects.begin(); it != m_lObjects.end(); it++)
-	{
-		(*it) = 0;
-	}
-	m_lObjects.clear();
-
-	list<AgentPtr>::iterator it2;
-	for (it2 = m_lAgents.begin(); it2 != m_lAgents.end(); it2++)
-	{
-		(*it2) = 0;
-	}
-	m_lAgents.clear();
-
-	m_spQueen = 0;
-
+	m_lObjects.RemoveAll();
+	m_lAgents.RemoveAll();
 	m_lEnemies.RemoveAll();
+	m_spQueen = 0;
 	ConfigurationManager::Destroy();
+	//LevelManager::Destroy();
 }
 //------------------------------------------------------------------------
 bool GameManager::Init(NiNodePtr parent, NiPhysXScenePtr physXScene, NiApplication* app )
@@ -46,23 +33,30 @@ bool GameManager::Init(NiNodePtr parent, NiPhysXScenePtr physXScene, NiApplicati
 	}
 	
 	m_spQueen = NiNew Queen;
-	if (AddObject((GameObj3dPtr)m_spQueen, parent, physXScene))
+	if (!AddObject((GameObj3dPtr)m_spQueen, parent, physXScene))
 	{
-		return true;
+		return false;
 	}
+	m_spQueen->GetAgent()->GetActor()->setGlobalPosition(NxVec3(0.0, 100.0, -200.0));
 
 
+	//if (!LevelManager::Get()->LoadLevel(1))
+	//{
+	///	return false;
+	//}
 	
-	return false;
+	return true;
 }
 //------------------------------------------------------------------------
 void GameManager::UpdateAll(float fTime)
 {
 	m_fDeltaTime = m_pGameApplication->GetFrameTime();
-	list<GameObj3dPtr>::iterator it;
-	for (it = m_lObjects.begin(); it != m_lObjects.end(); it++)
+	NiTListIterator it = m_lObjects.GetHeadPos();
+	for (int i=0; i<m_lObjects.GetSize(); i++)
 	{
-		(*it)->Update(fTime);
+		GameObj3dPtr obj = m_lObjects.Get(it);
+		obj->Update(fTime);
+		it = m_lObjects.GetNextPos(it);
 	}
 
 }
@@ -71,7 +65,7 @@ bool GameManager::AddObject(GameObj3dPtr object, NiNodePtr parent)
 {
 	if (object->Init(parent))
 	{
-		m_lObjects.push_back(object);
+		m_lObjects.AddTail(object);
 		return true;
 	}
 	
@@ -82,7 +76,7 @@ bool GameManager::AddObject(GameObj3dPtr object, NiNodePtr parent, NiPhysXSceneP
 {
 	if (object->Init(parent, physXScene))
 	{
-		m_lObjects.push_back(object);
+		m_lObjects.AddTail(object);
 		return true;
 	}
 	
@@ -91,7 +85,7 @@ bool GameManager::AddObject(GameObj3dPtr object, NiNodePtr parent, NiPhysXSceneP
 //------------------------------------------------------------------------
 void GameManager::AddAgent(AgentPtr agent)
 {
-	m_lAgents.push_back(agent);
+	m_lAgents.AddTail(agent);
 }
 //------------------------------------------------------------------------
 void GameManager::AddEnemy(GameCharacterPtr enemy)
@@ -106,5 +100,6 @@ void GameManager::RemoveEnemy(GameCharacterPtr enemy)
 //------------------------------------------------------------------------
 void GameManager::RemoveObject(GameObj3dPtr object)
 {
-	m_lObjects.remove(object);
+	m_lObjects.Remove(object);
 }
+//------------------------------------------------------------------------

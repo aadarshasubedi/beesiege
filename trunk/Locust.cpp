@@ -8,8 +8,6 @@
 #include "Departure.h"
 #include "Wander.h"
 #include "BehaviorCombo.h"
-#include <list>
-using namespace std;
 
 //------------------------------------------------------------------------
 Locust::Locust() : GameCharacter(ResourceManager::RES_MODEL_LOCUST)
@@ -23,10 +21,18 @@ Locust::~Locust()
 //------------------------------------------------------------------------
 void Locust::DoExtraUpdates(float fTime)
 {
-	m_vTarget = NxVec3(100.0, 300.0, 0.0);
-	m_spAgent->Update(m_vTarget);
-	m_spAgent->LookAt(GameManager::Get()->GetQueen()->GetAgent()->GetActor()->getGlobalPosition());
-	
+	if (m_pTarget)
+	{
+		NxVec3 target = m_pTarget->GetAgent()->GetActor()->getGlobalPosition();
+		m_spAgent->Update(target);
+		m_spAgent->LookAt(target);
+	}
+	else
+	{
+		NxVec3 target = NxVec3(100.0, 500.0, -100.0);
+		m_spAgent->Update(target);
+		m_spAgent->LookAt(GameManager::Get()->GetQueen()->GetAgent()->GetActor()->getGlobalPosition());
+	}
 }
 //------------------------------------------------------------------------
 bool Locust::DoExtraInits()
@@ -36,24 +42,28 @@ bool Locust::DoExtraInits()
 		return false;
 	}
 
-	list<BehaviorPtr> vBehavior;
-	vBehavior.push_back(NiNew Arrival());
-	vBehavior.push_back(NiNew Wander());
-	vBehavior.push_back(NiNew Departure());
+	NiTPointerList<BehaviorPtr> lBehavior;
+	lBehavior.AddTail(NiNew Arrival());
+	lBehavior.AddTail(NiNew Wander());
+	lBehavior.AddTail(NiNew Departure());
+	//lBehavior.AddTail(NiNew Separation());
 
 	float arrivalC    = 1.0f;
 	float wanderC     = 0.3f;
 	float departureC  = 1.0f;
+	float separationC = 0.9f;
 
-	list<float> vBehaviorCoef;
-	vBehaviorCoef.push_back(arrivalC);
-	vBehaviorCoef.push_back(wanderC);
-	vBehaviorCoef.push_back(departureC);
+	NiTPointerList<float> lBehaviorCoef;
+	lBehaviorCoef.AddTail(arrivalC);
+	lBehaviorCoef.AddTail(wanderC);
+	lBehaviorCoef.AddTail(departureC);
+	//lBehaviorCoef.AddTail(separationC);
 
-	BehaviorComboPtr behavior = NiNew BehaviorCombo("", vBehavior, vBehaviorCoef);
+	BehaviorComboPtr behavior = NiNew BehaviorCombo(lBehavior, lBehaviorCoef);
 
 	m_spAgent->GetController()->SetBehavior((Behavior*)behavior);
 	GameManager::Get()->AddEnemy(this);
+	//m_spTarget = GameManager::Get()->GetQueen();
 	
 	return true;
 }

@@ -2,10 +2,9 @@
 #include "AgentInfo.h"
 #include <NxVec3.h>
 #include "ConfigurationManager.h"
-using namespace std;
+
 //------------------------------------------------------------------------------------------------------
-Departure::Departure() : Behavior(string("Departure")),
-m_fcKDeparture(ConfigurationManager::Get()->departure_constant)
+Departure::Departure() : m_fcKDeparture(ConfigurationManager::Get()->departure_constant)
 {
 }
 //------------------------------------------------------------------------------------------------------

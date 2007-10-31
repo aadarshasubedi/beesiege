@@ -6,12 +6,9 @@
 #include <NxVec3.h>
 #include <NxActor.h>
 #include "ConfigurationManager.h"
-#include <list>
-using namespace std;
 
 //------------------------------------------------------------------------------------------------------
-Alignment::Alignment() : Behavior(string("Alignment")),
-m_fcKAlignment(ConfigurationManager::Get()->alignment_constant),
+Alignment::Alignment() : m_fcKAlignment(ConfigurationManager::Get()->alignment_constant),
 m_fcKNeighborhood(ConfigurationManager::Get()->alignment_radius)
 {
 	
@@ -27,13 +24,14 @@ NxVec3 Alignment::Execute(AgentInfoPtr aInfo)
 	NxVec3 distance(0.0f, 0.0f, 0.0f);
 	NxVec3 velocitySum(0.0f, 0.0f, 0.0f);
 	float w = 1.0f;
-	list<AgentPtr> agentList = GameManager::Get()->GetAgents();
-	list<AgentPtr>::iterator it;
-	for (it = agentList.begin(); it != agentList.end(); it++)
+	NiTListIterator it = GameManager::Get()->GetAgents().GetHeadPos();
+	for (int i=0; i<GameManager::Get()->GetAgents().GetSize(); i++)
 	{
-		AgentInfoPtr otherAgent = (*it)->GetController()->GetAgentInfo();
+		AgentPtr agent = GameManager::Get()->GetAgents().Get(it);
+		AgentInfoPtr otherAgent = agent->GetController()->GetAgentInfo();
 		if (otherAgent == aInfo)
 		{
+			it = GameManager::Get()->GetAgents().GetNextPos(it);
 			continue;
 		}
 
@@ -41,8 +39,9 @@ NxVec3 Alignment::Execute(AgentInfoPtr aInfo)
 		if (distance.magnitude() <= m_fcKNeighborhood)
 		{
 			w += 1.0f;
-			velocitySum += (*it)->GetActor()->getLinearVelocity();
+			velocitySum += agent->GetActor()->getLinearVelocity();
 		}
+		it = GameManager::Get()->GetAgents().GetNextPos(it);
 	}
 	
 	aInfo->m_vDesiredVelocity = m_fcKAlignment * velocitySum / w;

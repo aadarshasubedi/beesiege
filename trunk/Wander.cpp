@@ -3,10 +3,9 @@
 #include <NxVec3.h>
 #include <stdio.h>
 #include "ConfigurationManager.h"
-using namespace std;
+
 //------------------------------------------------------------------------------------------------------
-Wander::Wander() : Behavior(string("Wander")),
-m_fcKNoise(ConfigurationManager::Get()->wander_noise),
+Wander::Wander() : m_fcKNoise(ConfigurationManager::Get()->wander_noise),
 m_fcKWander(ConfigurationManager::Get()->wander_constant),
 m_vWander(1.0, 0.0, 0.0)
 									   
