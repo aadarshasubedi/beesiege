@@ -3,14 +3,14 @@
 
 //------------------------------------------------------------------------
 GameCharacter::GameCharacter(ResourceManager::ResourceType type) : GameObj3d(type)	, 									
-																   m_vTarget(0.0, 0.0, 0.0)
+																   m_pTarget(0)
 {
 }
 //------------------------------------------------------------------------
 GameCharacter::~GameCharacter()
 {
-	int count = m_spAgent->GetRefCount();
 	m_spAgent = 0;
+	
 }
 //------------------------------------------------------------------------
 bool GameCharacter::DoExtraInits()

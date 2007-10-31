@@ -20,6 +20,7 @@ public:
 	inline NiNodePtr       GetScene() const {return m_spScene;}
 	inline NiPhysXScenePtr GetPhysXScene() const {return m_spPhysXScene;}
 	inline NiCameraPtr     GetCamera() const {return m_spCamera;}
+	inline CameraControllerPtr GetCameraController() const {return m_spCameraController;}
 
 protected:
 	

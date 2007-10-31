@@ -10,7 +10,6 @@ Queen::Queen() : GameCharacter(ResourceManager::RES_MODEL_QUEEN),
                  m_itCurrentTargetPosition(0),
 				 m_spCurrentTarget(0),
 				 m_fcQueenViewRadius(ConfigurationManager::Get()->queen_viewRadius),
-				 m_uiSelectedSoldiersCount(0),
 				 m_fSelectionTimer(ConfigurationManager::Get()->timer_selectSoldiers)
 {
 	
@@ -20,7 +19,6 @@ Queen::~Queen()
 {
 	m_lSoldiers.RemoveAll();
 	m_lSelectedSoldiers.RemoveAll();
-	m_lSortedEnemies.RemoveAll();
 	m_spCurrentTarget = 0;
 }
 //------------------------------------------------------------------------
@@ -34,14 +32,6 @@ void Queen::DoExtraUpdates(float fTime)
 	NxVec3 nxTarget = m_spAgent->GetActor()->getGlobalPosition() 
 		- nxHeading*ConfigurationManager::Get()->bee_distanceFromTarget;
 	
-	NiTListIterator it = m_lSoldiers.GetHeadPos();
-	for (unsigned int i=0; i<m_lSoldiers.GetSize(); i++)
-	{
- 		BeePtr soldier = m_lSoldiers.Get(it);
-		soldier->SetTarget(nxTarget);
-		it = m_lSoldiers.GetNextPos(it);
-	}
-
 	if (m_spCurrentTarget)
 	{
 		NxVec3 distance = m_spCurrentTarget->GetAgent()->GetActor()->getGlobalPosition() - 
@@ -61,8 +51,6 @@ bool Queen::DoExtraInits()
 	{
 		return false;
 	}
-
-	GameManager::Get()->AddAgent(m_spAgent);
 
 	return true;
 }
@@ -92,8 +80,9 @@ void Queen::StrafeRight()
 void Queen::Rotate(float dx, float dy)
 {
 	float rotationGain = ConfigurationManager::Get()->queen_rotationGain;
+	float moveUpSpeedGain = ConfigurationManager::Get()->queen_moveUpSpeedGain;
 	m_spAgent->GetActor()->addLocalTorque(NxVec3(0.0, -dx*rotationGain,0.0));
-	m_spAgent->GetActor()->addLocalForce(NxVec3(0.0, -dy*200.0f, 0.0));
+	m_spAgent->GetActor()->addLocalForce(NxVec3(0.0, -dy*moveUpSpeedGain, 0.0));
 }
 //------------------------------------------------------------------------
 void Queen::AddSoldier(BeePtr soldier)
@@ -165,41 +154,65 @@ void Queen::CycleTarget(const NiTPointerList<GameCharacterPtr>& enemies)
 //------------------------------------------------------------------------
 void Queen::SelectMoreSoldiers()
 {
-	if (m_uiSelectedSoldiersCount < m_lSoldiers.GetSize())
+	NxVec3 target;
+	if (m_spCurrentTarget)
 	{
 		m_fSelectionTimer += GameManager::Get()->GetDeltaTime();
 		if (m_fSelectionTimer < ConfigurationManager::Get()->timer_selectSoldiers)
 			return;
-		m_uiSelectedSoldiersCount++;
-		char selected[10];
-		sprintf_s(selected, "%d", m_uiSelectedSoldiersCount);
-		TextManager::Get()->UpdateText(TextManager::STRING_SELECTEDSOLDIERS, selected);
+		target = m_spCurrentTarget->GetAgent()->GetActor()->getGlobalPosition();
 		m_fSelectionTimer = 0.0f;
+	}
+	else
+	{
+		return;
+	}
+
+	BeePtr selected = FindSoldierClosestTo(target);
+	if (selected)
+	{
+		selected->SetEmmitance(NiColor(0.0, 0.8, 0.0));
+		m_lSelectedSoldiers.AddTail(selected);
+		m_lSoldiers.Remove(selected);
 	}
 }
 //------------------------------------------------------------------------
 void Queen::StopSelectingSoldiers()
 {
-	if (m_uiSelectedSoldiersCount > 0)
+	NxVec3 target;
+	if (m_spCurrentTarget)
 	{
-		if (m_spCurrentTarget)
-		{
-			NxVec3 target = m_spCurrentTarget->GetAgent()->GetActor()->getGlobalPosition();
-			SelectSoldiersClosestTo(target, m_uiSelectedSoldiersCount);
-			SendSoldiers(target, m_lSelectedSoldiers);
-		}
-		else
-		{
-			NxVec3 target = m_spAgent->GetActor()->getGlobalPosition();
-			SelectSoldiersClosestTo(target, m_uiSelectedSoldiersCount);
-		}
-
-		m_uiSelectedSoldiersCount = 0;
-		TextManager::Get()->UpdateText(TextManager::STRING_SELECTEDSOLDIERS, "");
-		m_fSelectionTimer = ConfigurationManager::Get()->timer_selectSoldiers;
+		target = m_spCurrentTarget->GetAgent()->GetActor()->getGlobalPosition();
 	}
+	else
+	{
+		NiTListIterator it = m_lSelectedSoldiers.GetHeadPos();
+		for (int i=0; i<m_lSelectedSoldiers.GetSize(); i++)
+		{
+			BeePtr soldier = m_lSelectedSoldiers.Get(it);
+			soldier->SetEmmitance(NiColor(0.0, 0.0, 0.0));
+			soldier->SetTarget(this);
+			m_lSoldiers.AddTail(soldier);
+			it = m_lSelectedSoldiers.GetNextPos(it);
+		}
+		m_lSelectedSoldiers.RemoveAll();
+		return;
+	}
+
+	NiTListIterator it = m_lSelectedSoldiers.GetHeadPos();
+	
+	for (int i=0; i<m_lSelectedSoldiers.GetSize(); i++)
+	{
+		BeePtr soldier = m_lSelectedSoldiers.Get(it);
+		soldier->SetEmmitance(NiColor(0.0, 0.0, 0.0));
+		soldier->SetTarget(m_spCurrentTarget);
+		it = m_lSelectedSoldiers.GetNextPos(it);
+	}
+	m_lSelectedSoldiers.RemoveAll();
+	m_fSelectionTimer = ConfigurationManager::Get()->timer_selectSoldiers;
 }
 //------------------------------------------------------------------------
+/*
 void Queen::MergeSort(NiTPointerList<CharacterDistancePairPtr>& unsorted, 
 					  NiTPointerList<CharacterDistancePairPtr>& sorted)
 {
@@ -265,19 +278,10 @@ void Queen::MergeSort(NiTPointerList<CharacterDistancePairPtr>& unsorted,
 		sorted.RemoveAll();
 	}
 }
+*/
+
 //------------------------------------------------------------------------
-template <class T>
-void Queen::CopyLists (const NiTPointerList<T> &from, NiTPointerList<T> &to)
-{
-	to.RemoveAll();
-	NiTListIterator it = from.GetHeadPos();
-	for (unsigned int i=0; i<from.GetSize(); i++)
-	{
-		to.AddTail(from.Get(it));
-		it = from.GetNextPos(it);
-	}
-}
-//------------------------------------------------------------------------
+/*
 void Queen::SortSoldiers(const NxVec3& target, NiTPointerList<CharacterDistancePairPtr>& sorted)
 {
 	NiTListIterator it = m_lSoldiers.GetHeadPos();
@@ -342,4 +346,30 @@ void Queen::SelectSoldiersClosestTo (const NxVec3& target, unsigned int count)
 	{
 		m_lSelectedSoldiers.RemovePos(it);
 	}
+}
+*/
+//------------------------------------------------------------------------
+BeePtr Queen::FindSoldierClosestTo (const NxVec3& target)
+{
+	int size = m_lSoldiers.GetSize();
+	NiTListIterator it = m_lSoldiers.GetHeadPos();
+	NxVec3 distance;
+	float minDistance = 5000000000.0f;
+	BeePtr closestSoldier = 0;
+	for (int i=0; i<size; i++)
+	{
+		BeePtr soldier = m_lSoldiers.Get(it);
+		distance = target - soldier->GetAgent()->GetActor()->getGlobalPosition();
+		float mag = distance.magnitude();
+		if (mag < minDistance)
+		{
+			minDistance = mag;
+			closestSoldier = soldier;
+		}
+		it = m_lSoldiers.GetNextPos(it);
+				   
+	}
+
+	return closestSoldier;
+
 }

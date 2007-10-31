@@ -35,6 +35,7 @@ public:
 	float bee_distanceFromTarget;
 	float queen_speedGain;
 	float queen_rotationGain;
+	float queen_moveUpSpeedGain;
 	float queen_viewRadius;
 	float timer_selectSoldiers;
 

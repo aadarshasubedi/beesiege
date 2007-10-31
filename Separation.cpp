@@ -5,12 +5,9 @@
 #include "CharacterController.h"
 #include <NxVec3.h>
 #include "ConfigurationManager.h"
-#include <list>
-using namespace std;
 
 //------------------------------------------------------------------------------------------------------
-Separation::Separation() : Behavior(string("Separation")),
-m_fcKSeparation(ConfigurationManager::Get()->separation_constant),
+Separation::Separation() : m_fcKSeparation(ConfigurationManager::Get()->separation_constant),
 m_fcKNeighborhood(ConfigurationManager::Get()->separation_radius)
 {
 }
@@ -25,13 +22,14 @@ NxVec3 Separation::Execute(AgentInfoPtr aInfo)
 	NxVec3 distance(0.0f, 0.0f, 0.0f);
 	NxVec3 distanceSum(0.0f, 0.0f, 0.0f);
 	float w = 1.0f;
-	list<AgentPtr> agentList = GameManager::Get()->GetAgents();
-	list<AgentPtr>::iterator it;
-	for (it = agentList.begin(); it != agentList.end(); it++)
+	NiTListIterator it = GameManager::Get()->GetAgents().GetHeadPos();
+	for (int i=0; i<GameManager::Get()->GetAgents().GetSize(); i++)
 	{
-		AgentInfoPtr otherAgent = (*it)->GetController()->GetAgentInfo();
+		AgentPtr agent = GameManager::Get()->GetAgents().Get(it);
+		AgentInfoPtr otherAgent = agent->GetController()->GetAgentInfo();
 		if (otherAgent == aInfo)
 		{
+			it = GameManager::Get()->GetAgents().GetNextPos(it);
 			continue;
 		}
 
@@ -41,6 +39,7 @@ NxVec3 Separation::Execute(AgentInfoPtr aInfo)
 			w += 1.0f;
 			distanceSum += distance / distance.magnitudeSquared();
 		}
+		it = GameManager::Get()->GetAgents().GetNextPos(it);
 	}
 	
 	aInfo->m_vDesiredVelocity = m_fcKSeparation * distanceSum / w;

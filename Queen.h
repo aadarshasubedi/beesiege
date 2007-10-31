@@ -44,22 +44,19 @@ private:
 
 	void DoExtraUpdates(float fTime);
 	bool DoExtraInits();
-	void MergeSort(NiTPointerList<CharacterDistancePairPtr>& unsorted, 
-					  NiTPointerList<CharacterDistancePairPtr>& sorted);
-	template <class T>
-	void CopyLists (const NiTPointerList<T> &from, NiTPointerList<T> &to);
-	void SortSoldiers(const NxVec3& target, NiTPointerList<CharacterDistancePairPtr>& sorted);
-	void SendSoldiers(const NxVec3& target, NiTPointerList<CharacterDistancePairPtr>& sorted);
-	void SelectSoldiersClosestTo (const NxVec3& target, unsigned int count);
+	//void MergeSort(NiTPointerList<CharacterDistancePairPtr>& unsorted, 
+	//				  NiTPointerList<CharacterDistancePairPtr>& sorted)
+	//void SortSoldiers(const NxVec3& target, NiTPointerList<CharacterDistancePairPtr>& sorted);
+	//void SendSoldiers(const NxVec3& target, NiTPointerList<CharacterDistancePairPtr>& sorted);
+	//void SelectSoldiersClosestTo (const NxVec3& target, unsigned int count);
+	BeePtr FindSoldierClosestTo (const NxVec3& target);
 
 
 	NiTPointerList<BeePtr>					 m_lSoldiers;
-	NiTPointerList<CharacterDistancePairPtr> m_lSelectedSoldiers;
-	NiTPointerList<CharacterDistancePairPtr> m_lSortedEnemies;
+	NiTPointerList<BeePtr>					 m_lSelectedSoldiers;
 	NiTListIterator							 m_itCurrentTargetPosition;
 	GameCharacterPtr						 m_spCurrentTarget;
 	const float								 m_fcQueenViewRadius;
-	unsigned int							 m_uiSelectedSoldiersCount; 
 	float									 m_fSelectionTimer;
 };
 

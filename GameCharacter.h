@@ -11,13 +11,13 @@ public:
 	virtual ~GameCharacter();
 
 	inline AgentPtr GetAgent() const {return m_spAgent;}
-	inline void SetTarget (const NxVec3& target) {m_vTarget = target;}
+	inline void SetTarget (GameCharacter* target) {m_pTarget = target;}
 protected:
 
 	virtual void DoExtraUpdates(float fTime)=0;
 	virtual bool DoExtraInits();
 	AgentPtr m_spAgent;
-	NxVec3 m_vTarget;
+	GameCharacter* m_pTarget;
 };
 
 NiSmartPointer(GameCharacter);

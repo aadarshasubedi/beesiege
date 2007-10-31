@@ -3,6 +3,7 @@
 #include "GameApp.h"
 #include "Bee.h"
 #include "Locust.h"
+
 //-------------------------------------------------------------------
 InputManager::InputManager()
 {
@@ -69,8 +70,7 @@ void InputManager::ProcessMouse(NiInputMouse* mouse, GameApp* gameApp)
 		mouse->GetPositionDelta(mx, my, mz);
 
 		GameManager* gameMgr = GameManager::Get();
-		gameMgr->GetQueen()->Rotate((float)mx, (float)my);
-
+		
 		if(mouse->ButtonIsDown(NiInputMouse::NIM_LEFT))
 		{
 			gameMgr->GetQueen()->SelectMoreSoldiers();
@@ -79,6 +79,21 @@ void InputManager::ProcessMouse(NiInputMouse* mouse, GameApp* gameApp)
 		{
 			gameMgr->GetQueen()->StopSelectingSoldiers();
 		}
+
+		if(mouse->ButtonIsDown(NiInputMouse::NIM_RIGHT))
+		{
+			gameApp->GetCameraController()->RotateCamera((float)mx, (float)my);
+		}
+		else
+		{
+			gameMgr->GetQueen()->Rotate((float)mx, (float)my);
+		}
+
+		if(mouse->ButtonWasReleased(NiInputMouse::NIM_RIGHT))
+		{
+			gameApp->GetCameraController()->StopRotateCamera();
+		}
+		
 	}
 	
 }

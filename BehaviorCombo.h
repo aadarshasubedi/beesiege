@@ -2,14 +2,13 @@
 #define BEHAVIORCOMBO_H_
 
 #include "Behavior.h"
-#include <list>
+#include <NiTPointerList.h>
 
 class BehaviorCombo : public Behavior
 {
 public:
-	BehaviorCombo(const std::string& type, 
-				  const std::list<BehaviorPtr>& behaviors, 
-			      const std::list<float>& coefficients);
+	BehaviorCombo( const NiTPointerList<BehaviorPtr>& behaviors, 
+			       const NiTPointerList<float>& coefficients);
 	~BehaviorCombo();
 
 	// execute the behavior
@@ -17,8 +16,8 @@ public:
 
 private:
 
-	std::list<BehaviorPtr> m_lBehaviors;
-	std::list<float>     m_lCoefficients;
+	 NiTPointerList<BehaviorPtr> m_lBehaviors;
+	 NiTPointerList<float>     m_lCoefficients;
 };
 
 NiSmartPointer(BehaviorCombo);
