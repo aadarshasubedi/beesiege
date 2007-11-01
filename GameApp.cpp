@@ -70,19 +70,6 @@ bool GameApp::CreateScene()
 
     NiStream kStream;
 
-    // Load in the scenegraph for our world...
-    bool bSuccess = kStream.Load(
-        NiApplication::ConvertMediaFilename("models/scene2.nif"));
-    
-    if (!bSuccess)
-    {
-        NiMessageBox("scene.nif file could not be loaded!", "NIF Error");
-        return false;
-    }
-
-    m_spScene = (NiNode*) kStream.GetObjectAt(0);
-    NIASSERT(NiIsKindOf(NiNode, m_spScene));
-	
 	SetMaxFrameRate(120.0f);
 
 	HidePointer();
@@ -93,20 +80,48 @@ bool GameApp::CreateScene()
 		return false;
 	}
 
-	// Update the scene graph before rendering begins.
-    m_spScene->UpdateProperties();
-    m_spScene->UpdateEffects();
-    m_spScene->Update(0.0f);
-    
-    // Get simulation started. We give a small timestep to avoid zero length
-    // steps, which cause problems with PhysX hardware in v2.3.2
-    m_spPhysXScene->UpdateSources(0.001f);
-    m_spPhysXScene->Simulate(0.001f);
-    m_fLastSimTime = 0.001f;
-
 	// load resources
-	bSuccess = ResourceManager::Get()->Init(&kStream, m_spRenderer);
+	bool bSuccess = ResourceManager::Get()->Init(&kStream, m_spRenderer);
 	if (!bSuccess) return false;
+
+    bSuccess = kStream.Load(
+        NiApplication::ConvertMediaFilename("models/scene_physx4.nif"));
+    
+    if (!bSuccess)
+    {
+        NiMessageBox("main scene file could not be loaded!", "NIF Error");
+        return false;
+    }
+
+	m_spScene = 0;
+	for (unsigned int i=0; i<kStream.GetObjectCount(); i++)
+	{
+		NiObject* pkObject = kStream.GetObjectAt(i);
+		if (NiIsKindOf(NiNode, pkObject) && !m_spScene)
+		{
+			m_spScene = (NiNode*)pkObject;
+		}
+		else if (NiIsKindOf(NiPhysXProp, pkObject))
+		{
+			m_spPhysXScene->AddProp((NiPhysXProp*)pkObject);
+		}
+	}
+	/*
+	NiNodePtr temp = 0;
+	for (unsigned int i=0; i<kStream.GetObjectCount(); i++)
+	{
+		NiObject* pkObject = kStream.GetObjectAt(i);
+		if (NiIsKindOf(NiNode, pkObject) && !temp)
+		{
+			temp = (NiNode*)pkObject;
+		}
+		else if (NiIsKindOf(NiPhysXProp, pkObject))
+		{
+			m_spPhysXScene->AddProp((NiPhysXProp*)pkObject);
+		}
+	}
+    */
+    NIASSERT(NiIsKindOf(NiNode, m_spScene));
 
 	// init game manager
 	bSuccess = GameManager::Get()->Init(m_spScene, m_spPhysXScene, this);
@@ -127,6 +142,17 @@ bool GameApp::CreateScene()
 
 	// create a new CameraController for our camera
 	m_spCameraController = NiNew CameraController(m_spCamera);
+
+	// Update the scene graph before rendering begins.
+    m_spScene->UpdateProperties();
+    m_spScene->UpdateEffects();
+    m_spScene->Update(0.0f);
+    
+    // Get simulation started. We give a small timestep to avoid zero length
+    // steps, which cause problems with PhysX hardware in v2.3.2
+    m_spPhysXScene->UpdateSources(0.001f);
+    m_spPhysXScene->Simulate(0.001f);
+    m_fLastSimTime = 0.001f;
 
 	
     return bSuccess;
@@ -173,11 +199,12 @@ void GameApp::UpdateFrame()
 	NxVec3 nxVel = queenActor->getLinearVelocity() / 50.0f;
 	NxVec3 nxFor = queenActor->getGlobalOrientation().getColumn(0);
 	
+	/*
 	SoundManager::Get()->Update(nxPos,
 							    nxVel,
-								NxVec3(0.0, 1.0, 0.0),
-								nxFor);
-
+								NxVec3(0.0, 1.0, 0.0),nxFor);
+	*/
+	
     // Now we start the next step, giving a time that will actually be
     // in the past by the time we get the results.
     m_spPhysXScene->UpdateSources(m_fAccumTime);
