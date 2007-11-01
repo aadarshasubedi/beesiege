@@ -124,6 +124,9 @@
                     <element name="rotationGain">
                         <data type="double"/>
                     </element>
+                    <element name="moveUpSpeedGain">
+                        <data type="double"/>
+                    </element>
                     <element name="viewRadius">
                         <data type="double"/>
                     </element>

@@ -1,15 +1,28 @@
+/**
+ * A CharacterController takes a desired velocity from a 
+ * behavior, and computes a force that is used to bring the 
+ * PhysX system of the object to a steady state, where 
+ * desiredVelocity = currentVelocity. 
+ */
 #include "CharacterController.h"
 #include "Agent.h"
-#include <NxActor.h>
 #include "AgentInfo.h"
 #include "Behavior.h"
-#include <NiViewMath.h>
-#include <NiPhysX.h>
 #include "ConfigurationManager.h"
 #include "GameManager.h"
+#include <NxActor.h>
+#include <NiViewMath.h>
+#include <NiPhysX.h>
+
+// degrees to rads
 #define RAD 180.0f / 3.14159265f
 
-//-------------------------------------------------------------------------
+//------------------------------------------------------------------------- 
+/** 
+ * Ctor
+ * 
+ * @param agent
+ */
 CharacterController::CharacterController(Agent* agent) : 
 							           m_pAgent(agent),
 									   m_spAgentInfo(NiNew AgentInfo),
@@ -23,20 +36,35 @@ CharacterController::CharacterController(Agent* agent) :
 {
    
 }
-//-------------------------------------------------------------------------
+//------------------------------------------------------------------------- 
+/** 
+ * Dtor
+ * 
+ */
 CharacterController::~CharacterController()
 {
 	m_spAgentInfo = 0;
 	m_spBehavior = 0;
 }
-//-------------------------------------------------------------------------
+//------------------------------------------------------------------------- 
+/** 
+ * Senses the environment to get a desired velocity, generates a 
+ * force and updates the object's PhysX actor 
+ * 
+ * @param target
+ */
 void CharacterController::Update(const NxVec3& target)
 {
 	Sense(target);
 	UpdateForces();
 	UpdatePhysX();
 }
-//-------------------------------------------------------------------------
+//------------------------------------------------------------------------- 
+/** 
+ * Executes the current behavior to get a desired velocity
+ * 
+ * @param target
+ */
 void CharacterController::Sense(const NxVec3& target)
 {
 	m_spAgentInfo->m_vTarget      = target;
@@ -48,11 +76,17 @@ void CharacterController::Sense(const NxVec3& target)
 	m_spBehavior->Execute(m_spAgentInfo);
 	
 }
-//-------------------------------------------------------------------------
+//------------------------------------------------------------------------- 
+/** 
+ * Generates a force based on a current and a desired velocity
+ * 
+ */
 void CharacterController::UpdateForces()
 {
+	// generate force
 	m_spAgentInfo->m_vForce = - (-m_fcKv0 * (m_spAgentInfo->m_vDesiredVelocity - m_spAgentInfo->m_vVelocity)
 							     + m_fcDamp *  m_spAgentInfo->m_vVelocity);
+	// constrain force
 	NxVec3 heading = m_spAgentInfo->m_vForce;
 	heading.normalize();
 	if (m_spAgentInfo->m_vForce.magnitude() > m_spAgentInfo->m_fcMaxForce)
@@ -65,6 +99,10 @@ void CharacterController::UpdateForces()
 	}	
 }
 //-------------------------------------------------------------------------
+/** 
+ * Adds the force to the object's PhysX actor
+ * 
+ */
 void CharacterController::UpdatePhysX()
 {
 	

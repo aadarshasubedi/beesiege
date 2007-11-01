@@ -1,16 +1,41 @@
+/**
+ * Displays text on screen. Singleton Class.
+ */
 #include "TextManager.h"
 #include "ResourceManager.h"
 
-//---------------------------------------------------------------------------
+//--------------------------------------------------------------------------- 
+/** 
+ * Ctor
+ * 
+ */
 TextManager::TextManager() : m_pRenderer(0)
 {
 }
-//---------------------------------------------------------------------------
+//--------------------------------------------------------------------------- 
+/** 
+ * Dtor
+ * 
+ */
 TextManager::~TextManager()
 {
 	m_tStrings.RemoveAll();
 }
-//---------------------------------------------------------------------------
+//--------------------------------------------------------------------------- 
+/** 
+ * Adds a string to the list of strings to be displayed
+ * 
+ * @param text: The text
+ * @param font: The font
+ * @param flags: String flags 
+ * @param maxLength: Maximum text length 
+ * @param color: Color of text 
+ * @param x: x position 
+ * @param y: y position: 
+ * @param type: TOBEREMOVED
+ * 
+ * @return bool
+ */
 bool TextManager::AddString(const char *text, NiFontPtr font, 
 							unsigned int flags, unsigned int maxLength,
 							const NiColorA& color, short x, short y,
@@ -26,9 +51,17 @@ bool TextManager::AddString(const char *text, NiFontPtr font,
 	else 
 		return false;
 }
-//---------------------------------------------------------------------------
+//--------------------------------------------------------------------------- 
+/** 
+ * Initializes the manager
+ * 
+ * @param renderer
+ * 
+ * @return bool
+ */
 bool TextManager::Init(NiRenderer* renderer)
 {
+	// create default strings
 	m_pRenderer = renderer;
 	NiFontPtr font = ResourceManager::Get()->GetFont
 		(ResourceManager::RES_FONT_SELECTEDSOLDIERS);
@@ -39,14 +72,24 @@ bool TextManager::Init(NiRenderer* renderer)
 
 	return bSuccess;
 }
-//---------------------------------------------------------------------------
+//--------------------------------------------------------------------------- 
+/** 
+ * Updates the text of a string
+ * 
+ * @param type
+ * @param text
+ */
 void TextManager::UpdateText(StringType type, const char* text)
 {	
 	Ni2DStringPtr str = 0;
 	m_tStrings.GetAt(type, str);
 	if (str) str->SetText(text);
 }
-//---------------------------------------------------------------------------
+//--------------------------------------------------------------------------- 
+/** 
+ * Renders text
+ * 
+ */
 void TextManager::DisplayText()
 {
 	if (m_tStrings.IsEmpty() || !m_pRenderer) return;

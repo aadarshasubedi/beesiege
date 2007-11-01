@@ -1,15 +1,34 @@
+/**
+ * Loads game constants from an XML file. Uses TinyXML for 
+ * reading the XML file. Singleton class.
+ */
 #include "ConfigurationManager.h"
 #include "tinyXML/tinyxml.h"
 
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Ctor
+ * 
+ */
 ConfigurationManager::ConfigurationManager()
 {
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Dtor
+ * 
+ */
 ConfigurationManager::~ConfigurationManager()
 {
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Reads configuration file
+ * 
+ * @param file
+ * 
+ * @return bool
+ */
 bool ConfigurationManager::ReadConfigurationFile(const char *file)
 {
 	TiXmlDocument doc(file);
@@ -42,7 +61,16 @@ bool ConfigurationManager::ReadConfigurationFile(const char *file)
 
 
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Reads a flot value from an XML file
+ * 
+ * @param value
+ * @param node
+ * @param child
+ * 
+ * @return bool
+ */
 bool ConfigurationManager::ReadFloat(float &value, TiXmlElement* node, const char* child)
 {
 	TiXmlElement* current = node->FirstChildElement(child);
@@ -57,7 +85,14 @@ bool ConfigurationManager::ReadFloat(float &value, TiXmlElement* node, const cha
 
 	return true;
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Reads controllers
+ * 
+ * @param node
+ * 
+ * @return bool
+ */
 bool ConfigurationManager::ReadControllers(TiXmlElement* node)
 {
 	if (!node) return false;
@@ -71,7 +106,14 @@ bool ConfigurationManager::ReadControllers(TiXmlElement* node)
 	return true;
 	
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Reads agents
+ * 
+ * @param node
+ * 
+ * @return bool
+ */
 bool ConfigurationManager::ReadAgents(TiXmlElement* node)
 {
 	if (!node) return false;
@@ -87,7 +129,14 @@ bool ConfigurationManager::ReadAgents(TiXmlElement* node)
 
 	return false;
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Reads a character controller
+ * 
+ * @param node
+ * 
+ * @return bool
+ */
 bool ConfigurationManager::ReadCharacterController(TiXmlElement* node)
 {
 	if (!node) return false;
@@ -102,7 +151,14 @@ bool ConfigurationManager::ReadCharacterController(TiXmlElement* node)
 
 	return false;
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Reads a camera controller
+ * 
+ * @param node
+ * 
+ * @return bool
+ */
 bool ConfigurationManager::ReadCameraController(TiXmlElement* node)
 {
 	if (!node) return false;
@@ -120,7 +176,14 @@ bool ConfigurationManager::ReadCameraController(TiXmlElement* node)
 	return false;
 
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Reads behaviors
+ * 
+ * @param node
+ * 
+ * @return bool
+ */
 bool ConfigurationManager::ReadBehaviors(TiXmlElement* node)
 {
 	if (!node) return false;
@@ -145,7 +208,14 @@ bool ConfigurationManager::ReadBehaviors(TiXmlElement* node)
 
 	return true;
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Reads Arrival
+ * 
+ * @param node
+ * 
+ * @return bool
+ */
 bool ConfigurationManager::ReadArrival(TiXmlElement* node)
 {
 	if (!node) return false;
@@ -157,7 +227,14 @@ bool ConfigurationManager::ReadArrival(TiXmlElement* node)
 
 	return false;
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Reads Alignment
+ * 
+ * @param node
+ * 
+ * @return bool
+ */ 
 bool ConfigurationManager::ReadAlignment(TiXmlElement* node)
 {
 	if (!node) return false;
@@ -170,7 +247,14 @@ bool ConfigurationManager::ReadAlignment(TiXmlElement* node)
 
 	return false;
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Reads Cohesion
+ * 
+ * @param node
+ * 
+ * @return bool
+ */ 
 bool ConfigurationManager::ReadCohesion(TiXmlElement* node)
 {
 	if (!node) return false;
@@ -183,7 +267,14 @@ bool ConfigurationManager::ReadCohesion(TiXmlElement* node)
 
 	return false;
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Reads Departure
+ * 
+ * @param node
+ * 
+ * @return bool
+ */ 
 bool ConfigurationManager::ReadDeparture(TiXmlElement* node)
 {
 	if (!node) return false;
@@ -195,7 +286,14 @@ bool ConfigurationManager::ReadDeparture(TiXmlElement* node)
 
 	return false;
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Reads Separation
+ * 
+ * @param node
+ * 
+ * @return bool
+ */ 
 bool ConfigurationManager::ReadSeparation(TiXmlElement* node)
 {
 	if (!node) return false;
@@ -208,7 +306,14 @@ bool ConfigurationManager::ReadSeparation(TiXmlElement* node)
 
 	return false;
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Reads Wander
+ * 
+ * @param node
+ * 
+ * @return bool
+ */ 
 bool ConfigurationManager::ReadWander(TiXmlElement* node)
 {
 	if (!node) return false;
@@ -221,7 +326,14 @@ bool ConfigurationManager::ReadWander(TiXmlElement* node)
 
 	return false;
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Reads Characters
+ * 
+ * @param node
+ * 
+ * @return bool
+ */ 
 bool ConfigurationManager::ReadCharacters(TiXmlElement* node)
 {
 	if (!node) return false;
@@ -234,7 +346,14 @@ bool ConfigurationManager::ReadCharacters(TiXmlElement* node)
 
 	return true;
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Reads Bees
+ * 
+ * @param node
+ * 
+ * @return bool
+ */ 
 bool ConfigurationManager::ReadBee(TiXmlElement* node)
 {
 	if (!node) return false;
@@ -246,7 +365,14 @@ bool ConfigurationManager::ReadBee(TiXmlElement* node)
 
 	return false;
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Reads Queen
+ * 
+ * @param node
+ * 
+ * @return bool
+ */ 
 bool ConfigurationManager::ReadQueen(TiXmlElement* node)
 {
 	if (!node) return false;
@@ -261,7 +387,14 @@ bool ConfigurationManager::ReadQueen(TiXmlElement* node)
 
 	return false;
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Reads timers
+ * 
+ * @param node
+ * 
+ * @return bool
+ */ 
 bool ConfigurationManager::ReadTimers(TiXmlElement* node)
 {
 	if (!node) return false;

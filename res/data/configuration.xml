@@ -35,7 +35,7 @@
             <constant> 22000.0 </constant>
         </departure>
         <separation>
-            <constant> 2000.0 </constant>
+            <constant> 5000.0 </constant>
             <radius> 200.0 </radius>
         </separation>
         <wander>
@@ -50,6 +50,7 @@
         <queen>
             <speedGain> 1000.0 </speedGain>
             <rotationGain> 500.0 </rotationGain>
+            <moveUpSpeedGain> 100.0 </moveUpSpeedGain>
             <viewRadius> 500.0 </viewRadius>
         </queen>
     </characters>

@@ -1,22 +1,43 @@
+/**
+ * Creates and plays sounds, using FMOD. Singleton class.
+ */
 #include "SoundDesc.h"
 #include "Sound.h"
 #include "SoundManager.h"
 using namespace std;
 
-//----------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------- 
+/** 
+ * Initialize FMOD system to zero
+ * 
+ */
 FMOD::System* SoundManager::m_pSystem = 0;
-//----------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------- 
+/** 
+ * Ctor
+ * 
+ */
 SoundManager::SoundManager() : m_uiMaxChannels(1000), 
 					   m_bInitialized(false)
 {
 }
-//----------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------- 
+/** 
+ * Dtor
+ * 
+ */
 SoundManager::~SoundManager()
 {
 	m_pSystem->release();
 	m_pSystem = 0;
 }
-//----------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------- 
+/** 
+ * Initializes the manager
+ * 
+ * 
+ * @return bool
+ */
 bool SoundManager::Init()
 {
 	// Create the main system object.
@@ -40,13 +61,25 @@ bool SoundManager::Init()
 	m_bInitialized = true;
 	return true;
 }
-//----------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------- 
+/** 
+ * Updates FMOD
+ * 
+ */
 void SoundManager::Update()
 {
 	if (!m_bInitialized) return;
 	m_pSystem->update();
 }
-//----------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------- 
+/** 
+ * Updates FMOD and 3d listener attributes
+ * 
+ * @param listenerPos
+ * @param listenerVel
+ * @param listenerUp
+ * @param listenerForward
+ */
 void SoundManager::Update(const NxVec3& listenerPos,
 					  const NxVec3& listenerVel,
 					  const NxVec3& listenerUp,
@@ -65,7 +98,14 @@ void SoundManager::Update(const NxVec3& listenerPos,
 	m_pSystem->set3DListenerAttributes(0, &pos, &vel, &forw, &up);
 	m_pSystem->update();
 }
-//----------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------- 
+/** 
+ * Creates a sound
+ * 
+ * @param spDesc
+ * 
+ * @return Sound*
+ */
 Sound* SoundManager::CreateSound(SoundDescPtr spDesc)
 {
 	if (!m_bInitialized) return 0;
@@ -82,7 +122,14 @@ Sound* SoundManager::CreateSound(SoundDescPtr spDesc)
 	Sound* sound = NiNew Sound(spDesc, fmodSound);
 	return sound;
 }
-//----------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------- 
+/** 
+ * Plays a sound
+ * 
+ * @param s: the sound
+ * 
+ * @return FMOD::Channel*
+ */
 FMOD::Channel* SoundManager::PlaySound(Sound* s)
 {
 	if (!m_bInitialized) return 0;
@@ -99,7 +146,12 @@ FMOD::Channel* SoundManager::PlaySound(Sound* s)
 
 	return 0;
 }
-//----------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------- 
+/** 
+ * Resumes a sound
+ * 
+ * @param channel: the channel
+ */
 void SoundManager::ResumeSound(FMOD::Channel* ch)
 {
 	if (!m_bInitialized) return;
@@ -109,6 +161,10 @@ void SoundManager::ResumeSound(FMOD::Channel* ch)
 	}
 }
 //----------------------------------------------------------------------------------
+/** Pauses a sound 
+ * 
+ * @param channel: the channel
+ */
 void SoundManager::PauseSound(FMOD::Channel* ch)
 {
 	if (!m_bInitialized) return;
@@ -119,6 +175,10 @@ void SoundManager::PauseSound(FMOD::Channel* ch)
 	
 }
 //----------------------------------------------------------------------------------
+/** Stops a sound 
+ * 
+ * @param channel: the channel
+ */
 void SoundManager::StopSound(FMOD::Channel* ch)
 {
 	if (!m_bInitialized) return;
