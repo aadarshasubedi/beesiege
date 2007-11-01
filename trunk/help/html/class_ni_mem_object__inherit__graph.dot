@@ -1,0 +1,42 @@
+digraph G
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize=10,labelfontname="FreeSans.ttf",labelfontsize=10];
+  node [fontname="FreeSans.ttf",fontsize=10,shape=record];
+  rankdir=LR;
+  Node1 [label="NiMemObject",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [dir=back,color="midnightblue",fontsize=10,style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="SingletonObj\< T \>",height=0.2,width=0.4,color="black",URL="$class_singleton_obj.html"];
+  Node1 -> Node3 [dir=back,color="midnightblue",fontsize=10,style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="SingletonObj\< AgentMgr \>",height=0.2,width=0.4,color="black",URL="$class_singleton_obj.html"];
+  Node3 -> Node4 [dir=back,color="midnightblue",fontsize=10,style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="AgentMgr",height=0.2,width=0.4,color="black",URL="$class_agent_mgr.html"];
+  Node1 -> Node5 [dir=back,color="midnightblue",fontsize=10,style="solid",fontname="FreeSans.ttf"];
+  Node5 [label="SingletonObj\< ConfigurationManager \>",height=0.2,width=0.4,color="black",URL="$class_singleton_obj.html"];
+  Node5 -> Node6 [dir=back,color="midnightblue",fontsize=10,style="solid",fontname="FreeSans.ttf"];
+  Node6 [label="ConfigurationManager",height=0.2,width=0.4,color="black",URL="$class_configuration_manager.html"];
+  Node1 -> Node7 [dir=back,color="midnightblue",fontsize=10,style="solid",fontname="FreeSans.ttf"];
+  Node7 [label="SingletonObj\< GameManager \>",height=0.2,width=0.4,color="black",URL="$class_singleton_obj.html"];
+  Node7 -> Node8 [dir=back,color="midnightblue",fontsize=10,style="solid",fontname="FreeSans.ttf"];
+  Node8 [label="GameManager",height=0.2,width=0.4,color="black",URL="$class_game_manager.html"];
+  Node1 -> Node9 [dir=back,color="midnightblue",fontsize=10,style="solid",fontname="FreeSans.ttf"];
+  Node9 [label="SingletonObj\< InputManager \>",height=0.2,width=0.4,color="black",URL="$class_singleton_obj.html"];
+  Node9 -> Node10 [dir=back,color="midnightblue",fontsize=10,style="solid",fontname="FreeSans.ttf"];
+  Node10 [label="InputManager",height=0.2,width=0.4,color="black",URL="$class_input_manager.html"];
+  Node1 -> Node11 [dir=back,color="midnightblue",fontsize=10,style="solid",fontname="FreeSans.ttf"];
+  Node11 [label="SingletonObj\< LevelManager \>",height=0.2,width=0.4,color="black",URL="$class_singleton_obj.html"];
+  Node11 -> Node12 [dir=back,color="midnightblue",fontsize=10,style="solid",fontname="FreeSans.ttf"];
+  Node12 [label="LevelManager",height=0.2,width=0.4,color="black",URL="$class_level_manager.html"];
+  Node1 -> Node13 [dir=back,color="midnightblue",fontsize=10,style="solid",fontname="FreeSans.ttf"];
+  Node13 [label="SingletonObj\< ResourceManager \>",height=0.2,width=0.4,color="black",URL="$class_singleton_obj.html"];
+  Node13 -> Node14 [dir=back,color="midnightblue",fontsize=10,style="solid",fontname="FreeSans.ttf"];
+  Node14 [label="ResourceManager",height=0.2,width=0.4,color="black",URL="$class_resource_manager.html"];
+  Node1 -> Node15 [dir=back,color="midnightblue",fontsize=10,style="solid",fontname="FreeSans.ttf"];
+  Node15 [label="SingletonObj\< SoundManager \>",height=0.2,width=0.4,color="black",URL="$class_singleton_obj.html"];
+  Node15 -> Node16 [dir=back,color="midnightblue",fontsize=10,style="solid",fontname="FreeSans.ttf"];
+  Node16 [label="SoundManager",height=0.2,width=0.4,color="black",URL="$class_sound_manager.html"];
+  Node1 -> Node17 [dir=back,color="midnightblue",fontsize=10,style="solid",fontname="FreeSans.ttf"];
+  Node17 [label="SingletonObj\< TextManager \>",height=0.2,width=0.4,color="black",URL="$class_singleton_obj.html"];
+  Node17 -> Node18 [dir=back,color="midnightblue",fontsize=10,style="solid",fontname="FreeSans.ttf"];
+  Node18 [label="TextManager",height=0.2,width=0.4,color="black",URL="$class_text_manager.html"];
+}

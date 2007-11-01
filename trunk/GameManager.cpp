@@ -1,17 +1,28 @@
+/**
+ * Holds game objects and updates them. Singleton class.
+ */
 #include "GameManager.h"
 #include "GameObj3d.h"
 #include "ResourceManager.h"
-#include <NiPhysXScene.h>
 #include "Bee.h"
-#include <NiApplication.h>
 #include "ConfigurationManager.h"
 #include "LevelManager.h"
+#include <NiPhysXScene.h>
+#include <NiApplication.h>
 
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Ctor
+ * 
+ */
 GameManager::GameManager() : m_fDeltaTime(0.0f)
 {
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Dtor
+ * 
+ */
 GameManager::~GameManager()
 {
 	m_lObjects.RemoveAll();
@@ -21,9 +32,19 @@ GameManager::~GameManager()
 	ConfigurationManager::Destroy();
 	//LevelManager::Destroy();
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Initializes manager
+ * 
+ * @param parent
+ * @param physXScene
+ * @param app
+ * 
+ * @return bool
+ */
 bool GameManager::Init(NiNodePtr parent, NiPhysXScenePtr physXScene, NiApplication* app )
 {
+	// read configuration file
 	m_pGameApplication = (GameApp*)app;
 	if (!ConfigurationManager::Get()->ReadConfigurationFile(
 		NiApplication::ConvertMediaFilename("data/configuration.xml")))
@@ -31,7 +52,8 @@ bool GameManager::Init(NiNodePtr parent, NiPhysXScenePtr physXScene, NiApplicati
 		NiMessageBox("Could Not Read Configuration File", "Error");
 		return false;
 	}
-	
+
+	// create queen
 	m_spQueen = NiNew Queen;
 	if (!AddObject((GameObj3dPtr)m_spQueen, parent, physXScene))
 	{
@@ -47,7 +69,12 @@ bool GameManager::Init(NiNodePtr parent, NiPhysXScenePtr physXScene, NiApplicati
 	
 	return true;
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Updates all game objects
+ * 
+ * @param fTime
+ */
 void GameManager::UpdateAll(float fTime)
 {
 	m_fDeltaTime = m_pGameApplication->GetFrameTime();
@@ -60,7 +87,15 @@ void GameManager::UpdateAll(float fTime)
 	}
 
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Adds an object to the list
+ * 
+ * @param object
+ * @param parent
+ * 
+ * @return bool
+ */
 bool GameManager::AddObject(GameObj3dPtr object, NiNodePtr parent)
 {
 	if (object->Init(parent))
@@ -71,7 +106,16 @@ bool GameManager::AddObject(GameObj3dPtr object, NiNodePtr parent)
 	
 	return false;
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Adds a PhysX object to the list
+ * 
+ * @param object
+ * @param parent
+ * @param physXScene
+ * 
+ * @return bool
+ */
 bool GameManager::AddObject(GameObj3dPtr object, NiNodePtr parent, NiPhysXScenePtr physXScene)
 {
 	if (object->Init(parent, physXScene))
@@ -82,22 +126,42 @@ bool GameManager::AddObject(GameObj3dPtr object, NiNodePtr parent, NiPhysXSceneP
 	
 	return false;
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Adds an agent to the agent list
+ * 
+ * @param agent
+ */
 void GameManager::AddAgent(AgentPtr agent)
 {
 	m_lAgents.AddTail(agent);
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Adds an enemy to the enemies list
+ * 
+ * @param enemy
+ */
 void GameManager::AddEnemy(GameCharacterPtr enemy)
 {
 	m_lEnemies.AddTail(enemy);
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Removes an enemy from the enemy list
+ * 
+ * @param enemy
+ */
 void GameManager::RemoveEnemy(GameCharacterPtr enemy)
 {
 	m_lEnemies.Remove(enemy);
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Removes an object from the list
+ * 
+ * @param object
+ */
 void GameManager::RemoveObject(GameObj3dPtr object)
 {
 	m_lObjects.Remove(object);

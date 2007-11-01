@@ -17,8 +17,7 @@
 
 
 //--------------------------------------------------------------------------- 
-/** Creates a new NiApplication
- *                      *
+/** Creates a new NiApplication* 
  * 
  * @return NiApplication*
  */

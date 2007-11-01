@@ -1,3 +1,9 @@
+/**
+ * Loads resources of any kind: models, sounds, fonts etc. Other 
+ * objects refer to this manager to get resources. Singleton 
+ * class. 
+ */
+
 #include "ResourceManager.h"
 #include "SoundManager.h"
 #include <NiApplication.h>
@@ -6,11 +12,19 @@
 #include <fstream>
 using namespace std;
 
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Ctor
+ * 
+ */
 ResourceManager::ResourceManager() 
 {
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Dtor
+ * 
+ */
 ResourceManager::~ResourceManager()
 {
 	//SoundManager::Destroy();
@@ -18,21 +32,32 @@ ResourceManager::~ResourceManager()
 	m_tResourcesFonts.RemoveAll();
 	m_tResourcesModels.RemoveAll();
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Initializes the manager
+ * 
+ * @param stream
+ * @param renderer
+ * 
+ * @return bool
+ */
 bool ResourceManager::Init(NiStream* stream, NiRenderer* renderer)
 {
 	bool bSuccess = false;
 
+	// load models
 	bSuccess = LoadNif(stream, string("models/bee2.nif"), RES_MODEL_BEE);
 	if (!bSuccess) return false;
 	bSuccess = LoadNif(stream, string("models/queen4.nif"), RES_MODEL_QUEEN);
 	if (!bSuccess) return false;
 	bSuccess = LoadNif(stream, string("models/enemy1.nif"), RES_MODEL_LOCUST);
 	if (!bSuccess) return false;
-	
+
+	// load fonts
 	bSuccess = LoadFont(string("fonts/trebuchet.nff"), renderer, RES_FONT_SELECTEDSOLDIERS);
 	if (!bSuccess) return false;
 
+	// load sounds
 	//bSuccess = SoundManager::Get()->Init();
 	//if (!bSuccess) return false;
 
@@ -44,7 +69,14 @@ bool ResourceManager::Init(NiStream* stream, NiRenderer* renderer)
 	return bSuccess;
 	
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Gets a node and a PhysX prop
+ * 
+ * @param type
+ * 
+ * @return NiNodePropPtr
+ */
 NiNodePropPtr ResourceManager::GetNodeProp(ResourceType type)
 {
 	NiNodePropPtr nodeProp;
@@ -60,7 +92,14 @@ NiNodePropPtr ResourceManager::GetNodeProp(ResourceType type)
 	
 	return 0;
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Gets a node with no PhysX props
+ * 
+ * @param type
+ * 
+ * @return NiNodePtr
+ */
 NiNodePtr ResourceManager::GetNode(ResourceType type)
 {
 	NiNodePropPtr nodeProp;
@@ -71,7 +110,14 @@ NiNodePtr ResourceManager::GetNode(ResourceType type)
 	
 	return 0;
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Gets a font
+ * 
+ * @param type
+ * 
+ * @return NiFontPtr
+ */
 NiFontPtr ResourceManager::GetFont(ResourceType type)
 {
 	NiFontPtr font;
@@ -82,7 +128,14 @@ NiFontPtr ResourceManager::GetFont(ResourceType type)
 	
 	return 0;
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Gets a sound
+ * 
+ * @param type
+ * 
+ * @return SoundPtr
+ */
 SoundPtr ResourceManager::GetSound(ResourceType type)
 {
 	SoundDescPtr soundDesc;
@@ -94,7 +147,16 @@ SoundPtr ResourceManager::GetSound(ResourceType type)
 	
 	return 0;
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Loads a nif file
+ * 
+ * @param stream
+ * @param filename
+ * @param type
+ * 
+ * @return bool
+ */
 bool ResourceManager::LoadNif(NiStream* stream, 
 							  const string& filename, 
 							  ResourceType type)
@@ -137,7 +199,16 @@ bool ResourceManager::LoadNif(NiStream* stream,
 	return true;
 	
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Loads a font
+ * 
+ * @param filename
+ * @param renderer
+ * @param type
+ * 
+ * @return bool
+ */
 bool ResourceManager::LoadFont(const std::string &filename, NiRenderer* renderer, 
 							   ResourceType type)
 {
@@ -157,7 +228,15 @@ bool ResourceManager::LoadFont(const std::string &filename, NiRenderer* renderer
 	}
 	
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Loads a sound
+ * 
+ * @param filename
+ * @param type
+ * 
+ * @return bool
+ */
 bool ResourceManager::LoadSound(const std::string& filename, ResourceType type)
 {
 	const char *convertedFilename = NiApplication::ConvertMediaFilename(filename.c_str());

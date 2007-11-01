@@ -1,6 +1,14 @@
+/**
+ * Information about an agent that the CharacterController needs
+ */
 #include "AgentInfo.h"
 #include "ConfigurationManager.h"
 
+//------------------------------------------------------------------------------------------- 
+/** 
+ * Ctor
+ * 
+ */
 AgentInfo::AgentInfo() :    m_fcMass(1.0f),
 							m_fcInertia(1.0f),
 							m_vForce(0.0, 0.0, 0.0),
@@ -20,7 +28,11 @@ AgentInfo::AgentInfo() :    m_fcMass(1.0f),
 							
 {
 }
-
+//------------------------------------------------------------------------------------------- 
+/** 
+ * Dtor
+ * 
+ */
 AgentInfo::~AgentInfo()
 {
 }
