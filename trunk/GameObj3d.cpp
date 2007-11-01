@@ -45,7 +45,8 @@ bool GameObj3d::Init(NiNodePtr attachToThis)
 	if (m_spNode)
 	{
 		// attach the model to the scene graph
-		attachToThis->AttachChild(m_spNode);
+		if (attachToThis)
+			attachToThis->AttachChild(m_spNode);
 		// do any extra inits (virtual)
 		return DoExtraInits();
 	}
@@ -69,9 +70,11 @@ bool GameObj3d::Init(NiNodePtr attachToThis, NiPhysXScenePtr attachToScene)
 	if (nodeProp)
 	{
 		// attach the model to the scene graph
-		attachToThis->AttachChild(nodeProp->m_spNode);
+		if (attachToThis)
+			attachToThis->AttachChild(nodeProp->m_spNode);
 		// attach the PhysX prop to the main PhysX scene
-		attachToScene->AddProp(nodeProp->m_spProp);
+		if (attachToScene)
+			attachToScene->AddProp(nodeProp->m_spProp);
 
 		m_spNode = nodeProp->m_spNode;
 		m_spProp = nodeProp->m_spProp;
