@@ -29,8 +29,9 @@ GameManager::~GameManager()
 	m_lAgents.RemoveAll();
 	m_lEnemies.RemoveAll();
 	m_spQueen = 0;
+	m_spCurrentLevel = 0;
 	ConfigurationManager::Destroy();
-	//LevelManager::Destroy();
+	LevelManager::Destroy();
 }
 //------------------------------------------------------------------------ 
 /** 
@@ -62,10 +63,12 @@ bool GameManager::Init(NiNodePtr parent, NiPhysXScenePtr physXScene, NiApplicati
 	m_spQueen->GetAgent()->GetActor()->setGlobalPosition(NxVec3(0.0, 100.0, -200.0));
 
 
-	//if (!LevelManager::Get()->LoadLevel(1))
-	//{
-	///	return false;
-	//}
+	if (!LevelManager::Get()->LoadLevel(1))
+	{
+		return false;
+	}
+
+	m_spCurrentLevel = LevelManager::Get()->GetLevel(1);
 	
 	return true;
 }
@@ -145,6 +148,17 @@ void GameManager::AddAgent(AgentPtr agent)
 void GameManager::AddEnemy(GameCharacterPtr enemy)
 {
 	m_lEnemies.AddTail(enemy);
+}
+//------------------------------------------------------------------------ 
+/**
+* Initilizes an enemy
+* @param enemy
+* @return bool
+*/
+bool GameManager::CreateEnemy(GameCharacterPtr enemy)
+{	
+	return AddObject((GameObj3d*)enemy, m_pGameApplication->GetScene(),
+		m_pGameApplication->GetPhysXScene());
 }
 //------------------------------------------------------------------------ 
 /** 

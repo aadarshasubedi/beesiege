@@ -14,6 +14,7 @@ private:
 	void DoExtraUpdates(float fTime);
 	bool DoExtraInits();
 
+
 };
 
 NiSmartPointer(Locust);

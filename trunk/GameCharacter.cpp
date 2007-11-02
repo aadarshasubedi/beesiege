@@ -12,7 +12,8 @@
  * @param type
  */
 GameCharacter::GameCharacter(ResourceManager::ResourceType type) : GameObj3d(type)	, 									
-																   m_pTarget(0)
+																   m_pTarget(0),
+																   m_vTempTargetPos(0.0, 0.0, 0.0)
 {
 }
 //------------------------------------------------------------------------ 

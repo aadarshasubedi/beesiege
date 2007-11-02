@@ -12,12 +12,15 @@ public:
 
 	inline AgentPtr GetAgent() const {return m_spAgent;}
 	inline void SetTarget (GameCharacter* target) {m_pTarget = target;}
+	inline void SetTempTargetPos(const NxVec3& pos)
+	{m_vTempTargetPos = pos;}
 protected:
 
 	virtual void DoExtraUpdates(float fTime)=0;
 	virtual bool DoExtraInits();
 	AgentPtr m_spAgent;
 	GameCharacter* m_pTarget;
+	NxVec3 m_vTempTargetPos;
 };
 
 NiSmartPointer(GameCharacter);
