@@ -32,6 +32,7 @@ private:
 	NiPoint3 m_vPosition;
 	NiPoint3 m_vTarget;
 	NiPoint3 m_vTargetVel;
+	NiMatrix3 m_mNewRotation;
 	float m_fRotateZ;
 	float m_fRotateY;
 	bool  m_bIsRotating;
