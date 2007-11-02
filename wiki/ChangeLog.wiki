@@ -56,4 +56,22 @@ I am working on the scene... Would be testing in the lab around 5 today ... as t
 
 *31-Oct-2007* - _Smiral
 
-I have made a scene with surrouding walls as passive physx boxes. Please check it out. 
+I have made a scene with surrounding walls as passive physx boxes. Please check it out. 
+
+*1-Nov-2007* - _Vaios
+
+The current status of the game is this: The soldiers follow the queen using a BehaviorCombo that consists of Arrival, Separation, Wander and Departure. They also look at where the queen is looking IF the queen is their current target. The user can select a number of bees by holding down the left mouse button, and send the bees to a target when the left button is released. This has to change, because changing the target is not enough. We have to use the FSM's here to make the bees go into attack mode. We'll see how we're gonna do that. 
+
+There is 3d sound support but the system is currently inactive. We should play around with sound after all the major parts are implemented. The user can also go into look-around mode, which is currently not working as it should so I'll take care of that. The scene Smiral sent me, the one with the PhysX boundaries is now the scene that we load. The walls work, although they should be placed better so that no object gets inside a mountain. 
+
+I just added fog. Fog is present all the time and it is needed because otherwise we need to set the far clipping plane of the camera far away, which is very inefficient. Fog hides that. Also it is essential from a gameplay perspective. Now if the queen goes higher than a certain point, fog increases very much in a smooth way so that the user cannot see almost anything. This is to prevent the user from going higher than we want him to. Adding fog is very easy and we can work on that to make it look better later.
+
+A last thing I want to say has to do with comments in the code. I started writing comments in a Javadoc way. This is a special format of comments that various tools can use to create HTML documentation of very high quality. All of my code uses Javadoc comments and I created HTML documentation using Doxygen. You can check it out by opening index.html in the help/html folder of the game. I suggest that you write comments for your functions this way, so that everything is consistent. If you don't want to it's fine, I just think it's prettier. To learn how to write Javadoc comments just look at my code and you should have no problem. The only basic thing you have to do is write your comment like this /** comment */. Note that Javadoc comments are only for explaining what a function does. Not for explaining lines of code inside the function.
+
+So things to be done: 
+* Finish the scene
+* Start using the FSM's in a meaningful way. We should meet to do that
+* Fix the look-around mode
+* Start creating some gameplay elements
+
+We should meet one of these days. Let me know when... Cheers!
