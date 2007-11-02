@@ -7,12 +7,12 @@
 FSMBeeAIControl::FSMBeeAIControl(Bee* bee)
 {
 	m_bee = bee;
-	m_bee_machine = new FSMBeeMachine(FSM_MACH_BEE);
-	StateFollowQueen* followQueen = new StateFollowQueen();
+	m_bee_machine = NiNew FSMBeeMachine(FSM_MACH_BEE);
+	StateFollowQueen* followQueen = NiNew StateFollowQueen();
 	m_bee_machine->AddState(followQueen);
-	m_bee_machine->AddState(new StateAttack());
-	m_bee_machine->AddState(new StatePowerUp());
-	m_bee_machine->AddState(new StateDead());
+	m_bee_machine->AddState(NiNew StateAttack());
+	m_bee_machine->AddState(NiNew StatePowerUp());
+	m_bee_machine->AddState(NiNew StateDead());
 	m_bee_machine->SetDefaultState(followQueen);
 }
 
@@ -78,5 +78,10 @@ void FSMBeeAIControl::UpdatePerceptions(int t)
 
 	}
 
+
+}
+
+void FSMBeeAIControl::Init()
+{
 
 }

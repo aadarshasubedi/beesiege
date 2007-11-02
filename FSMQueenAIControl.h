@@ -29,4 +29,6 @@ private:
 	Queen* m_queen;
 };
 
+NiSmartPointer(FSMQueenAIControl);
+
 #endif

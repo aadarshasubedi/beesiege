@@ -9,9 +9,10 @@ void StateIdle::Update(int t)
 
 }
 
-int StateIdle::CheckTransitions(int i)
+FSMState* StateIdle::CheckTransitions(int i)
 {
-	return 0;
+	FSMState* dummyState = NiNew FSMState();
+	return dummyState;
 }
 
 void StateIdle::Exit()

@@ -9,9 +9,10 @@ void StateFollowQueen::Update(int t)
 
 }
 
-int StateFollowQueen::CheckTransitions(int i)
+FSMState* StateFollowQueen::CheckTransitions(int i)
 {
-	return 0;
+	FSMState* dummyState = NiNew FSMState();
+	return dummyState;
 }
 
 void StateFollowQueen::Exit()

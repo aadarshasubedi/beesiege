@@ -9,9 +9,10 @@ void StateAttack::Update(int t)
 
 }
 
-int StateAttack::CheckTransitions(int i)
+FSMState* StateAttack::CheckTransitions(int i)
 {
-	return 0;
+	FSMState* dummyState = NiNew FSMState();
+	return dummyState;
 }
 
 void StateAttack::Exit()

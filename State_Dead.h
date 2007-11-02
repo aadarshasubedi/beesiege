@@ -18,10 +18,12 @@ public:
 	void Exit();
 	void Update(int i);
 	void Init();
-	int CheckTransitions(int t);
+	FSMState* CheckTransitions(int t);
 
 	int m_type;
 };
+
+NiSmartPointer(StateDead);
 
 
 #endif

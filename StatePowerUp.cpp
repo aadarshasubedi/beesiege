@@ -9,9 +9,10 @@ void StatePowerUp::Update(int t)
 
 }
 
-int StatePowerUp::CheckTransitions(int i)
+FSMState* StatePowerUp::CheckTransitions(int i)
 {
-	return 0;
+	FSMState* dummyState = NiNew FSMState();
+	return dummyState;
 }
 
 void StatePowerUp::Exit()

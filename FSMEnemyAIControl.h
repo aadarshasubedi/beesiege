@@ -28,4 +28,6 @@ private:
 	Locust* m_enemy;
 };
 
+NiSmartPointer(FSMEnemyAIControl);
+
 #endif
