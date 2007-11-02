@@ -4,7 +4,7 @@
 #include "GameObj3d.h"
 #include "ResourceManager.h"
 #include <NiApplication.h>
-
+#include <NiFogProperty.h>
 //----------------------------------------------------------------------
 /** 
  * Ctor
@@ -47,6 +47,7 @@ bool GameObj3d::Init(NiNodePtr attachToThis)
 		// attach the model to the scene graph
 		if (attachToThis)
 			attachToThis->AttachChild(m_spNode);
+
 		// do any extra inits (virtual)
 		return DoExtraInits();
 	}
@@ -72,6 +73,7 @@ bool GameObj3d::Init(NiNodePtr attachToThis, NiPhysXScenePtr attachToScene)
 		// attach the model to the scene graph
 		if (attachToThis)
 			attachToThis->AttachChild(nodeProp->m_spNode);
+		
 		// attach the PhysX prop to the main PhysX scene
 		if (attachToScene)
 			attachToScene->AddProp(nodeProp->m_spProp);

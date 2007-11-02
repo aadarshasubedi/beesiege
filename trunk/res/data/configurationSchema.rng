@@ -130,6 +130,12 @@
                     <element name="viewRadius">
                         <data type="double"/>
                     </element>
+                    <element name="maxHeight">
+                        <data type="double"/>
+                    </element>
+                    <element name="fogScaleValue">
+                        <data type="double"/>
+                    </element>
                 </interleave>
             </element>
         </interleave>
@@ -138,6 +144,14 @@
     <element name="timers">
         <interleave>
             <element name="selectSoldiersTimer">
+                <data type="double"/>
+            </element>      
+        </interleave>
+    </element>
+    
+    <element name="scene">
+        <interleave>
+            <element name="fogDefaultDepth">
                 <data type="double"/>
             </element>      
         </interleave>

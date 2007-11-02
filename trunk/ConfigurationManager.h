@@ -37,7 +37,10 @@ public:
 	float queen_rotationGain;
 	float queen_moveUpSpeedGain;
 	float queen_viewRadius;
+	float queen_maxHeight;
+	float queen_fogScaleValue;
 	float timer_selectSoldiers;
+	float scene_fogDefaultDepth;
 
 private:
 
@@ -60,6 +63,7 @@ private:
 	bool ReadBee(TiXmlElement* node);
 	bool ReadQueen(TiXmlElement* node);
 	bool ReadTimers(TiXmlElement* node);
+	bool ReadScene(TiXmlElement* node);
 };
 
 #endif

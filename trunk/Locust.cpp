@@ -48,7 +48,7 @@ void Locust::DoExtraUpdates(float fTime)
 	// else put a different target
 	else
 	{
-		NxVec3 target = NxVec3(100.0, 500.0, -100.0);
+		NxVec3 target = NxVec3(100.0, 200.0, -200.0);
 		m_spAgent->Update(target);
 		m_spAgent->LookAt(GameManager::Get()->GetQueen()->GetAgent()->GetActor()->getGlobalPosition());
 	}

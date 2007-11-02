@@ -58,6 +58,9 @@ private:
 	GameCharacterPtr						 m_spCurrentTarget;
 	const float								 m_fcQueenViewRadius;
 	float									 m_fSelectionTimer;
+	const float                              m_fcFogDefaultDepth;
+	const float                              m_fcMaxHeight;
+	const float                              m_fcFogScaleValue;
 };
 
 NiSmartPointer(Queen);

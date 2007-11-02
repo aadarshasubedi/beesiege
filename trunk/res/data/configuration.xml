@@ -52,9 +52,14 @@
             <rotationGain> 500.0 </rotationGain>
             <moveUpSpeedGain> 100.0 </moveUpSpeedGain>
             <viewRadius> 500.0 </viewRadius>
+            <maxHeight> 278.495 </maxHeight>
+            <fogScaleValue> 27000000.0 </fogScaleValue>
         </queen>
     </characters>
     <timers>
         <selectSoldiersTimer> 0.5 </selectSoldiersTimer>
     </timers>
+    <scene>
+        <fogDefaultDepth> 0.8 </fogDefaultDepth>
+    </scene>
 </configuration>

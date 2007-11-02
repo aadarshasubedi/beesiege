@@ -7,6 +7,7 @@
 #include "GameManager.h"
 #include "TextManager.h"
 #include <NiMaterialProperty.h>
+#include <NiFogProperty.h>
 #include <stdio.h>
 #include <math.h> 
 //------------------------------------------------------------------------ 
@@ -18,7 +19,10 @@ Queen::Queen() : GameCharacter(ResourceManager::RES_MODEL_QUEEN),
                  m_itCurrentTargetPosition(0),
 				 m_spCurrentTarget(0),
 				 m_fcQueenViewRadius(ConfigurationManager::Get()->queen_viewRadius),
-				 m_fSelectionTimer(ConfigurationManager::Get()->timer_selectSoldiers)
+				 m_fSelectionTimer(ConfigurationManager::Get()->timer_selectSoldiers),
+				 m_fcFogDefaultDepth(ConfigurationManager::Get()->scene_fogDefaultDepth),
+				 m_fcMaxHeight(ConfigurationManager::Get()->queen_maxHeight),
+				 m_fcFogScaleValue(ConfigurationManager::Get()->queen_fogScaleValue)
 {
 	
 }
@@ -58,7 +62,24 @@ void Queen::DoExtraUpdates(float fTime)
 			m_spCurrentTarget = 0;
 		}
 	}
-	
+
+	// if queen goes too high then increse fog significantly so 
+	// the player cannot see anything. This will make him want to 
+	// go back to a normal height where we want him.
+	NiFogProperty* fog = (NiFogProperty*)GameManager::Get()->GetGameApp()->
+			GetScene()->GetProperty(NiProperty::FOG);
+	if (fog)
+	{
+		float y = m_spAgent->GetActor()->getGlobalPosition().y; 
+		if ( y >= m_fcMaxHeight)
+		{
+			fog->SetDepth(y*y*y/m_fcFogScaleValue);	
+		}
+		else
+		{
+			fog->SetDepth(m_fcFogDefaultDepth);
+		}
+	}
 }
 //------------------------------------------------------------------------ 
 /** 
