@@ -1,0 +1,21 @@
+<element name="level" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"> 
+    <attribute name="name"> <text/> </attribute>
+    <element name="enemies">
+        <zeroOrMore>
+            <element name="enemy">
+                <attribute name="type"> <text/> </attribute>
+                <interleave>
+                    <element name="x">
+                        <data type="double"/>
+                    </element>
+                    <element name="y">
+                        <data type="double"/>
+                    </element>
+                    <element name="z">
+                        <data type="double"/>
+                    </element>
+                </interleave>
+            </element>
+        </zeroOrMore>
+    </element>
+</element>

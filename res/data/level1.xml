@@ -1,0 +1,60 @@
+<?xml version="1.0" ?>
+
+<level name="Level 1">
+    <enemies>
+        <enemy type="LOCUST">
+            <x> 0.0 </x>
+            <y> 100.0 </y>
+            <z> -200.0 </z>
+        </enemy>
+        <enemy type="LOCUST">
+            <x> 50.0 </x>
+            <y> 100.0 </y>
+            <z> -200.0 </z>
+        </enemy>
+        <enemy type="LOCUST">
+            <x> 100.0 </x>
+            <y> 100.0 </y>
+            <z> -200.0 </z>
+        </enemy>
+        <enemy type="LOCUST">
+            <x> 150.0 </x>
+            <y> 100.0 </y>
+            <z> -200.0 </z>
+        </enemy>
+        <enemy type="LOCUST">
+            <x> 200.0 </x>
+            <y> 100.0 </y>
+            <z> -200.0 </z>
+        </enemy>
+        <enemy type="LOCUST">
+            <x> 250.0 </x>
+            <y> 100.0 </y>
+            <z> -200.0 </z>
+        </enemy>
+        <enemy type="LOCUST">
+            <x> 300.0 </x>
+            <y> 100.0 </y>
+            <z> -200.0 </z>
+        </enemy>
+        <enemy type="LOCUST">
+            <x> 350.0 </x>
+            <y> 100.0 </y>
+            <z> -200.0 </z>
+        </enemy>
+        <enemy type="LOCUST">
+            <x> 400.0 </x>
+            <y> 100.0 </y>
+            <z> -200.0 </z>
+        </enemy>
+        <enemy type="LOCUST">
+            <x> 450.0 </x>
+            <y> 100.0 </y>
+            <z> -200.0 </z>
+        </enemy><enemy type="LOCUST">
+            <x> 500.0 </x>
+            <y> 100.0 </y>
+            <z> -200.0 </z>
+        </enemy>
+    </enemies>
+</level>

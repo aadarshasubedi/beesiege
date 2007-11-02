@@ -13,13 +13,14 @@ class LevelManager : public SingletonObj<LevelManager>
 public:
 	
 	bool LoadLevel(unsigned int id);
+	LevelPtr GetLevel(unsigned int id) const;
 private:
 	LevelManager();
 	~LevelManager();
 	bool ReadFloat(float &value, TiXmlElement* node, const char* child);
 	bool ReadEnemies(TiXmlElement* node, LevelPtr level);
 
-	NiTMap<unsigned int, LevelPtr> m_lLevels;
+	NiTMap<unsigned int, LevelPtr> m_tLevels;
 
 
 };

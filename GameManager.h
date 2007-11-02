@@ -8,6 +8,8 @@
 #include <NiTPointerList.h>
 #include "Queen.h"
 #include "GameApp.h"
+#include "Level.h"
+
 class GameObj3d;
 NiSmartPointer(GameObj3d);
 class NiPhysXScene;
@@ -36,14 +38,16 @@ public:
 	bool AddObject(GameObj3dPtr object, NiNodePtr parent, NiPhysXScenePtr physXScene);
 	void AddAgent(AgentPtr agent);
 	void AddEnemy(GameCharacterPtr enemy);
+	bool CreateEnemy(GameCharacterPtr enemy);
 	void RemoveEnemy(GameCharacterPtr enemy);
 	void RemoveObject(GameObj3dPtr object);
 	
 	inline QueenPtr GetQueen() const  { return m_spQueen; }
 	inline const NiTPointerList<AgentPtr>& GetAgents() const { return m_lAgents; }
 	inline GameApp* GetGameApp() const {return m_pGameApplication; }
-	inline const NiTPointerList<GameCharacterPtr>& GetEnemies() const {return m_lEnemies;}
+	inline const NiTPointerList<GameCharacterPtr>& GetEnemies() const {return m_spCurrentLevel->GetEnemies();}
 	inline const float GetDeltaTime() const {return m_fDeltaTime; }
+	
 private:
 
 	GameManager();
@@ -56,6 +60,7 @@ private:
 	QueenPtr m_spQueen;
 	GameApp* m_pGameApplication;
 	float    m_fDeltaTime;
+	LevelPtr m_spCurrentLevel;
 };
 
 #endif

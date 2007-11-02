@@ -1,19 +1,38 @@
+/**
+ * Loads game levels from an XML file. Sigleton Class.
+ */
+
 #include "LevelManager.h"
 #include "tinyXML/tinyXML.h"
-#include <NiApplication.h>
 #include "Locust.h"
+#include <NiApplication.h>
 #include <string>
 using namespace std;
-//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------ 
+/** 
+ * Ctor
+ * 
+ */
 LevelManager::LevelManager()
 {
 }
-//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------ 
+/** 
+ * Dtor
+ * 
+ */
 LevelManager::~LevelManager()
 {
-	m_lLevels.RemoveAll();
+	m_tLevels.RemoveAll();
 }
-//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------ 
+/** 
+ * Loads a level and puts it in the level hash table
+ * 
+ * @param id
+ * 
+ * @return bool
+ */
 bool LevelManager::LoadLevel(unsigned int id)
 {
 	char file[20];
@@ -33,7 +52,7 @@ bool LevelManager::LoadLevel(unsigned int id)
 				LevelPtr level = NiNew Level(name);
 				if (ReadEnemies(root->FirstChildElement("enemies"), level))
 				{
-					m_lLevels.SetAt(id, level);
+					m_tLevels.SetAt(id, level);
 					return true;
 				}
 			}
@@ -43,7 +62,31 @@ bool LevelManager::LoadLevel(unsigned int id)
 	return false;
 
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Finds a level with the desired id and returns it
+ * 
+ * @param id
+ * 
+ * @return LevelPtr
+ */
+LevelPtr LevelManager::GetLevel(unsigned int id) const
+{
+	LevelPtr lvl = 0;
+	m_tLevels.GetAt(id, lvl);
+
+	return lvl;
+}
+//------------------------------------------------------------------------ 
+/** 
+ * Reads a float value form an XML file
+ * 
+ * @param value
+ * @param node
+ * @param child
+ * 
+ * @return bool
+ */
 bool LevelManager::ReadFloat(float &value, TiXmlElement* node, const char* child)
 {
 	TiXmlElement* current = node->FirstChildElement(child);
@@ -58,7 +101,15 @@ bool LevelManager::ReadFloat(float &value, TiXmlElement* node, const char* child
 
 	return true;
 }
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------ 
+/** 
+ * Reads enemy node in the XML file
+ * 
+ * @param node
+ * @param level
+ * 
+ * @return bool
+ */
 bool LevelManager::ReadEnemies(TiXmlElement* node, LevelPtr level)
 {
 	if (!node) return false;
@@ -76,12 +127,24 @@ bool LevelManager::ReadEnemies(TiXmlElement* node, LevelPtr level)
 					ReadFloat(y, current, "y") && 
 					ReadFloat(z, current, "z"))
 				{
-					enemy->GetAgent()->GetActor()->setGlobalPosition(NxVec3(x, y, z));
-				//	level->AddEnemy((GameCharacter*)enemy);
+					if (!level->AddEnemy((GameCharacter*)enemy, NxVec3(x, y, z)))
+						return false;
+				}
+				else
+				{
+					return false;
 				}
 			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
 		}
 	}
 
-	return false;
+	return true;
 }
