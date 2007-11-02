@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class FSMState
+class FSMState: public GameObj
 {
 	
 public:
@@ -17,10 +17,12 @@ public:
 
 	virtual void Enter();                 
 	virtual void Exit();                  
-	virtual void Update(int i);
+	virtual void Update(int t);
 	virtual void Init();
-	virtual int CheckTransitions(int t);
+	virtual FSMState* CheckTransitions(int t);
 	int m_type;
 };
+
+NiSmartPointer(FSMState);
 
 #endif

@@ -6,11 +6,11 @@
 FSMEnemyAIControl::FSMEnemyAIControl(Locust* enemy)
 {
 	m_enemy = enemy;
-	m_enemy_machine = new FSMEnemyMachine(FSM_MACH_ENEMY);
-	StateIdle* idle = new StateIdle();
+	m_enemy_machine = NiNew FSMEnemyMachine(FSM_MACH_ENEMY);
+	StateIdle* idle = NiNew StateIdle();
 	m_enemy_machine->AddState(idle);
-	m_enemy_machine->AddState(new StateAttack());
-	m_enemy_machine->AddState(new StateDead());
+	m_enemy_machine->AddState(NiNew StateAttack());
+	m_enemy_machine->AddState(NiNew StateDead());
 	m_enemy_machine->SetDefaultState(idle);
 }
 
@@ -63,5 +63,11 @@ void FSMEnemyAIControl::UpdatePerceptions(int t)
 		if(m_nearestBeeDist <= adjSafetyRadius && dotVel > 0)
 			m_willCollide = true;
 	}
+
+}
+
+
+void FSMEnemyAIControl::Init()
+{
 
 }

@@ -29,4 +29,6 @@ private:
 	Bee* m_bee;
 };
 
+NiSmartPointer(FSMBeeAIControl);
+
 #endif

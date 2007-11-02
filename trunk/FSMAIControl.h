@@ -6,19 +6,22 @@
 #include "FSM.h"
 #include <NiPoint3.h>
 #include "GameCharacter.h"
+#include "FSMState.h"
 
 using namespace std;
 
-class FSMAIControl
+class FSMAIControl: public GameObj
 {
 public:
-	FSMAIControl(){}
-	FSMAIControl(GameCharacter* character);
+	FSMAIControl(){};
+	FSMAIControl(GameCharacter* character) = 0;
 	
-	virtual void Update(int t);
-	virtual void UpdatePerceptions(int t);
-	virtual void Init();
+	virtual void Update(int t) = 0;
+	virtual void UpdatePerceptions(int t) = 0;
+	virtual void Init() = 0;
 };
+
+NiSmartPointer(FSMAIControl);
 
 #endif
 

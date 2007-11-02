@@ -7,11 +7,11 @@
 FSMQueenAIControl::FSMQueenAIControl(Queen* queen)
 {
 	m_queen = queen;
-	m_queen_machine = new FSMQueenMachine(FSM_MACH_BEE);
-	StateFollowQueen* idle = new StateFollowQueen();
+	m_queen_machine = NiNew FSMQueenMachine(FSM_MACH_BEE);
+	StateFollowQueen* idle = NiNew StateFollowQueen();
 	m_queen_machine->AddState(idle);
-	m_queen_machine->AddState(new StatePowerUp());
-	m_queen_machine->AddState(new StateDead());
+	m_queen_machine->AddState(NiNew StatePowerUp());
+	m_queen_machine->AddState(NiNew StateDead());
 	m_queen_machine->SetDefaultState(idle);
 }
 
@@ -77,5 +77,11 @@ void FSMQueenAIControl::UpdatePerceptions(int t)
 
 	}
 
+
+}
+
+
+void FSMQueenAIControl::Init()
+{
 
 }

@@ -16,7 +16,7 @@ void FSMMachine::UpdateMachine(int t)
 	m_goalId = m_currentState->CheckTransitions(t);
 
 	//change states if there was a transition
-	if(m_goalId != oldStateId)
+	//if(m_goalId != oldStateId)
 	{
 		if(TransitionState(m_goalId))
 		{
@@ -28,7 +28,7 @@ void FSMMachine::UpdateMachine(int t)
 	m_currentState->Update(t);
 }
 
-bool FSMMachine::TransitionState(int goal)
+bool FSMMachine::TransitionState(FSMState* state)
 {
 	//todo
 	return true;
