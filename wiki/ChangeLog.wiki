@@ -60,7 +60,7 @@ I have made a scene with surrounding walls as passive physx boxes. Please check 
 
 *1-Nov-2007* - _Vaios
 
-The current status of the game is this: The soldiers follow the queen using a BehaviorCombo that consists of Arrival, Separation, Wander and Departure. They also look at where the queen is looking IF the queen is their current target. The user can select a number of bees by holding down the left mouse button, and send the bees to a target when the left button is released. This has to change, because changing the target is not enough. We have to use the FSM's here to make the bees go into attack mode. We'll see how we're gonna do that. 
+The current status of the game is this: The soldiers follow the queen using a Behavior Combo that consists of Arrival, Separation, Wander and Departure. They also look at where the queen is looking IF the queen is their current target. The user can select a number of bees by holding down the left mouse button, and send the bees to a target when the left button is released. This has to change, because changing the target is not enough. We have to use the FSM's here to make the bees go into attack mode. We'll see how we're gonna do that. 
 
 There is 3d sound support but the system is currently inactive. We should play around with sound after all the major parts are implemented. The user can also go into look-around mode, which is currently not working as it should so I'll take care of that. The scene Smiral sent me, the one with the PhysX boundaries is now the scene that we load. The walls work, although they should be placed better so that no object gets inside a mountain. 
 
