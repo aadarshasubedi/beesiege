@@ -79,3 +79,7 @@ We should meet one of these days. Let me know when... Cheers!
 *1-Nov-2007* - _Ruhi
 
 Wow, I can't wait to see the fog! I made the FSM code changes that we discussed this morning. I can meet tomorrow evening after 4:00pm. Saturday morning also works for me. I won't be available on Sunday and Monday.
+
+*1-Nov-2007* - _Vaios
+
+I fixed the look-around mode, so that the camera now moves to the head of the queen. Now I would rather meet u guys Saturday morning, does that work?
