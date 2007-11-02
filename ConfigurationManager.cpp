@@ -46,6 +46,8 @@ bool ConfigurationManager::ReadConfigurationFile(const char *file)
 				return false;
 			if (!ReadTimers(root->FirstChildElement("timers")))
 				return false;
+			if (!ReadScene(root->FirstChildElement("scene")))
+				return false;
 		}
 		else
 		{
@@ -380,7 +382,9 @@ bool ConfigurationManager::ReadQueen(TiXmlElement* node)
 	if (ReadFloat(queen_speedGain, node, "speedGain") &&
 		ReadFloat(queen_rotationGain, node, "rotationGain") &&
 		ReadFloat(queen_moveUpSpeedGain, node, "moveUpSpeedGain") &&
-		ReadFloat(queen_viewRadius, node, "viewRadius"))
+		ReadFloat(queen_viewRadius, node, "viewRadius") &&
+		ReadFloat(queen_maxHeight, node, "maxHeight") &&
+		ReadFloat(queen_fogScaleValue, node, "fogScaleValue"))
 	{
 		return true;
 	}
@@ -400,6 +404,25 @@ bool ConfigurationManager::ReadTimers(TiXmlElement* node)
 	if (!node) return false;
 
 	if (ReadFloat(timer_selectSoldiers, node, "selectSoldiersTimer"))
+	{
+		return true;
+	}
+
+	return false;
+}
+//------------------------------------------------------------------------
+/** 
+ * Reads scene
+ * 
+ * @param node
+ * 
+ * @return bool
+ */ 
+bool ConfigurationManager::ReadScene(TiXmlElement* node)
+{
+	if (!node) return false;
+
+	if (ReadFloat(scene_fogDefaultDepth, node, "fogDefaultDepth"))
 	{
 		return true;
 	}

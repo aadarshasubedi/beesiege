@@ -5,10 +5,12 @@
 #include "GameApp.h"
 #include "GameManager.h"
 #include "ResourceManager.h"
+#include "ConfigurationManager.h"
 #include "CameraController.h"
 #include "InputManager.h"
 #include "TextManager.h"
 #include "SoundManager.h"
+#include <NiFogProperty.h>
 
 #pragma comment(lib, "NiBinaryShaderLibDX9.lib")
 #pragma comment(lib, "NiD3D10BinaryShaderLibD3D10.lib")
@@ -66,7 +68,8 @@ bool GameApp::CreateScene()
     // correctly.5
     NiAlphaAccumulator* pkAccum = NiNew NiAlphaAccumulator;
     m_spRenderer->SetSorter(pkAccum);
-	m_spRenderer->SetBackgroundColor(NiColor(0.0, 0.0, 1.0));
+	NiColor backgroundColor(0.0, 0.46, 0.99);
+	m_spRenderer->SetBackgroundColor(backgroundColor);
 
     NiStream kStream;
 
@@ -84,6 +87,8 @@ bool GameApp::CreateScene()
 	bool bSuccess = ResourceManager::Get()->Init(&kStream, m_spRenderer);
 	if (!bSuccess) return false;
 
+	// load main scene (better to be done separately than doing it in 
+	// the ResourceManager, because it might have multiple PhysX props
     bSuccess = kStream.Load(
         NiApplication::ConvertMediaFilename("models/scene_physx4.nif"));
     
@@ -106,22 +111,16 @@ bool GameApp::CreateScene()
 			m_spPhysXScene->AddProp((NiPhysXProp*)pkObject);
 		}
 	}
-	/*
-	NiNodePtr temp = 0;
-	for (unsigned int i=0; i<kStream.GetObjectCount(); i++)
-	{
-		NiObject* pkObject = kStream.GetObjectAt(i);
-		if (NiIsKindOf(NiNode, pkObject) && !temp)
-		{
-			temp = (NiNode*)pkObject;
-		}
-		else if (NiIsKindOf(NiPhysXProp, pkObject))
-		{
-			m_spPhysXScene->AddProp((NiPhysXProp*)pkObject);
-		}
-	}
-    */
+	
     NIASSERT(NiIsKindOf(NiNode, m_spScene));
+
+	NiFogPropertyPtr fog = NiNew NiFogProperty;
+	fog->SetFog(true);
+	fog->SetDepth(ConfigurationManager::Get()->scene_fogDefaultDepth);
+	fog->SetFogFunction(NiFogProperty::FOG_RANGE_SQ);
+	fog->SetFogColor(backgroundColor);
+	m_spScene->AttachProperty(fog);
+
 
 	// init game manager
 	bSuccess = GameManager::Get()->Init(m_spScene, m_spPhysXScene, this);
