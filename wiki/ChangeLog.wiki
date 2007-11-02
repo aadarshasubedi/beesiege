@@ -82,4 +82,4 @@ Wow, I can't wait to see the fog! I made the FSM code changes that we discussed 
 
 *1-Nov-2007* - _Vaios
 
-I fixed the look-around mode, so that the camera now moves to the head of the queen. Now I would rather meet u guys Saturday morning, does that work?
+I fixed the look-around mode, so that the camera now moves to the head of the queen. Now I would rather meet u guys Saturday morning, does that work for you guys?
