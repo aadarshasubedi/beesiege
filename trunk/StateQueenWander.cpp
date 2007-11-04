@@ -1,4 +1,5 @@
 #include "State_Queen_Wander.h"
+#include "Queen.h"
 
 void StateQueenWander::Enter()
 {
@@ -8,7 +9,7 @@ void StateQueenWander::Update(int t)
 {
 	
 	FSMAIControl* control = m_control;
-	Queen* queen = ((FSMBeeAIControl*)m_control)->m_queen;
+	Queen* queen = ((FSMQueenAIControl*)m_control)->m_queen;
 	
 	//Call the queen behavior here:
 	//queen->SetTarget();
@@ -25,7 +26,7 @@ FSMState* StateQueenWander::CheckTransitions(int i)
 	}
 
 	//go back to follow queen state if target enemy is dead
-	else if(((FSMBeeAIControl*)m_control)->isHealthBelowZero)
+	else if(((FSMQueenAIControl*)m_control)->isHealthBelowZero)
 	{
 		//return the dead state
 		//that should end the game!

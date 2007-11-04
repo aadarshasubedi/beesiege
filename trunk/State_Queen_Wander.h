@@ -2,7 +2,7 @@
 #define STATEQUEENWANDER_H
 
 #include "FSMState.h"
-#include "FSMBeeAIControl.h"
+#include "FSMQueenAIControl.h"
 
 using namespace std;
 
