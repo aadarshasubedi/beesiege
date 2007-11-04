@@ -87,3 +87,13 @@ I fixed the look-around mode, so that the camera now moves to the head of the qu
 *1-Nov-2007* - _Smiral
 
 Saturday morning works fine with me. I will try and finish the scene by then (hoping that Maya doesn't crash on me big time). The fog sounds exciting... Wanna see that soon. 
+
+*3-Nov-2007* - _Ruhi
+
+I've added code to all the state files with the basic logic of transitions from one state to other states. Going from here, I will stitch the FSMMachine with the states so that we can just add a machine to every game character and they should behave according to their respective FSM.
+
+Also, as I see it, many of the current behaviors of the characters will be called through the update function in the state files. But we can should try not to make drastic changes to the working code because that may be too much effort.
+
+I have yet to complete a lot of this, so please have patience :)
+
+We would need new GameCharacter/GameObj to represent PowerUps..
