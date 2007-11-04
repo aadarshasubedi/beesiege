@@ -1,18 +1,17 @@
 #include "FSMQueenAIControl.h"
 #include "State_PowerUp.h"
 #include "State_Dead.h"
-#include "State_Idle.h"
-#include "State_FollowQueen.h"
+#include "State_Queen_Wander.h"
 
 FSMQueenAIControl::FSMQueenAIControl(Queen* queen)
 {
 	m_queen = queen;
 	m_queen_machine = NiNew FSMQueenMachine(FSM_MACH_BEE);
-	StateFollowQueen* idle = NiNew StateFollowQueen();
-	m_queen_machine->AddState(idle);
-	m_queen_machine->AddState(NiNew StatePowerUp());
-	m_queen_machine->AddState(NiNew StateDead());
-	m_queen_machine->SetDefaultState(idle);
+	StateQueenWander* wander = NiNew StateQueenWander(this);
+	m_queen_machine->AddState(wander);
+	m_queen_machine->AddState(NiNew StatePowerUp(this));
+	m_queen_machine->AddState(NiNew StateDead(this));
+	m_queen_machine->SetDefaultState(wander);
 }
 
 void FSMQueenAIControl::Update(int t)

@@ -1,5 +1,5 @@
 #include "FSMEnemyAIControl.h"
-#include "State_Attack.h"
+#include "State_Attack_Bee.h"
 #include "State_Dead.h"
 #include "State_Idle.h"
 
@@ -7,10 +7,10 @@ FSMEnemyAIControl::FSMEnemyAIControl(Locust* enemy)
 {
 	m_enemy = enemy;
 	m_enemy_machine = NiNew FSMEnemyMachine(FSM_MACH_ENEMY);
-	StateIdle* idle = NiNew StateIdle();
+	StateIdle* idle = NiNew StateIdle(this);
 	m_enemy_machine->AddState(idle);
-	m_enemy_machine->AddState(NiNew StateAttack());
-	m_enemy_machine->AddState(NiNew StateDead());
+	m_enemy_machine->AddState(NiNew StateAttackBee(this));
+	m_enemy_machine->AddState(NiNew StateDead(this));
 	m_enemy_machine->SetDefaultState(idle);
 }
 
@@ -28,7 +28,7 @@ void FSMEnemyAIControl::Update(int t)
 
 void FSMEnemyAIControl::UpdatePerceptions(int t)
 {
-	m_nearestBee = NULL; //Game.getClosestGameObj(m_bee,GameObj::OBJ_ENEMY)
+	m_TargetBee = NULL; //Game.getClosestGameObj(m_bee,GameObj::OBJ_ENEMY)
 	
 	//bee collision determination
 	m_willCollide = false;
@@ -38,7 +38,7 @@ void FSMEnemyAIControl::UpdatePerceptions(int t)
 	else
 		m_safetyRadius = 15.0f;
 
-	if(m_nearestBee)
+	if(m_TargetBee)
 	{
 		float speed = 0; //m_enemy->m_velocity.Norm
 		m_nearestBeeDist = 0; //m_nearestBee->m_position.Distance(m_enemy->m_poistion)

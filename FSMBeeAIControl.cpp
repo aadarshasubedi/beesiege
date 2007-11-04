@@ -1,5 +1,5 @@
 #include "FSMBeeAIControl.h"
-#include "State_Attack.h"
+#include "State_Attack_Enemy.h"
 #include "State_Dead.h"
 #include "State_PowerUp.h"
 #include "State_FollowQueen.h"
@@ -8,11 +8,11 @@ FSMBeeAIControl::FSMBeeAIControl(Bee* bee)
 {
 	m_bee = bee;
 	m_bee_machine = NiNew FSMBeeMachine(FSM_MACH_BEE);
-	StateFollowQueen* followQueen = NiNew StateFollowQueen();
+	StateFollowQueen* followQueen = NiNew StateFollowQueen(this);
 	m_bee_machine->AddState(followQueen);
-	m_bee_machine->AddState(NiNew StateAttack());
-	m_bee_machine->AddState(NiNew StatePowerUp());
-	m_bee_machine->AddState(NiNew StateDead());
+	m_bee_machine->AddState(NiNew StateAttackEnemy(this));
+	m_bee_machine->AddState(NiNew StatePowerUp(this));
+	m_bee_machine->AddState(NiNew StateDead(this));
 	m_bee_machine->SetDefaultState(followQueen);
 }
 
@@ -30,7 +30,7 @@ void FSMBeeAIControl::Update(int t)
 
 void FSMBeeAIControl::UpdatePerceptions(int t)
 {
-	m_nearestEnemy = NULL; //Game.getClosestGameObj(m_bee,GameObj::OBJ_ENEMY)
+	m_TargetEnemy = NULL; //Game.getClosestGameObj(m_bee,GameObj::OBJ_ENEMY)
 	m_nearestPowerUp = NULL; //Game.getClosestPowerUp(m_bee, GameObj::OBJ_POWERUP)
 
 	//bee collision determination
@@ -41,7 +41,7 @@ void FSMBeeAIControl::UpdatePerceptions(int t)
 	else
 		m_safetyRadius = 15.0f;
 
-	if(m_nearestEnemy)
+	if(m_TargetEnemy)
 	{
 		float speed = 0; //m_bee->m_velocity.Norm
 		m_nearestEnemyDist = 0; //m_nearestEnemy->m_position.Distance(m_bee->m_poistion)

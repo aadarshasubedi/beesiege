@@ -2,16 +2,17 @@
 #define STATEPOWERUP_H
 
 #include "FSMState.h"
-#include "FSMAIControl.h"
+#include "FSMQueenAIControl.h"
 
 using namespace std;
 
 class StatePowerUp: public FSMState
 {
 public:
-	StatePowerUp(int type=FSM_POWERUP)
+	StatePowerUp(FSMAIControl* control,int type=FSM_POWERUP)
 	{ 
 		m_type = type;
+		m_control = control;
 	}
 
 	void Enter();
@@ -21,6 +22,7 @@ public:
 	FSMState* CheckTransitions(int t);
 
 	int m_type;
+	FSMAIControl* m_control;
 };
 
 NiSmartPointer(StatePowerUp);
