@@ -96,4 +96,4 @@ Also, as I see it, many of the current behaviors of the characters will be calle
 
 I have yet to complete a lot of this, so please have patience :)
 
-We would need new GameCharacter/GameObj to represent PowerUps..
+We would need new GameCharacter`/GameObj to represent PowerUps..
