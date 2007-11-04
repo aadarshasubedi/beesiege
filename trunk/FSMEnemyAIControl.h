@@ -12,7 +12,11 @@ class FSMEnemyAIControl: public FSMAIControl
 public:
 	FSMEnemyAIControl(Locust* locust);
 	
-	GameObj* m_nearestBee;
+	GameObj* m_TargetBee;
+	bool isHealthBelowZero; //should be set in the UpdatePerceptions method
+	bool isTargetDead;
+	GameObj* m_queenBee;
+
 	float m_nearestBeeDist;
 	float m_distFromQueen;
 	NiPoint3 m_collidePt;
@@ -23,7 +27,6 @@ public:
 	void UpdatePerceptions(int t);
 	void Init();
 
-private:
 	FSMEnemyMachine* m_enemy_machine;
 	Locust* m_enemy;
 };

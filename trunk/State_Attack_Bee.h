@@ -1,15 +1,15 @@
-#ifndef STATEIDLE_H
-#define STATEIDLE_H
+#ifndef STATEATTACKBEE_H
+#define STATEATTACKBEE_H
 
 #include "FSMState.h"
 #include "FSMEnemyAIControl.h"
 
 using namespace std;
 
-class StateIdle: public FSMState
+class StateAttackBee: public FSMState
 {
 public:
-	StateIdle(FSMAIControl* control, int type=FSM_IDLE)
+	StateAttackBee(FSMAIControl* control, int type=FSM_ATTACK_BEE)
 	{ 
 		m_type = type;
 		m_control = control;
@@ -25,6 +25,6 @@ public:
 	FSMAIControl* m_control;
 };
 
-NiSmartPointer(StateIdle);
+NiSmartPointer(StateAttackBee);
 
 #endif

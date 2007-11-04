@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class FSMMachine: public GameObj
+class FSMMachine: public FSMState
 {
 public:
 	FSMMachine(int type = FSM_MACH_NONE)

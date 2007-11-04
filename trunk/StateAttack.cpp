@@ -1,26 +1,26 @@
-#include "State_Attack.h"
+#include "State_Attack_Enemy.h"
 
-void StateAttack::Enter()
+void StateAttackEnemy::Enter()
 {
-
+	//play animation for attack
 }
-void StateAttack::Update(int t)
+void StateAttackEnemy::Update(int t)
 {
-
+	
 }
 
-FSMState* StateAttack::CheckTransitions(int i)
+FSMState* StateAttackEnemy::CheckTransitions(int i)
 {
 	FSMState* dummyState = NiNew FSMState();
 	return dummyState;
 }
 
-void StateAttack::Exit()
+void StateAttackEnemy::Exit()
 {
 
 }
 
-void StateAttack::Init()
+void StateAttackEnemy::Init()
 {
 
 }

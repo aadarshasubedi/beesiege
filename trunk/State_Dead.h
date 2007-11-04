@@ -9,9 +9,10 @@ using namespace std;
 class StateDead: public FSMState
 {
 public:
-	StateDead(int type=FSM_DEAD)
+	StateDead(FSMAIControl* control, int type=FSM_DEAD)
 	{ 
 		m_type = type;
+		m_control = control;
 	}
 
 	void Enter();
@@ -21,6 +22,7 @@ public:
 	FSMState* CheckTransitions(int t);
 
 	int m_type;
+	FSMAIControl* m_control;
 };
 
 NiSmartPointer(StateDead);

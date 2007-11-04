@@ -9,10 +9,17 @@ using namespace std;
 
 class FSMBeeAIControl: public FSMAIControl
 {
+public:
 	FSMBeeAIControl(Bee* bee);
-		
-	GameObj* m_nearestEnemy;
+
+	GameObj* m_TargetEnemy;
+	bool isHealthBelowZero; //should be set in the UpdatePerceptions method
+	bool isTargetDead;
+	bool issuedAttackCommand; //this should become false once the bee goes into attack state
+	GameObj* m_queenBee;
+
 	GameObj* m_nearestPowerUp;
+
 	float m_nearestEnemyDist;
 	float m_nearestPowerUpDist;
 	NiPoint3 m_collidePt;
@@ -24,7 +31,6 @@ class FSMBeeAIControl: public FSMAIControl
 	void UpdatePerceptions(int t);
 	void Init();
 
-private:
 	FSMBeeMachine* m_bee_machine;
 	Bee* m_bee;
 };
