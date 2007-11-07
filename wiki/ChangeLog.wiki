@@ -113,3 +113,15 @@ Once that is done, we will have to sit together to see how and where in the code
 Oh, since it's too painful to review code, I wouldn't expect you guys to do that but there may be some errors that I've overlooked and we may have to resolve those during integration.
 
 -Ruhi
+
+*7-Nov-2007* - _Smiral
+
+Hi, 
+Finally I have completed the model covered with Physx objects ... Phew... 
+My final count of number of models I saved in this process is somewhere around 55. 
+
+Anyways, its done now... Guys I am mailing out the nif file. Vaios please check it out if the scene works fine.... and if there are any noticeable inaccuracies in making the models. Also the height of physx objects for every mountain is higher than it seems. 
+
+We might need to export this scene again from Vaios's comp as my nif exporter does not export the textures. But that can be worked out later. 
+
+- Smiral
