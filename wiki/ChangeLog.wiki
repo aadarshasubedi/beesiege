@@ -104,10 +104,12 @@ Guys, am still working on the model.... Its taking quite a long time... I am lik
 
 *6-Nov-2007* - _Ruhi
 
-I modified all the FSMState files to complete the CheckTransitions methods which means that the algo for changing from one state to another now makes sense.
+I modified all the FSMState files to complete the CheckTransitions methods which means that the algo for changing from one state to another now makes sense. How we want the characters to behave in each state will require some more work in both the FSM and the existing Game code.
 
 I have defined the UpdatePerceptions method in AIControl files. Vaios, if you check my comments in these methods, you will know exactly what new getter methods I need in the Bee, Queen and Locust files. They should be small to implement. If you finish those, you can just uncomment my lines of code in my files or let me know and I'll do it.
 
 Once that is done, we will have to sit together to see how and where in the code do we attach the FSMMachines to the characters. I hope it won't be too hard!
+
+Oh, since it's too painful to review code, I wouldn't expect you guys to do that but there may be some errors that I've overlooked and we may have to resolve those during integration.
 
 -Ruhi
