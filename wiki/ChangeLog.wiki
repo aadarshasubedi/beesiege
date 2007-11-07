@@ -101,3 +101,13 @@ We would need new GameCharacter to represent PowerUps.
 *4-Nov-2007* - _Smiral
 
 Guys, am still working on the model.... Its taking quite a long time... I am like 40% done and am planning to be done in a day.
+
+*6-Nov-2007* - _Ruhi
+
+I modified all the FSMState files to complete the CheckTransitions methods which means that the algo for changing from one state to another now makes sense.
+
+I have defined the UpdatePerceptions method in AIControl files. Vaios, if you check my comments in these methods, you will know exactly what new getter methods I need in the Bee, Queen and Locust files. They should be small to implement. If you finish those, you can just uncomment my lines of code in my files or let me know and I'll do it.
+
+Once that is done, we will have to sit together to see how and where in the code do we attach the FSMMachines to the characters. I hope it won't be too hard!
+
+-Ruhi
