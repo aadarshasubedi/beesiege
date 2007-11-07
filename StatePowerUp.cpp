@@ -21,30 +21,29 @@ void StatePowerUp::Update(int t)
 
 FSMState* StatePowerUp::CheckTransitions(int i)
 {
+	//return the current state by default
+	FSMState* nextState = ((FSMQueenAIControl*)m_control)->m_queen_machine->m_currentState;
 
-	FSMAIControl* control = m_control;
 	if((((FSMQueenAIControl*)m_control)->isPowerUpEmpty) || (((FSMQueenAIControl*)m_control)->isHealthFull))
 	{
 		//tell the user that the powerup is used up or the health is full
 		//return the queen wander state
+		nextState = ((FSMQueenAIControl*)m_control)->m_queen_machine->GetState(FSM_QUEEN_WANDER);
 	}
 
-	//go back to follow queen state if target enemy is dead
 	else if(((FSMQueenAIControl*)m_control)->isHealthBelowZero)
 	{
 		//return the dead state
 		//end the game here?
+		nextState = ((FSMQueenAIControl*)m_control)->m_queen_machine->GetState(FSM_QUEEN_DEAD);
 	}
 
-	//return the powerup state by default
-
-	FSMState* dummyState = NiNew FSMState();
-	return dummyState;
+	return nextState;
 }
 
 void StatePowerUp::Exit()
 {
-
+	((FSMQueenAIControl*)m_control)->issuedPowerUpCommand = false;
 }
 
 void StatePowerUp::Init()

@@ -13,12 +13,13 @@ void FSMMachine::UpdateMachine(int t)
 
 	//update current state and check for transition
 	int oldStateId = m_currentState->m_type;
-	m_goalId = m_currentState->CheckTransitions(t);
+	FSMState* oldState =m_currentState;
+	m_goalState = m_currentState->CheckTransitions(t);
 
 	//change states if there was a transition
-	//if(m_goalId != oldStateId)
+	if(m_goalState != oldState)
 	{
-		if(TransitionState(m_goalId))
+		//if(TransitionState(m_goalState))
 		{
 			m_currentState->Exit();
 			m_currentState = m_goalState;
@@ -28,9 +29,40 @@ void FSMMachine::UpdateMachine(int t)
 	m_currentState->Update(t);
 }
 
+void FSMMachine::AddState(FSMState* state)
+{
+	if(state)
+		m_states.push_back(state);
+
+}
+
 bool FSMMachine::TransitionState(FSMState* state)
 {
 	//todo
 	return true;
 }
+
+FSMState* FSMMachine::GetState(int stateId)
+{
+	FSMState* state;
+	int numStates = m_states.size();
+	for(int i = 0; i< numStates; i++)
+	{
+		if(m_states.at(i)->m_type == stateId)
+		{
+			state = m_states.at(i);
+			break;
+		}
+	}
+	return state;
+}
+
+void FSMMachine::Reset()
+{
+	m_states.clear();
+	m_currentState = 0;
+	m_defaultState = 0;
+	m_goalState = 0;
+}
+
 

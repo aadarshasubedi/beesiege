@@ -8,7 +8,6 @@ void StateAttackEnemy::Update(int t)
 {
 	//here the bee attacks the enemy
 
-	FSMAIControl* control = m_control;
 	GameObj* enemy = ((FSMBeeAIControl*)m_control)->m_TargetEnemy;
 	Bee* bee = ((FSMBeeAIControl*)m_control)->m_bee;
 
@@ -21,38 +20,30 @@ void StateAttackEnemy::Update(int t)
 
 FSMState* StateAttackEnemy::CheckTransitions(int i)
 {
-	//get the health of this bee 
+	//return the current state by default
+	FSMState* nextState = ((FSMBeeAIControl*)m_control)->m_bee_machine->m_currentState;
 
-	FSMAIControl* control = m_control;
 	if(((FSMBeeAIControl*)m_control)->isHealthBelowZero)
 	{
-		//In order to return a state object we have to do as below...but i don't think that's right
-		//so we may need to return integers that represent the state and the FSMMachine should take care whether
-		//it is a valid transition id and then go to the next state
-
-		/*StateDead* deadState = NiNew StateDead(control);
-		return deadState;*/
-
 		//return the dead state
+		nextState = ((FSMBeeAIControl*)m_control)->m_bee_machine->GetState(FSM_BEE_DEAD);
 	}
 
 	//go back to follow queen state if target enemy is dead
 	else if(((FSMBeeAIControl*)m_control)->isTargetDead)
 	{
-		//For now please consider the idle state as the "seek" state
 		//return the follow queen state
+		nextState = ((FSMBeeAIControl*)m_control)->m_bee_machine->GetState(FSM_FOLLOW_QUEEN);
 	}
-
 	
-	//return the same state - attack enemy
-	FSMState* dummyState = NiNew FSMState();
-	return dummyState;
+	return nextState;
 }
 
 void StateAttackEnemy::Exit()
 {
 	//is the bee supposed to do anything special as it exits the attack state?
 	// that logic would come here
+	((FSMBeeAIControl*)m_control)->issuedAttackCommand = false;
 }
 
 void StateAttackEnemy::Init()

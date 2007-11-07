@@ -13,18 +13,15 @@ public:
 	}
 
 	void UpdateMachine(int i);
-	void AddState(FSMState* state);
 	void SetDefaultState(FSMState* state)
 	{ 
 		m_defaultState = state;
 	}
 	void SetGoalID(FSMState* state)
 	{
-		m_goalId = state;
+		m_goalState = state;
 	}
 	bool TransitionState(FSMState* state);
-	void Reset();
-
 };
 
 NiSmartPointer(FSMQueenMachine);

@@ -5,6 +5,8 @@
 #include "Queen.h"
 #include "FSMQueenMachine.h"
 
+#define FULL_HEALTH 100.0
+
 using namespace std;
 
 class FSMQueenAIControl: public FSMAIControl
@@ -19,13 +21,8 @@ public:
 	bool isPowerUpEmpty;
 	GameObj* m_nearestEnemy;
 	GameObj* m_nearestPowerUp;
-	float m_nearestEnemyDist;
-	float m_nearestPowerUpDist;
-	NiPoint3 m_collidePt;
-	bool m_willCollide;
-	bool m_powerUpNear;
-	float m_safetyRadius;
-
+	float m_health;
+	
 	void Update(int t);
 	void UpdatePerceptions(int t);
 	void Init();

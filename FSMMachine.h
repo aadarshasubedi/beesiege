@@ -15,17 +15,18 @@ public:
 	}
 
 	virtual void UpdateMachine(int t) = 0;
-	virtual void AddState(FSMState* state) = 0;
+	void AddState(FSMState* state);
 	virtual void SetDefaultState(FSMState* state)
 	{ 
 		m_defaultState = state;
 	}
 	virtual void SetGoalID(FSMState* state)
 	{
-		m_goalId = state;
+		m_goalState = state;
 	}
 	virtual bool TransitionState(FSMState* state);
-	virtual void Reset() = 0;
+	void Reset();
+	FSMState* GetState(int stateId);
 
 	int m_type;
 
@@ -33,7 +34,7 @@ public:
 	FSMState* m_currentState;
 	FSMState* m_defaultState;
 	FSMState* m_goalState;
-	FSMState* m_goalId;
+	//FSMState* m_goalState;
 
 };
 

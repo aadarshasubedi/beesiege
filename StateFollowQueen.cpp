@@ -16,27 +16,25 @@ void StateFollowQueen::Update(int t)
 
 	//Call the bee follow queen behavior here:
 	bee->SetTarget((GameCharacter*)queen);
-
 }
 
 FSMState* StateFollowQueen::CheckTransitions(int i)
 {
-	//get the health of this enemy character
-	FSMAIControl* control = m_control;
+	//return the current state by default
+	FSMState* nextState = ((FSMBeeAIControl*)m_control)->m_bee_machine->m_currentState;
 
 	if(((FSMBeeAIControl*)m_control)->issuedAttackCommand)
 	{
 		//return attack state
+		nextState = ((FSMBeeAIControl*)m_control)->m_bee_machine->GetState(FSM_ATTACK_ENEMY);
 	}
 	else if(((FSMBeeAIControl*)m_control)->isHealthBelowZero)
 	{
 		//return the dead state
+		nextState = ((FSMBeeAIControl*)m_control)->m_bee_machine->GetState(FSM_BEE_DEAD);
 	}
 
-	//return the follow queen state by default
-	
-	FSMState* dummyState = NiNew FSMState();
-	return dummyState;
+	return nextState;
 }
 
 void StateFollowQueen::Exit()

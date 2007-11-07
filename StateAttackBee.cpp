@@ -24,30 +24,23 @@ void StateAttackBee::Update(int t)
 
 FSMState* StateAttackBee::CheckTransitions(int i)
 {
-	//get the health of this enemy character
-	FSMAIControl* control = m_control;
+	//return the current state by default
+	FSMState* nextState = ((FSMEnemyAIControl*)m_control)->m_enemy_machine->m_currentState;
+
 	if(((FSMEnemyAIControl*)m_control)->isHealthBelowZero)
-	{
-		//In order to return a state object we have to do as below...but i don't think that's right
-		//so we may need to return integers that represent the state and the FSMMachine should take care whether
-		//it is a valid transition id and then go to the next state
-
-		/*StateDead* deadState = NiNew StateDead(control);
-		return deadState;*/
-
+	{	
 		//return dead state
+		nextState = ((FSMEnemyAIControl*)m_control)->m_enemy_machine->GetState(FSM_ENEMY_DEAD);
 	}
 	else if(((FSMEnemyAIControl*)m_control)->isTargetDead)
 	{
 		//For now please consider the idle state as the "seek" state of the enemy
-		
 		//return the idle state
+		nextState = ((FSMEnemyAIControl*)m_control)->m_enemy_machine->GetState(FSM_IDLE);
 	}
 
 	//return the Attack state by default
-
-	FSMState* dummyState = NiNew FSMState();
-	return dummyState;
+	return nextState;
 
 }
 

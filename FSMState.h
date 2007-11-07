@@ -10,9 +10,11 @@ class FSMState: public GameObj
 {
 	
 public:
-	FSMState(int type=FSM_STATE_NONE)
+	FSMState() {}
+	FSMState(FSMAIControl* control, int type=FSM_STATE_NONE)
 	{ 
 		m_type = type;
+		m_control = control;
 	}
 
 	virtual void Enter();                 
@@ -21,6 +23,7 @@ public:
 	virtual void Init();
 	virtual FSMState* CheckTransitions(int t);
 	int m_type;
+	FSMAIControl* m_control;
 };
 
 NiSmartPointer(FSMState);

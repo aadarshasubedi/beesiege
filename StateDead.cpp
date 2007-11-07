@@ -14,17 +14,15 @@ void StateDead::Update(int t)
 FSMState* StateDead::CheckTransitions(int i)
 {
 	//always return the dead state
+	FSMState* nextState; //= (m_control)->m_machine->m_currentState;
 	
-	FSMState* dummyState = NiNew FSMState();
-	return dummyState;
+	return nextState;
 }
 
 void StateDead::Exit()
 {
 	FSMAIControl* control = m_control;
-	GameCharacter* character = m_control->m_character;
-
-	delete character;
+	delete m_control->m_character;
 }
 
 void StateDead::Init()
