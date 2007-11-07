@@ -1,6 +1,6 @@
 #include "FSMEnemyAIControl.h"
 #include "State_Attack_Bee.h"
-#include "State_Dead.h"
+#include "State_Enemy_Dead.h"
 #include "State_Idle.h"
 
 FSMEnemyAIControl::FSMEnemyAIControl(Locust* enemy)
@@ -10,7 +10,7 @@ FSMEnemyAIControl::FSMEnemyAIControl(Locust* enemy)
 	StateIdle* idle = NiNew StateIdle(this);
 	m_enemy_machine->AddState(idle);
 	m_enemy_machine->AddState(NiNew StateAttackBee(this));
-	m_enemy_machine->AddState(NiNew StateDead(this));
+	m_enemy_machine->AddState(NiNew StateEnemyDead(this));
 	m_enemy_machine->SetDefaultState(idle);
 }
 
@@ -28,41 +28,27 @@ void FSMEnemyAIControl::Update(int t)
 
 void FSMEnemyAIControl::UpdatePerceptions(int t)
 {
-	m_TargetBee = NULL; //Game.getClosestGameObj(m_bee,GameObj::OBJ_ENEMY)
-	
-	//bee collision determination
-	m_willCollide = false;
+	//We need to get the closest bee to the bee here
+	//m_TargetBee = m_enemy->getNearestBee();
 
-	if(m_willCollide)
-		m_safetyRadius = 30.0f;
-	else
-		m_safetyRadius = 15.0f;
+	//get the health of the enemy here
+	//m_health = m_enemy->getHealth();
+	if(m_health <= 0.0)
+		isHealthBelowZero = true;
 
 	if(m_TargetBee)
 	{
-		float speed = 0; //m_enemy->m_velocity.Norm
-		m_nearestBeeDist = 0; //m_nearestBee->m_position.Distance(m_enemy->m_poistion)
+		float beeHealth;
+		//get target enemy health here
+		//enemyHealth = m_TargetEnemy->getHealth();
 
-		float dotVel;
-		NiPoint3 normDelta(0,0,0); //m_nearestBee->m_position - m_enemy->m_position;
-		normDelta.Unitize(); //I am guessing this means Normalize???
-
-		float beeSpeed = 0; //m_nearestEnemy->m_velocity.Norm()
-
-		if(speed > beeSpeed)
-			dotVel = 0; //DOT(m_enemy->UnitVectorVelocity(),normDelta);
-		else
-		{
-			speed = beeSpeed;
-			dotVel = 0; //DOT(m_nearestEnemy->UnitVectorVelocity(),normDelta);
-
-		}
-		float speedAdj = 0; //LERP(speed/AI_MAX_SPEED,0.0f,50.0f)*dotVel
-		float adjSafetyRadius = 0; //m_safetyRadius + speedAdj + m_nearestEnemy->m_size
-
-		if(m_nearestBeeDist <= adjSafetyRadius && dotVel > 0)
-			m_willCollide = true;
+		if(beeHealth <= 0.0)
+			isTargetDead = true;
+	
 	}
+	
+	//determine distance from queen
+	//m_distFromQueen = m_enemy->getDistanceFromQueen();
 
 }
 

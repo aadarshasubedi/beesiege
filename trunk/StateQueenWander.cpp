@@ -19,23 +19,22 @@ void StateQueenWander::Update(int t)
 FSMState* StateQueenWander::CheckTransitions(int i)
 {
 	
-	FSMAIControl* control = m_control;
+	//return the current state by default
+	FSMState* nextState = ((FSMQueenAIControl*)m_control)->m_queen_machine->m_currentState;
+
 	if(((FSMQueenAIControl*)m_control)->issuedPowerUpCommand)
 	{
 		//return the PowerUp State
+		nextState = ((FSMQueenAIControl*)m_control)->m_queen_machine->GetState(FSM_POWERUP);
 	}
-
-	//go back to follow queen state if target enemy is dead
 	else if(((FSMQueenAIControl*)m_control)->isHealthBelowZero)
 	{
 		//return the dead state
 		//that should end the game!
+		nextState = ((FSMQueenAIControl*)m_control)->m_queen_machine->GetState(FSM_QUEEN_DEAD);
 	}
 
-	//return the wander behavior by default
-
-	FSMState* dummyState = NiNew FSMState();
-	return dummyState;
+	return nextState;
 }
 
 void StateQueenWander::Exit()

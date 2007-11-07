@@ -1,6 +1,6 @@
 #include "FSMQueenAIControl.h"
 #include "State_PowerUp.h"
-#include "State_Dead.h"
+#include "State_Queen_Dead.h"
 #include "State_Queen_Wander.h"
 
 FSMQueenAIControl::FSMQueenAIControl(Queen* queen)
@@ -10,7 +10,7 @@ FSMQueenAIControl::FSMQueenAIControl(Queen* queen)
 	StateQueenWander* wander = NiNew StateQueenWander(this);
 	m_queen_machine->AddState(wander);
 	m_queen_machine->AddState(NiNew StatePowerUp(this));
-	m_queen_machine->AddState(NiNew StateDead(this));
+	m_queen_machine->AddState(NiNew StateQueenDead(this));
 	m_queen_machine->SetDefaultState(wander);
 }
 
@@ -28,55 +28,33 @@ void FSMQueenAIControl::Update(int t)
 
 void FSMQueenAIControl::UpdatePerceptions(int t)
 {
-	m_nearestEnemy = NULL; //Game.getClosestGameObj(m_queen,GameObj::OBJ_ENEMY)
-	m_nearestPowerUp = NULL; //Game.getClosestPowerUp(m_queen, GameObj::OBJ_POWERUP)
+	bool issuedPowerUpCommand;
+	bool isHealthBelowZero;
+	bool isHealthFull;
 
-	//bee collision determination
-	m_willCollide = false;
+	bool isPowerUpEmpty;
+	GameObj* m_nearestEnemy;
+	GameObj* m_nearestPowerUp;
+	
+	//get the health of the queen here
+	//m_health = m_queen->getHealth();
+	if(m_health <= 0.0)
+		isHealthBelowZero = true;
 
-	if(m_willCollide)
-		m_safetyRadius = 30.0f;
-	else
-		m_safetyRadius = 15.0f;
+	if(m_health >= FULL_HEALTH)
+		isHealthFull = true;
 
-	if(m_nearestEnemy)
-	{
-		float speed = 0; //m_queen->m_velocity.Norm
-		m_nearestEnemyDist = 0; //m_nearestEnemy->m_position.Distance(m_queen->m_poistion)
+	//get nearest power up here
+	//m_nearestPowerUp = m_queen->getNearestPowerUp();
 
-		float dotVel;
-		NiPoint3 normDelta(0,0,0); //m_nearestEnemy->m_position - m_queen->m_position;
-		normDelta.Unitize(); //I am guessing this means Normalize???
+	//check the powerUp capacity
+	//if(m_nearestPowerUp->getCapacity() <= 0.0)
+		//isPowerUpEmpty = true; 
 
-		float enemySpeed = 0; //m_nearestEnemy->m_velocity.Norm()
-
-		if(speed > enemySpeed)
-			dotVel = 0; //DOT(m_queen->UnitVectorVelocity(),normDelta);
-		else
-		{
-			speed = enemySpeed;
-			dotVel = 0; //DOT(m_nearestEnemy->UnitVectorVelocity(),normDelta);
-
-		}
-		float speedAdj = 0; //LERP(speed/AI_MAX_SPEED,0.0f,50.0f)*dotVel
-		float adjSafetyRadius = 0; //m_safetyRadius + speedAdj + m_nearestEnemy->m_size
-
-		if(m_nearestEnemyDist <= adjSafetyRadius && dotVel > 0)
-			m_willCollide = true;
-	}
-
-	if(m_nearestPowerUp)
-	{
-		m_nearestPowerUpDist = 0; //m_nearestPowerUp->m_position.Distance(m_queen->m_position)
-
-		if(m_nearestPowerUpDist <= POWERUP_SCAN_DIST)
-		{
-			m_powerUpNear = true;
-		}
-
-	}
-
-
+    //check if user has issued powerup command
+	//if(m_queen->issuedPowerUp)
+		//issuedPowerUpCommand = true;
+	
 }
 
 

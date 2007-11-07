@@ -6,7 +6,6 @@
 #include "FSM.h"
 #include <NiPoint3.h>
 #include "GameCharacter.h"
-#include "FSMState.h"
 
 using namespace std;
 
@@ -21,6 +20,7 @@ public:
 	virtual void Init();
 
 	GameCharacter* m_character;
+	//FSMMachine* m_machine;
 };
 
 NiSmartPointer(FSMAIControl);

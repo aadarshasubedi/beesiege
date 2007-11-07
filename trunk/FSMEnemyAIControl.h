@@ -17,12 +17,9 @@ public:
 	bool isTargetDead;
 	GameObj* m_queenBee;
 
-	float m_nearestBeeDist;
 	float m_distFromQueen;
-	NiPoint3 m_collidePt;
-	bool m_willCollide;
-	float m_safetyRadius;
-
+	float m_health;
+	
 	void Update(int t);
 	void UpdatePerceptions(int t);
 	void Init();

@@ -16,21 +16,21 @@ void StateIdle::Update(int t)
 
 FSMState* StateIdle::CheckTransitions(int i)
 {
-	//get the health of this character
-	FSMAIControl* control = m_control;
+	//return the current state by default
+	FSMState* nextState = ((FSMEnemyAIControl*)m_control)->m_enemy_machine->m_currentState;
+
 	if(((FSMEnemyAIControl*)m_control)->isHealthBelowZero)
-	{
+	{	
 		//return dead state
+		nextState = ((FSMEnemyAIControl*)m_control)->m_enemy_machine->GetState(FSM_ENEMY_DEAD);
 	}
 	else if(((FSMEnemyAIControl*)m_control)->m_distFromQueen < 30.0) //please use appropriate threshold
 	{	
 		//return the attack state
+		nextState = ((FSMEnemyAIControl*)m_control)->m_enemy_machine->GetState(FSM_ATTACK_BEE);
 	}
 
-	//return the Attack state by default
-
-	FSMState* dummyState = NiNew FSMState();
-	return dummyState;
+	return nextState;
 }
 
 void StateIdle::Exit()

@@ -17,15 +17,8 @@ public:
 	bool isTargetDead;
 	bool issuedAttackCommand; //this should become false once the bee goes into attack state
 	GameObj* m_queenBee;
-
+	float m_health;
 	GameObj* m_nearestPowerUp;
-
-	float m_nearestEnemyDist;
-	float m_nearestPowerUpDist;
-	NiPoint3 m_collidePt;
-	bool m_willCollide;
-	bool m_powerUpNear;
-	float m_safetyRadius;
 
 	void Update(int t);
 	void UpdatePerceptions(int t);
