@@ -9,10 +9,9 @@ using namespace std;
 class StateIdle: public FSMState
 {
 public:
-	StateIdle(FSMAIControl* control, int type=FSM_IDLE)
+	StateIdle(FSMAIControl* control, int type=FSM_IDLE) :
+	  FSMState(control, type)
 	{ 
-		m_type = type;
-		m_control = control;
 	}
 
 	void Enter();

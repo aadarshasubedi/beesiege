@@ -18,7 +18,7 @@
  * Ctor
  * 
  */
-Locust::Locust() : GameCharacter(ResourceManager::RES_MODEL_LOCUST)
+Locust::Locust() : Enemy(ResourceManager::RES_MODEL_LOCUST)
 					
 {
 }
@@ -39,6 +39,7 @@ Locust::~Locust()
  */
 void Locust::DoExtraUpdates(float fTime)
 {
+
 	// if there is a current target follow it
 	if (m_pTarget)
 	{
@@ -62,7 +63,7 @@ void Locust::DoExtraUpdates(float fTime)
  */
 bool Locust::DoExtraInits()
 {
-	if (!GameCharacter::DoExtraInits())
+	if (!Enemy::DoExtraInits())
 	{
 		return false;
 	}
@@ -71,13 +72,16 @@ bool Locust::DoExtraInits()
 	NiTPointerList<BehaviorPtr> lBehavior;
 	lBehavior.AddTail(NiNew Arrival());
 	lBehavior.AddTail(NiNew Wander());
+	lBehavior.AddTail(NiNew Departure(true));
 
 	float arrivalC    = 0.5f;
-	float wanderC     = 0.5f;
+	float wanderC     = 0.2f;
+	float departureC  = 1.5f;
 
 	NiTPointerList<float> lBehaviorCoef;
 	lBehaviorCoef.AddTail(arrivalC);
 	lBehaviorCoef.AddTail(wanderC);
+	lBehaviorCoef.AddTail(departureC);
 	//lBehaviorCoef.AddTail(separationC);
 
 	// set the behavior

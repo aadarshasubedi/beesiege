@@ -14,13 +14,13 @@ void StateEnemyDead::Update(int t)
 FSMState* StateEnemyDead::CheckTransitions(int i)
 {
 	//always return the dead state
-	FSMState* nextState = ((FSMEnemyAIControl*)m_control)->m_enemy_machine->m_currentState;
+	FSMState* nextState = ((FSMEnemyAIControl*)m_control)->m_machine->m_currentState;
 	return nextState;
 }
 
 void StateEnemyDead::Exit()
 {
-	FSMAIControl* control = m_control;
+	//FSMAIControl* control = m_control;
 	//delete ((FSMEnemyAIControl*)m_control)->m_enemy;
 }
 

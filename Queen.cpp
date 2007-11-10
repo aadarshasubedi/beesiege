@@ -169,7 +169,7 @@ void Queen::AddSoldier(BeePtr soldier)
  * 
  * @param enemies
  */
-void Queen::CycleTarget(const NiTPointerList<GameCharacterPtr>& enemies)
+void Queen::CycleTarget(const NiTPointerList<EnemyPtr>& enemies)
 {
 	if (enemies.IsEmpty()) return;
 
@@ -306,8 +306,9 @@ void Queen::StopSelectingSoldiers()
 	for (int i=0; i<m_lSelectedSoldiers.GetSize(); i++)
 	{
 		BeePtr soldier = m_lSelectedSoldiers.Get(it);
-		soldier->SetEmmitance(NiColor(0.0, 0.0, 0.0));
-		soldier->SetTarget(m_spCurrentTarget);
+		soldier->Attack(m_spCurrentTarget);
+		//soldier->SetEmmitance(NiColor(0.0, 0.0, 0.0));
+		//soldier->SetTarget(m_spCurrentTarget);
 		it = m_lSelectedSoldiers.GetNextPos(it);
 	}
 	m_lSelectedSoldiers.RemoveAll();

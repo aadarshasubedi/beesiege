@@ -1,4 +1,5 @@
 #include "State_Queen_Dead.h"
+#include "FSMMachine.h"
 
 void StateQueenDead::Enter()
 {
@@ -14,7 +15,7 @@ void StateQueenDead::Update(int t)
 FSMState* StateQueenDead::CheckTransitions(int i)
 {
 	//always return the dead state
-	FSMState* nextState = ((FSMQueenAIControl*)m_control)->m_queen_machine->m_currentState;
+	FSMState* nextState = ((FSMQueenAIControl*)m_control)->m_machine->m_currentState;
 	return nextState;
 }
 

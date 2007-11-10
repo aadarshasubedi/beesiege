@@ -15,15 +15,15 @@
 #include "Departure.h"
 #include "Agent.h"
 #include <NiMaterialProperty.h>
-
-
+#include "FSMBeeAIControl.h"
 
 //------------------------------------------------------------------------
 /** 
  * Ctor
  * 
  */
-Bee::Bee() : GameCharacter(ResourceManager::RES_MODEL_BEE)
+Bee::Bee() : GameCharacter(ResourceManager::RES_MODEL_BEE),
+			 m_bAttackCommandIssued(false)
 {
 }
 //------------------------------------------------------------------------
@@ -36,6 +36,15 @@ Bee::~Bee()
 	m_spSound = 0;  
 }
 //------------------------------------------------------------------------
+/**
+* Lets the AI control know of the attack command
+*/
+void Bee::Attack (GameCharacterPtr target)
+{
+	m_bAttackCommandIssued  = true;
+	m_pTarget = target;
+}
+//------------------------------------------------------------------------
 /** 
  * Update the target the bee's controller
  * 
@@ -43,21 +52,19 @@ Bee::~Bee()
  */
 void Bee::DoExtraUpdates(float fTime)
 {
+	if (m_pAIControl)
+	{
+		m_pAIControl->Update(fTime);
+	}
+
 	if (m_pTarget)
 	{
 		NxVec3 target = m_pTarget->GetAgent()->GetActor()->getGlobalPosition();
 		m_spAgent->Update(target);
-		if (m_pTarget == (GameCharacter*)GameManager::Get()->GetQueen())
-		{
-			m_spAgent->GetActor()->setGlobalOrientation(m_pTarget->GetAgent()->GetActor()->getGlobalOrientation());
-		}
-		else
-		{
-			m_spAgent->LookAt(target);
-		}
-
 	}
-
+	/*
+	
+	*/
 	//m_spSound->Update(m_spAgent->GetActor()->getGlobalPosition()/50.0f,
 	//	m_spAgent->GetActor()->getLinearVelocity()/50.0f);
 
@@ -82,10 +89,10 @@ bool Bee::DoExtraInits()
 	lBehavior.AddTail(NiNew Arrival());
 	lBehavior.AddTail(NiNew Wander());
 	lBehavior.AddTail(NiNew Departure());
-	lBehavior.AddTail(NiNew Separation());
+	//lBehavior.AddTail(NiNew Separation());
 	float arrivalC    = 1.0f;
-	float wanderC     = 0.3f;
-	float departureC  = 1.0f;
+	float wanderC     = 0.5f;
+	float departureC  = 1.5f;
 	float separationC = 2.0f;
 
 	// add behavior coefficients
@@ -105,9 +112,12 @@ bool Bee::DoExtraInits()
 	GameManager::Get()->AddAgent(m_spAgent);
 	// set the default target to the queen
 	m_pTarget = GameManager::Get()->GetQueen();
+	m_spAgent->GetActor()->setGlobalPosition(m_pTarget->GetAgent()->GetActor()->getGlobalPosition() - 
+		NxVec3(100.0, 0.0, 0.0));
 	// set a small linear damping for the bee's PhysX actor
 	m_spAgent->GetActor()->setLinearDamping(1.0f);
 
+	m_pAIControl = NiNew FSMBeeAIControl(this);
 	//m_spSound = 
 	//ResourceManager::Get()->GetSound(ResourceManager::RES_SOUND_BEE); 
 	//m_spSound->Play();

@@ -9,20 +9,15 @@ using namespace std;
 class StateFollowQueen: public FSMState
 {
 public:
-	StateFollowQueen(FSMAIControl* control, int type=FSM_FOLLOW_QUEEN)
-	{ 
-		m_type = type;
-		m_control = control;
-	}
-
+	StateFollowQueen(FSMAIControl* control, int type=FSM_FOLLOW_QUEEN) :
+	  FSMState(control, type)
+	  {}
+	
 	void Enter();
 	void Exit();
 	void Update(int i);
 	void Init();
 	FSMState* CheckTransitions(int t);
-
-	int m_type;
-	FSMAIControl* m_control;
 };
 
 NiSmartPointer(StateFollowQueen);

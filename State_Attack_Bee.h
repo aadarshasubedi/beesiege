@@ -9,10 +9,9 @@ using namespace std;
 class StateAttackBee: public FSMState
 {
 public:
-	StateAttackBee(FSMAIControl* control, int type=FSM_ATTACK_BEE)
+	StateAttackBee(FSMAIControl* control, int type=FSM_ATTACK_BEE) :
+	  FSMState(control, type)
 	{ 
-		m_type = type;
-		m_control = control;
 	}
 
 	void Enter();

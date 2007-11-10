@@ -9,10 +9,9 @@ using namespace std;
 class StateEnemyDead: public FSMState
 {
 public:
-	StateEnemyDead(FSMAIControl* control, int type=FSM_ENEMY_DEAD)
+	StateEnemyDead(FSMAIControl* control, int type=FSM_ENEMY_DEAD) :
+	  FSMState(control, type)
 	{ 
-		m_type = type;
-		m_control = control;
 	}
 
 	void Enter();

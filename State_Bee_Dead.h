@@ -9,10 +9,9 @@ using namespace std;
 class StateBeeDead: public FSMState
 {
 public:
-	StateBeeDead(FSMAIControl* control, int type=FSM_BEE_DEAD)
+	StateBeeDead(FSMAIControl* control, int type=FSM_BEE_DEAD) :
+	  FSMState(control, type)
 	{ 
-		m_type = type;
-		m_control = control;
 	}
 
 	void Enter();

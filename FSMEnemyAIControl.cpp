@@ -3,31 +3,18 @@
 #include "State_Enemy_Dead.h"
 #include "State_Idle.h"
 
-FSMEnemyAIControl::FSMEnemyAIControl(Locust* enemy)
+FSMEnemyAIControl::FSMEnemyAIControl(GameCharacter* enemy) : FSMAIControl(enemy)
 {
-	m_enemy = enemy;
-	m_enemy_machine = NiNew FSMEnemyMachine(FSM_MACH_ENEMY);
 	StateIdle* idle = NiNew StateIdle(this);
-	m_enemy_machine->AddState(idle);
-	m_enemy_machine->AddState(NiNew StateAttackBee(this));
-	m_enemy_machine->AddState(NiNew StateEnemyDead(this));
-	m_enemy_machine->SetDefaultState(idle);
-}
-
-void FSMEnemyAIControl::Update(int t)
-{
-	if(!m_enemy)
-	{
-		m_enemy_machine->Reset();
-		return;
-	}
-	
-	UpdatePerceptions(t);
-	m_enemy_machine->UpdateMachine(t);
+	m_machine->AddState(idle);
+	m_machine->AddState(NiNew StateAttackBee(this));
+	m_machine->AddState(NiNew StateEnemyDead(this));
+	m_machine->SetDefaultState(idle);
 }
 
 void FSMEnemyAIControl::UpdatePerceptions(int t)
 {
+	/*
 	//We need to get the closest bee to the bee here
 	//m_TargetBee = m_enemy->getNearestBee();
 
@@ -49,7 +36,7 @@ void FSMEnemyAIControl::UpdatePerceptions(int t)
 	
 	//determine distance from queen
 	//m_distFromQueen = m_enemy->getDistanceFromQueen();
-
+	*/
 }
 
 

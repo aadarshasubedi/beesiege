@@ -3,7 +3,6 @@
 
 #include "FSMAIControl.h"
 #include "Queen.h"
-#include "FSMQueenMachine.h"
 
 #define FULL_HEALTH 100.0
 
@@ -12,7 +11,7 @@ using namespace std;
 class FSMQueenAIControl: public FSMAIControl
 {
 public:
-	FSMQueenAIControl(Queen* queen);
+	FSMQueenAIControl();
 	
 	bool issuedPowerUpCommand;
 	bool isHealthBelowZero;
@@ -27,8 +26,8 @@ public:
 	void UpdatePerceptions(int t);
 	void Init();
 
-	FSMQueenMachine* m_queen_machine;
-	Queen* m_queen;
+private:
+	void DoExtraUpdates(float t){}
 };
 
 NiSmartPointer(FSMQueenAIControl);

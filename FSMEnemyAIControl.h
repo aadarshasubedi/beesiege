@@ -3,14 +3,14 @@
 
 #include "FSMAIControl.h"
 #include "Locust.h"
-#include "FSMEnemyMachine.h"
+#include "FSMMachine.h"
 
 using namespace std;
 
 class FSMEnemyAIControl: public FSMAIControl
 {
 public:
-	FSMEnemyAIControl(Locust* locust);
+	FSMEnemyAIControl(GameCharacter* enemy);
 	
 	GameObj* m_TargetBee;
 	bool isHealthBelowZero; //should be set in the UpdatePerceptions method
@@ -20,12 +20,11 @@ public:
 	float m_distFromQueen;
 	float m_health;
 	
-	void Update(int t);
 	void UpdatePerceptions(int t);
 	void Init();
 
-	FSMEnemyMachine* m_enemy_machine;
-	Locust* m_enemy;
+private:
+	void DoExtraUpdates(float t){}
 };
 
 NiSmartPointer(FSMEnemyAIControl);

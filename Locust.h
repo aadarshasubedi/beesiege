@@ -1,9 +1,9 @@
 #ifndef LOCUST_H
 #define LOCUST_H
 
-#include "GameCharacter.h"
+#include "Enemy.h"
 
-class Locust : public GameCharacter
+class Locust : public Enemy
 {
 public:
 	Locust();

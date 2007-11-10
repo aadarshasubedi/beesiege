@@ -4,16 +4,19 @@
 #include "GameObj3d.h"
 #include "Agent.h"
 
+class FSMAIControl;
+
 class GameCharacter : public GameObj3d
 {
 public:
 	GameCharacter(ResourceManager::ResourceType type);
 	virtual ~GameCharacter();
 
-	inline AgentPtr GetAgent() const {return m_spAgent;}
-	inline void SetTarget (GameCharacter* target) {m_pTarget = target;}
-	inline void SetTempTargetPos(const NxVec3& pos)
+	AgentPtr GetAgent() const {return m_spAgent;}
+	void SetTarget (GameCharacter* target) {m_pTarget = target;}
+	void SetTempTargetPos(const NxVec3& pos)
 	{m_vTempTargetPos = pos;}
+	GameCharacter* GetTarget() const {return m_pTarget;}
 protected:
 
 	virtual void DoExtraUpdates(float fTime)=0;
@@ -21,6 +24,7 @@ protected:
 	AgentPtr m_spAgent;
 	GameCharacter* m_pTarget;
 	NxVec3 m_vTempTargetPos;
+	FSMAIControl* m_pAIControl;
 };
 
 NiSmartPointer(GameCharacter);

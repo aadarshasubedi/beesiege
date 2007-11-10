@@ -4,6 +4,7 @@
 
 #include "GameCharacter.h"
 #include "GameManager.h"
+#include "FSMAIControl.h"
 
 //------------------------------------------------------------------------ 
 /** 
@@ -13,7 +14,8 @@
  */
 GameCharacter::GameCharacter(ResourceManager::ResourceType type) : GameObj3d(type)	, 									
 																   m_pTarget(0),
-																   m_vTempTargetPos(0.0, 0.0, 0.0)
+																   m_vTempTargetPos(0.0, 0.0, 0.0),
+																   m_pAIControl(0)
 {
 }
 //------------------------------------------------------------------------ 
@@ -24,6 +26,11 @@ GameCharacter::GameCharacter(ResourceManager::ResourceType type) : GameObj3d(typ
 GameCharacter::~GameCharacter()
 {
 	m_spAgent = 0;
+	if (m_pAIControl)
+	{
+		NiDelete m_pAIControl;
+		m_pAIControl = 0;
+	}
 	
 }
 //------------------------------------------------------------------------ 

@@ -16,6 +16,7 @@ enum FSM_STATES
 		FSM_QUEEN_WANDER
 	};
 
+/*
 enum FSM_MACHINES
 	{
 		FSM_MACH_NONE,
@@ -23,5 +24,6 @@ enum FSM_MACHINES
 		FSM_MACH_BEE,
 		FSM_MACH_ENEMY
 	};
+*/
 
 #endif

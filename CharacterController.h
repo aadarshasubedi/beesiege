@@ -17,7 +17,7 @@ public:
 	virtual ~CharacterController();
 
 	void Update(const NxVec3& target);
-	inline void       SetBehavior          (BehaviorPtr b) { m_spBehavior = b; }
+	inline void       SetBehavior          (BehaviorPtr b) { m_spBehavior = 0; m_spBehavior = b; }
 	inline void       ToggleSpringDynamics (bool off)    { m_bTurnSpringsOff = off; }
 	inline AgentInfoPtr GetAgentInfo() const         { return m_spAgentInfo; }
 

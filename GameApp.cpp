@@ -90,7 +90,7 @@ bool GameApp::CreateScene()
 	// load main scene (better to be done separately than doing it in 
 	// the ResourceManager, because it might have multiple PhysX props
     bSuccess = kStream.Load(
-        NiApplication::ConvertMediaFilename("models/scene_physx4.nif"));
+        NiApplication::ConvertMediaFilename("models/final_again_1.nif"));
     
     if (!bSuccess)
     {
@@ -107,7 +107,7 @@ bool GameApp::CreateScene()
 			m_spScene = (NiNode*)pkObject;
 		}
 		else if (NiIsKindOf(NiPhysXProp, pkObject))
-		{
+		{			
 			m_spPhysXScene->AddProp((NiPhysXProp*)pkObject);
 		}
 	}

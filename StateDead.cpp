@@ -20,9 +20,9 @@ FSMState* StateDead::CheckTransitions(int i)
 }
 
 void StateDead::Exit()
-{
-	FSMAIControl* control = m_control;
-	delete m_control->m_character;
+{//
+	//FSMAIControl* control = m_control;
+	//delete m_control->m_character;
 }
 
 void StateDead::Init()
