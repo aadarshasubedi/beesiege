@@ -2,30 +2,28 @@
 #define FSMBEEAICONTROL_H
 
 #include "FSMAIControl.h"
-#include "Bee.h"
-#include "FSMBeeMachine.h"
 
-using namespace std;
+class GameCharacter;
+class Bee;
 
 class FSMBeeAIControl: public FSMAIControl
 {
 public:
 	FSMBeeAIControl(Bee* bee);
-
-	GameObj* m_TargetEnemy;
+	
+	GameCharacter* m_TargetEnemy;
 	bool isHealthBelowZero; //should be set in the UpdatePerceptions method
 	bool isTargetDead;
 	bool issuedAttackCommand; //this should become false once the bee goes into attack state
-	GameObj* m_queenBee;
+	GameCharacter* m_queenBee;
 	float m_health;
 	GameObj* m_nearestPowerUp;
 
-	void Update(int t);
 	void UpdatePerceptions(int t);
 	void Init();
 
-	FSMBeeMachine* m_bee_machine;
-	Bee* m_bee;
+private:
+	void DoExtraUpdates(float t){}
 };
 
 NiSmartPointer(FSMBeeAIControl);

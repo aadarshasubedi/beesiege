@@ -2,19 +2,20 @@
 #define FSMMACHINE_H
 
 #include "FSMState.h"
+#include "GameObj.h"
 #include <vector>
 
 using namespace std;
 
-class FSMMachine: public FSMState
+class FSMMachine: public GameObj
 {
 public:
-	FSMMachine(int type = FSM_MACH_NONE)
-	{
-		m_type = type;
-	}
 
-	virtual void UpdateMachine(int t) = 0;
+	FSMMachine();
+
+	virtual ~FSMMachine();
+
+	virtual void UpdateMachine(int t);
 	void AddState(FSMState* state);
 	virtual void SetDefaultState(FSMState* state)
 	{ 
@@ -34,7 +35,6 @@ public:
 	FSMState* m_currentState;
 	FSMState* m_defaultState;
 	FSMState* m_goalState;
-	//FSMState* m_goalState;
 
 };
 

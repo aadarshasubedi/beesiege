@@ -9,10 +9,9 @@ using namespace std;
 class StateAttackEnemy: public FSMState
 {
 public:
-	StateAttackEnemy(FSMAIControl* control, int type=FSM_ATTACK_ENEMY)
-	{ 
-		m_type = type;
-		m_control = control;
+	StateAttackEnemy(FSMAIControl* control, int type=FSM_ATTACK_ENEMY) : 
+	  FSMState(control, type)
+	{
 	}
 
 	void Enter();
@@ -21,8 +20,6 @@ public:
 	void Init();
 	FSMState* CheckTransitions(int t);
 
-	int m_type;
-	FSMAIControl* m_control;
 };
 
 NiSmartPointer(StateAttackEnemy);

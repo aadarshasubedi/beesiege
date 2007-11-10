@@ -9,10 +9,9 @@ using namespace std;
 class StatePowerUp: public FSMState
 {
 public:
-	StatePowerUp(FSMAIControl* control,int type=FSM_POWERUP)
+	StatePowerUp(FSMAIControl* control,int type=FSM_POWERUP) :
+	  FSMState(control, type)
 	{ 
-		m_type = type;
-		m_control = control;
 	}
 
 	void Enter();

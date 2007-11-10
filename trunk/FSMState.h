@@ -2,26 +2,22 @@
 #define FSMSTATE_H
 
 #include "FSM.h"
-#include "FSMAIControl.h"
+#include "GameObj.h"
 
-using namespace std;
+class FSMAIControl;
 
 class FSMState: public GameObj
 {
 	
 public:
-	FSMState() {}
-	FSMState(FSMAIControl* control, int type=FSM_STATE_NONE)
-	{ 
-		m_type = type;
-		m_control = control;
-	}
-
-	virtual void Enter();                 
-	virtual void Exit();                  
+	FSMState(FSMAIControl* control, int type=FSM_STATE_NONE);
+	virtual ~FSMState();
+	virtual void Enter();
+	virtual void Exit();                 
 	virtual void Update(int t);
 	virtual void Init();
 	virtual FSMState* CheckTransitions(int t);
+
 	int m_type;
 	FSMAIControl* m_control;
 };

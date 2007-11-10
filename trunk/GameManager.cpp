@@ -9,6 +9,7 @@
 #include "LevelManager.h"
 #include <NiPhysXScene.h>
 #include <NiApplication.h>
+#include <omp.h>
 
 //------------------------------------------------------------------------ 
 /** 
@@ -27,7 +28,7 @@ GameManager::~GameManager()
 {
 	m_lObjects.RemoveAll();
 	m_lAgents.RemoveAll();
-	m_lEnemies.RemoveAll();
+//	m_lEnemies.RemoveAll();
 	m_spQueen = 0;
 	m_spCurrentLevel = 0;
 	ConfigurationManager::Destroy();
@@ -82,6 +83,8 @@ void GameManager::UpdateAll(float fTime)
 {
 	m_fDeltaTime = m_pGameApplication->GetFrameTime();
 	NiTListIterator it = m_lObjects.GetHeadPos();
+
+	//#pragma omp parallel for
 	for (int i=0; i<m_lObjects.GetSize(); i++)
 	{
 		GameObj3dPtr obj = m_lObjects.Get(it);
@@ -104,6 +107,7 @@ bool GameManager::AddObject(GameObj3dPtr object, NiNodePtr parent)
 	if (object->Init(parent))
 	{
 		m_lObjects.AddTail(object);
+		
 		return true;
 	}
 	
@@ -124,6 +128,7 @@ bool GameManager::AddObject(GameObj3dPtr object, NiNodePtr parent, NiPhysXSceneP
 	if (object->Init(parent, physXScene))
 	{
 		m_lObjects.AddTail(object);
+		
 		return true;
 	}
 	
@@ -144,8 +149,8 @@ void GameManager::AddAgent(AgentPtr agent)
  * Adds an enemy to the enemies list
  * 
  * @param enemy
- */
-void GameManager::AddEnemy(GameCharacterPtr enemy)
+ *//*
+void GameManager::AddEnemy(EnemyPtr enemy)
 {
 	m_lEnemies.AddTail(enemy);
 }
@@ -155,7 +160,7 @@ void GameManager::AddEnemy(GameCharacterPtr enemy)
 * @param enemy
 * @return bool
 */
-bool GameManager::CreateEnemy(GameCharacterPtr enemy)
+bool GameManager::CreateEnemy(EnemyPtr enemy)
 {	
 	return AddObject((GameObj3d*)enemy, m_pGameApplication->GetScene(),
 		m_pGameApplication->GetPhysXScene());
@@ -166,6 +171,7 @@ bool GameManager::CreateEnemy(GameCharacterPtr enemy)
  * 
  * @param enemy
  */
+/*
 void GameManager::RemoveEnemy(GameCharacterPtr enemy)
 {
 	m_lEnemies.Remove(enemy);

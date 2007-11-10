@@ -7,6 +7,7 @@
 #include <NiNode.h>
 #include <NiTPointerList.h>
 #include "Queen.h"
+#include "Enemy.h"
 #include "GameApp.h"
 #include "Level.h"
 
@@ -37,15 +38,15 @@ public:
 	bool AddObject(GameObj3dPtr object, NiNodePtr parent);
 	bool AddObject(GameObj3dPtr object, NiNodePtr parent, NiPhysXScenePtr physXScene);
 	void AddAgent(AgentPtr agent);
-	void AddEnemy(GameCharacterPtr enemy);
-	bool CreateEnemy(GameCharacterPtr enemy);
-	void RemoveEnemy(GameCharacterPtr enemy);
+	//void AddEnemy(GameCharacterPtr enemy);
+	bool CreateEnemy(EnemyPtr enemy);
+	//void RemoveEnemy(GameCharacterPtr enemy);
 	void RemoveObject(GameObj3dPtr object);
 	
 	inline QueenPtr GetQueen() const  { return m_spQueen; }
 	inline const NiTPointerList<AgentPtr>& GetAgents() const { return m_lAgents; }
 	inline GameApp* GetGameApp() const {return m_pGameApplication; }
-	inline const NiTPointerList<GameCharacterPtr>& GetEnemies() const {return m_spCurrentLevel->GetEnemies();}
+	inline const NiTPointerList<EnemyPtr>& GetEnemies() const {return m_spCurrentLevel->GetEnemies();}
 	inline const float GetDeltaTime() const {return m_fDeltaTime; }
 	
 private:
@@ -55,7 +56,7 @@ private:
 
 	NiTPointerList<GameObj3dPtr> m_lObjects;
 	NiTPointerList<AgentPtr> m_lAgents;
-	NiTPointerList<GameCharacterPtr> m_lEnemies;
+	//NiTPointerList<EnemyPtr> m_lEnemies;
 
 	QueenPtr m_spQueen;
 	GameApp* m_pGameApplication;

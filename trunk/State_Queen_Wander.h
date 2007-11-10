@@ -9,10 +9,9 @@ using namespace std;
 class StateQueenWander: public FSMState
 {
 public:
-	StateQueenWander(FSMAIControl* control, int type=FSM_QUEEN_WANDER)
+	StateQueenWander(FSMAIControl* control, int type=FSM_QUEEN_WANDER) :
+	  FSMState(control, type)
 	{ 
-		m_type = type;
-		m_control = control;
 	}
 
 	void Enter();

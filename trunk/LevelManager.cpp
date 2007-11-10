@@ -127,7 +127,7 @@ bool LevelManager::ReadEnemies(TiXmlElement* node, LevelPtr level)
 					ReadFloat(y, current, "y") && 
 					ReadFloat(z, current, "z"))
 				{
-					if (!level->AddEnemy((GameCharacter*)enemy, NxVec3(x, y, z)))
+					if (!level->AddEnemy((Enemy*)enemy, NxVec3(x, y, z)))
 						return false;
 				}
 				else

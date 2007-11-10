@@ -33,7 +33,7 @@ Level::~Level()
  * 
  * @return bool
  */
-bool Level::AddEnemy(GameCharacterPtr enemy, const NxVec3& pos)
+bool Level::AddEnemy(EnemyPtr enemy, const NxVec3& pos)
 {
 	// call GameManager to init the enemy
 	bool bSuccess = GameManager::Get()->CreateEnemy(enemy);

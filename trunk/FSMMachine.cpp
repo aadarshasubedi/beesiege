@@ -1,6 +1,17 @@
 #include "FSM.h"
 #include "FSMMachine.h"
 
+FSMMachine::FSMMachine() : m_currentState(0),
+						   m_goalState(0),
+						   m_defaultState(0)
+{
+}
+
+FSMMachine::~FSMMachine()
+{
+	Reset();
+}
+
 void FSMMachine::UpdateMachine(int t)
 {
 	if(m_states.size() == 0)
@@ -59,10 +70,11 @@ FSMState* FSMMachine::GetState(int stateId)
 
 void FSMMachine::Reset()
 {
+	for (int i=0; i<m_states.size(); i++)
+	{
+		NiDelete m_states[i];
+	}
 	m_states.clear();
-	m_currentState = 0;
-	m_defaultState = 0;
-	m_goalState = 0;
 }
 
 

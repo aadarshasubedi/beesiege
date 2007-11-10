@@ -1,7 +1,7 @@
 #ifndef QUEEN_H
 #define QUEEN_H
 
-#include "GameCharacter.h"
+#include "Enemy.h"
 #include "Bee.h"
 #include <NiTPointerList.h>
 
@@ -36,7 +36,7 @@ public:
 	void Rotate(float dx, float dy);
 
 	void AddSoldier(BeePtr soldier);
-	void CycleTarget(const NiTPointerList<GameCharacterPtr>& enemies);
+	void CycleTarget(const NiTPointerList<EnemyPtr>& enemies);
 	void SelectMoreSoldiers();
 	void StopSelectingSoldiers();
 

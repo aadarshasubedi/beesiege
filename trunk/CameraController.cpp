@@ -158,6 +158,7 @@ void CameraController::UpdatePositionAndOrientation()
 	// set new position
 	m_spCamera->SetWorldTranslate(m_vPosition);
 	// set new orientation
+	//m_mNewRotation = GameManager::Get()->GetQueen()->GetNode()->GetWorldRotate();
 	m_spCamera->SetWorldRotate(m_mNewRotation);
 		
 }

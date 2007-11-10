@@ -3,20 +3,20 @@
 
 #include "GameObj.h"
 #include <NiTPointerList.h>
-#include "GameCharacter.h"
+#include "Enemy.h"
 
 class Level : public GameObj
 {
 public:
 	Level(const char* name);
 	~Level();
-	bool AddEnemy(GameCharacterPtr enemy, const NxVec3& pos);
-	inline const NiTPointerList<GameCharacterPtr>& GetEnemies() const
+	bool AddEnemy(EnemyPtr enemy, const NxVec3& pos);
+	inline const NiTPointerList<EnemyPtr>& GetEnemies() const
 	{ return m_lEnemies; }
 	inline const char* GetName() const {return m_pName;}
 private:
 
-	NiTPointerList<GameCharacterPtr> m_lEnemies;
+	NiTPointerList<EnemyPtr> m_lEnemies;
 	const char *m_pName;
 };
 

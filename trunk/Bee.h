@@ -10,12 +10,15 @@ public:
 	Bee();
 	~Bee();
 
+	void Attack (GameCharacterPtr target);
+	const bool WasAttackCommandIssued() const {return m_bAttackCommandIssued;}
+	void ResetAttackCommand() { m_bAttackCommandIssued = false; }
 private:
 
 	void DoExtraUpdates(float fTime);
 	bool DoExtraInits();
 	SoundPtr m_spSound;
-
+	bool m_bAttackCommandIssued;
 };
 
 NiSmartPointer(Bee);
