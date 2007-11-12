@@ -125,3 +125,14 @@ Anyways, its done now... Guys I am mailing out the nif file. Vaios please check 
 We might need to export this scene again from Vaios's comp as my nif exporter does not export the textures. But that can be worked out later. 
 
 - Smiral
+
+*11-Nov-2007* - _Vaios
+
+I made huge changes to the code in order to achieve the following:
+  * Game characters should not know what is happenning in the game. They should not be aware of what type of controllers they have or if the user is controlling them. 
+  * We should code everything keeping in mind that maybe there are a lot of queens in the game and not only one. I pretty much achieved this but it's not there yet. I will not work more on this because of lack of time. However now it should be fairly easy to implement this if we want to. 
+  * The characters should be component-based. If they have a controller then they can move in the scene. If they have a sound component then that can produce sounds etc. This is the design I'm following from now on. This is implemented through the CharacterAttribute class. A controller is an attribute. A sound is an attribute and so on. A game character has a list of attributes which can be used to add functionality to them. 
+
+This means that for example Health is an attribute. Some characters might have health some might not. This could be anything, it could be armor for example or special powers. The only thing we need to do is create something that inherits from CharacterAttribute and add it to the Characters attribute list. The attributes will have an update function so the only thing we have to do to make the attributes work would be to call their update functions. I'm not totally sure about this design approach yet, but I'm definitely using attributes. I'll post the code once I'm sure about the changes.
+
+Cheers.
