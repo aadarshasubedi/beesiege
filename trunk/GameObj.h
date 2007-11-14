@@ -2,19 +2,21 @@
 #define GAMEOBJ_H
 
 
-#include <NiRefObject.h>
+#include <NiObject.h>
 #include <NiSmartPointer.h>
 
 #pragma warning(disable: 4018)
 
-class GameObj : public NiRefObject
+class GameObj : public NiObject
 {
-	
+	NiDeclareRTTI;
 public:
 	GameObj(){};
 	virtual ~GameObj(){}
 
 };
+
+NiImplementRTTI(GameObj, NiObject);
 
 NiSmartPointer(GameObj);
 

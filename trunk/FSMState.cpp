@@ -1,40 +1,28 @@
-#include "FSM.h"
+/**
+*	A FSM state
+*/
+
 #include "FSMState.h"
 #include "FSMAIControl.h"
 
+//------------------------------------------------------
+/**
+* Ctor
+*/
 FSMState::FSMState(FSMAIControl* control, int type) :
  m_type(type),
  m_control(control)
 { 
 }
-
- FSMState::~FSMState()
+//------------------------------------------------------
+/**
+* Dtor
+*/
+FSMState::~FSMState()
+{
+ if (m_control)
  {
-	 if (m_control)
-	 {
-		 m_control  = 0;
-	 }
+	 m_control  = 0;
  }
-
-void FSMState::Enter()
-{
-
-}
-void FSMState::Exit()
-{
-
-}
-void FSMState::Update(int t)
-{
-
-}
-void FSMState::Init()
-{
-
-}
-FSMState* FSMState::CheckTransitions(int t)
-{
-	//FSMState* dummyState;
-	return 0;
 }
 

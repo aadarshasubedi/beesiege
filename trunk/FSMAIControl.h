@@ -1,31 +1,38 @@
 #ifndef FSMAICONTROL_H
 #define FSMAICONTROL_H
 
-#include "GameObj.h"
+#include "ControllerAttr.h"
 #include "FSM.h"
 #include <NiPoint3.h>
+#include "FSMMachine.h"
+#include "Agent.h"
 
 class GameCharacter;
-class FSMMachine;
 
-class FSMAIControl: public GameObj
+class FSMAIControl: public ControllerAttr
 {
 public:
 	FSMAIControl(GameCharacter* character);
 	virtual ~FSMAIControl();
-	void Update(int t);
-	
-	virtual void UpdatePerceptions(int t);
-	virtual void Init();
 
-	GameCharacter* m_character;
-	FSMMachine* m_machine;
+	void Update(float fTime);
 
-	const float m_fcPowerUpScanDistance;
+	AgentPtr GetAgent() const
+	{
+		return m_spAgent;
+	}
 
-private:
+	FSMMachinePtr GetMachine() const
+	{
+		return m_spMachine;
+	}
+protected:
 
-	virtual void DoExtraUpdates(float t) = 0;
+	FSMMachinePtr m_spMachine;
+	AgentPtr m_spAgent;
+
+	virtual void UpdatePerceptions(float fTime) = 0;
+	virtual void DoExtraUpdates(float fTime) = 0;
 };
 
 NiSmartPointer(FSMAIControl);

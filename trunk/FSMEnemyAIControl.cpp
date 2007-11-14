@@ -1,46 +1,45 @@
+/**
+* An enemy's FSM controller
+*/
 #include "FSMEnemyAIControl.h"
-#include "State_Attack_Bee.h"
-#include "State_Enemy_Dead.h"
-#include "State_Idle.h"
-
-FSMEnemyAIControl::FSMEnemyAIControl(GameCharacter* enemy) : FSMAIControl(enemy)
+#include "Enemy.h"
+#include "StateEnemyWander.h"
+//-----------------------------------------------------------------------
+/**
+* Ctor
+* @param The enemy that needs to be controlled
+*/
+FSMEnemyAIControl::FSMEnemyAIControl(Enemy* enemy) : FSMAIControl((GameCharacter*)enemy)
 {
-	StateIdle* idle = NiNew StateIdle(this);
-	m_machine->AddState(idle);
-	m_machine->AddState(NiNew StateAttackBee(this));
-	m_machine->AddState(NiNew StateEnemyDead(this));
-	m_machine->SetDefaultState(idle);
+	StateEnemyWander* defaultState = NiNew StateEnemyWander(this);
+	m_spMachine->AddState(defaultState, FSM_ENEMY_WANDER);
+	m_spMachine->SetDefaultState(defaultState);
 }
-
-void FSMEnemyAIControl::UpdatePerceptions(int t)
+//-----------------------------------------------------------------------
+/**
+* Dtor
+* 
+*/
+FSMEnemyAIControl::~FSMEnemyAIControl()
 {
-	/*
-	//We need to get the closest bee to the bee here
-	//m_TargetBee = m_enemy->getNearestBee();
 
-	//get the health of the enemy here
-	//m_health = m_enemy->getHealth();
-	if(m_health <= 0.0)
-		isHealthBelowZero = true;
-
-	if(m_TargetBee)
-	{
-		float beeHealth;
-		//get target enemy health here
-		//enemyHealth = m_TargetEnemy->getHealth();
-
-		if(beeHealth <= 0.0)
-			isTargetDead = true;
-	
-	}
-	
-	//determine distance from queen
-	//m_distFromQueen = m_enemy->getDistanceFromQueen();
-	*/
 }
-
-
-void FSMEnemyAIControl::Init()
+//-----------------------------------------------------------------------
+/**
+* Updates the required variables that the controller needs to function
+* @param delta time
+*/
+void FSMEnemyAIControl::UpdatePerceptions(float fTime)
 {
-
+	
+}
+//-----------------------------------------------------------------------
+/**
+* Performs extra updates if necessary
+* @param delta time
+*/
+void FSMEnemyAIControl::DoExtraUpdates(float fTime)
+{
+	
+	
 }

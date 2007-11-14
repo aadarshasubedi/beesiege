@@ -50,39 +50,35 @@ void InputManager::ProcessKeyboard(NiInputKeyboard* keyboard,GameApp* gameApp)
 		// move queen forward
 		if (keyboard->KeyIsDown(NiInputKeyboard::KEY_W))
 		{
-			gameMgr->GetQueen()->MoveForward();
+			gameMgr->GetQueen()->SetMoveForward();
 		}
 		// move queen backward
 		else if (keyboard->KeyIsDown(NiInputKeyboard::KEY_S))
 		{
-			gameMgr->GetQueen()->MoveBack();
+			gameMgr->GetQueen()->SetMoveBackward();
 		}
 		// move queen left
 		if (keyboard->KeyIsDown(NiInputKeyboard::KEY_A))
 		{
-			gameMgr->GetQueen()->StrafeLeft();
+			gameMgr->GetQueen()->SetMoveLeft();
 		}
 		// move queen right
 		else if (keyboard->KeyIsDown(NiInputKeyboard::KEY_D))
 		{
-			gameMgr->GetQueen()->StrafeRight();	
+			gameMgr->GetQueen()->SetMoveRight();	
 		}
 		// add a bee
 		if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_SPACE))
 		{
-			gameMgr->AddObject((GameObj3dPtr)(NiNew Bee), gameApp->GetScene(), gameApp->GetPhysXScene());
+			BeePtr soldier = (Bee*)(GameObj3d*)gameMgr->CreateObject3d(ResourceManager::RES_MODEL_BEE);
+			
 			
 		}
-		// add a locust
-		if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_E))
-		{
-			gameMgr->AddObject((GameObj3dPtr)(NiNew Locust), gameApp->GetScene(), gameApp->GetPhysXScene());
-			
-		}
+		
 		// cycle through targets
 		if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_TAB))
 		{
-			gameMgr->GetQueen()->CycleTarget(gameMgr->GetEnemies());
+			gameMgr->GetQueen()->SetTargetEnemy();
 			
 		}
     }
@@ -106,12 +102,12 @@ void InputManager::ProcessMouse(NiInputMouse* mouse, GameApp* gameApp)
 		// select more soldiers
 		if(mouse->ButtonIsDown(NiInputMouse::NIM_LEFT))
 		{
-			gameMgr->GetQueen()->SelectMoreSoldiers();
+			gameMgr->GetQueen()->SetSelectSoldiers();
 		}
 		// stop selecting soldiers
 		else if(mouse->ButtonWasReleased(NiInputMouse::NIM_LEFT))
 		{
-			gameMgr->GetQueen()->StopSelectingSoldiers();
+			gameMgr->GetQueen()->SetAttackEnemy();
 		}
 		// rotate view
 		if(mouse->ButtonIsDown(NiInputMouse::NIM_RIGHT))
@@ -121,7 +117,8 @@ void InputManager::ProcessMouse(NiInputMouse* mouse, GameApp* gameApp)
 		// rotate queen
 		else
 		{
-			gameMgr->GetQueen()->Rotate((float)mx, (float)my);
+			gameMgr->GetQueen()->SetRotate((float)mx);
+			gameMgr->GetQueen()->SetMoveVertical((float)my);
 		}
 		// stop rotating queen
 		if(mouse->ButtonWasReleased(NiInputMouse::NIM_RIGHT))

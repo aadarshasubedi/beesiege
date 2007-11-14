@@ -1,41 +1,39 @@
 #ifndef FSMMACHINE_H
 #define FSMMACHINE_H
 
-#include "FSMState.h"
+#include "FSM.h"
 #include "GameObj.h"
-#include <vector>
-
-using namespace std;
+#include <NiTMap.h>
+#include "FSMState.h"
 
 class FSMMachine: public GameObj
 {
 public:
 
 	FSMMachine();
-
 	virtual ~FSMMachine();
 
-	virtual void UpdateMachine(int t);
-	void AddState(FSMState* state);
-	virtual void SetDefaultState(FSMState* state)
+	virtual void UpdateMachine(float fTime);
+	void AddState(FSMStatePtr state, FSM_STATES type);
+	virtual void SetDefaultState(FSMStatePtr state)
 	{ 
-		m_defaultState = state;
+		m_spDefaultState = state;
 	}
-	virtual void SetGoalID(FSMState* state)
+	virtual void SetGoalID(FSMStatePtr state)
 	{
-		m_goalState = state;
+		m_spGoalState = state;
 	}
-	virtual bool TransitionState(FSMState* state);
+	
 	void Reset();
-	FSMState* GetState(int stateId);
+	
+	FSMStatePtr GetState(FSM_STATES type);
+	FSMStatePtr m_spCurrentState;
+	FSMStatePtr m_spDefaultState;
+	FSMStatePtr m_spGoalState;
 
-	int m_type;
+protected:
 
-	std::vector<FSMState*> m_states;
-	FSMState* m_currentState;
-	FSMState* m_defaultState;
-	FSMState* m_goalState;
-
+	NiTMap<FSM_STATES, FSMStatePtr> m_tStates;
 };
 
 NiSmartPointer(FSMMachine);

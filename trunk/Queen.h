@@ -5,62 +5,144 @@
 #include "Bee.h"
 #include <NiTPointerList.h>
 
-class CharacterDistancePair : public GameObj
-{
-	friend class Queen;
-private: 
-	CharacterDistancePair(float d, GameCharacterPtr c) : 
-	   distance(d), character(c)
-	   {}
-	~CharacterDistancePair()
-	{
-		character = 0;
-	}
-
-	float distance;
-	GameCharacterPtr character;
-};
-
-NiSmartPointer(CharacterDistancePair);
 
 class Queen : public GameCharacter
 {
+	NiDeclareRTTI;
+
 public:
 	Queen();
 	~Queen();
 
-	void MoveForward();
-	void MoveBack();
-	void StrafeLeft();
-	void StrafeRight();
-	void Rotate(float dx, float dy);
+	void AddSoldier (BeePtr soldier);
+	void RemoveSoldier (BeePtr soldier);
+	
+	const NiTPointerList<BeePtr>& GetSoldiers() const
+	{
+		return m_lSoldiers;
+	}
 
-	void AddSoldier(BeePtr soldier);
-	void CycleTarget(const NiTPointerList<EnemyPtr>& enemies);
-	void SelectMoreSoldiers();
-	void StopSelectingSoldiers();
+	const bool WasSelectSoldiersIssued() const
+	{
+		return m_bIssuedSelectSoldiers;
+	}
 
+	const bool WasAttackEnemyIssued() const
+	{
+		return m_bIssuedAttackEnemy;
+	}
+
+	const bool WasTargetEnemyIssued() const
+	{
+		return m_bIssuedTargetEnemy;
+	}
+
+	const bool WasMoveForwardIssued() const
+	{
+		return m_bIssuedMoveForward;
+	}
+
+	const bool WasMoveBackwardIssued() const
+	{
+		return m_bIssuedMoveBackward;
+	}
+
+	const bool WasMoveLeftIssued() const
+	{
+		return m_bIssuedMoveLeft;
+	}
+
+	const bool WasMoveRightIssued() const
+	{
+		return m_bIssuedMoveRight;
+	}
+
+	const bool WasMoveVerticalIssued() const
+	{
+		return m_bIssuedMoveVertical;
+	}
+
+	const bool WasRotateIssued() const
+	{
+		return m_bIssuedRotate;
+	}
+
+	void SetSelectSoldiers(bool value=true)
+	{
+		m_bIssuedSelectSoldiers = value;
+	}
+
+	void SetAttackEnemy(bool value=true)
+	{
+		m_bIssuedAttackEnemy = value;
+	}
+
+	void SetTargetEnemy(bool value=true)
+	{
+		m_bIssuedTargetEnemy = value;
+	}
+
+	void SetMoveForward(bool value=true)
+	{
+		m_bIssuedMoveForward = value;
+	}
+
+	void SetMoveBackward(bool value=true)
+	{
+		m_bIssuedMoveBackward = value;
+	}
+
+	void SetMoveLeft(bool value=true)
+	{
+		m_bIssuedMoveLeft = value;
+	}
+
+	void SetMoveRight(bool value=true)
+	{
+		m_bIssuedMoveRight = value;
+	}
+
+	void SetMoveVertical(float dy, bool value=true)
+	{
+		m_bIssuedMoveVertical = value;
+		m_fRotateDy = dy;
+	}
+
+	void SetRotate(float dx, bool value=true)
+	{
+		m_bIssuedRotate = value;
+		m_fRotateDx = dx;
+		
+	}
+
+	const float GetRotateDx() const
+	{
+		return m_fRotateDx;
+	}
+
+	const float GetRotateDy() const
+	{
+		return m_fRotateDy;
+	}
 private:
 
 	void DoExtraUpdates(float fTime);
 	bool DoExtraInits();
-	//void MergeSort(NiTPointerList<CharacterDistancePairPtr>& unsorted, 
-	//				  NiTPointerList<CharacterDistancePairPtr>& sorted)
-	//void SortSoldiers(const NxVec3& target, NiTPointerList<CharacterDistancePairPtr>& sorted);
-	//void SendSoldiers(const NxVec3& target, NiTPointerList<CharacterDistancePairPtr>& sorted);
-	//void SelectSoldiersClosestTo (const NxVec3& target, unsigned int count);
-	BeePtr FindSoldierClosestTo (const NxVec3& target);
 
+	bool m_bIssuedSelectSoldiers;
+	bool m_bIssuedAttackEnemy;
+	bool m_bIssuedTargetEnemy;
+	bool m_bIssuedMoveForward;
+	bool m_bIssuedMoveBackward;
+	bool m_bIssuedMoveLeft;
+	bool m_bIssuedMoveRight;
+	bool m_bIssuedMoveVertical;
+	bool m_bIssuedRotate;
 
-	NiTPointerList<BeePtr>					 m_lSoldiers;
-	NiTPointerList<BeePtr>					 m_lSelectedSoldiers;
-	NiTListIterator							 m_itCurrentTargetPosition;
-	GameCharacterPtr						 m_spCurrentTarget;
-	const float								 m_fcQueenViewRadius;
-	float									 m_fSelectionTimer;
-	const float                              m_fcFogDefaultDepth;
-	const float                              m_fcMaxHeight;
-	const float                              m_fcFogScaleValue;
+	NiTPointerList<BeePtr> m_lSoldiers;
+	
+	float				   m_fRotateDx;
+	float				   m_fRotateDy;
 };
 
 NiSmartPointer(Queen);

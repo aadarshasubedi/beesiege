@@ -11,6 +11,7 @@
 #include "TextManager.h"
 #include "SoundManager.h"
 #include <NiFogProperty.h>
+#include <math.h>
 
 #pragma comment(lib, "NiBinaryShaderLibDX9.lib")
 #pragma comment(lib, "NiD3D10BinaryShaderLibD3D10.lib")
@@ -46,6 +47,7 @@ GameApp::GameApp() : NiApplication("BeeSiege",
  */
 bool GameApp::Initialize()
 {
+	srand((unsigned int)time(0));
 	// initialize PhysX
 	m_pPhysXManager = NiPhysXManager::GetPhysXManager();
 	if (!m_pPhysXManager->Initialize())
@@ -193,10 +195,10 @@ void GameApp::UpdateFrame()
 	m_spScene->UpdateEffects();
 
 	// Update the current listener position (for sound - FMOD)
-	NxActor* queenActor = GameManager::Get()->GetQueen()->GetAgent()->GetActor();
-	NxVec3 nxPos = queenActor->getGlobalPosition()/50.0f;
-	NxVec3 nxVel = queenActor->getLinearVelocity() / 50.0f;
-	NxVec3 nxFor = queenActor->getGlobalOrientation().getColumn(0);
+//	NxActor* queenActor = GameManager::Get()->GetQueen()->GetAgent()->GetActor();
+//	NxVec3 nxPos = queenActor->getGlobalPosition()/50.0f;
+//	NxVec3 nxVel = queenActor->getLinearVelocity() / 50.0f;
+//	NxVec3 nxFor = queenActor->getGlobalOrientation().getColumn(0);
 	
 	/*
 	SoundManager::Get()->Update(nxPos,

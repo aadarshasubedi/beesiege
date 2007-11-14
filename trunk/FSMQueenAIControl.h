@@ -2,32 +2,37 @@
 #define FSMQUEENAICONTROL_H
 
 #include "FSMAIControl.h"
-#include "Queen.h"
 
-#define FULL_HEALTH 100.0
-
-using namespace std;
+class Queen;
 
 class FSMQueenAIControl: public FSMAIControl
 {
 public:
-	FSMQueenAIControl();
-	
-	bool issuedPowerUpCommand;
-	bool isHealthBelowZero;
-	bool isHealthFull;
+	FSMQueenAIControl(Queen* queen);
+	~FSMQueenAIControl();
 
-	bool isPowerUpEmpty;
-	GameObj* m_nearestEnemy;
-	GameObj* m_nearestPowerUp;
-	float m_health;
+	bool issuedTargetEnemyCommand;
+	bool issuedSelectSoldiersCommand;
+	bool issuedAttackCommand;
+	bool issuedMoveForwardCommand;
+	bool issuedMoveBackwardCommand;
+	bool issuedMoveLeftCommand;
+	bool issuedMoveRightCommand;
+	bool issuedMoveVerticalCommand;
+	bool issuedRotateCommand;
 	
-	void Update(int t);
-	void UpdatePerceptions(int t);
-	void Init();
-
 private:
-	void DoExtraUpdates(float t){}
+
+	void DoExtraUpdates(float fTime);
+	void UpdatePerceptions(float fTime);
+
+	void MoveQueenForward();
+	void MoveQueenBackward();
+	void MoveQueenLeft();
+	void MoveQueenRight();
+	void MoveQueenVertical();
+	void RotateQueen();
+
 };
 
 NiSmartPointer(FSMQueenAIControl);

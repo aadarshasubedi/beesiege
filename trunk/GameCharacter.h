@@ -3,28 +3,37 @@
 
 #include "GameObj3d.h"
 #include "Agent.h"
-
-class FSMAIControl;
+#include <NiTMap.h>
+#include "CharacterAttribute.h"
 
 class GameCharacter : public GameObj3d
 {
+	NiDeclareRTTI;
+
 public:
+
+	enum AttributeType
+	{
+		ATTR_CONTROLLER,
+		ATTR_HEALTH
+	};
+
 	GameCharacter(ResourceManager::ResourceType type);
 	virtual ~GameCharacter();
+	
+	NxActor* GetActor() const {return m_pActor;}
+	void AddAttribute (AttributeType type, CharacterAttributePtr attr)
+	{ m_tAttributes.SetAt(type, attr); }
+	CharacterAttribute* GetAttribute(AttributeType type);
 
-	AgentPtr GetAgent() const {return m_spAgent;}
-	void SetTarget (GameCharacter* target) {m_pTarget = target;}
-	void SetTempTargetPos(const NxVec3& pos)
-	{m_vTempTargetPos = pos;}
-	GameCharacter* GetTarget() const {return m_pTarget;}
+
 protected:
 
 	virtual void DoExtraUpdates(float fTime)=0;
 	virtual bool DoExtraInits();
-	AgentPtr m_spAgent;
-	GameCharacter* m_pTarget;
-	NxVec3 m_vTempTargetPos;
-	FSMAIControl* m_pAIControl;
+	
+	NxActor* m_pActor;
+	NiTMap<AttributeType, CharacterAttributePtr> m_tAttributes;
 };
 
 NiSmartPointer(GameCharacter);

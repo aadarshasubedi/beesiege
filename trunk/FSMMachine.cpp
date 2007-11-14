@@ -1,80 +1,97 @@
-#include "FSM.h"
+/**
+*	A Finite State Machine
+*/
 #include "FSMMachine.h"
 
-FSMMachine::FSMMachine() : m_currentState(0),
-						   m_goalState(0),
-						   m_defaultState(0)
+//------------------------------------------------------
+/**
+* Ctor
+*/
+FSMMachine::FSMMachine() : m_spCurrentState(0),
+						   m_spGoalState(0),
+						   m_spDefaultState(0)
 {
 }
-
+//------------------------------------------------------
+/**
+* Dtor
+*/
 FSMMachine::~FSMMachine()
 {
 	Reset();
 }
-
-void FSMMachine::UpdateMachine(int t)
+//------------------------------------------------------
+/**
+* Checks the current state for transitions and goes to 
+* a new state if necessary
+* @param delta time
+*/
+void FSMMachine::UpdateMachine(float fTime)
 {
-	if(m_states.size() == 0)
-		return;
+	if (m_tStates.IsEmpty()) return;
 
-	if(!m_currentState)
-		m_currentState = m_defaultState;
-	if(!m_currentState)
-		return;
+	if(!m_spCurrentState)
+	{
+		if (!m_spDefaultState)
+			return;
+
+		m_spCurrentState = m_spDefaultState;
+		m_spCurrentState->Enter();
+	}
+	
 
 	//update current state and check for transition
-	int oldStateId = m_currentState->m_type;
-	FSMState* oldState =m_currentState;
-	m_goalState = m_currentState->CheckTransitions(t);
+	int oldStateId = m_spCurrentState->GetType();
+	FSMState* oldState = m_spCurrentState;
+	m_spGoalState = m_spCurrentState->CheckTransitions(fTime);
 
 	//change states if there was a transition
-	if(m_goalState != oldState)
+	if(m_spGoalState != oldState)
 	{
-		//if(TransitionState(m_goalState))
 		{
-			m_currentState->Exit();
-			m_currentState = m_goalState;
-			m_currentState->Enter();
+			m_spCurrentState->Exit();
+			m_spCurrentState = m_spGoalState;
+			m_spCurrentState->Enter();
 		}
 	}
-	m_currentState->Update(t);
+	m_spCurrentState->Update(fTime);
 }
-
-void FSMMachine::AddState(FSMState* state)
+//------------------------------------------------------
+/**
+* Adds a new FSM state to the table
+* @param State type and State
+*/
+void FSMMachine::AddState(FSMStatePtr state, FSM_STATES type)
 {
 	if(state)
-		m_states.push_back(state);
-
-}
-
-bool FSMMachine::TransitionState(FSMState* state)
-{
-	//todo
-	return true;
-}
-
-FSMState* FSMMachine::GetState(int stateId)
-{
-	FSMState* state;
-	int numStates = m_states.size();
-	for(int i = 0; i< numStates; i++)
 	{
-		if(m_states.at(i)->m_type == stateId)
-		{
-			state = m_states.at(i);
-			break;
-		}
+		m_tStates.SetAt(type, state);
 	}
+
+}
+//------------------------------------------------------
+/**
+* Gets the state associated with a spcific type
+* @param State type 
+*/
+FSMStatePtr FSMMachine::GetState(FSM_STATES stateId)
+{
+	if (m_tStates.IsEmpty()) return 0;
+	
+	FSMStatePtr state = 0;
+	m_tStates.GetAt(stateId, state);
 	return state;
 }
-
+//------------------------------------------------------
+/**
+* Resets the FSM 
+*/
 void FSMMachine::Reset()
 {
-	for (int i=0; i<m_states.size(); i++)
-	{
-		NiDelete m_states[i];
-	}
-	m_states.clear();
+	m_spCurrentState = 0;
+	m_spDefaultState = 0;
+	m_spGoalState = 0;
+	m_tStates.RemoveAll();
 }
 
 

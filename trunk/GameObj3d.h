@@ -11,13 +11,33 @@
 
 class GameObj3d : public GameObj
 {
+	NiDeclareRTTI;
+
 	friend class GameManager;
 public:
 	
 	GameObj3d(ResourceManager::ResourceType type);
 	virtual ~GameObj3d();
-	inline NiNodePtr      GetNode() const { return m_spNode; } 
-	inline NiPhysXPropPtr GetProp() const { return m_spProp; } 
+	NiNodePtr GetNode() const 
+	{
+		return m_spNode;
+	} 
+	NiPhysXPropPtr GetProp() const 
+	{
+		return m_spProp; 
+	}
+	const ResourceManager::ResourceType GetType() const
+	{
+		return m_Type;
+	}
+	const bool IsActive() const 
+	{
+		return m_bIsActive;
+	}
+	void SetActive (bool value)
+	{
+		m_bIsActive = value;
+	}
 	void SetEmmitance(const NiColor& color);
 protected:
 
@@ -30,6 +50,7 @@ protected:
 	NiPhysXPropPtr m_spProp;
 	NiPoint3  m_Pos;
 	NiMatrix3 m_Rot;
+	bool m_bIsActive;
 
 private:
 	virtual void DoExtraUpdates(float fTime) = 0;

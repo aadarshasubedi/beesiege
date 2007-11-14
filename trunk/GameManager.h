@@ -10,6 +10,7 @@
 #include "Enemy.h"
 #include "GameApp.h"
 #include "Level.h"
+#include "ResourceManager.h"
 
 class GameObj3d;
 NiSmartPointer(GameObj3d);
@@ -35,32 +36,51 @@ public:
 
 	bool Init(NiNodePtr parent, NiPhysXScenePtr physXScene, NiApplication* app);
 	void UpdateAll(float fTime);
-	bool AddObject(GameObj3dPtr object, NiNodePtr parent);
-	bool AddObject(GameObj3dPtr object, NiNodePtr parent, NiPhysXScenePtr physXScene);
+	GameObj3dPtr CreateObject3d (ResourceManager::ResourceType type);
 	void AddAgent(AgentPtr agent);
-	//void AddEnemy(GameCharacterPtr enemy);
-	bool CreateEnemy(EnemyPtr enemy);
-	//void RemoveEnemy(GameCharacterPtr enemy);
-	void RemoveObject(GameObj3dPtr object);
 	
-	inline QueenPtr GetQueen() const  { return m_spQueen; }
-	inline const NiTPointerList<AgentPtr>& GetAgents() const { return m_lAgents; }
-	inline GameApp* GetGameApp() const {return m_pGameApplication; }
-	inline const NiTPointerList<EnemyPtr>& GetEnemies() const {return m_spCurrentLevel->GetEnemies();}
-	inline const float GetDeltaTime() const {return m_fDeltaTime; }
+	QueenPtr GetQueen() const 
+	{
+		return m_spQueen; 
+	}
+	const NiTPointerList<AgentPtr>& GetAgents() const 
+	{ 
+		return m_lAgents; 
+	}
+	GameApp* GetGameApp() const
+	{
+		return m_pGameApplication;
+	}
+	const NiTPointerList<EnemyPtr>& GetEnemies() const 
+	{
+		return m_lEnemies;
+	}
+	const float GetDeltaTime() const
+	{
+		return m_fDeltaTime;
+	}
 	
+	void RemoveAgent(AgentPtr agent);
 private:
 
 	GameManager();
 	~GameManager();
 
-	NiTPointerList<GameObj3dPtr> m_lObjects;
-	NiTPointerList<AgentPtr> m_lAgents;
-	//NiTPointerList<EnemyPtr> m_lEnemies;
+	bool AddObject(GameObj3dPtr object, NiNodePtr parent);
+	bool AddObject(GameObj3dPtr object, NiNodePtr parent, NiPhysXScenePtr physXScene);
+	void RemoveObject(GameObj3dPtr object);
+	void RemoveEnemy(EnemyPtr enemy);
 
+	NiTPointerList<GameObj3dPtr> m_lObjects;
+	NiTPointerList<EnemyPtr>     m_lEnemies;
+	NiTPointerList<AgentPtr>     m_lAgents;
+	
 	QueenPtr m_spQueen;
 	GameApp* m_pGameApplication;
 	float    m_fDeltaTime;
+	float    m_fMaxPlayerHeight;
+	float    m_fDefaultFogDepth;
+	float    m_fFogScaleValue;
 	LevelPtr m_spCurrentLevel;
 };
 

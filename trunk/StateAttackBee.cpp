@@ -28,18 +28,18 @@ FSMState* StateAttackBee::CheckTransitions(int i)
 {
 	
 	//return the current state by default
-	FSMState* nextState = ((FSMEnemyAIControl*)m_control)->m_machine->m_currentState;
+	FSMState* nextState = ((FSMEnemyAIControl*)m_control)->m_spMachine->m_currentState;
 
 	if(((FSMEnemyAIControl*)m_control)->isHealthBelowZero)
 	{	
 		//return dead state
-		nextState = ((FSMEnemyAIControl*)m_control)->m_machine->GetState(FSM_ENEMY_DEAD);
+		nextState = ((FSMEnemyAIControl*)m_control)->m_spMachine->GetState(FSM_ENEMY_DEAD);
 	}
 	else if(((FSMEnemyAIControl*)m_control)->isTargetDead)
 	{
 		//For now please consider the idle state as the "seek" state of the enemy
 		//return the idle state
-		nextState = ((FSMEnemyAIControl*)m_control)->m_machine->GetState(FSM_IDLE);
+		nextState = ((FSMEnemyAIControl*)m_control)->m_spMachine->GetState(FSM_IDLE);
 	}
 
 	//return the Attack state by default

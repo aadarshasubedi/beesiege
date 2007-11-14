@@ -35,12 +35,13 @@ Level::~Level()
  */
 bool Level::AddEnemy(EnemyPtr enemy, const NxVec3& pos)
 {
+
 	// call GameManager to init the enemy
-	bool bSuccess = GameManager::Get()->CreateEnemy(enemy);
-	if (!bSuccess) return false;
-	// set the position and target for the enemy
-	enemy->GetAgent()->GetActor()->setGlobalPosition(pos);
-	enemy->SetTempTargetPos(pos);
+	enemy = (Enemy*)(GameObj3d*)GameManager::Get()->CreateObject3d(enemy->GetType());
+	if (!enemy) return false;
+	// set the position for the enemy
+	enemy->GetActor()->setGlobalPosition(pos);
+	
 	// add the enemy to the enemy list
 	m_lEnemies.AddTail(enemy);
 

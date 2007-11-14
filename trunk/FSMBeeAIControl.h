@@ -3,27 +3,25 @@
 
 #include "FSMAIControl.h"
 
-class GameCharacter;
 class Bee;
+class Enemy;
 
 class FSMBeeAIControl: public FSMAIControl
 {
 public:
 	FSMBeeAIControl(Bee* bee);
-	
-	GameCharacter* m_TargetEnemy;
-	bool isHealthBelowZero; //should be set in the UpdatePerceptions method
-	bool isTargetDead;
-	bool issuedAttackCommand; //this should become false once the bee goes into attack state
-	GameCharacter* m_queenBee;
-	float m_health;
-	GameObj* m_nearestPowerUp;
+	~FSMBeeAIControl();
 
-	void UpdatePerceptions(int t);
-	void Init();
+	Enemy* m_pTargetEnemy;
+
+	bool isHealthBelowZero; 
+	bool isTargetDead;
+	bool issuedAttackCommand; 
 
 private:
-	void DoExtraUpdates(float t){}
+
+	void UpdatePerceptions(float fTime);
+	void DoExtraUpdates(float fTime);
 };
 
 NiSmartPointer(FSMBeeAIControl);

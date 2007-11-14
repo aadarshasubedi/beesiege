@@ -55,8 +55,12 @@ CharacterController::~CharacterController()
  */
 void CharacterController::Update(const NxVec3& target)
 {
-	Sense(target);
-	UpdateForces();
+	if (!m_bTurnSpringsOff)
+	{
+		Sense(target);
+		UpdateForces();
+	}
+
 	UpdatePhysX();
 }
 //------------------------------------------------------------------------- 
@@ -109,6 +113,11 @@ void CharacterController::UpdatePhysX()
 	if (!m_bTurnSpringsOff)
 	{	
 		m_pAgent->GetActor()->addForce(m_spAgentInfo->m_vForce, NX_FORCE);
+	}
+	else
+	{
+		NxVec3 gravity(0.0, -90.8f, 0.0f);
+		m_pAgent->GetActor()->addForce(gravity, NX_ACCELERATION);
 	}
 	
 	
