@@ -5,6 +5,7 @@
 
 class Locust : public Enemy
 {
+	NiDeclareRTTI;
 public:
 	Locust();
 	~Locust();

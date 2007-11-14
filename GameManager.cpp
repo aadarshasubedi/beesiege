@@ -3,13 +3,12 @@
  */
 #include "GameManager.h"
 #include "GameObj3d.h"
-#include "ResourceManager.h"
 #include "Bee.h"
+#include "Locust.h"
 #include "ConfigurationManager.h"
 #include "LevelManager.h"
 #include <NiPhysXScene.h>
 #include <NiApplication.h>
-#include <omp.h>
 
 //------------------------------------------------------------------------ 
 /** 
@@ -28,7 +27,7 @@ GameManager::~GameManager()
 {
 	m_lObjects.RemoveAll();
 	m_lAgents.RemoveAll();
-//	m_lEnemies.RemoveAll();
+	m_lEnemies.RemoveAll();
 	m_spQueen = 0;
 	m_spCurrentLevel = 0;
 	ConfigurationManager::Destroy();
@@ -55,13 +54,17 @@ bool GameManager::Init(NiNodePtr parent, NiPhysXScenePtr physXScene, NiApplicati
 		return false;
 	}
 
+	m_fMaxPlayerHeight = ConfigurationManager::Get()->queen_maxHeight;
+	m_fDefaultFogDepth = ConfigurationManager::Get()->scene_fogDefaultDepth;
+	m_fFogScaleValue   = ConfigurationManager::Get()->queen_fogScaleValue;
+
 	// create queen
 	m_spQueen = NiNew Queen;
 	if (!AddObject((GameObj3dPtr)m_spQueen, parent, physXScene))
 	{
 		return false;
 	}
-	m_spQueen->GetAgent()->GetActor()->setGlobalPosition(NxVec3(0.0, 100.0, -200.0));
+	m_spQueen->GetActor()->setGlobalPosition(NxVec3(0.0, 100.0, -200.0));
 
 
 	if (!LevelManager::Get()->LoadLevel(1))
@@ -70,7 +73,8 @@ bool GameManager::Init(NiNodePtr parent, NiPhysXScenePtr physXScene, NiApplicati
 	}
 
 	m_spCurrentLevel = LevelManager::Get()->GetLevel(1);
-	
+	CopyLists(m_spCurrentLevel->GetEnemies(), m_lEnemies);
+
 	return true;
 }
 //------------------------------------------------------------------------ 
@@ -83,15 +87,82 @@ void GameManager::UpdateAll(float fTime)
 {
 	m_fDeltaTime = m_pGameApplication->GetFrameTime();
 	NiTListIterator it = m_lObjects.GetHeadPos();
-
-	//#pragma omp parallel for
-	for (int i=0; i<m_lObjects.GetSize(); i++)
+	int size = m_lObjects.GetSize();
+	for (int i=0; i<size; i++)
 	{
 		GameObj3dPtr obj = m_lObjects.Get(it);
+		if (!obj) break;
+		if (!obj->IsActive())
+		{
+			if (NiIsKindOf(Enemy, obj))
+			{
+				EnemyPtr enemy = (Enemy*)(GameObj3d*)obj;
+				RemoveEnemy(enemy);
+			}
+			RemoveObject(obj);
+			//it = m_lObjects.GetNextPos(it);
+			continue;
+		}
 		obj->Update(fTime);
 		it = m_lObjects.GetNextPos(it);
 	}
 
+	// if queen goes too high then increse fog significantly so 
+	// the player cannot see anything. This will make him want to 
+	// go back to a normal height where we want him.
+	NiFogProperty* fog = (NiFogProperty*)m_pGameApplication->GetScene()->GetProperty(NiProperty::FOG);
+	if (fog)
+	{
+		float y = GetQueen()->GetActor()->getGlobalPosition().y; 
+		if ( y >= m_fMaxPlayerHeight)
+		{
+			fog->SetDepth(y*y*y/m_fFogScaleValue);	
+		}
+		else
+		{
+			fog->SetDepth(m_fDefaultFogDepth);
+		}
+	}
+}
+//------------------------------------------------------------------------ 
+/**
+* Creates a 3d object of a given type and returns 
+* that object to the caller
+* @param ResourceManager::ResourceType: the type
+*/
+GameObj3dPtr GameManager::CreateObject3d(ResourceManager::ResourceType type)
+{
+	NiNodePtr mainScene = m_pGameApplication->GetScene();
+	NiPhysXScenePtr physxScene = m_pGameApplication->GetPhysXScene();
+	GameObj3dPtr obj = 0;
+	switch (type)
+	{
+	case ResourceManager::RES_MODEL_BEE:
+			obj = NiNew Bee;
+			if (!AddObject(obj, mainScene, physxScene))
+			{
+				obj = 0;
+			}
+			break;
+	case ResourceManager::RES_MODEL_QUEEN:
+			obj = NiNew Queen;
+			if (!AddObject(obj, mainScene, physxScene))
+			{
+				obj = 0;
+			}
+			break;
+	case ResourceManager::RES_MODEL_LOCUST:
+			obj = NiNew Locust;
+			if (!AddObject(obj, mainScene, physxScene))
+			{
+				obj = 0;
+			}
+			break;
+	default:
+		return 0;
+	}
+
+	return obj;
 }
 //------------------------------------------------------------------------ 
 /** 
@@ -146,44 +217,53 @@ void GameManager::AddAgent(AgentPtr agent)
 }
 //------------------------------------------------------------------------ 
 /** 
- * Adds an enemy to the enemies list
- * 
- * @param enemy
- *//*
-void GameManager::AddEnemy(EnemyPtr enemy)
-{
-	m_lEnemies.AddTail(enemy);
-}
-//------------------------------------------------------------------------ 
-/**
-* Initilizes an enemy
-* @param enemy
-* @return bool
-*/
-bool GameManager::CreateEnemy(EnemyPtr enemy)
-{	
-	return AddObject((GameObj3d*)enemy, m_pGameApplication->GetScene(),
-		m_pGameApplication->GetPhysXScene());
-}
-//------------------------------------------------------------------------ 
-/** 
- * Removes an enemy from the enemy list
- * 
- * @param enemy
- */
-/*
-void GameManager::RemoveEnemy(GameCharacterPtr enemy)
-{
-	m_lEnemies.Remove(enemy);
-}
-//------------------------------------------------------------------------ 
-/** 
  * Removes an object from the list
  * 
  * @param object
  */
 void GameManager::RemoveObject(GameObj3dPtr object)
 {
-	m_lObjects.Remove(object);
+	if (!m_lObjects.IsEmpty())
+	{
+		NiPhysXPropPtr prop = object->GetProp();
+		if (prop)
+		{
+			prop->DetachSceneCallback(m_pGameApplication->GetPhysXScene());
+			//m_pGameApplication->GetPhysXScene()->RemoveProp(prop);
+		}
+
+		NiNode* parent = object->GetNode()->GetParent();
+		if (parent)
+			parent->DetachChild(object->GetNode());
+
+		m_lObjects.Remove(object);
+	}
+	
 }
 //------------------------------------------------------------------------
+/** 
+ * Removes an agent from the list
+ * 
+ * @param agent
+ */
+void GameManager::RemoveAgent(AgentPtr agent)
+{
+	if (!m_lAgents.IsEmpty())
+	{
+		m_lAgents.Remove(agent);
+	}
+	
+}
+//------------------------------------------------------------------------
+/** 
+ * Removes an enemy from the list
+ * 
+ * @param agent
+ */
+void GameManager::RemoveEnemy(EnemyPtr enemy)
+{
+	if (!m_lEnemies.IsEmpty())
+	{
+		m_lEnemies.Remove(enemy);
+	}
+}

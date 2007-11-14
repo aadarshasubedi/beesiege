@@ -17,7 +17,9 @@
  * 
  * @param actor
  */
-Agent::Agent(NxActor* actor) : m_pActor(actor)
+Agent::Agent(NxActor* actor) : m_pActor(actor),
+							   m_pTarget(0),
+							   m_vTargetPosition(0.0f, 0.0f, 0.0f)
 {
 	m_spController = NiNew CharacterController(this);	
 }
@@ -36,9 +38,16 @@ Agent::~Agent()
  * 
  * @param target
  */
-void Agent::Update(const NxVec3& target)
+void Agent::Update()
 {
-	m_spController->Update(target);
+ 	if (m_pTarget)
+	{
+		m_spController->Update(m_pTarget->getGlobalPosition());
+	}
+	else
+	{
+		m_spController->Update(m_vTargetPosition);
+	}
 }
 //------------------------------------------------------------------------- 
 /** 

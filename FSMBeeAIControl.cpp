@@ -1,55 +1,75 @@
+/**
+* Inherits from FSMAIControl. Controls a Bee
+*/
+
 #include "FSMBeeAIControl.h"
 #include "FSMMachine.h"
-#include "State_Attack_Enemy.h"
-#include "State_Bee_Dead.h"
-#include "State_PowerUp.h"
+#include "StateBeeAttackEnemy.h"
 #include "State_FollowQueen.h"
 #include "Bee.h"
-
+#include "Enemy.h"
+#include "GameManager.h"
+//-----------------------------------------------------------------------
+/**
+* Ctor
+* @param The bee that needs to be controlled
+*/
 FSMBeeAIControl::FSMBeeAIControl(Bee* bee) : FSMAIControl((GameCharacter*)bee),
-											 isHealthBelowZero(0),
-											 isTargetDead(0),
-											 issuedAttackCommand(0)
+											   m_pTargetEnemy(0),
+											   isHealthBelowZero(0),
+											   isTargetDead(0),
+											   issuedAttackCommand(0)
 {
+	// add states to the FSM
 	StateFollowQueen* followQueen = NiNew StateFollowQueen(this);
-	m_machine->AddState(followQueen);
-	m_machine->AddState(NiNew StateAttackEnemy(this));
-	m_machine->AddState(NiNew StatePowerUp(this));
-	m_machine->AddState(NiNew StateBeeDead(this));
-	m_machine->SetDefaultState(followQueen);
+	m_spMachine->AddState(followQueen, FSM_FOLLOW_QUEEN);
+	m_spMachine->AddState(NiNew StateBeeAttackEnemy(this), FSM_ATTACK_ENEMY);
+	m_spMachine->SetDefaultState(followQueen);
+
+	// add agent to the GameManager agents list
+	// so that other agents know about it when they
+	// do group behaviors
+	GameManager::Get()->AddAgent(m_spAgent);
+
 }
-
-
-
-
-void FSMBeeAIControl::UpdatePerceptions(int t)
+//-----------------------------------------------------------------------
+/**
+* Dtor
+* 
+*/
+FSMBeeAIControl::~FSMBeeAIControl()
 {
-	
-	m_TargetEnemy = m_character->GetTarget();
-	//get the nearest powerUp here
-	//m_nearestPowerUp = m_bee->m_TargetPowerUp
+	m_pTargetEnemy = 0;
+	// remove agent from game manager
+	GameManager::Get()->RemoveAgent(m_spAgent);
+}
+//-----------------------------------------------------------------------
+/**
+* Updates the required variables that the controller needs to function
+* @param delta time
+*/
+void FSMBeeAIControl::UpdatePerceptions(float fTime)
+{
+	NIASSERT(m_pOwner);
+	Bee* ownerBee = (Bee*)m_pOwner;
+	issuedAttackCommand = ownerBee->WasAttackIssued();
 
-	//get the health of the bee here
-	//m_health = m_bee->getHealth();
-	//if(m_health <= 0.0)
-	//	isHealthBelowZero = true;
-
-	if(m_TargetEnemy)
+	if (issuedAttackCommand)
 	{
-	//	float enemyHealth;
-		//get target enemy health here
-		//enemyHealth = m_TargetEnemy->getHealth();
-
-	//	if(enemyHealth <= 0.0)
-	//		isTargetDead = true;
-	
+		m_pTargetEnemy = ownerBee->GetEnemyTarget();
 	}
-	//check if bee has been issued an attack command
-	issuedAttackCommand = ((Bee*)m_character)->WasAttackCommandIssued();
-	
+	else
+	{
+		m_pTargetEnemy = 0;
+	}
 }
-
-void FSMBeeAIControl::Init()
+//-----------------------------------------------------------------------
+/**
+* Performs extra updates if necessary
+* @param delta time
+*/
+void FSMBeeAIControl::DoExtraUpdates(float fTime)
 {
-
+	
+	
 }

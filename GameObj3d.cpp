@@ -5,6 +5,10 @@
 #include "ResourceManager.h"
 #include <NiApplication.h>
 #include <NiFogProperty.h>
+
+//----------------------------------------------------------------------
+// implements RTTI
+NiImplementRTTI(GameObj3d, GameObj);
 //----------------------------------------------------------------------
 /** 
  * Ctor
@@ -16,7 +20,8 @@ GameObj3d::GameObj3d(ResourceManager::ResourceType type)
 						 m_spNode(0),
 						 m_spProp(0),
 						 m_Pos(NiPoint3(0.0, 0.0, 0.0)),
-						 m_Rot(NiMatrix3())
+						 m_Rot(NiMatrix3()),
+						 m_bIsActive(true)
 {
 }
 //---------------------------------------------------------------------- 
@@ -70,16 +75,16 @@ bool GameObj3d::Init(NiNodePtr attachToThis, NiPhysXScenePtr attachToScene)
 	NiNodePropPtr nodeProp = ResourceManager::Get()->GetNodeProp(m_Type);
 	if (nodeProp)
 	{
+		m_spNode = nodeProp->m_spNode;
+		m_spProp = nodeProp->m_spProp;
+
 		// attach the model to the scene graph
 		if (attachToThis)
-			attachToThis->AttachChild(nodeProp->m_spNode);
+			attachToThis->AttachChild(m_spNode);
 		
 		// attach the PhysX prop to the main PhysX scene
 		if (attachToScene)
-			attachToScene->AddProp(nodeProp->m_spProp);
-
-		m_spNode = nodeProp->m_spNode;
-		m_spProp = nodeProp->m_spProp;
+			attachToScene->AddProp(m_spProp);
 
 		// do extra initializations
 		return DoExtraInits();

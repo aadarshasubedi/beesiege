@@ -2,29 +2,20 @@
 #define FSMENEMYAICONTROL_H
 
 #include "FSMAIControl.h"
-#include "Locust.h"
-#include "FSMMachine.h"
 
-using namespace std;
+class Enemy;
 
 class FSMEnemyAIControl: public FSMAIControl
 {
 public:
-	FSMEnemyAIControl(GameCharacter* enemy);
-	
-	GameObj* m_TargetBee;
-	bool isHealthBelowZero; //should be set in the UpdatePerceptions method
-	bool isTargetDead;
-	GameObj* m_queenBee;
+	FSMEnemyAIControl(Enemy* enemy);
+	~FSMEnemyAIControl();
 
-	float m_distFromQueen;
-	float m_health;
-	
-	void UpdatePerceptions(int t);
-	void Init();
 
 private:
-	void DoExtraUpdates(float t){}
+
+	void UpdatePerceptions(float fTime);
+	void DoExtraUpdates(float fTime);
 };
 
 NiSmartPointer(FSMEnemyAIControl);

@@ -1,31 +1,40 @@
-#include "FSMAIControl.h"
-#include "FSMMachine.h"
+/**
+* An AI controller that uses a Finite State Machine
+* and an Agent to control a character
+*/
 
-FSMAIControl::FSMAIControl(GameCharacter* character) : m_character(character),
-													   m_machine(NiNew FSMMachine()),
-													   m_fcPowerUpScanDistance(30.0f)
+#include "FSMAIControl.h"
+
+//------------------------------------------------------------
+/**
+* Ctor
+* @param The character that needs to be controlled
+*/
+FSMAIControl::FSMAIControl(GameCharacter* character)
+: ControllerAttr(character),
+  m_spMachine(NiNew FSMMachine()),
+  m_spAgent(NiNew Agent(character->GetActor()))
 {
 }
-
+//------------------------------------------------------------
+/**
+* Dtor
+* 
+*/
 FSMAIControl::~FSMAIControl()
 {
-	NiDelete m_machine;
-	m_machine = 0;
+	m_spMachine = 0;
+	m_spAgent = 0;
 }
-	
-void FSMAIControl::Update(int t)
+//------------------------------------------------------------
+/**
+* Updates the controller's FSM
+* @param delta time
+*/	
+void FSMAIControl::Update(float fTime)
 {
-	UpdatePerceptions(t);
-	m_machine->UpdateMachine(t);	
-
-	DoExtraUpdates(t);
-}
-void FSMAIControl::UpdatePerceptions(int t)
-{
-
-}
-void FSMAIControl::Init()
-{
-
+	UpdatePerceptions(fTime);
+	m_spMachine->UpdateMachine(fTime);
+	DoExtraUpdates(fTime);
 }
 

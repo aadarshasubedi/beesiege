@@ -1,42 +1,36 @@
 /**
-*	A state that makes the owner follow the queen
+*	A state that makes the owner attack an enemy
 */
-#include "State_FollowQueen.h"
-#include "Bee.h"
-#include "Queen.h"
+#include "StateEnemyWander.h"
 #include "FSMMachine.h"
+#include "GameCharacter.h"
 #include "GameManager.h"
-#include "FSMBeeAIControl.h"
-#include "Arrival.h"
-#include "Departure.h"
+#include "FSMEnemyAIControl.h"
 #include "Wander.h"
+#include "Arrival.h"
 #include "BehaviorCombo.h"
-#include <NiTPointerList.h>
-
+#include "NiTPointerList.h"
+#include "HealthAttribute.h"
+#include <NiPhysX.h>
 //----------------------------------------------------------------------
 /**
 *	Performs necessary operations when we the state is entered
 */
-void StateFollowQueen::Enter()
+void StateEnemyWander::Enter()
 {
-	GameManager::Get()->GetQueen()->AddSoldier((Bee*)((FSMBeeAIControl*)m_control)->GetOwner());
-	// set the target to the queen
-	m_control->GetAgent()->SetTarget(
-		GameManager::Get()->GetQueen()->GetActor());
-	
+	m_pHealth = (HealthAttribute*)m_control->GetOwner()->
+		GetAttribute(GameCharacter::ATTR_HEALTH);
+	m_control->GetAgent()->SetTarget(m_control->GetAgent()->GetActor()->getGlobalPosition());
 	// create a behavior combo
 	NiTPointerList<BehaviorPtr> lBehaviors;
 	NiTPointerList<float> lCoefficients;
 	lBehaviors.AddTail(NiNew Arrival);
-	lBehaviors.AddTail(NiNew Departure);
 	lBehaviors.AddTail(NiNew Wander);
 
 	lCoefficients.AddTail(1.0f);
-	lCoefficients.AddTail(1.5f);
-	lCoefficients.AddTail(0.5f);
+	lCoefficients.AddTail(2.0f);
 
 	BehaviorComboPtr combo = NiNew BehaviorCombo(lBehaviors, lCoefficients);
-
 	m_control->GetAgent()->GetController()->SetBehavior((Behavior*)combo);
 }
 //----------------------------------------------------------------------
@@ -44,37 +38,43 @@ void StateFollowQueen::Enter()
 *	Updates the state
 *   @param delta time
 */
-void StateFollowQueen::Update(float fTime)
+void StateEnemyWander::Update(float fTime)
 {
 	m_control->GetAgent()->Update();
-	m_control->GetAgent()->GetActor()->setGlobalOrientation(
-		m_control->GetAgent()->GetTarget()->getGlobalOrientation());
+
+	m_control->GetAgent()->LookAt(GameManager::Get()->
+		GetQueen()->GetActor()->getGlobalPosition());
+	
 }
 //----------------------------------------------------------------------
 /**
 *	Checks for transition conditions
 *   @param delta time
 */
-FSMState* StateFollowQueen::CheckTransitions(float fTime)
-{
-	//return the current state by default
-	FSMState* nextState = m_control->GetMachine()->m_spCurrentState;
-
-	if(((FSMBeeAIControl*)m_control)->issuedAttackCommand)
-	{
-		((FSMBeeAIControl*)m_control)->issuedAttackCommand = false;
-		//return attack state
-		nextState = ((FSMBeeAIControl*)m_control)->GetMachine()->GetState(FSM_ATTACK_ENEMY);
-	}
+FSMState* StateEnemyWander::CheckTransitions(float fTime)
+{	
 	
+	FSMState* nextState = m_control->GetMachine()->m_spCurrentState;
+	
+	if (m_pHealth)
+	{
+		if (m_pHealth->GetHealth() <= 0.0f)
+		{
+			m_control->GetOwner()->SetActive(false);
+			//m_control->GetAgent()->GetController()->ToggleSpringDynamics(true);
+		}
+	}
+
+
 	return nextState;
+	
 }
 //----------------------------------------------------------------------
 /**
 *	Performs necessary operations when we the state is exited
 *   
 */
-void StateFollowQueen::Exit()
+void StateEnemyWander::Exit()
 {
 	
 }

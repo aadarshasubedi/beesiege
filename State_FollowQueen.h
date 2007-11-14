@@ -2,9 +2,6 @@
 #define STATEFOLLOWQUEEN_H
 
 #include "FSMState.h"
-#include "FSMBeeAIControl.h"
-
-using namespace std;
 
 class StateFollowQueen: public FSMState
 {
@@ -15,9 +12,8 @@ public:
 	
 	void Enter();
 	void Exit();
-	void Update(int i);
-	void Init();
-	FSMState* CheckTransitions(int t);
+	void Update(float fTime);
+	FSMState* CheckTransitions(float fTime);
 };
 
 NiSmartPointer(StateFollowQueen);

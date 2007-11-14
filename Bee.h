@@ -2,23 +2,36 @@
 #define BEE_H
 
 #include "GameCharacter.h"
-#include "Sound.h"
+
+class Enemy;
 
 class Bee : public GameCharacter
 {
+	NiDeclareRTTI;
 public:
 	Bee();
 	~Bee();
 
-	void Attack (GameCharacterPtr target);
-	const bool WasAttackCommandIssued() const {return m_bAttackCommandIssued;}
-	void ResetAttackCommand() { m_bAttackCommandIssued = false; }
+	void SetAttack(Enemy* target, bool value=true)
+	{
+		m_pEnemyTarget = target;
+		m_bIssuedAttackCommand = value;
+	}
+	const bool WasAttackIssued() const
+	{
+		return m_bIssuedAttackCommand;
+	}
+	Enemy* GetEnemyTarget() const 
+	{
+		return m_pEnemyTarget;
+	}
 private:
 
 	void DoExtraUpdates(float fTime);
 	bool DoExtraInits();
-	SoundPtr m_spSound;
-	bool m_bAttackCommandIssued;
+	
+	bool m_bIssuedAttackCommand;
+	Enemy* m_pEnemyTarget;
 };
 
 NiSmartPointer(Bee);
