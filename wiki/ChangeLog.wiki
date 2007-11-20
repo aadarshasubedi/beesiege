@@ -136,3 +136,41 @@ I made huge changes to the code in order to achieve the following:
 This means that for example Health is an attribute. Some characters might have health some might not. This could be anything, it could be armor for example or special powers. The only thing we need to do is create something that inherits from CharacterAttribute and add it to the Characters attribute list. The attributes will have an update function so the only thing we have to do to make the attributes work would be to call their update functions. I'm not totally sure about this design approach yet, but I'm definitely using attributes. I'll post the code once I'm sure about the changes.
 
 Cheers.
+
+
+*20-Nov-2007* - _Ruhi
+
+Here is what we have discussed about the gameplay so far. I think we should not deviate too much now and just pick what should be done from here.
+
+Character modifications:
+A Types of Bees
+  1) Healers - these bees will heal the wounded bees if they are close enough
+  2) Honey bees - they collect nectar from the flowers
+  3) Soldier bees 1 - they attack the enemy
+  4) Soldier bees 2 - they are bigger and stronger soldier bees
+
+B Types of Enemies
+  1) Locust - short-sighted, they attack the closest target
+  2) Dragonfly - they are on the lookout for the Queen bee 
+  3) Other enemies - maybe they eat up the honey, so they should be killed
+
+Queen Functions:
+1) The queen has to be close to the target in order to launch an attack
+2) The strength of the soldier bees is inversely proportional to their distance from the queen - 
+   smaller distance = higher confidence = less health lost = more damage done
+   very large distance  = low confidence = lose health quickly = less damage done
+
+Attack mechanism:
+Right-click - Select the soldier bees
+Right-release - Attack the target with separation (default behavior)
+Left-click - If target selected, add cohesion to attacking group
+
+New State:
+Auto-attack - If an enemy is too close, the soldier bees close to the queen that are not already engaged in another attack will start attacking this enemy.
+
+Resource control:
+Flower beds - honey bees collect nectar here. More the nectar created, higher the capacity to spawn new bees
+
+Enemy bases - Each housing an enemy boss. Kill the boss = destroy the base. Each base spawns enemies depending on the health of the respective boss.
+
+Now, who will explain this to Lane :D?
