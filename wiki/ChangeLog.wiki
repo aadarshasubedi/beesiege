@@ -142,19 +142,20 @@ Cheers.
 
 Here is what we have discussed about the gameplay so far. I think we should not deviate too much now and just pick what should be done from here.
 
-==Character modifications:==
-* Types of Bees
+===Character modifications===
+
+* Types of Bees:
   # Healers - these bees will heal the wounded bees if they are close enough
   # Honey bees - they collect nectar from the flowers
   # Soldier bees 1 - they attack the enemy
   # Soldier bees 2 - they are bigger and stronger soldier bees
 
-* Types of Enemies
+* Types of Enemies:
   # Locust - short-sighted, they attack the closest target
   # Dragonfly - they are on the lookout for the Queen bee 
   # Other enemies - maybe they eat up the honey, so they should be killed
 
-==Queen Functions:==
+===Queen Functions===
   # The queen has to be close to the target in order to launch an attack
   # The strength of the soldier bees is inversely proportional to their distance from the queen - 
    smaller distance = higher confidence = less health lost = more damage done
