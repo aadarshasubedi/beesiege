@@ -159,6 +159,7 @@ Here is what we have discussed about the gameplay so far. I think we should not 
   # The queen has to be close to the target in order to launch an attack
   # The strength of the soldier bees is inversely proportional to their distance from the queen - 
    smaller distance = higher confidence = less health lost = more damage done
+
    very large distance  = low confidence = lose health quickly = less damage done
 
 ===Attack mechanism:===
