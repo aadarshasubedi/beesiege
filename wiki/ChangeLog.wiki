@@ -144,13 +144,13 @@ Here is what we have discussed about the gameplay so far. I think we should not 
 
 ===Character modifications===
 
-* Types of Bees:
+* Types of Bees:*
   # Healers - these bees will heal the wounded bees if they are close enough
   # Honey bees - they collect nectar from the flowers
   # Soldier bees 1 - they attack the enemy
   # Soldier bees 2 - they are bigger and stronger soldier bees
 
-* Types of Enemies:
+* Types of Enemies:*
   # Locust - short-sighted, they attack the closest target
   # Dragonfly - they are on the lookout for the Queen bee 
   # Other enemies - maybe they eat up the honey, so they should be killed
@@ -161,17 +161,17 @@ Here is what we have discussed about the gameplay so far. I think we should not 
    smaller distance = higher confidence = less health lost = more damage done
    very large distance  = low confidence = lose health quickly = less damage done
 
- * Attack mechanism:
+===Attack mechanism:===
   # Right-click - Select the soldier bees
   # Right-release - Attack the target with separation (default behavior)
   # Left-click - If target selected, add cohesion to attacking group
 
-* New State:
-  Auto-attack - If an enemy is too close, the soldier bees close to the queen that are not    already engaged in another attack will start attacking this enemy.
+===New State:===
+*Auto-attack* - If an enemy is too close, the soldier bees close to the queen that are not    already engaged in another attack will start attacking this enemy.
 
-* Resource control:
-Flower beds - honey bees collect nectar here. More the nectar created, higher the capacity to spawn new bees
+===Resource control:===
+# Flower beds - honey bees collect nectar here. More the nectar created, higher the capacity to spawn new bees
 
-* Enemy bases - Each housing an enemy boss. Kill the boss = destroy the base. Each base spawns enemies depending on the health of the respective boss.
+# Enemy bases - Each housing an enemy boss. Kill the boss = destroy the base. Each base spawns enemies depending on the health of the respective boss.
 
 Now, who will explain this to Lane :D?
