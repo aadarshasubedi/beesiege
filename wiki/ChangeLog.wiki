@@ -158,7 +158,7 @@ Here is what we have discussed about the gameplay so far. I think we should not 
 ===Queen Functions===
   # The queen has to be close to the target in order to launch an attack
   # The strength of the soldier bees is inversely proportional to their distance from the queen - 
-   smaller distance = higher confidence = less health lost = more damage done
+  smaller distance = higher confidence = less health lost = more damage done
 
    very large distance  = low confidence = lose health quickly = less damage done
 
@@ -171,8 +171,8 @@ Here is what we have discussed about the gameplay so far. I think we should not 
 *Auto-attack* - If an enemy is too close, the soldier bees close to the queen that are not    already engaged in another attack will start attacking this enemy.
 
 ===Resource control:===
-# Flower beds - honey bees collect nectar here. More the nectar created, higher the capacity to spawn new bees
+  # Flower beds - honey bees collect nectar here. More the nectar created, higher the capacity to spawn new bees
 
-# Enemy bases - Each housing an enemy boss. Kill the boss = destroy the base. Each base spawns enemies depending on the health of the respective boss.
+  # Enemy bases - Each housing an enemy boss. Kill the boss = destroy the base. Each base spawns enemies depending on the health of the respective boss.
 
 Now, who will explain this to Lane :D?
