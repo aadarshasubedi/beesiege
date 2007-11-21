@@ -3,9 +3,9 @@
 <configuration>
      <controllers>
         <agent>
-            <maxForce> 1100.0 </maxForce>
+            <maxForce> 1500.0 </maxForce>
             <maxTorque> 40.5 </maxTorque>
-            <maxVelocity> 500.0 </maxVelocity>
+            <maxVelocity> 150.0 </maxVelocity>
             <maxAngVel> 10.0 </maxAngVel>
         </agent>
         <characterController>
@@ -13,26 +13,26 @@
             <damping> 2.0 </damping>
         </characterController>
         <cameraController>
-            <distanceFromTarget> 350.0 </distanceFromTarget>
-            <maxVelocity> 50.0 </maxVelocity>
-            <damping> 5.0 </damping>
-            <springConstant> 0.5 </springConstant>
+            <distanceFromTarget> 30.0 </distanceFromTarget>
+            <maxVelocity> 40.0 </maxVelocity>
+            <damping> 4.0 </damping>
+            <springConstant> 1.0 </springConstant>
         </cameraController>
       </controllers>
     <behaviors>
         <arrival>
-            <constant> 10.0 </constant>
+            <constant> 20.0 </constant>
         </arrival>
         <alignment>
-            <constant> 2000.0 </constant>
-            <radius> 200.0 </radius>
+            <constant> 200.0 </constant>
+            <radius> 20.0 </radius>
         </alignment>
         <cohesion>
-            <constant> 2000.0 </constant>
-            <radius> 200.0 </radius>
+            <constant> 100.0 </constant>
+            <radius> 20.0 </radius>
         </cohesion>
         <departure>
-            <constant> 22000.0 </constant>
+            <constant> 500.0 </constant>
         </departure>
         <separation>
             <constant> 5000.0 </constant>
@@ -48,11 +48,11 @@
             <distanceFromTarget> 0.0 </distanceFromTarget>
         </bee>
         <queen>
-            <speedGain> 1000.0 </speedGain>
-            <rotationGain> 500.0 </rotationGain>
-            <moveUpSpeedGain> 100.0 </moveUpSpeedGain>
+            <speedGain> 300.0 </speedGain>
+            <rotationGain> 10.0 </rotationGain>
+            <moveUpSpeedGain> 20.0 </moveUpSpeedGain>
             <viewRadius> 500.0 </viewRadius>
-            <maxHeight> 278.495 </maxHeight>
+            <maxHeight> 578.495 </maxHeight>
             <fogScaleValue> 27000000.0 </fogScaleValue>
         </queen>
     </characters>

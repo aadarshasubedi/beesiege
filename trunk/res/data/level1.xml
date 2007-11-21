@@ -4,57 +4,19 @@
     <enemies>
         <enemy type="LOCUST">
             <x> 0.0 </x>
-            <y> 100.0 </y>
-            <z> -200.0 </z>
-        </enemy>
-        <enemy type="LOCUST">
-            <x> 50.0 </x>
-            <y> 100.0 </y>
-            <z> -200.0 </z>
-        </enemy>
-        <enemy type="LOCUST">
-            <x> 100.0 </x>
-            <y> 100.0 </y>
+            <y> 250.0 </y>
             <z> -200.0 </z>
         </enemy>
         <enemy type="LOCUST">
             <x> 150.0 </x>
-            <y> 100.0 </y>
-            <z> -200.0 </z>
+            <y> 350.0 </y>
+            <z> -250.0 </z>
         </enemy>
         <enemy type="LOCUST">
-            <x> 200.0 </x>
-            <y> 100.0 </y>
-            <z> -200.0 </z>
+            <x> 150.0 </x>
+            <y> 250.0 </y>
+            <z> -250.0 </z>
         </enemy>
-        <enemy type="LOCUST">
-            <x> 250.0 </x>
-            <y> 100.0 </y>
-            <z> -200.0 </z>
-        </enemy>
-        <enemy type="LOCUST">
-            <x> 300.0 </x>
-            <y> 100.0 </y>
-            <z> -200.0 </z>
-        </enemy>
-        <enemy type="LOCUST">
-            <x> 350.0 </x>
-            <y> 100.0 </y>
-            <z> -200.0 </z>
-        </enemy>
-        <enemy type="LOCUST">
-            <x> 400.0 </x>
-            <y> 100.0 </y>
-            <z> -200.0 </z>
-        </enemy>
-        <enemy type="LOCUST">
-            <x> 450.0 </x>
-            <y> 100.0 </y>
-            <z> -200.0 </z>
-        </enemy><enemy type="LOCUST">
-            <x> 500.0 </x>
-            <y> 100.0 </y>
-            <z> -200.0 </z>
-        </enemy>
+        
     </enemies>
 </level>
