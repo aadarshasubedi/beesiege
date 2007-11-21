@@ -5,13 +5,18 @@
 
 class TiXmlElement;
 
+// Singleton Class
 class ConfigurationManager : public SingletonObj<ConfigurationManager>
 {
 	friend SingletonObj<ConfigurationManager>;
 public:
 	
+	// reads an XML configuration file
 	bool ReadConfigurationFile(const char* file);
-
+	
+	// the constants that we need to read from the XML file
+	// which are used by almost every class that has constant 
+	// values
 	float agent_maxForce;
 	float agent_maxTorque;
 	float agent_maxVelocity;
@@ -43,10 +48,12 @@ public:
 	float scene_fogDefaultDepth;
 
 private:
-
+	
+	// private ctor / dtor 
 	ConfigurationManager();
 	~ConfigurationManager();
 
+	// functions that read certain nodes from the XML file
 	bool ReadFloat(float &value, TiXmlElement* node, const char* child);
 	bool ReadControllers(TiXmlElement* node);
 	bool ReadAgents(TiXmlElement* node);

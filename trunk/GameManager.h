@@ -17,6 +17,7 @@ NiSmartPointer(GameObj3d);
 class NiPhysXScene;
 NiSmartPointer(NiPhysXScene);
 
+// template class that copies two NiTPointer lists
 template <class T>
 void CopyLists (const NiTPointerList<T> &from, NiTPointerList<T> &to)
 {
@@ -29,16 +30,23 @@ void CopyLists (const NiTPointerList<T> &from, NiTPointerList<T> &to)
 	}
 }
 
+// Singleton class
 class GameManager : public SingletonObj<GameManager>
 {
 	friend SingletonObj<GameManager>;
 public:
 
+	// initializes the manager
 	bool Init(NiNodePtr parent, NiPhysXScenePtr physXScene, NiApplication* app);
+	// updates all objects
 	void UpdateAll(float fTime);
+	// creates a GameObj3d depending on the type
 	GameObj3dPtr CreateObject3d (ResourceManager::ResourceType type);
+	// adds an agent to the agents list
 	void AddAgent(AgentPtr agent);
-	
+	// removes an agent from the list
+	void RemoveAgent(AgentPtr agent);
+	// getters / setters
 	QueenPtr GetQueen() const 
 	{
 		return m_spQueen; 
@@ -60,27 +68,41 @@ public:
 		return m_fDeltaTime;
 	}
 	
-	void RemoveAgent(AgentPtr agent);
 private:
 
+	// private ctor / dtor
 	GameManager();
 	~GameManager();
 
+	// initializs and adds a GameObj3d to the objects list
 	bool AddObject(GameObj3dPtr object, NiNodePtr parent);
+	// overloaded function
 	bool AddObject(GameObj3dPtr object, NiNodePtr parent, NiPhysXScenePtr physXScene);
+	// removes an object from the list
 	void RemoveObject(GameObj3dPtr object);
+	// removes an enemy from the list
 	void RemoveEnemy(EnemyPtr enemy);
 
+	// object, agent and enemy lists
 	NiTPointerList<GameObj3dPtr> m_lObjects;
 	NiTPointerList<EnemyPtr>     m_lEnemies;
 	NiTPointerList<AgentPtr>     m_lAgents;
 	
+	// the main queen that the player controls
 	QueenPtr m_spQueen;
+	// the game application that contains our NIF scene and
+	// our PhysX scene
 	GameApp* m_pGameApplication;
+	// delta time
 	float    m_fDeltaTime;
+	// max height until fog becomes thicker
 	float    m_fMaxPlayerHeight;
+	// default fog depth
 	float    m_fDefaultFogDepth;
+	// used to calculate fog when the player exceeds a 
+	// certain height
 	float    m_fFogScaleValue;
+	// the current game level
 	LevelPtr m_spCurrentLevel;
 };
 

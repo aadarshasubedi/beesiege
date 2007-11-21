@@ -100,7 +100,30 @@ void CharacterController::UpdateForces()
 	else if (m_spAgentInfo->m_vForce.magnitude() < -m_spAgentInfo->m_fcMaxForce)
 	{
 		m_spAgentInfo->m_vForce = heading * -m_spAgentInfo->m_fcMaxForce;
-	}	
+	}
+
+	float kx = 1.0f;
+	float ky = 1.0f;
+	float kz = 1.0f;
+
+	NxVec3 Tx(0.0f, 0.0f, 0.0f);
+	NxVec3 Ty(0.0f, 0.0f, 0.0f);
+	NxVec3 Tz(0.0f, 0.0f, 0.0f);
+
+	NxVec3 x(m_pAgent->GetActor()->getGlobalOrientation().getColumn(0));
+	NxVec3 y(m_pAgent->GetActor()->getGlobalOrientation().getColumn(1));
+	NxVec3 z(m_pAgent->GetActor()->getGlobalOrientation().getColumn(2));
+
+	NxVec3 xd = m_spAgentInfo->m_vDesiredVelocity / m_spAgentInfo->m_vDesiredVelocity.magnitude();
+	NxVec3 yd(0.0, 1.0, 0.0);
+	NxVec3 zd = xd.cross(yd);
+	zd.normalize();
+
+	Tx = kx * x.cross(xd);
+	Ty = ky * y.cross(yd);
+	Tz = kz * z.cross(zd);
+
+	m_spAgentInfo->m_vTorque = Tx + Ty + Tz;
 }
 //-------------------------------------------------------------------------
 /** 
@@ -111,11 +134,14 @@ void CharacterController::UpdatePhysX()
 {
 	
 	if (!m_bTurnSpringsOff)
-	{	
-		m_pAgent->GetActor()->addForce(m_spAgentInfo->m_vForce, NX_FORCE);
+	{	// if springs on then add the force that we found
+		m_pAgent->GetActor()->addForce(m_spAgentInfo->m_vForce);
+		m_pAgent->GetActor()->addTorque(m_spAgentInfo->m_vTorque);
 	}
+	// TO_BE_REMOVED
 	else
 	{
+		// if springs off then add a fake gravity
 		NxVec3 gravity(0.0, -90.8f, 0.0f);
 		m_pAgent->GetActor()->addForce(gravity, NX_ACCELERATION);
 	}

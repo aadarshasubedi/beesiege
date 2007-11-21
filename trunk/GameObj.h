@@ -9,8 +9,10 @@
 
 class GameObj : public NiObject
 {
+	// declares RTTI for using NiIsKindOf(classname, object)
 	NiDeclareRTTI;
 public:
+	// ctor / dtor
 	GameObj(){};
 	virtual ~GameObj(){}
 

@@ -9,7 +9,7 @@
 * Ctor
 */
 HealthAttribute::HealthAttribute(GameCharacter *owner)
-: CharacterAttribute(owner), m_fInitialHealth(0.0f), m_fHealth(0.0f), m_fcHealthToken(10.0f)
+: CharacterAttribute(owner), m_fInitialHealth(0.0f), m_fHealth(0.0f), m_fcHealthToken(1.0f)
 {
 }
 //-------------------------------------------------------------------------

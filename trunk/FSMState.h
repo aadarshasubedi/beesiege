@@ -10,13 +10,22 @@ class FSMState: public GameObj
 {
 public:
 
+	// ctor / dtor
 	FSMState(FSMAIControl* control, int type=FSM_STATE_NONE);
 	virtual ~FSMState();
-	virtual void Enter() = 0;
-	virtual void Exit() = 0;            
-	virtual void Update(float fTime) = 0;
-	virtual FSMState* CheckTransitions(float fTime) = 0;
 
+	// pure virtual functions
+	
+	// enters the state
+	virtual void Enter() = 0;
+	// exits the state
+	virtual void Exit() = 0;            
+	// updates the state
+	virtual void Update(float fTime) = 0;
+	// checks for transitions and returns the new state
+	virtual FSMState* CheckTransitions(float fTime) = 0;
+	
+	// getters
 	const int GetType() const 
 	{
 		return m_type;
@@ -28,7 +37,10 @@ public:
 	}
 
 protected:
+
+	// the state's type
 	int m_type;
+	// the state's parent controller
 	FSMAIControl* m_control;
 };
 

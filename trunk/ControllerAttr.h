@@ -7,10 +7,10 @@
 class ControllerAttr : public CharacterAttribute
 {
 public:
-
+	// ctor / dtor
 	ControllerAttr(GameCharacter* owner);
 	virtual ~ControllerAttr();
-
+	// pure virtual update
 	virtual void Update(float fTime) = 0;
 };
 

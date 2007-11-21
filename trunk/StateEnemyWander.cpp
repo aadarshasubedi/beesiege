@@ -54,7 +54,7 @@ void StateEnemyWander::Update(float fTime)
 FSMState* StateEnemyWander::CheckTransitions(float fTime)
 {	
 	
-	FSMState* nextState = m_control->GetMachine()->m_spCurrentState;
+	FSMState* nextState = m_control->GetMachine()->GetCurrentState();;
 	
 	if (m_pHealth)
 	{

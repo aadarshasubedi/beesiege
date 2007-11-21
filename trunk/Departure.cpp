@@ -13,17 +13,7 @@
  * Ctor
  * 
  */
-Departure::Departure() : m_fcKDeparture(ConfigurationManager::Get()->departure_constant),					
-						 m_bAvoidCamera(false)
-{
-}
-//------------------------------------------------------------------------------------------------------ 
-/** 
- * Ctor
- * 
- */
-Departure::Departure(bool bAvoidCamera) : m_fcKDeparture(ConfigurationManager::Get()->departure_constant),												
-												m_bAvoidCamera(bAvoidCamera)
+Departure::Departure() : m_fcKDeparture(ConfigurationManager::Get()->departure_constant)
 {
 }
 //------------------------------------------------------------------------------------------------------ 
@@ -48,16 +38,7 @@ NxVec3 Departure::Execute(AgentInfoPtr aInfo)
 	NxVec3 departure;
 	// desired velocity points away from the target
 	NxVec3 e;
-	if (!m_bAvoidCamera)
-	{
-		e = aInfo->m_vTarget - aInfo->m_vPos;
-	}
-	else
-	{
-		NiPoint3 cameraPos = GameManager::Get()->GetGameApp()->GetCamera()->GetWorldTranslate();
-		m_vCameraPosition.x = cameraPos.x; m_vCameraPosition.y = cameraPos.y; m_vCameraPosition.z = cameraPos.z;
-		e = m_vCameraPosition - aInfo->m_vPos;
-	}
+	e = aInfo->m_vTarget - aInfo->m_vPos;
 	e = -e / e.magnitudeSquared();
 	departure = m_fcKDeparture*e;
 	

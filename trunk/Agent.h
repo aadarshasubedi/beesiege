@@ -13,11 +13,16 @@ class Agent : public GameObj
 {
 public:
 
+	// ctor
 	Agent(NxActor* actor);
+	// dtor
 	virtual ~Agent();
+	// updates agent
 	void Update();
+	// rotates actor to look at a certain target
 	void LookAt (const NxVec3& target);
-	
+
+	// getters, setters
 	void SetTarget (NxActor* target)
 	{
 		m_pTarget = target;
@@ -39,12 +44,17 @@ public:
 	
 protected:
 
+	// the PhysX actor that is controlled
 	NxActor*    m_pActor;
+	// the actor's target
 	NxActor*    m_pTarget;
+	// the target's position
 	NxVec3      m_vTargetPosition;
+	// the controller that moves the actor
 	CharacterControllerPtr m_spController;
 
 };
 
 NiSmartPointer(Agent);
+
 #endif

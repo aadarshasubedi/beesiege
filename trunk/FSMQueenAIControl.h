@@ -11,6 +11,8 @@ public:
 	FSMQueenAIControl(Queen* queen);
 	~FSMQueenAIControl();
 
+	// flags that hold information about the queen's
+	// state
 	bool issuedTargetEnemyCommand;
 	bool issuedSelectSoldiersCommand;
 	bool issuedAttackCommand;
@@ -23,9 +25,11 @@ public:
 	
 private:
 
+	// see base class
 	void DoExtraUpdates(float fTime);
 	void UpdatePerceptions(float fTime);
 
+	// move, rotate functions
 	void MoveQueenForward();
 	void MoveQueenBackward();
 	void MoveQueenLeft();

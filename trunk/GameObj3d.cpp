@@ -5,7 +5,8 @@
 #include "ResourceManager.h"
 #include <NiApplication.h>
 #include <NiFogProperty.h>
-
+#include <NiGeometry.h>
+#include <NiTriShape.h>
 //----------------------------------------------------------------------
 // implements RTTI
 NiImplementRTTI(GameObj3d, GameObj);

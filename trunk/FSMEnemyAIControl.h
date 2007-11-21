@@ -13,7 +13,7 @@ public:
 
 
 private:
-
+	// see base class
 	void UpdatePerceptions(float fTime);
 	void DoExtraUpdates(float fTime);
 };

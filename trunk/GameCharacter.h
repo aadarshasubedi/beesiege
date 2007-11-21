@@ -12,27 +12,37 @@ class GameCharacter : public GameObj3d
 
 public:
 
+	// the possible attribute types that
+	// a character may have
 	enum AttributeType
 	{
 		ATTR_CONTROLLER,
 		ATTR_HEALTH
 	};
 
+	// ctor / dtor
 	GameCharacter(ResourceManager::ResourceType type);
 	virtual ~GameCharacter();
 	
-	NxActor* GetActor() const {return m_pActor;}
+	// adds an attribute to the attributes hash table
 	void AddAttribute (AttributeType type, CharacterAttributePtr attr)
-	{ m_tAttributes.SetAt(type, attr); }
+	{
+		m_tAttributes.SetAt(type, attr); 
+	}
+	// getters / setters
+	NxActor* GetActor() const {return m_pActor;}
 	CharacterAttribute* GetAttribute(AttributeType type);
 
 
 protected:
 
+	// extra updates and initializations
 	virtual void DoExtraUpdates(float fTime)=0;
 	virtual bool DoExtraInits();
 	
+	// the character's PhysX actor
 	NxActor* m_pActor;
+	// a hash table that contains all the character's attributes
 	NiTMap<AttributeType, CharacterAttributePtr> m_tAttributes;
 };
 

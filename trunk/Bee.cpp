@@ -40,19 +40,10 @@ Bee::~Bee()
  */
 void Bee::DoExtraUpdates(float fTime)
 {
-	if (!m_tAttributes.IsEmpty())
+	FSMBeeAIControl* controller = (FSMBeeAIControl*)GetAttribute(GameCharacter::ATTR_CONTROLLER);
+	if (controller)
 	{
-		NiTMapIterator it = m_tAttributes.GetFirstPos();
-		CharacterAttributePtr attr = 0;
-		GameCharacter::AttributeType key;
-		for (int i=0; i<m_tAttributes.GetCount(); i++)
-		{
-			m_tAttributes.GetNext(it, key, attr);
-			if (attr)
-			{
-				attr->Update(fTime);
-			}
-		}
+		controller->Update(fTime);	
 	}
 }
 //------------------------------------------------------------------------ 
@@ -69,12 +60,18 @@ bool Bee::DoExtraInits()
 		return false;
 	}
 
+	// add an FSMBeeAIControl
 	AddAttribute(GameCharacter::ATTR_CONTROLLER, NiNew FSMBeeAIControl(this));
+	// add a health attribute
 	HealthAttributePtr health = NiNew HealthAttribute(this);
 	health->Reset(10.0f);
 	AddAttribute(GameCharacter::ATTR_HEALTH, (CharacterAttribute*)health);
-
+	// set initial position
 	m_pActor->setGlobalPosition(GameManager::Get()->
-		GetQueen()->GetActor()->getGlobalPosition() - NxVec3(100.0, 0.0, 0.0));
+		GetQueen()->GetActor()->getGlobalPosition() - NxVec3(50.0, 0.0, 0.0));
+
+	// set dampings
+	m_pActor->setLinearDamping(10.0f);
+	m_pActor->setAngularDamping(10.0f);
 	return true;
 }

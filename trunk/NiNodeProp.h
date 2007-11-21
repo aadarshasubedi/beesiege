@@ -8,6 +8,8 @@
 class NiNodeProp : public GameObj
 {
 public:
+
+	// ctor / dtor
 	NiNodeProp(NiNodePtr node, NiPhysXPropPtr prop) : 
 	  m_spNode(node), m_spProp(prop)
 	  {}
@@ -17,6 +19,7 @@ public:
 		m_spProp = 0;
 	}
 
+	// NiNode, NiPhysXProp pair
 	NiNodePtr       m_spNode;
 	NiPhysXPropPtr  m_spProp;
 

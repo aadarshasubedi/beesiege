@@ -37,6 +37,7 @@ Locust::~Locust()
  */
 void Locust::DoExtraUpdates(float fTime)
 {
+	// update controller
 	FSMEnemyAIControl* controller = (FSMEnemyAIControl*)GetAttribute(GameCharacter::ATTR_CONTROLLER);
 	if (controller)
 	{
@@ -57,7 +58,9 @@ bool Locust::DoExtraInits()
 		return false;
 	}
 
+	// add a controller
 	AddAttribute(GameCharacter::ATTR_CONTROLLER, NiNew FSMEnemyAIControl(this));
+	// set initial health
 	HealthAttribute* health = (HealthAttribute*)GetAttribute(GameCharacter::ATTR_HEALTH);
 	if (health) health->Reset(50.0f);
 

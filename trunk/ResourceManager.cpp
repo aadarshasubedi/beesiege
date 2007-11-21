@@ -46,11 +46,11 @@ bool ResourceManager::Init(NiStream* stream, NiRenderer* renderer)
 	bool bSuccess = false;
 
 	// load models
-	bSuccess = LoadNif(stream, string("models/bee2.nif"), RES_MODEL_BEE);
+	bSuccess = LoadNif(stream, string("models/beefinal.nif"), RES_MODEL_BEE);
 	if (!bSuccess) return false;
-	bSuccess = LoadNif(stream, string("models/queen5.nif"), RES_MODEL_QUEEN);
+	bSuccess = LoadNif(stream, string("models/queenFinal.nif"), RES_MODEL_QUEEN);
 	if (!bSuccess) return false;
-	bSuccess = LoadNif(stream, string("models/enemy1.nif"), RES_MODEL_LOCUST);
+	bSuccess = LoadNif(stream, string("models/enemyFinal.nif"), RES_MODEL_LOCUST);
 	if (!bSuccess) return false;
 
 	// load fonts

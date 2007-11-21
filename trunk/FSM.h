@@ -1,6 +1,7 @@
 #ifndef FSM_H
 #define FSM_H
 
+// FSM state types
 enum FSM_STATES 
 	{ 
 		FSM_STATE_NONE,
