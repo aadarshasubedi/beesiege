@@ -8,7 +8,6 @@ class Departure : public Behavior
 {
 public:
 	Departure();
-	Departure(bool bAvoidCamera);
 	~Departure();
 
 	// execute the behavior
@@ -16,9 +15,8 @@ public:
 
 private:
 
+	// behavior constants
 	float m_fcKDeparture;
-	NxVec3 m_vCameraPosition;
-	bool m_bAvoidCamera;
 };
 
 NiSmartPointer(Departure);

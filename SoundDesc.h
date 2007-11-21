@@ -7,12 +7,15 @@
 
 class SoundDesc : public GameObj
 {
-private:
+
 public:
+	// ctor / dtor
 	SoundDesc(const char* file);
 	~SoundDesc();
 
+	// the filename of the sound
 	std::string filename;
+	// FMOD settings
 	FMOD_MODE mode;
 	float dopplerscale;
 	float distancefactor;

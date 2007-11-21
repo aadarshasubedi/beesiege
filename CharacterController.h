@@ -13,18 +13,25 @@ class CharacterController : public GameObj
 {
 public:
 	
+	// ctor
 	CharacterController(Agent* agent);
+	// dtor
 	virtual ~CharacterController();
-
+	// updates the controller
 	void Update(const NxVec3& target);
+
+	// getters / setters
 	inline void       SetBehavior          (BehaviorPtr b) { m_spBehavior = 0; m_spBehavior = b; }
 	inline void       ToggleSpringDynamics (bool off)    { m_bTurnSpringsOff = off; }
 	inline AgentInfoPtr GetAgentInfo() const         { return m_spAgentInfo; }
 
 protected:
 
+	// collects information needed for the simulation
 	void Sense(const NxVec3& target);
+	// calculates the force that will move the agent
 	void UpdateForces();
+	// passes forces to PhysX
 	void UpdatePhysX();
 
 	// the agent that the controller controls
@@ -42,8 +49,8 @@ protected:
 	// turn spring dynamics off
 	bool   m_bTurnSpringsOff;
 
-
-	inline void Clamp(float& degree, float minV, float maxV){
+	// clamps an angle in a range
+	void Clamp(float& degree, float minV, float maxV){
 	float delta = maxV - minV;
 	if (degree > maxV){
 		while (degree > maxV){
@@ -57,26 +64,27 @@ protected:
 	}
 }
 
-
-inline void Truncate(float& value, float minV, float maxV){
-	if (value < minV)
-		value = minV;
-	else
-		if (value > maxV)
-			value = maxV;
-}
-
-inline float AngleDiff(float source, float target)
-{
-	float dangle = target - source;
-	if (fabs(dangle) > m_fcPI){
-		if (dangle > 0.0f)
-			dangle = dangle - m_fcPI * 2.0f;
+	// trancates a value in a range
+	void Truncate(float& value, float minV, float maxV){
+		if (value < minV)
+			value = minV;
 		else
-			dangle = m_fcPI * 2.0f + dangle;
+			if (value > maxV)
+				value = maxV;
 	}
-	return dangle;
-}
+
+	// returns the difference between two angles
+	float AngleDiff(float source, float target)
+	{
+		float dangle = target - source;
+		if (fabs(dangle) > m_fcPI){
+			if (dangle > 0.0f)
+				dangle = dangle - m_fcPI * 2.0f;
+			else
+				dangle = m_fcPI * 2.0f + dangle;
+		}
+		return dangle;
+	}
 
 };
 

@@ -62,7 +62,7 @@ FSMState* StateQueenTargetEnemy::CheckTransitions(float fTime)
 {
 	FSMQueenAIControl* controller = (FSMQueenAIControl*)m_control;
 	NIASSERT(controller);
-	FSMState* nextState = controller->GetMachine()->m_spCurrentState;
+	FSMState* nextState = controller->GetMachine()->GetCurrentState();;
 	
 	if (controller->issuedSelectSoldiersCommand &&
 		m_pCurrentTarget)

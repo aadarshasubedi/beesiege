@@ -41,6 +41,7 @@ bool Enemy::DoExtraInits()
 		return false;
 	}
 	
+	// add a health attribute
 	AddAttribute(GameCharacter::ATTR_HEALTH, NiNew HealthAttribute(this));
 	return true;
 }

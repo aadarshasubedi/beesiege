@@ -14,6 +14,7 @@ public:
 
 private:
 
+	// behavior constants
 	float m_fcKSeparation;
 	float m_fcKNeighborhood;
 };

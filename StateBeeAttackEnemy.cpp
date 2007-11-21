@@ -4,6 +4,7 @@
 #include "StateBeeAttackEnemy.h"
 #include "FSMMachine.h"
 #include "Arrival.h"
+#include "Seek.h"
 #include "Cohesion.h"
 #include "Alignment.h"
 #include "Wander.h"
@@ -45,7 +46,7 @@ void StateBeeAttackEnemy::Enter()
 		// create a behavior combo
 		NiTPointerList<BehaviorPtr> lBehaviors;
 		NiTPointerList<float> lCoefficients;
-		lBehaviors.AddTail(NiNew Arrival);
+		lBehaviors.AddTail(NiNew Seek);
 		lBehaviors.AddTail(NiNew Cohesion);
 		lBehaviors.AddTail(NiNew Alignment);
 		lBehaviors.AddTail(NiNew Wander);
@@ -85,7 +86,7 @@ void StateBeeAttackEnemy::Update(float fTime)
 */
 FSMState* StateBeeAttackEnemy::CheckTransitions(float fTime)
 {	
-	FSMState* nextState = m_control->GetMachine()->m_spCurrentState;
+	FSMState* nextState = m_control->GetMachine()->GetCurrentState();
 	if (!m_pTarget)
 	{
 		((FSMBeeAIControl*)m_control)->m_pTargetEnemy = 0;

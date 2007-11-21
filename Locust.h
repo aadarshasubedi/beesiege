@@ -12,6 +12,7 @@ public:
 
 private:
 
+	// extra updates and initializations
 	void DoExtraUpdates(float fTime);
 	bool DoExtraInits();
 

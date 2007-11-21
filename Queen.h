@@ -14,9 +14,10 @@ public:
 	Queen();
 	~Queen();
 
+	// adds / removes a soldier from the queen's list
 	void AddSoldier (BeePtr soldier);
 	void RemoveSoldier (BeePtr soldier);
-	
+	// getters / setters
 	const NiTPointerList<BeePtr>& GetSoldiers() const
 	{
 		return m_lSoldiers;
@@ -126,21 +127,27 @@ public:
 	}
 private:
 
+	// extra updates and initializations
 	void DoExtraUpdates(float fTime);
 	bool DoExtraInits();
 
+	// was select soldiers command issued
 	bool m_bIssuedSelectSoldiers;
+	// was attack command issued
 	bool m_bIssuedAttackEnemy;
+	// was target enemy command issued
 	bool m_bIssuedTargetEnemy;
+	// was move command issued
 	bool m_bIssuedMoveForward;
 	bool m_bIssuedMoveBackward;
 	bool m_bIssuedMoveLeft;
 	bool m_bIssuedMoveRight;
 	bool m_bIssuedMoveVertical;
+	// was rotate command issued
 	bool m_bIssuedRotate;
-
+	// a list that contains the queen's soldiers
 	NiTPointerList<BeePtr> m_lSoldiers;
-	
+	// amount of rotation to be added
 	float				   m_fRotateDx;
 	float				   m_fRotateDy;
 };

@@ -58,7 +58,7 @@ void StateFollowQueen::Update(float fTime)
 FSMState* StateFollowQueen::CheckTransitions(float fTime)
 {
 	//return the current state by default
-	FSMState* nextState = m_control->GetMachine()->m_spCurrentState;
+	FSMState* nextState = m_control->GetMachine()->GetCurrentState();;
 
 	if(((FSMBeeAIControl*)m_control)->issuedAttackCommand)
 	{

@@ -15,8 +15,10 @@ public:
 
 private:
 
+	// behavior constants
 	float  m_fcKNoise;
 	float  m_fcKWander;
+	// the current direction
 	NxVec3 m_vWander;
 };
 

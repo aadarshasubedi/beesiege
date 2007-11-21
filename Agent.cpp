@@ -75,12 +75,12 @@ void Agent::LookAt (const NxVec3& target)
 	NxMat33 nxNewRotation;
 	NiPhysXTypes::NiMatrix3ToNxMat33(newRotation, nxNewRotation);
 	// get the local Z axis
-	NxVec3 z = nxNewRotation.getColumn(2);
+	NxVec3 y = nxNewRotation.getColumn(1);
 	// remove roll
-	z.y = 0.0f;
-	z.normalize();
-	nxNewRotation.setColumn(2, z);
+	y.y = y.y < 0.0f ? -y.y : y.y;
+	y.normalize();
+	nxNewRotation.setColumn(1, NxVec3(0.0, 1.0, 0.0));
 	// set the new orientation
-	m_pActor->setGlobalOrientation(nxNewRotation);
+	//m_pActor->setGlobalOrientation(nxNewRotation);
 }
 //-------------------------------------------------------------------------

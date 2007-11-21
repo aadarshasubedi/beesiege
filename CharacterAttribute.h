@@ -9,15 +9,16 @@ class CharacterAttribute : public GameObj
 {
 public:
 
+	// ctor / dtor
 	CharacterAttribute(GameCharacter* owner);
 	virtual ~CharacterAttribute();
-
+	// pure virtual: updates the attribute
 	virtual void Update(float fTime) = 0;
-
+	// getters
 	GameCharacter* GetOwner() const {return m_pOwner;}
 
 protected:
-
+	// the attribute's owner
 	GameCharacter* m_pOwner;
 };
 

@@ -14,6 +14,7 @@ public:
 
 private:
 
+	// behavior constants
 	float m_fcKAlignment;
 	float m_fcKNeighborhood;
 };

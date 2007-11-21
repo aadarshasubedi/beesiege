@@ -6,10 +6,12 @@
 class StateFollowQueen: public FSMState
 {
 public:
+	// ctor
 	StateFollowQueen(FSMAIControl* control, int type=FSM_FOLLOW_QUEEN) :
 	  FSMState(control, type)
 	  {}
 	
+	// see base class
 	void Enter();
 	void Exit();
 	void Update(float fTime);

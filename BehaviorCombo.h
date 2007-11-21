@@ -16,7 +16,9 @@ public:
 
 private:
 
+	 // a list of the behaviors
 	 NiTPointerList<BehaviorPtr> m_lBehaviors;
+	 // a list of the behavior coefficients
 	 NiTPointerList<float>     m_lCoefficients;
 };
 

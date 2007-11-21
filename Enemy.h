@@ -12,6 +12,7 @@ public:
 
 protected:
 
+	// extra updates and initializations
 	virtual void DoExtraUpdates(float fTime) = 0;
 	virtual bool DoExtraInits();
 
