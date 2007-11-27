@@ -176,3 +176,10 @@ Here is what we have discussed about the gameplay so far. I think we should not 
   # Enemy bases - Each housing an enemy boss. Kill the boss = destroy the base. Each base spawns enemies depending on the health of the respective boss.
 
 Now, who will explain this to Lane :D?
+
+===Extra functions:===
+  # Autosave / Autoload when the queen dies
+  # Sound
+  # User Interface
+  # Score system ?
+  
