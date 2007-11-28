@@ -1,0 +1,29 @@
+bases, Vaios
+
+create flowers, remove them, Smiral
+
+gathering honey, Smiral
+
+queuing bees, Ruhi
+
+UI - health bars (billboards), Ruhi
+
+queen bonuses (confidence: armor, damage)
+
+attack mechanism (separation, cohesion), enemies have pointers to the attackers, Vaios
+
+sound, Vaios
+
+new types of bees / enemies:
+
+- healers (they die after healing)
+- honeybees
+- simple soldiers
+
+- locust attack closest
+- dragonfly hunts queen
+- fly attack honeybees 
+- boss
+
+unit cap
+
