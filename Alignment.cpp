@@ -18,7 +18,7 @@
  * 
  */
 Alignment::Alignment() : m_fcKAlignment(ConfigurationManager::Get()->alignment_constant),
-m_fcKNeighborhood(ConfigurationManager::Get()->alignment_radius)
+m_fcKNeighborhood(ConfigurationManager::Get()->alignment_radius), m_plNeighbors(0)
 {
 	
 }
@@ -40,20 +40,21 @@ Alignment::~Alignment()
  */
 NxVec3 Alignment::Execute(AgentInfoPtr aInfo)
 {
-	
+	if (!m_plNeighbors) return NxVec3(0.0f, 0.0f, 0.0f);
+
 	NxVec3 distance(0.0f, 0.0f, 0.0f);
 	NxVec3 velocitySum(0.0f, 0.0f, 0.0f);
 	float w = 1.0f;
 	// iterate through the neighboring agents
-	NiTListIterator it = GameManager::Get()->GetAgents().GetHeadPos();
-	for (int i=0; i<GameManager::Get()->GetAgents().GetSize(); i++)
+	NiTListIterator it = m_plNeighbors->GetHeadPos();
+	for (int i=0; i<m_plNeighbors->GetSize(); i++)
 	{
-		AgentPtr agent = GameManager::Get()->GetAgents().Get(it);
+		AgentPtr agent = m_plNeighbors->Get(it);
 		AgentInfoPtr otherAgent = agent->GetController()->GetAgentInfo();
 		// if this is the current agent then move on to the next one
 		if (otherAgent == aInfo)
 		{
-			it = GameManager::Get()->GetAgents().GetNextPos(it);
+			it = m_plNeighbors->GetNextPos(it);
 			continue;
 		}
 		// check if the other agent is in the local neighborhood
@@ -65,7 +66,7 @@ NxVec3 Alignment::Execute(AgentInfoPtr aInfo)
 			// increase the sum of velocities
 			velocitySum += agent->GetActor()->getLinearVelocity();
 		}
-		it = GameManager::Get()->GetAgents().GetNextPos(it);
+		it = m_plNeighbors->GetNextPos(it);
 	}
 
 	// compute desired velocity

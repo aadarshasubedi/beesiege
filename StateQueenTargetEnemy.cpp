@@ -17,11 +17,10 @@
 */
 void StateQueenTargetEnemy::Enter()
 {
-	if (m_pCurrentTarget)
-	{
-		m_pCurrentTarget->SetEmmitance(NiColor(0.0, 0.0, 0.0));
-		m_pCurrentTarget = 0;
-	}
+	//if (m_pCurrentTarget)
+	//{
+	//	DeselectCurrent();
+	//}
 }
 //----------------------------------------------------------------------
 /**
@@ -47,8 +46,7 @@ void StateQueenTargetEnemy::Update(float fTime)
 			((Queen*)controller->GetOwner())->GetActor()->getGlobalPosition();
 		if (distance.magnitude() > ConfigurationManager::Get()->queen_viewRadius)
 		{
-			m_pCurrentTarget->SetEmmitance(NiColor(0.0, 0.0, 0.0));
-			m_pCurrentTarget = 0;
+			DeselectCurrent();
 		}
 	}
 
@@ -94,16 +92,19 @@ void StateQueenTargetEnemy::TargetNextEnemy()
 	
 	if (enemies.IsEmpty()) 
 	{
-		m_pCurrentTarget = 0;
+		if (m_pCurrentTarget)
+		{
+			DeselectCurrent();
+		}
 		return;
 	}
 
+	// deselect current target and current attackers
 	if (m_pCurrentTarget)
 	{
 		if (enemies.Get(m_itCurrentTargetPosition))
 		{
-			m_pCurrentTarget->SetEmmitance(NiColor(0.0, 0.0, 0.0));
-			m_pCurrentTarget = 0;
+			DeselectCurrent();
 			if (m_itCurrentTargetPosition == enemies.GetTailPos())
 			{
 				m_itCurrentTargetPosition = enemies.GetHeadPos();
@@ -151,7 +152,40 @@ void StateQueenTargetEnemy::TargetNextEnemy()
 	// select target (change emmisive color)
 	if (m_pCurrentTarget)
 	{
+		GameManager::Get()->SetCurrentTarget(m_pCurrentTarget);
 		m_pCurrentTarget->SetEmmitance(NiColor(1.0, 0.0, 0.0));
+		if (!m_pCurrentTarget->GetAttackers().IsEmpty())
+		{
+			const NiTPointerList<GameCharacterPtr>& attackers = m_pCurrentTarget->GetAttackers();
+			NiTListIterator it = attackers.GetHeadPos();
+			for (int i=0; i<attackers.GetSize(); i++)
+			{
+				attackers.Get(it)->SetEmmitance(NiColor(0.0, 1.0, 0.0));
+				it = attackers.GetNextPos(it);
+			}
+		}
 	}
 
+}
+//------------------------------------------------------------------------ 
+/** 
+ * Deselects current target and attackers
+ * 
+ */
+void StateQueenTargetEnemy::DeselectCurrent()
+{
+	m_pCurrentTarget->SetEmmitance(NiColor(0.0, 0.0, 0.0));
+	if (!m_pCurrentTarget->GetAttackers().IsEmpty())
+	{
+		const NiTPointerList<GameCharacterPtr>& attackers = m_pCurrentTarget->GetAttackers();
+		NiTListIterator it = attackers.GetHeadPos();
+		for (int i=0; i<attackers.GetSize(); i++)
+		{
+			attackers.Get(it)->SetEmmitance(NiColor(0.0, 0.0, 0.0));
+			it = attackers.GetNextPos(it);
+		}
+	}
+	m_pCurrentTarget->SetStrongAttack(false);
+	m_pCurrentTarget = 0;
+	GameManager::Get()->SetCurrentTarget(0);
 }

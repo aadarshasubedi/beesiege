@@ -102,30 +102,36 @@ void InputManager::ProcessMouse(NiInputMouse* mouse, GameApp* gameApp)
 		// select more soldiers
 		if(mouse->ButtonIsDown(NiInputMouse::NIM_LEFT))
 		{
-			gameMgr->GetQueen()->SetSelectSoldiers();
+			gameMgr->SetStrongAttack(true);
+			//gameMgr->GetQueen()->SetSelectSoldiers();
 		}
 		// stop selecting soldiers
 		else if(mouse->ButtonWasReleased(NiInputMouse::NIM_LEFT))
 		{
-			gameMgr->GetQueen()->SetAttackEnemy();
+			gameMgr->SetStrongAttack(false);
+			//gameMgr->GetQueen()->SetAttackEnemy();
 		}
 		// rotate view
 		if(mouse->ButtonIsDown(NiInputMouse::NIM_RIGHT))
 		{
-			gameApp->GetCameraController()->RotateCamera((float)mx, (float)my);
+			//gameApp->GetCameraController()->RotateCamera((float)mx, (float)my);
+			gameMgr->GetQueen()->SetSelectSoldiers();
 		}
 		// rotate queen
 		else
 		{
-			gameMgr->GetQueen()->SetRotate((float)mx);
-			gameMgr->GetQueen()->SetMoveVertical((float)my);
+			//
+			//
 		}
 		// stop rotating queen
 		if(mouse->ButtonWasReleased(NiInputMouse::NIM_RIGHT))
 		{
-			gameApp->GetCameraController()->StopRotateCamera();
+			//gameApp->GetCameraController()->StopRotateCamera();
+			gameMgr->GetQueen()->SetAttackEnemy();
 		}
 		
+		gameMgr->GetQueen()->SetRotate((float)mx);
+		gameMgr->GetQueen()->SetMoveVertical((float)my);
 	}
 	
 }

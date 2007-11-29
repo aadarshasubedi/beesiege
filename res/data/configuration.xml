@@ -7,13 +7,16 @@
             <maxTorque> 40.5 </maxTorque>
             <maxVelocity> 150.0 </maxVelocity>
             <maxAngVel> 10.0 </maxAngVel>
+            <maxHeight> 450.0 </maxHeight>
         </agent>
         <characterController>
-            <springConstant> 20.0 </springConstant>
-            <damping> 2.0 </damping>
+            <springConstantForce> 22.0 </springConstantForce>
+            <dampingForce> 1.0 </dampingForce>
+            <springConstantTorque> 500.0 </springConstantTorque>
+            <dampingTorque> 1.0 </dampingTorque>
         </characterController>
         <cameraController>
-            <distanceFromTarget> 30.0 </distanceFromTarget>
+            <distanceFromTarget> 100.0 </distanceFromTarget>
             <maxVelocity> 40.0 </maxVelocity>
             <damping> 4.0 </damping>
             <springConstant> 1.0 </springConstant>
@@ -32,14 +35,14 @@
             <radius> 20.0 </radius>
         </cohesion>
         <departure>
-            <constant> 500.0 </constant>
+            <constant> 1000.0 </constant>
         </departure>
         <separation>
             <constant> 5000.0 </constant>
             <radius> 200.0 </radius>
         </separation>
         <wander>
-            <constant> 10.0 </constant>
+            <constant> 5.0 </constant>
             <noise> 1.0 </noise>
         </wander>
     </behaviors>
@@ -48,7 +51,7 @@
             <distanceFromTarget> 0.0 </distanceFromTarget>
         </bee>
         <queen>
-            <speedGain> 300.0 </speedGain>
+            <speedGain> 500.0 </speedGain>
             <rotationGain> 10.0 </rotationGain>
             <moveUpSpeedGain> 20.0 </moveUpSpeedGain>
             <viewRadius> 500.0 </viewRadius>

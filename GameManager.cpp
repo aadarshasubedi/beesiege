@@ -15,7 +15,7 @@
  * Ctor
  * 
  */
-GameManager::GameManager() : m_fDeltaTime(0.0f)
+GameManager::GameManager() : m_fDeltaTime(0.0f), m_plAgents(0), m_spCurrentTarget(0)
 {
 }
 //------------------------------------------------------------------------ 
@@ -25,8 +25,8 @@ GameManager::GameManager() : m_fDeltaTime(0.0f)
  */
 GameManager::~GameManager()
 {
+	m_spCurrentTarget = 0;
 	m_lObjects.RemoveAll();
-	m_lAgents.RemoveAll();
 	m_lEnemies.RemoveAll();
 	m_spQueen = 0;
 	m_spCurrentLevel = 0;
@@ -116,7 +116,7 @@ void GameManager::UpdateAll(float fTime)
 		float y = GetQueen()->GetActor()->getGlobalPosition().y; 
 		if ( y >= m_fMaxPlayerHeight)
 		{
-			fog->SetDepth(y*y*y/m_fFogScaleValue);	
+			//fog->SetDepth(y*y*y/m_fFogScaleValue);	
 		}
 		else
 		{
@@ -210,7 +210,7 @@ bool GameManager::AddObject(GameObj3dPtr object, NiNodePtr parent, NiPhysXSceneP
  * Adds an agent to the agent list
  * 
  * @param agent
- */
+ *//*
 void GameManager::AddAgent(AgentPtr agent)
 {
 	m_lAgents.AddTail(agent);
@@ -229,7 +229,6 @@ void GameManager::RemoveObject(GameObj3dPtr object)
 		if (prop)
 		{
 			prop->DetachSceneCallback(m_pGameApplication->GetPhysXScene());
-			//m_pGameApplication->GetPhysXScene()->RemoveProp(prop);
 		}
 
 		NiNode* parent = object->GetNode()->GetParent();
@@ -245,7 +244,7 @@ void GameManager::RemoveObject(GameObj3dPtr object)
  * Removes an agent from the list
  * 
  * @param agent
- */
+ *//*
 void GameManager::RemoveAgent(AgentPtr agent)
 {
 	if (!m_lAgents.IsEmpty())

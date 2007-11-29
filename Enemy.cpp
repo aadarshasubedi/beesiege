@@ -4,7 +4,7 @@
 
 #include "Enemy.h"
 #include "HealthAttribute.h"
-
+#include "GameManager.h"
 //----------------------------------------------------------------------
 // implements RTTI
 NiImplementRTTI(Enemy, GameCharacter);
@@ -13,7 +13,7 @@ NiImplementRTTI(Enemy, GameCharacter);
  * Ctor
  * 
  */
-Enemy::Enemy(ResourceManager::ResourceType type) : GameCharacter(type)
+Enemy::Enemy(ResourceManager::ResourceType type) : GameCharacter(type), m_bIsAttackStrong(false)
 					
 {
 }
@@ -24,7 +24,9 @@ Enemy::Enemy(ResourceManager::ResourceType type) : GameCharacter(type)
  */
 Enemy::~Enemy()
 {
-
+	m_lAttackers.RemoveAll();
+	m_lAttackerAgents.RemoveAll();
+	GameManager::Get()->ResetAgentGroup();
 }
 
 //------------------------------------------------------------------------ 

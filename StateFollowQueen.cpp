@@ -8,6 +8,7 @@
 #include "GameManager.h"
 #include "FSMBeeAIControl.h"
 #include "Arrival.h"
+#include "Seek.h"
 #include "Departure.h"
 #include "Wander.h"
 #include "BehaviorCombo.h"
@@ -32,7 +33,7 @@ void StateFollowQueen::Enter()
 	lBehaviors.AddTail(NiNew Wander);
 
 	lCoefficients.AddTail(1.0f);
-	lCoefficients.AddTail(1.5f);
+	lCoefficients.AddTail(2.0f);
 	lCoefficients.AddTail(0.5f);
 
 	BehaviorComboPtr combo = NiNew BehaviorCombo(lBehaviors, lCoefficients);
@@ -47,8 +48,7 @@ void StateFollowQueen::Enter()
 void StateFollowQueen::Update(float fTime)
 {
 	m_control->GetAgent()->Update();
-	m_control->GetAgent()->GetActor()->setGlobalOrientation(
-		m_control->GetAgent()->GetTarget()->getGlobalOrientation());
+
 }
 //----------------------------------------------------------------------
 /**

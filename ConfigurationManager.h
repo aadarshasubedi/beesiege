@@ -21,8 +21,11 @@ public:
 	float agent_maxTorque;
 	float agent_maxVelocity;
 	float agent_maxAngVel;
-	float characterController_springConstant;
-	float characterController_damping;
+	float agent_maxHeight;
+	float characterController_springConstantForce;
+	float characterController_dampingForce;
+	float characterController_springConstantTorque;
+	float characterController_dampingTorque;
 	float cameraController_distanceFromTarget;
 	float cameraController_maxVelocity;
 	float cameraController_damping;

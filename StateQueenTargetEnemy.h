@@ -23,6 +23,8 @@ public:
 private:
 	// targets next enemy
 	void TargetNextEnemy();
+	// deselects current target
+	void DeselectCurrent();
 	// the iterator that points to the current target
 	// in the enemy list. The enemy list comes from the 
 	// GameManager

@@ -31,6 +31,9 @@ private:
 	// timer for delaying attacks
 	float m_fAttackTimer; 
 	const float m_fcAttackTime;
+	// attack strength
+	bool m_bIsAttackStrong;
+
 	// randomly inflicts damage on the enemy
 	void DamageTarget();
 };

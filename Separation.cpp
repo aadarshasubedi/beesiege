@@ -16,7 +16,7 @@
  * 
  */
 Separation::Separation() : m_fcKSeparation(ConfigurationManager::Get()->separation_constant),
-m_fcKNeighborhood(ConfigurationManager::Get()->separation_radius)
+m_fcKNeighborhood(ConfigurationManager::Get()->separation_radius), m_plNeighbors(0)
 {
 }
 //------------------------------------------------------------------------------------------------------
@@ -37,20 +37,21 @@ Separation::~Separation()
  */
 NxVec3 Separation::Execute(AgentInfoPtr aInfo)
 {
+	if (!m_plNeighbors) return NxVec3(0.0f, 0.0f, 0.0f);
 	
 	NxVec3 distance(0.0f, 0.0f, 0.0f);
 	NxVec3 distanceSum(0.0f, 0.0f, 0.0f);
 	float w = 1.0f;
 	// iterate through the agents
-	NiTListIterator it = GameManager::Get()->GetAgents().GetHeadPos();
-	for (int i=0; i<GameManager::Get()->GetAgents().GetSize(); i++)
+	NiTListIterator it = m_plNeighbors->GetHeadPos();
+	for (int i=0; i<m_plNeighbors->GetSize(); i++)
 	{
-		AgentPtr agent = GameManager::Get()->GetAgents().Get(it);
+		AgentPtr agent = m_plNeighbors->Get(it);
 		AgentInfoPtr otherAgent = agent->GetController()->GetAgentInfo();
 		// if the other agent is this agent then skip it
 		if (otherAgent == aInfo)
 		{
-			it = GameManager::Get()->GetAgents().GetNextPos(it);
+			it = m_plNeighbors->GetNextPos(it);
 			continue;
 		}
 
@@ -63,7 +64,7 @@ NxVec3 Separation::Execute(AgentInfoPtr aInfo)
 			// increase the sum of distances
 			distanceSum += distance / distance.magnitudeSquared();
 		}
-		it = GameManager::Get()->GetAgents().GetNextPos(it);
+		it = m_plNeighbors->GetNextPos(it);
 	}
 
 	// desired velocity points away from the center of mass

@@ -43,17 +43,25 @@ public:
 	// creates a GameObj3d depending on the type
 	GameObj3dPtr CreateObject3d (ResourceManager::ResourceType type);
 	// adds an agent to the agents list
-	void AddAgent(AgentPtr agent);
+	//void AddAgent(AgentPtr agent);
 	// removes an agent from the list
-	void RemoveAgent(AgentPtr agent);
+	//void RemoveAgent(AgentPtr agent);
 	// getters / setters
+	void ResetAgentGroup()
+	{
+		m_plAgents = 0;
+	}
+	void SetAgentGroup (const NiTPointerList<AgentPtr>* agents)
+	{
+		m_plAgents = agents;
+	}
 	QueenPtr GetQueen() const 
 	{
 		return m_spQueen; 
 	}
 	const NiTPointerList<AgentPtr>& GetAgents() const 
 	{ 
-		return m_lAgents; 
+		return *m_plAgents; 
 	}
 	GameApp* GetGameApp() const
 	{
@@ -67,6 +75,22 @@ public:
 	{
 		return m_fDeltaTime;
 	}
+	void SetStrongAttack(bool value)
+	{
+		if (m_spCurrentTarget)
+		{
+			m_spCurrentTarget->SetStrongAttack(value);
+		}
+	}
+	void SetCurrentTarget (EnemyPtr enemy)
+	{
+		m_spCurrentTarget = enemy;
+	}
+	EnemyPtr GetCurrentTarget() const
+	{
+		return m_spCurrentTarget;
+	}
+
 	
 private:
 
@@ -86,7 +110,7 @@ private:
 	// object, agent and enemy lists
 	NiTPointerList<GameObj3dPtr> m_lObjects;
 	NiTPointerList<EnemyPtr>     m_lEnemies;
-	NiTPointerList<AgentPtr>     m_lAgents;
+	const NiTPointerList<AgentPtr>*    m_plAgents;
 	
 	// the main queen that the player controls
 	QueenPtr m_spQueen;
@@ -104,6 +128,8 @@ private:
 	float    m_fFogScaleValue;
 	// the current game level
 	LevelPtr m_spCurrentLevel;
+	// current enemy target
+	EnemyPtr m_spCurrentTarget;
 };
 
 #endif

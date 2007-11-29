@@ -17,7 +17,7 @@
  * 
  */
 Cohesion::Cohesion() : m_fcKCohesion(ConfigurationManager::Get()->cohesion_constant),
-m_fcKNeighborhood(ConfigurationManager::Get()->cohesion_radius)
+m_fcKNeighborhood(ConfigurationManager::Get()->cohesion_radius), m_plNeighbors(0)
 {
 	
 }
@@ -39,20 +39,21 @@ Cohesion::~Cohesion()
  */
 NxVec3 Cohesion::Execute(AgentInfoPtr aInfo)
 {
-	
+	if (!m_plNeighbors) return NxVec3(0.0f, 0.0f, 0.0f);
+
 	NxVec3 distance(0.0f, 0.0f, 0.0f);
 	NxVec3 positionSum(0.0f, 0.0f, 0.0f);
 	float w = 1.0f;
 	// iterate through the all the agents
-	NiTListIterator it = GameManager::Get()->GetAgents().GetHeadPos();
-	for (int i=0; i<GameManager::Get()->GetAgents().GetSize(); i++)
+	NiTListIterator it = m_plNeighbors->GetHeadPos();
+	for (int i=0; i<m_plNeighbors->GetSize(); i++)
 	{
-		AgentPtr agent = GameManager::Get()->GetAgents().Get(it);
+		AgentPtr agent = m_plNeighbors->Get(it);
 		AgentInfoPtr otherAgent = agent->GetController()->GetAgentInfo();
 		// if the other agent is the current one then skip it
 		if (otherAgent == aInfo)
 		{
-			it = GameManager::Get()->GetAgents().GetNextPos(it);
+			it = m_plNeighbors->GetNextPos(it);
 			continue;
 		}
 		// if other agent is in local neighborhood
@@ -64,7 +65,7 @@ NxVec3 Cohesion::Execute(AgentInfoPtr aInfo)
 			// add the other agent's position to the sum
 			positionSum += otherAgent->m_vPos;
 		}
-		it = GameManager::Get()->GetAgents().GetNextPos(it);
+		it = m_plNeighbors->GetNextPos(it);
 	}
 
 	// desired velocity points towards the center of mass of the

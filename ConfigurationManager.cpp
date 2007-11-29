@@ -123,7 +123,8 @@ bool ConfigurationManager::ReadAgents(TiXmlElement* node)
 	if (ReadFloat(agent_maxForce, node, "maxForce") &&
 		ReadFloat(agent_maxTorque, node, "maxTorque") &&
 		ReadFloat(agent_maxVelocity, node, "maxVelocity") &&
-		ReadFloat(agent_maxAngVel, node, "maxAngVel")
+		ReadFloat(agent_maxAngVel, node, "maxAngVel") &&
+		ReadFloat(agent_maxHeight, node, "maxHeight")
 		)
 	{
 		return true;
@@ -144,8 +145,10 @@ bool ConfigurationManager::ReadCharacterController(TiXmlElement* node)
 	if (!node) return false;
 
 
-	if (ReadFloat(characterController_springConstant, node, "springConstant") &&
-		ReadFloat(characterController_damping, node, "damping")
+	if (ReadFloat(characterController_springConstantForce, node, "springConstantForce") &&
+		ReadFloat(characterController_dampingForce, node, "dampingForce") &&
+		ReadFloat(characterController_springConstantTorque, node, "springConstantTorque") &&
+		ReadFloat(characterController_dampingTorque, node, "dampingTorque")
 		)
 	{
 		return true;

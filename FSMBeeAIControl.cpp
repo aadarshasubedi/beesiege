@@ -29,7 +29,7 @@ FSMBeeAIControl::FSMBeeAIControl(Bee* bee) : FSMAIControl((GameCharacter*)bee),
 	// add agent to the GameManager agents list
 	// so that other agents know about it when they
 	// do group behaviors
-	GameManager::Get()->AddAgent(m_spAgent);
+	//GameManager::Get()->AddAgent(m_spAgent);
 
 }
 //-----------------------------------------------------------------------
@@ -41,7 +41,7 @@ FSMBeeAIControl::~FSMBeeAIControl()
 {
 	m_pTargetEnemy = 0;
 	// remove agent from game manager
-	GameManager::Get()->RemoveAgent(m_spAgent);
+	//GameManager::Get()->RemoveAgent(m_spAgent);
 }
 //-----------------------------------------------------------------------
 /**

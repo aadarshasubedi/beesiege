@@ -23,7 +23,8 @@ AgentInfo::AgentInfo() :    m_fcMass(1.0f),
 							m_fcMaxForce(ConfigurationManager::Get()->agent_maxForce),
 							m_fcMaxTorque(ConfigurationManager::Get()->agent_maxTorque),
 							m_fcMaxVelocity(ConfigurationManager::Get()->agent_maxVelocity),
-							m_fcMaxAngVel(ConfigurationManager::Get()->agent_maxAngVel)
+							m_fcMaxAngVel(ConfigurationManager::Get()->agent_maxAngVel),
+							m_fcMaxHeight(ConfigurationManager::Get()->agent_maxHeight)
 							
 							
 {

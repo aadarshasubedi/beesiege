@@ -17,6 +17,21 @@
             <y> 250.0 </y>
             <z> -250.0 </z>
         </enemy>
+        <enemy type="LOCUST">
+            <x> 120.0 </x>
+            <y> 250.0 </y>
+            <z> -200.0 </z>
+        </enemy>
+        <enemy type="LOCUST">
+            <x> 80.0 </x>
+            <y> 250.0 </y>
+            <z> -200.0 </z>
+        </enemy>
+        <enemy type="LOCUST">
+            <x> 100.0 </x>
+            <y> 250.0 </y>
+            <z> -200.0 </z>
+        </enemy>
         
     </enemies>
 </level>
