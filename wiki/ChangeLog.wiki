@@ -183,3 +183,7 @@ Now, who will explain this to Lane :D?
   # User Interface
   # Score system ?
   
+
+*29-Nov-2007* - _Vaios
+
+I modified the attack mechanism so that the user selects bees by holding the right mouse button and attacks by releasing it. Also when the attack starts the group is separated, but when the left mouse button is down it has cohesion. This works as expected so that's good. I will start working on the enemy bases now.
