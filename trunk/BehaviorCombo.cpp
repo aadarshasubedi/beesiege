@@ -62,7 +62,10 @@ NxVec3 BehaviorCombo::Execute(AgentInfoPtr aInfo)
 		// with a coefficient
 		BehaviorPtr behavior = m_lBehaviors.Get(behaviorIter);
 		float coefficient = m_lCoefficients.Get(coefIter);
-		desiredVel += coefficient * behavior->Execute(aInfo);	
+		if (coefficient != 0.0f)
+		{
+			desiredVel += coefficient * behavior->Execute(aInfo);	
+		}
 		behaviorIter = m_lBehaviors.GetNextPos(behaviorIter);
 		coefIter = m_lCoefficients.GetNextPos(coefIter);
 	}
@@ -78,3 +81,51 @@ NxVec3 BehaviorCombo::Execute(AgentInfoPtr aInfo)
 	
 }
 //------------------------------------------------------------------------------------------------------
+/**
+* Modifies a coefficient by its list index
+* @param the list index
+* @param the new coefficient
+*/
+void BehaviorCombo::ModifyCoefficient(int index, float newValue)
+{
+
+	if (index > -1 && index < m_lCoefficients.GetSize())
+	{
+		NiTListIterator it = m_lCoefficients.GetHeadPos();
+		for (int i=0; i<m_lCoefficients.GetSize(); i++)
+		{
+			if (i==index)
+			{
+				m_lCoefficients.RemovePos(it);
+				m_lCoefficients.InsertBefore(it, newValue);
+				return;
+			}
+
+			it = m_lCoefficients.GetNextPos(it);
+		}
+	}
+}
+//------------------------------------------------------------------------------------------------------
+/**
+* Modifies a behavior by its list index
+* @param the list index
+* @param the new behavior
+*/
+void BehaviorCombo::ModifyBehavior(int index, BehaviorPtr newBehavior)
+{
+	if (index > -1 && index < m_lBehaviors.GetSize())
+	{
+		NiTListIterator it = m_lBehaviors.GetHeadPos();
+		for (int i=0; i<m_lBehaviors.GetSize(); i++)
+		{
+			if (i==index)
+			{
+				m_lBehaviors.RemovePos(it);
+				m_lBehaviors.InsertBefore(it, newBehavior);
+				return;
+			}
+
+			it = m_lBehaviors.GetNextPos(it);
+		}
+	}
+}

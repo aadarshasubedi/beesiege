@@ -14,6 +14,9 @@ public:
 	// execute the behavior
 	NxVec3 Execute(AgentInfoPtr aInfo);
 
+	void ModifyCoefficient(int index, float newValue);
+	void ModifyBehavior(int index, BehaviorPtr newBehavior);
+
 private:
 
 	 // a list of the behaviors

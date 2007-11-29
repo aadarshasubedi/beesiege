@@ -21,9 +21,10 @@ public:
 	void Update(const NxVec3& target);
 
 	// getters / setters
-	inline void       SetBehavior          (BehaviorPtr b) { m_spBehavior = 0; m_spBehavior = b; }
-	inline void       ToggleSpringDynamics (bool off)    { m_bTurnSpringsOff = off; }
-	inline AgentInfoPtr GetAgentInfo() const         { return m_spAgentInfo; }
+	Behavior*  GetBehavior() const {return m_spBehavior;}
+	void       SetBehavior          (BehaviorPtr b) { m_spBehavior = 0; m_spBehavior = b; }
+	void       ToggleSpringDynamics (bool off)    { m_bTurnSpringsOff = off; }
+	AgentInfoPtr GetAgentInfo() const         { return m_spAgentInfo; }
 
 protected:
 
@@ -40,10 +41,14 @@ protected:
 	AgentInfoPtr m_spAgentInfo;
 	// current behavior
 	BehaviorPtr  m_spBehavior;
-	// velocity control
+	// spring constant for force
 	const float m_fcKv0;
-	// damping constant
-	const float m_fcDamp;
+	// damping constant for force
+	const float m_fcDamp0;
+	// spring constant for torque
+	const float m_fcKp0;
+	// damping constant for torque
+	const float m_fcDamp1;
 	// PI
 	const float m_fcPI;
 	// turn spring dynamics off

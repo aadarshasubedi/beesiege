@@ -20,10 +20,16 @@
             
             <element name="characterController">
                 <interleave>
-                    <element name="springConstant"> 
+                    <element name="springConstantForce"> 
                         <data type="double"/>
                     </element>
-                    <element name="damping"> 
+                    <element name="dampingForce"> 
+                        <data type="double"/>
+                    </element>
+                    <element name="springConstantTorque"> 
+                        <data type="double"/>
+                    </element>
+                    <element name="dampingTorque"> 
                         <data type="double"/>
                     </element>
                 </interleave>

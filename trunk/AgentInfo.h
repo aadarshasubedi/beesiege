@@ -42,6 +42,8 @@ public:
 	const float m_fcMaxVelocity;
 	// max angular velocity
 	const float m_fcMaxAngVel;
+	// max allowed height
+	const float m_fcMaxHeight;
 
 
 };

@@ -6,6 +6,7 @@
 #include "Arrival.h"
 #include "Seek.h"
 #include "Cohesion.h"
+#include "Separation.h"
 #include "Alignment.h"
 #include "Wander.h"
 #include "BehaviorCombo.h"
@@ -23,7 +24,7 @@
 *	Ctor
 */
 StateBeeAttackEnemy::StateBeeAttackEnemy(FSMAIControl* control, int type) : 
-	  FSMState(control, type), m_pTarget(0), m_fAttackTimer(0.0f), m_fcAttackTime(1.0f)
+	  FSMState(control, type), m_pTarget(0), m_fAttackTimer(0.0f), m_fcAttackTime(1.0f), m_bIsAttackStrong(false)
 {
 }
 //----------------------------------------------------------------------
@@ -46,23 +47,32 @@ void StateBeeAttackEnemy::Enter()
 		// create a behavior combo
 		NiTPointerList<BehaviorPtr> lBehaviors;
 		NiTPointerList<float> lCoefficients;
+		SeparationPtr sep = NiNew Separation();
+		CohesionPtr coh = NiNew Cohesion();
+		AlignmentPtr ali = NiNew Alignment();
 		lBehaviors.AddTail(NiNew Seek);
-		lBehaviors.AddTail(NiNew Cohesion);
-		lBehaviors.AddTail(NiNew Alignment);
-		lBehaviors.AddTail(NiNew Wander);
-
+		lBehaviors.AddTail((Behavior*)sep);
+		lBehaviors.AddTail((Behavior*)coh);
+		lBehaviors.AddTail((Behavior*)ali);
+		
 		lCoefficients.AddTail(1.0f);
-		lCoefficients.AddTail(0.5f);
+		lCoefficients.AddTail(1.5f);
+		lCoefficients.AddTail(0.0f);
 		lCoefficients.AddTail(0.8f);
-		lCoefficients.AddTail(0.2f);
-
+		
 		BehaviorComboPtr combo = NiNew BehaviorCombo(lBehaviors, lCoefficients);
 		m_control->GetAgent()->GetController()->SetBehavior((Behavior*)combo);
-		
+
+		// add bee to the enemy's attacker list
+		m_pTarget->AddAttacker(m_control->GetOwner(), m_control->GetAgent());
+		GameManager::Get()->SetAgentGroup(&m_pTarget->GetAttackersAgents());
+		// let the group behaviors know about the group they are in
+		sep->SetNeighbors(&m_pTarget->GetAttackersAgents());
+		coh->SetNeighbors(&m_pTarget->GetAttackersAgents());
+		ali->SetNeighbors(&m_pTarget->GetAttackersAgents());
 	}
 	
 	m_fAttackTimer = 0.0f;
-	m_control->GetOwner()->SetEmmitance(NiColor(0.0, 0.0, 0.0));
 }
 //----------------------------------------------------------------------
 /**
@@ -75,7 +85,29 @@ void StateBeeAttackEnemy::Update(float fTime)
 
 	if (m_pTarget)
 	{
-		m_control->GetAgent()->LookAt(m_pTarget->GetActor()->getGlobalPosition());
+		bool isAttackStrongNew = m_pTarget->IsAttackStrong();
+		if (m_bIsAttackStrong != isAttackStrongNew)
+		{
+			m_bIsAttackStrong = isAttackStrongNew;
+			// attack is strong so modify Cohesion coefficient (2) to make group
+			// cohesive and make separation coefficient (1) zero so that they are not separated
+			if (m_bIsAttackStrong)
+			{
+				((BehaviorCombo*)m_control->GetAgent()->GetController()->GetBehavior())
+				->ModifyCoefficient(1, 0.0f);
+				((BehaviorCombo*)m_control->GetAgent()->GetController()->GetBehavior())
+				->ModifyCoefficient(2, 0.5f);
+			}
+			// else do the opposite
+			else
+			{
+				((BehaviorCombo*)m_control->GetAgent()->GetController()->GetBehavior())
+				->ModifyCoefficient(1, 1.5f);
+				((BehaviorCombo*)m_control->GetAgent()->GetController()->GetBehavior())
+				->ModifyCoefficient(2, 0.0f);
+			}
+		}
+		
 		DamageTarget();
 	}
 }
@@ -135,7 +167,6 @@ void StateBeeAttackEnemy::DamageTarget()
 	{
 		if (m_pTargetHealth->GetHealth() <= 0.0f)
 		{
-			m_control->GetOwner()->SetEmmitance(NiColor(0.0, 0.0, 0.0));
 			m_pTarget = 0;
 		}
 		else
@@ -148,13 +179,9 @@ void StateBeeAttackEnemy::DamageTarget()
 
 			if (rand()%100 > 50)
 			{
-				m_control->GetOwner()->SetEmmitance(NiColor(1.0, 1.0, 0.0));
 				m_pTargetHealth->ReduceHealth();	
 			}
-			else
-			{
-				m_control->GetOwner()->SetEmmitance(NiColor(0.0, 0.0, 1.0));
-			}
+			
 
 			m_fAttackTimer = m_fcAttackTime;
 		}			
