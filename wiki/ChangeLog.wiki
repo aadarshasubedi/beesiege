@@ -187,3 +187,5 @@ Now, who will explain this to Lane :D?
 *29-Nov-2007* - _Vaios
 
 I modified the attack mechanism so that the user selects bees by holding the right mouse button and attacks by releasing it. Also when the attack starts the group is separated, but when the left mouse button is down it has cohesion. This works as expected so that's good. I will start working on the enemy bases now.
+
+Added simple enemy bases. Also fixed the problem with the HUGE NiMemory-Overview.xml file. After endless hours of hacking I managed to found a way to choose whether this file is going to be generated or not, by a simple #define statement. So make sure you include NiAppMain.cpp in your project and if you want to see if you have memory leaks simply uncomment the line that says #define LOG_MEMORY_TRACKING. If you don't want those xml files to be generated then comment the line again. I noticed that the game runs MUCH smoother without these files being written in the background...
