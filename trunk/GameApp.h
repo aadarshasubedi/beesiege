@@ -1,6 +1,8 @@
 #ifndef GAMEAPP_H
 #define GAMEAPP_H
 
+#undef NI_MEMORY_DEBUGGER
+
 #include <NiApplication.h>
 #include <NiPhysX.h>
 #include "CameraController.h"

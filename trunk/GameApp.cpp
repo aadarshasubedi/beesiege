@@ -2,6 +2,7 @@
  * The project's 'main' class. It inherits from NiApplication 
  * and is responsible for running the game 
  */
+
 #include "GameApp.h"
 #include "GameManager.h"
 #include "ResourceManager.h"
@@ -11,13 +12,13 @@
 #include "TextManager.h"
 #include "SoundManager.h"
 #include <NiFogProperty.h>
+#include <NiStandardAllocator.h>
 #include <math.h>
 
 #pragma comment(lib, "NiBinaryShaderLibDX9.lib")
 #pragma comment(lib, "NiD3D10BinaryShaderLibD3D10.lib")
 #pragma comment(lib, "NSBShaderLibDX9.lib")
 #pragma comment(lib, "NSFParserLibDX9.lib")
-
 
 //--------------------------------------------------------------------------- 
 /** Creates a new NiApplication* 
@@ -65,6 +66,7 @@ bool GameApp::Initialize()
  */
 bool GameApp::CreateScene()
 {
+
 	// Because our scene will have some billboards with alpha, we use 
     // a NiAlphaAccumulator in order that our alpha gets sorted and drawn
     // correctly.5
@@ -154,7 +156,6 @@ bool GameApp::CreateScene()
     m_spPhysXScene->UpdateSources(0.001f);
     m_spPhysXScene->Simulate(0.001f);
     m_fLastSimTime = 0.001f;
-
 	
     return bSuccess;
 }
@@ -239,6 +240,7 @@ void GameApp::Terminate()
 	NiApplication::Terminate();
 	if (m_pPhysXManager)
         m_pPhysXManager->Shutdown();
+
 }
 //------------------------------------------------------------------------ 
 /** 
