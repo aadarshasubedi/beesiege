@@ -86,12 +86,12 @@ public:
 	{
 		m_spCurrentTarget = enemy;
 	}
+
 	EnemyPtr GetCurrentTarget() const
 	{
 		return m_spCurrentTarget;
 	}
 
-	
 private:
 
 	// private ctor / dtor

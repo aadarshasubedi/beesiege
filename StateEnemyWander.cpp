@@ -22,16 +22,16 @@ void StateEnemyWander::Enter()
 		GetAttribute(GameCharacter::ATTR_HEALTH);
 	m_control->GetAgent()->SetTarget(m_control->GetAgent()->GetActor()->getGlobalPosition());
 	// create a behavior combo
-	NiTPointerList<BehaviorPtr> lBehaviors;
-	NiTPointerList<float> lCoefficients;
-	lBehaviors.AddTail(NiNew Arrival);
-	lBehaviors.AddTail(NiNew Wander);
+	//NiTPointerList<BehaviorPtr> lBehaviors;
+	//NiTPointerList<float> lCoefficients;
+	//lBehaviors.AddTail(NiNew Arrival);
+	//lBehaviors.AddTail(NiNew Wander);
 
-	lCoefficients.AddTail(1.0f);
-	lCoefficients.AddTail(2.0f);
+	//lCoefficients.AddTail(1.0f);
+	//lCoefficients.AddTail(2.0f);
 
-	BehaviorComboPtr combo = NiNew BehaviorCombo(lBehaviors, lCoefficients);
-	m_control->GetAgent()->GetController()->SetBehavior((Behavior*)combo);
+	//BehaviorComboPtr combo = NiNew BehaviorCombo(lBehaviors, lCoefficients);
+	m_control->GetAgent()->GetController()->SetBehavior(NiNew Wander);
 }
 //----------------------------------------------------------------------
 /**

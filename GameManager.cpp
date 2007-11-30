@@ -9,7 +9,7 @@
 #include "LevelManager.h"
 #include <NiPhysXScene.h>
 #include <NiApplication.h>
-
+#include "EnemyBase.h"
 //------------------------------------------------------------------------ 
 /** 
  * Ctor
@@ -75,6 +75,10 @@ bool GameManager::Init(NiNodePtr parent, NiPhysXScenePtr physXScene, NiApplicati
 	m_spCurrentLevel = LevelManager::Get()->GetLevel(1);
 	CopyLists(m_spCurrentLevel->GetEnemies(), m_lEnemies);
 
+	if (!AddObject((GameObj3dPtr)(NiNew EnemyBase), parent))
+	{
+		return false;
+	}
 	return true;
 }
 //------------------------------------------------------------------------ 
@@ -157,6 +161,7 @@ GameObj3dPtr GameManager::CreateObject3d(ResourceManager::ResourceType type)
 			{
 				obj = 0;
 			}
+			m_lEnemies.AddTail((Enemy*)(GameObj3d*)obj);
 			break;
 	default:
 		return 0;
