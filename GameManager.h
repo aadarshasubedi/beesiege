@@ -42,10 +42,9 @@ public:
 	void UpdateAll(float fTime);
 	// creates a GameObj3d depending on the type
 	GameObj3dPtr CreateObject3d (ResourceManager::ResourceType type);
-	// adds an agent to the agents list
-	//void AddAgent(AgentPtr agent);
-	// removes an agent from the list
-	//void RemoveAgent(AgentPtr agent);
+	// records kill
+	void RecordKill();
+
 	// getters / setters
 	void ResetAgentGroup()
 	{
@@ -92,6 +91,7 @@ public:
 		return m_spCurrentTarget;
 	}
 
+	
 private:
 
 	// private ctor / dtor
@@ -130,6 +130,12 @@ private:
 	LevelPtr m_spCurrentLevel;
 	// current enemy target
 	EnemyPtr m_spCurrentTarget;
+	// the player's killing rate
+	float m_fKillingRate;
+	// the player's kill count
+	float m_fKillCount;
+	// the last time the player killed something
+	float m_fLastKillTime;
 };
 
 #endif

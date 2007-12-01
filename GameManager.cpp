@@ -6,6 +6,7 @@
 #include "Bee.h"
 #include "Locust.h"
 #include "ConfigurationManager.h"
+#include "TextManager.h"
 #include "LevelManager.h"
 #include <NiPhysXScene.h>
 #include <NiApplication.h>
@@ -15,7 +16,9 @@
  * Ctor
  * 
  */
-GameManager::GameManager() : m_fDeltaTime(0.0f), m_plAgents(0), m_spCurrentTarget(0)
+GameManager::GameManager() : 
+m_fDeltaTime(0.0f), m_plAgents(0), m_spCurrentTarget(0),
+m_fKillingRate(0.0f), m_fKillCount(0.0f), m_fLastKillTime(0.0f)
 {
 }
 //------------------------------------------------------------------------ 
@@ -168,6 +171,24 @@ GameObj3dPtr GameManager::CreateObject3d(ResourceManager::ResourceType type)
 	}
 
 	return obj;
+}
+//------------------------------------------------------------------------ 
+/**
+* Increases kill count, and calculates killing rate
+*/
+void GameManager::RecordKill()
+{
+	float killingInterval = m_pGameApplication->GetAccumTime() -
+		m_fLastKillTime;
+
+	m_fLastKillTime = m_pGameApplication->GetAccumTime();
+
+	m_fKillCount += 1.0f;
+	m_fKillingRate += (killingInterval - m_fKillingRate)/ m_fKillCount;
+
+	char rate[50];
+	sprintf_s(rate, "rate: %f", m_fKillingRate);
+	TextManager::Get()->UpdateText(TextManager::STRING_KILLINGRATE, rate); 
 }
 //------------------------------------------------------------------------ 
 /** 

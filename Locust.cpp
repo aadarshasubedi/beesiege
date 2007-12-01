@@ -37,12 +37,7 @@ Locust::~Locust()
  */
 void Locust::DoExtraUpdates(float fTime)
 {
-	// update controller
-	FSMEnemyAIControl* controller = (FSMEnemyAIControl*)GetAttribute(GameCharacter::ATTR_CONTROLLER);
-	if (controller)
-	{
-		controller->Update(fTime);	
-	}
+	Enemy::DoExtraUpdates(fTime);
 }
 //------------------------------------------------------------------------ 
 /** 

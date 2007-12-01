@@ -22,8 +22,6 @@ private:
 
 	// the bee's target
 	Enemy* m_pTarget;
-	// the bee's health
-	HealthAttribute* m_pOwnerHealth;
 	// the enemy's health
 	HealthAttribute* m_pTargetHealth;
 	// returns true if the target is in radius

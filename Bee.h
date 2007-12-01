@@ -27,6 +27,14 @@ public:
 	{
 		return m_pEnemyTarget;
 	}
+	void SetHighlighted(bool value)
+	{
+		m_bHighlighted = value;
+	}
+	const bool IsHighlighted() const
+	{
+		return m_bHighlighted;
+	}
 private:
 
 	// extra updates and initializations
@@ -36,6 +44,10 @@ private:
 	bool m_bIssuedAttackCommand;
 	// the bee's current target
 	Enemy* m_pEnemyTarget;
+	// is the bee highlighted
+	bool m_bHighlighted;
+
+	
 };
 
 NiSmartPointer(Bee);

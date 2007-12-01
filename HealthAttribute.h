@@ -22,6 +22,7 @@ public:
 	void IncreaseHealth();
 	// reduces health
 	void ReduceHealth();
+	void ReduceHealth(float modifier);
 	
 	// gets health
 	const float GetHealth() const

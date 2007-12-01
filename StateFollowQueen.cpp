@@ -12,6 +12,7 @@
 #include "Departure.h"
 #include "Wander.h"
 #include "BehaviorCombo.h"
+#include "HealthAttribute.h"
 #include <NiTPointerList.h>
 
 //----------------------------------------------------------------------
@@ -48,7 +49,6 @@ void StateFollowQueen::Enter()
 void StateFollowQueen::Update(float fTime)
 {
 	m_control->GetAgent()->Update();
-
 }
 //----------------------------------------------------------------------
 /**
@@ -60,7 +60,11 @@ FSMState* StateFollowQueen::CheckTransitions(float fTime)
 	//return the current state by default
 	FSMState* nextState = m_control->GetMachine()->GetCurrentState();;
 
-	if(((FSMBeeAIControl*)m_control)->issuedAttackCommand)
+	if (IsOwnerDead())
+	{
+		return nextState;
+	}
+	else if(((FSMBeeAIControl*)m_control)->issuedAttackCommand)
 	{
 		((FSMBeeAIControl*)m_control)->issuedAttackCommand = false;
 		//return attack state

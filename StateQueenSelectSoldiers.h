@@ -22,11 +22,6 @@ public:
 	FSMState* CheckTransitions(float fTime);
 
 	// setters / getters
-	void SetTarget(Enemy* target)
-	{
-		m_pTarget = target;
-	}
-
 	const NiTPointerList<BeePtr>& GetSelectedSoldiers() const
 	{
 		return m_lSelectedSoldiers;

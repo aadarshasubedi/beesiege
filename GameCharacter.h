@@ -17,7 +17,10 @@ public:
 	enum AttributeType
 	{
 		ATTR_CONTROLLER,
-		ATTR_HEALTH
+		ATTR_HEALTH,
+		ATTR_ARMOR,
+		ATTR_DAMAGE,
+		ATTR_SOUND
 	};
 
 	// ctor / dtor
@@ -37,13 +40,16 @@ public:
 protected:
 
 	// extra updates and initializations
-	virtual void DoExtraUpdates(float fTime)=0;
+	virtual void DoExtraUpdates(float fTime);
 	virtual bool DoExtraInits();
 	
 	// the character's PhysX actor
 	NxActor* m_pActor;
 	// a hash table that contains all the character's attributes
 	NiTMap<AttributeType, CharacterAttributePtr> m_tAttributes;
+
+	// health billboard (debugging)
+	NiNodePtr healthBill;
 };
 
 NiSmartPointer(GameCharacter);

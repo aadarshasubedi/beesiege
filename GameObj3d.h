@@ -55,7 +55,9 @@ protected:
 	bool Init(NiNodePtr attachToThis, NiPhysXScenePtr attachToScene);
 	// updates the object
 	void Update(float fTime);
-	
+	// recursive function that sets the emmisive color of a node
+	void SetEmmitanceForNode(NiAVObject* n, const NiColor& color);
+
 	// object type
 	ResourceManager::ResourceType m_Type;
 	// NiNode for rendering the object's model
@@ -74,9 +76,6 @@ private:
 	// extra updates and initializations
 	virtual void DoExtraUpdates(float fTime) = 0;
 	virtual bool DoExtraInits() = 0;
-
-	// recursive function that sets the emmisive color of a node
-	void SetEmmitanceForNode(NiAVObject* n, const NiColor& color);
 
 };
 
