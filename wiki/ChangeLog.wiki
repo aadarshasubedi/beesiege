@@ -189,3 +189,7 @@ Now, who will explain this to Lane :D?
 I modified the attack mechanism so that the user selects bees by holding the right mouse button and attacks by releasing it. Also when the attack starts the group is separated, but when the left mouse button is down it has cohesion. This works as expected so that's good. I will start working on the enemy bases now.
 
 Added simple enemy bases. Also fixed the problem with the HUGE NiMemory-Overview.xml file. After endless hours of hacking I managed to found a way to choose whether this file is going to be generated or not, by a simple #define statement. So make sure you include NiAppMain.cpp in your project and if you want to see if you have memory leaks simply uncomment the line that says #define LOG_MEMORY_TRACKING. If you don't want those xml files to be generated then comment the line again. I noticed that the game runs MUCH smoother without these files being written in the background...
+
+*30-Nov-2007* - _Vaios
+
+Added armor that makes health reduce slower when its bigger. Armor is bigger when queen is close, but when the queen is far the armor is negative which makes health actually reduce over time. I also added a billboard that shows health and it is displayed on top of every game character. Green means full health, red means no health. It's there for debugging purposes however this might give you an idea of how we could do health bars...
