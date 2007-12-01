@@ -39,7 +39,7 @@ public:
 protected:
 
 	// extra updates and initializations
-	virtual void DoExtraUpdates(float fTime) = 0;
+	virtual void DoExtraUpdates(float fTime);
 	virtual bool DoExtraInits();
 
 	NiTPointerList<GameCharacterPtr> m_lAttackers;

@@ -18,19 +18,7 @@
 */
 void StateEnemyWander::Enter()
 {
-	m_pHealth = (HealthAttribute*)m_control->GetOwner()->
-		GetAttribute(GameCharacter::ATTR_HEALTH);
 	m_control->GetAgent()->SetTarget(m_control->GetAgent()->GetActor()->getGlobalPosition());
-	// create a behavior combo
-	//NiTPointerList<BehaviorPtr> lBehaviors;
-	//NiTPointerList<float> lCoefficients;
-	//lBehaviors.AddTail(NiNew Arrival);
-	//lBehaviors.AddTail(NiNew Wander);
-
-	//lCoefficients.AddTail(1.0f);
-	//lCoefficients.AddTail(2.0f);
-
-	//BehaviorComboPtr combo = NiNew BehaviorCombo(lBehaviors, lCoefficients);
 	m_control->GetAgent()->GetController()->SetBehavior(NiNew Wander);
 }
 //----------------------------------------------------------------------
@@ -40,11 +28,7 @@ void StateEnemyWander::Enter()
 */
 void StateEnemyWander::Update(float fTime)
 {
-	m_control->GetAgent()->Update();
-
-	m_control->GetAgent()->LookAt(GameManager::Get()->
-		GetQueen()->GetActor()->getGlobalPosition());
-	
+	m_control->GetAgent()->Update();	
 }
 //----------------------------------------------------------------------
 /**
@@ -53,21 +37,19 @@ void StateEnemyWander::Update(float fTime)
 */
 FSMState* StateEnemyWander::CheckTransitions(float fTime)
 {	
-	
-	FSMState* nextState = m_control->GetMachine()->GetCurrentState();;
-	
-	if (m_pHealth)
+	FSMState* nextState = m_control->GetMachine()->GetCurrentState();
+	if (IsOwnerDead())
 	{
-		if (m_pHealth->GetHealth() <= 0.0f)
+		// dead so record a 
+		// kill for the player
+		GameManager::Get()->RecordKill();
+		if (GameManager::Get()->GetCurrentTarget() == m_control->GetOwner())
 		{
-			m_control->GetOwner()->SetActive(false);
-			//m_control->GetAgent()->GetController()->ToggleSpringDynamics(true);
+			GameManager::Get()->SetCurrentTarget(0);
 		}
 	}
 
-
 	return nextState;
-	
 }
 //----------------------------------------------------------------------
 /**

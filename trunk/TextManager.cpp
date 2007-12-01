@@ -67,8 +67,8 @@ bool TextManager::Init(NiRenderer* renderer)
 		(ResourceManager::RES_FONT_SELECTEDSOLDIERS);
 	if (!font) return false;
 
-	bool bSuccess = AddString("", font , NiFontString::COLORED |
-		NiFontString::CENTERED, 10, NiColorA(1.0, 1.0, 0.0, 1.0), 50, 20, STRING_SELECTEDSOLDIERS);
+	bool bSuccess = AddString("Rate: 0", font , NiFontString::COLORED |
+		NiFontString::CENTERED, 50, NiColorA(1.0, 1.0, 0.0, 1.0), 150, 20, STRING_KILLINGRATE);
 
 	return bSuccess;
 }

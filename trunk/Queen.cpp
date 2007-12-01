@@ -65,11 +65,7 @@ void Queen::RemoveSoldier(BeePtr soldier)
  */
 void Queen::DoExtraUpdates(float fTime)
 {
-	// update the queen's controller
-	FSMQueenAIControlPtr controller = (FSMQueenAIControl*)GetAttribute(GameCharacter::ATTR_CONTROLLER);
-	NIASSERT(controller);
-	controller->Update(fTime);
-	
+	GameCharacter::DoExtraUpdates(fTime);
 }
 //------------------------------------------------------------------------ 
 /** 

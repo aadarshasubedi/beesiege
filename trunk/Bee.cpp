@@ -7,8 +7,9 @@
 #include "Enemy.h"
 #include "GameManager.h"
 #include "HealthAttribute.h"
+#include "ArmorAttribute.h"
 #include "NiTMap.h"
-
+#include <NiMaterialProperty.h>
 
 //----------------------------------------------------------------------
 // implements RTTI
@@ -20,7 +21,8 @@ NiImplementRTTI(Bee, GameCharacter);
  */
 Bee::Bee() : GameCharacter(ResourceManager::RES_MODEL_BEE),
 			 m_pEnemyTarget(0),
-			 m_bIssuedAttackCommand(false)
+			 m_bIssuedAttackCommand(false),
+			 m_bHighlighted(false)
 {
 }
 //------------------------------------------------------------------------
@@ -40,11 +42,8 @@ Bee::~Bee()
  */
 void Bee::DoExtraUpdates(float fTime)
 {
-	FSMBeeAIControl* controller = (FSMBeeAIControl*)GetAttribute(GameCharacter::ATTR_CONTROLLER);
-	if (controller)
-	{
-		controller->Update(fTime);	
-	}
+	GameCharacter::DoExtraUpdates(fTime);
+	
 }
 //------------------------------------------------------------------------ 
 /** 
@@ -60,12 +59,14 @@ bool Bee::DoExtraInits()
 		return false;
 	}
 
-	// add an FSMBeeAIControl
-	AddAttribute(GameCharacter::ATTR_CONTROLLER, NiNew FSMBeeAIControl(this));
 	// add a health attribute
 	HealthAttributePtr health = NiNew HealthAttribute(this);
-	health->Reset(10.0f);
+	health->Reset(30.0f);
 	AddAttribute(GameCharacter::ATTR_HEALTH, (CharacterAttribute*)health);
+	// add an armor attribute
+	AddAttribute(GameCharacter::ATTR_ARMOR, NiNew ArmorAttribute(this));
+	// add an FSMBeeAIControl
+	AddAttribute(GameCharacter::ATTR_CONTROLLER, NiNew FSMBeeAIControl(this));
 	// set initial position
 	m_pActor->setGlobalPosition(GameManager::Get()->
 		GetQueen()->GetActor()->getGlobalPosition() - NxVec3(50.0, 0.0, 0.0));
@@ -73,5 +74,9 @@ bool Bee::DoExtraInits()
 	// set dampings
 	m_pActor->setLinearDamping(10.0f);
 	m_pActor->setAngularDamping(10.0f);
+
+	
+	
+
 	return true;
 }

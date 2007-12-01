@@ -15,7 +15,8 @@ public:
 	// string types
 	enum StringType
 	{
-		STRING_SELECTEDSOLDIERS = 0
+		STRING_SELECTEDSOLDIERS = 0,
+		STRING_KILLINGRATE
 	};
 	
 	// initializes the manager

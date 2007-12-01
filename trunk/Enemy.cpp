@@ -28,7 +28,14 @@ Enemy::~Enemy()
 	m_lAttackerAgents.RemoveAll();
 	GameManager::Get()->ResetAgentGroup();
 }
-
+//------------------------------------------------------------------------ 
+/** 
+ * Do extra updates
+ */
+void Enemy::DoExtraUpdates(float fTime)
+{
+	GameCharacter::DoExtraUpdates(fTime);
+}
 //------------------------------------------------------------------------ 
 /** 
  * Does extra initializations

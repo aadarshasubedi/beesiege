@@ -67,8 +67,6 @@ FSMState* StateQueenTargetEnemy::CheckTransitions(float fTime)
 	{
 		nextState = controller->GetMachine()->GetState(FSM_QUEEN_SELECTSOLDIERS);
 		NIASSERT(nextState);
-		((StateQueenSelectSoldiers*)nextState)->SetTarget(m_pCurrentTarget);
-
 	}
 	return nextState;
 }
@@ -102,7 +100,7 @@ void StateQueenTargetEnemy::TargetNextEnemy()
 	// deselect current target and current attackers
 	if (m_pCurrentTarget)
 	{
-		if (enemies.Get(m_itCurrentTargetPosition))
+		if (enemies.Get(m_itCurrentTargetPosition) == m_pCurrentTarget)
 		{
 			DeselectCurrent();
 			if (m_itCurrentTargetPosition == enemies.GetTailPos())
@@ -117,6 +115,7 @@ void StateQueenTargetEnemy::TargetNextEnemy()
 		}
 		else
 		{
+			DeselectCurrent();
 			m_itCurrentTargetPosition = enemies.GetHeadPos();
 		}
 	}
@@ -160,7 +159,11 @@ void StateQueenTargetEnemy::TargetNextEnemy()
 			NiTListIterator it = attackers.GetHeadPos();
 			for (int i=0; i<attackers.GetSize(); i++)
 			{
-				attackers.Get(it)->SetEmmitance(NiColor(0.0, 1.0, 0.0));
+				attackers.Get(it)->SetEmmitance(NiColor(0.0, 0.8, 0.0));
+				if (NiIsKindOf(Bee, attackers.Get(it)))
+				{
+					((Bee*)(GameCharacter*)attackers.Get(it))->SetHighlighted(true);
+				}
 				it = attackers.GetNextPos(it);
 			}
 		}
@@ -174,6 +177,7 @@ void StateQueenTargetEnemy::TargetNextEnemy()
  */
 void StateQueenTargetEnemy::DeselectCurrent()
 {
+	if (!m_pCurrentTarget) return;
 	m_pCurrentTarget->SetEmmitance(NiColor(0.0, 0.0, 0.0));
 	if (!m_pCurrentTarget->GetAttackers().IsEmpty())
 	{
@@ -181,7 +185,19 @@ void StateQueenTargetEnemy::DeselectCurrent()
 		NiTListIterator it = attackers.GetHeadPos();
 		for (int i=0; i<attackers.GetSize(); i++)
 		{
-			attackers.Get(it)->SetEmmitance(NiColor(0.0, 0.0, 0.0));
+			if (NiIsKindOf(Bee, attackers.Get(it)))
+			{
+				Bee* attacker = (Bee*)(GameCharacter*)attackers.Get(it);
+				if (attacker->IsHighlighted())
+				{
+					attacker->SetEmmitance(NiColor(0.0, 0.0, 0.0));
+					attacker->SetHighlighted(false);
+				}
+			}
+			else
+			{
+				attackers.Get(it)->SetEmmitance(NiColor(0.0, 0.0, 0.0));
+			}
 			it = attackers.GetNextPos(it);
 		}
 	}

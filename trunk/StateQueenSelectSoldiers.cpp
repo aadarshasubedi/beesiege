@@ -34,6 +34,7 @@ StateQueenSelectSoldiers::~StateQueenSelectSoldiers()
 void StateQueenSelectSoldiers::Enter()
 {
 	m_fSelectionTimer = ConfigurationManager::Get()->timer_selectSoldiers;
+	m_pTarget = GameManager::Get()->GetCurrentTarget();
 }
 //----------------------------------------------------------------------
 /**
@@ -118,6 +119,7 @@ void StateQueenSelectSoldiers::SelectMoreSoldiers()
 	// add the soldier to the selected soldiers list
 	if (selected)
 	{
+		selected->SetHighlighted(true);
 		selected->SetEmmitance(NiColor(0.0, 0.8, 0.0));
 		m_lSelectedSoldiers.AddTail(selected);
 		FSMQueenAIControl* controller = (FSMQueenAIControl*)m_control;

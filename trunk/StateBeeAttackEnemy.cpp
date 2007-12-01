@@ -33,9 +33,6 @@ StateBeeAttackEnemy::StateBeeAttackEnemy(FSMAIControl* control, int type) :
 */
 void StateBeeAttackEnemy::Enter()
 {
-	m_pOwnerHealth = (HealthAttribute*)m_control->GetOwner()->
-		GetAttribute(GameCharacter::ATTR_HEALTH);
-
 	m_pTarget = ((FSMBeeAIControl*)m_control)->m_pTargetEnemy;
 	if (m_pTarget)
 	{
@@ -119,7 +116,11 @@ void StateBeeAttackEnemy::Update(float fTime)
 FSMState* StateBeeAttackEnemy::CheckTransitions(float fTime)
 {	
 	FSMState* nextState = m_control->GetMachine()->GetCurrentState();
-	if (!m_pTarget)
+	if (IsOwnerDead())
+	{
+		return nextState;
+	}
+	else if (!m_pTarget)
 	{
 		((FSMBeeAIControl*)m_control)->m_pTargetEnemy = 0;
 		nextState = m_control->GetMachine()->GetState(FSM_FOLLOW_QUEEN);
@@ -168,6 +169,12 @@ void StateBeeAttackEnemy::DamageTarget()
 		if (m_pTargetHealth->GetHealth() <= 0.0f)
 		{
 			m_pTarget = 0;
+			Bee* owner = (Bee*)m_control->GetOwner();
+			if (owner->IsHighlighted())
+			{
+				owner->SetEmmitance(NiColor(0.0f, 0.0f, 0.0f));
+				owner->SetHighlighted(false);
+			}
 		}
 		else
 		{

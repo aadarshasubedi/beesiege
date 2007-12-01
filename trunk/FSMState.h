@@ -5,6 +5,7 @@
 #include "GameObj.h"
 
 class FSMAIControl;
+class HealthAttribute;
 
 class FSMState: public GameObj
 {
@@ -42,6 +43,12 @@ protected:
 	int m_type;
 	// the state's parent controller
 	FSMAIControl* m_control;
+	// the owner's health
+	HealthAttribute* m_pOwnerHealth;
+
+	// checks if the owner is dead
+	// and sets it to non-active if it is
+	bool IsOwnerDead();
 };
 
 NiSmartPointer(FSMState);
