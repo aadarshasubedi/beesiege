@@ -17,7 +17,7 @@
  * 
  */
 GameManager::GameManager() : 
-m_fDeltaTime(0.0f), m_plAgents(0), m_spCurrentTarget(0),
+m_fDeltaTime(0.0f), m_plAgents(0), m_pCurrentTarget(0),
 m_fKillingRate(0.0f), m_fKillCount(0.0f), m_fLastKillTime(0.0f)
 {
 }
@@ -28,7 +28,7 @@ m_fKillingRate(0.0f), m_fKillCount(0.0f), m_fLastKillTime(0.0f)
  */
 GameManager::~GameManager()
 {
-	m_spCurrentTarget = 0;
+
 	m_lObjects.RemoveAll();
 	m_lEnemies.RemoveAll();
 	m_spQueen = 0;
@@ -255,6 +255,10 @@ void GameManager::RemoveObject(GameObj3dPtr object)
 		if (prop)
 		{
 			prop->DetachSceneCallback(m_pGameApplication->GetPhysXScene());
+			if (NiIsKindOf(GameCharacter, object))
+			{
+				((GameCharacter*)(GameObj3d*)object)->ResetActor(0);
+			}
 		}
 
 		NiNode* parent = object->GetNode()->GetParent();

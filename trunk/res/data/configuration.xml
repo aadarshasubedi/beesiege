@@ -49,6 +49,9 @@
     <characters>
         <bee>
             <distanceFromTarget> 0.0 </distanceFromTarget>
+            <initialHealth> 50.0 </initialHealth>
+            <armorEffectiveDistance> 500.0 </armorEffectiveDistance>
+            <damageEffectiveDistance> 500.0 </damageEffectiveDistance>
         </bee>
         <queen>
             <speedGain> 500.0 </speedGain>
@@ -58,6 +61,9 @@
             <maxHeight> 578.495 </maxHeight>
             <fogScaleValue> 27000000.0 </fogScaleValue>
         </queen>
+        <locust>
+            <initialHealth> 100.0 </initialHealth>
+        </locust>
     </characters>
     <timers>
         <selectSoldiersTimer> 0.5 </selectSoldiersTimer>

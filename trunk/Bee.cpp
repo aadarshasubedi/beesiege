@@ -8,8 +8,9 @@
 #include "GameManager.h"
 #include "HealthAttribute.h"
 #include "ArmorAttribute.h"
+#include "DamageAttribute.h"
+#include "ConfigurationManager.h"
 #include "NiTMap.h"
-#include <NiMaterialProperty.h>
 
 //----------------------------------------------------------------------
 // implements RTTI
@@ -61,10 +62,12 @@ bool Bee::DoExtraInits()
 
 	// add a health attribute
 	HealthAttributePtr health = NiNew HealthAttribute(this);
-	health->Reset(30.0f);
+	health->Reset(ConfigurationManager::Get()->bee_initialHealth);
 	AddAttribute(GameCharacter::ATTR_HEALTH, (CharacterAttribute*)health);
 	// add an armor attribute
 	AddAttribute(GameCharacter::ATTR_ARMOR, NiNew ArmorAttribute(this));
+	// add a damage attribute
+	AddAttribute(GameCharacter::ATTR_DAMAGE, NiNew DamageAttribute(this));
 	// add an FSMBeeAIControl
 	AddAttribute(GameCharacter::ATTR_CONTROLLER, NiNew FSMBeeAIControl(this));
 	// set initial position

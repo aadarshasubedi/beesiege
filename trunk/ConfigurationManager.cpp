@@ -349,6 +349,9 @@ bool ConfigurationManager::ReadCharacters(TiXmlElement* node)
 	if (!ReadQueen(node->FirstChildElement("queen")))
 		return false;
 
+	if (!ReadLocust(node->FirstChildElement("locust")))
+		return false;
+
 	return true;
 }
 //------------------------------------------------------------------------ 
@@ -363,7 +366,10 @@ bool ConfigurationManager::ReadBee(TiXmlElement* node)
 {
 	if (!node) return false;
 
-	if (ReadFloat(bee_distanceFromTarget, node, "distanceFromTarget"))
+	if (ReadFloat(bee_distanceFromTarget, node, "distanceFromTarget") &&
+		ReadFloat(bee_initialHealth, node, "initialHealth") &&
+		ReadFloat(bee_armorEffectiveDistance, node, "armorEffectiveDistance") &&
+		ReadFloat(bee_damageEffectiveDistance, node, "damageEffectiveDistance"))
 	{
 		return true;
 	}
@@ -388,6 +394,25 @@ bool ConfigurationManager::ReadQueen(TiXmlElement* node)
 		ReadFloat(queen_viewRadius, node, "viewRadius") &&
 		ReadFloat(queen_maxHeight, node, "maxHeight") &&
 		ReadFloat(queen_fogScaleValue, node, "fogScaleValue"))
+	{
+		return true;
+	}
+
+	return false;
+}
+//------------------------------------------------------------------------ 
+/** 
+ * Reads Locusts
+ * 
+ * @param node
+ * 
+ * @return bool
+ */ 
+bool ConfigurationManager::ReadLocust(TiXmlElement* node)
+{
+	if (!node) return false;
+
+	if (ReadFloat(locust_initialHealth, node, "initialHealth"))
 	{
 		return true;
 	}

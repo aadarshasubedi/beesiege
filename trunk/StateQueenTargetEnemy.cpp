@@ -17,10 +17,7 @@
 */
 void StateQueenTargetEnemy::Enter()
 {
-	//if (m_pCurrentTarget)
-	//{
-	//	DeselectCurrent();
-	//}
+	
 }
 //----------------------------------------------------------------------
 /**
@@ -42,12 +39,17 @@ void StateQueenTargetEnemy::Update(float fTime)
 	// stop targeting it
 	if (m_pCurrentTarget)
 	{
-		NxVec3 distance = m_pCurrentTarget->GetActor()->getGlobalPosition() - 
-			((Queen*)controller->GetOwner())->GetActor()->getGlobalPosition();
-		if (distance.magnitude() > ConfigurationManager::Get()->queen_viewRadius)
+		if (m_pCurrentTarget->GetActor())
 		{
-			DeselectCurrent();
-		}
+			NxVec3 targetPos = m_pCurrentTarget->GetActor()->getGlobalPosition();
+			NxVec3 queenPos  = ((Queen*)controller->GetOwner())->GetActor()->getGlobalPosition();
+			NxVec3 distance = targetPos - queenPos;
+			
+			if (distance.magnitude() > ConfigurationManager::Get()->queen_viewRadius)
+			{
+				DeselectCurrent();
+			}
+		}		
 	}
 
 }

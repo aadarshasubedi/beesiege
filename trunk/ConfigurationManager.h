@@ -41,12 +41,16 @@ public:
 	float wander_constant;
 	float wander_noise;
 	float bee_distanceFromTarget;
+	float bee_initialHealth;
+	float bee_armorEffectiveDistance;
+	float bee_damageEffectiveDistance;
 	float queen_speedGain;
 	float queen_rotationGain;
 	float queen_moveUpSpeedGain;
 	float queen_viewRadius;
 	float queen_maxHeight;
 	float queen_fogScaleValue;
+	float locust_initialHealth;
 	float timer_selectSoldiers;
 	float scene_fogDefaultDepth;
 
@@ -72,6 +76,7 @@ private:
 	bool ReadCharacters(TiXmlElement* node);
 	bool ReadBee(TiXmlElement* node);
 	bool ReadQueen(TiXmlElement* node);
+	bool ReadLocust(TiXmlElement* node);
 	bool ReadTimers(TiXmlElement* node);
 	bool ReadScene(TiXmlElement* node);
 };
