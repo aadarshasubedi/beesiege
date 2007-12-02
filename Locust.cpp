@@ -7,6 +7,7 @@
 #include "ResourceManager.h"
 #include "FSMEnemyAIControl.h"
 #include "HealthAttribute.h"
+#include "ConfigurationManager.h"
 
 //----------------------------------------------------------------------
 // implements RTTI
@@ -57,7 +58,7 @@ bool Locust::DoExtraInits()
 	AddAttribute(GameCharacter::ATTR_CONTROLLER, NiNew FSMEnemyAIControl(this));
 	// set initial health
 	HealthAttribute* health = (HealthAttribute*)GetAttribute(GameCharacter::ATTR_HEALTH);
-	if (health) health->Reset(50.0f);
+	if (health) health->Reset(ConfigurationManager::Get()->locust_initialHealth);
 
 	return true;
 }

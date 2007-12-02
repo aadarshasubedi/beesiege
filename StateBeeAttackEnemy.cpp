@@ -17,6 +17,7 @@
 #include "Enemy.h"
 #include "GameManager.h"
 #include "HealthAttribute.h"
+#include "DamageAttribute.h"
 #include <math.h>
 #include <NiColor.h>
 //----------------------------------------------------------------------
@@ -24,7 +25,8 @@
 *	Ctor
 */
 StateBeeAttackEnemy::StateBeeAttackEnemy(FSMAIControl* control, int type) : 
-	  FSMState(control, type), m_pTarget(0), m_fAttackTimer(0.0f), m_fcAttackTime(1.0f), m_bIsAttackStrong(false)
+	  FSMState(control, type), m_pTarget(0), m_fAttackTimer(0.0f),
+	  m_fcAttackTime(1.0f), m_bIsAttackStrong(false), m_pOwnerDamage(0)
 {
 }
 //----------------------------------------------------------------------
@@ -70,6 +72,8 @@ void StateBeeAttackEnemy::Enter()
 	}
 	
 	m_fAttackTimer = 0.0f;
+	m_pOwnerDamage = (DamageAttribute*)m_control->GetOwner()->
+		GetAttribute(GameCharacter::ATTR_DAMAGE);
 }
 //----------------------------------------------------------------------
 /**
@@ -186,7 +190,8 @@ void StateBeeAttackEnemy::DamageTarget()
 
 			if (rand()%100 > 50)
 			{
-				m_pTargetHealth->ReduceHealth();	
+				if (m_pOwnerDamage)
+					m_pTargetHealth->ReduceHealth(m_pOwnerDamage->GetDamage());	
 			}
 			
 

@@ -33,6 +33,10 @@ public:
 		m_tAttributes.SetAt(type, attr); 
 	}
 	// getters / setters
+	void ResetActor(NxActor* actor)
+	{
+		m_pActor = actor;
+	}
 	NxActor* GetActor() const {return m_pActor;}
 	CharacterAttribute* GetAttribute(AttributeType type);
 

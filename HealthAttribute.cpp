@@ -10,7 +10,7 @@
 * Ctor
 */
 HealthAttribute::HealthAttribute(GameCharacter *owner)
-: CharacterAttribute(owner), m_fInitialHealth(0.0f), m_fHealth(0.0f), m_fcHealthToken(1.0f)
+: CharacterAttribute(owner), m_fInitialHealth(0.0f), m_fHealth(0.0f)
 {
 }
 //-------------------------------------------------------------------------
@@ -43,7 +43,7 @@ void HealthAttribute::Reset(float initialHealth)
 /**
 * Reduce Health 
 */
-void HealthAttribute::ReduceHealth()
+void HealthAttribute::ReduceHealth(float value)
 {
 	if (m_fHealth > 0.0f)
 	{
@@ -52,11 +52,11 @@ void HealthAttribute::ReduceHealth()
 		if (armor)
 		{
 			float armorValue = armor->GetArmor();
-			m_fHealth -= armorValue > 0.0f ? m_fcHealthToken / armorValue : m_fcHealthToken;
+			m_fHealth -= armorValue > 0.0f ? value / armorValue : value;
 		}
 		else
 		{
-			m_fHealth -= m_fcHealthToken;
+			m_fHealth -= value;
 		}
 			
 	}
@@ -66,20 +66,20 @@ void HealthAttribute::ReduceHealth()
 * Reduce Health by a modifier * healthToken
 * @param modifier
 */
-void HealthAttribute::ReduceHealth(float modifier)
+void HealthAttribute::ReduceHealth(float value, float modifier)
 {
 	if (m_fHealth > 0.0f)
 	{
-		m_fHealth -= m_fcHealthToken * modifier;	
+		m_fHealth -= value * modifier;	
 	}
 }
 //-------------------------------------------------------------------------
 /**
-* Increase Health by a constant factor
+* Increase Health 
 */
-void HealthAttribute::IncreaseHealth()
+void HealthAttribute::IncreaseHealth(float value)
 {
-	m_fHealth += m_fcHealthToken;
+	m_fHealth += value;
 	if (m_fHealth > m_fInitialHealth)
 	{
 		m_fHealth = m_fInitialHealth;

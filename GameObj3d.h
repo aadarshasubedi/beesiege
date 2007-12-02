@@ -41,6 +41,7 @@ public:
 	{
 		m_bIsActive = value;
 	}
+	
 
 	// changes the emmisive color of a NiNode
 	void SetEmmitance(const NiColor& color);

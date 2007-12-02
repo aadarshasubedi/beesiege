@@ -19,10 +19,10 @@ public:
 	// resets health
 	void Reset(float initialHealth);
 	// increases health
-	void IncreaseHealth();
+	void IncreaseHealth(float value);
 	// reduces health
-	void ReduceHealth();
-	void ReduceHealth(float modifier);
+	void ReduceHealth(float value);
+	void ReduceHealth(float value, float modifier);
 	
 	// gets health
 	const float GetHealth() const
@@ -35,9 +35,7 @@ private:
 	float m_fHealth;
 	// initial health value
 	float m_fInitialHealth;
-	// amount of health that is added or subtracted
-	// from health
-	const float m_fcHealthToken;
+
 };
 
 NiSmartPointer(HealthAttribute);

@@ -76,19 +76,19 @@ public:
 	}
 	void SetStrongAttack(bool value)
 	{
-		if (m_spCurrentTarget)
+		if (m_pCurrentTarget)
 		{
-			m_spCurrentTarget->SetStrongAttack(value);
+			m_pCurrentTarget->SetStrongAttack(value);
 		}
 	}
-	void SetCurrentTarget (EnemyPtr enemy)
+	void SetCurrentTarget (Enemy* enemy)
 	{
-		m_spCurrentTarget = enemy;
+		m_pCurrentTarget = enemy;
 	}
 
-	EnemyPtr GetCurrentTarget() const
+	Enemy* GetCurrentTarget() const
 	{
-		return m_spCurrentTarget;
+		return m_pCurrentTarget;
 	}
 
 	
@@ -129,7 +129,7 @@ private:
 	// the current game level
 	LevelPtr m_spCurrentLevel;
 	// current enemy target
-	EnemyPtr m_spCurrentTarget;
+	Enemy* m_pCurrentTarget;
 	// the player's killing rate
 	float m_fKillingRate;
 	// the player's kill count

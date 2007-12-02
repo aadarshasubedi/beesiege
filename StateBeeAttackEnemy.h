@@ -5,6 +5,7 @@
 
 class Enemy;
 class HealthAttribute;
+class DamageAttribute;
 
 class StateBeeAttackEnemy: public FSMState
 {
@@ -31,6 +32,8 @@ private:
 	const float m_fcAttackTime;
 	// attack strength
 	bool m_bIsAttackStrong;
+	// the bee's damage attribute
+	DamageAttribute* m_pOwnerDamage;
 
 	// randomly inflicts damage on the enemy
 	void DamageTarget();
