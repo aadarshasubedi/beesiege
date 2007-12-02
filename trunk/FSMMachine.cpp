@@ -51,7 +51,10 @@ void FSMMachine::UpdateMachine(float fTime)
 		{
 			m_spCurrentState->Exit();
 			m_spCurrentState = m_spGoalState;
-			m_spCurrentState->Enter();
+			if (m_spCurrentState )
+				m_spCurrentState->Enter();
+			else
+				return;
 		}
 	}
 	m_spCurrentState->Update(fTime);

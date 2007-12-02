@@ -10,6 +10,22 @@
 #include "HealthAttribute.h"
 #include <NiPhysX.h>
 #include "Enemy.h"
+#include <math.h>
+#include "ConfigurationManager.h"
+
+
+//----------------------------------------------------------------------
+/**
+*	Ctor
+*/
+StateLocustAttack::StateLocustAttack(FSMAIControl* control, 
+									 int type) : 
+FSMState(control, type), m_pTarget(0), 
+m_fDamageRadius(ConfigurationManager::Get()->locust_damageRadius),
+m_fDamage(ConfigurationManager::Get()->locust_damage),
+m_pTargetHealth(0), m_fAttackTimer(0.0f),  m_fcAttackTime(1.0f)
+{
+}
 //----------------------------------------------------------------------
 /**
 *	Performs necessary operations when we the state is entered
@@ -18,6 +34,11 @@ void StateLocustAttack::Enter()
 {
 	if (m_pTarget)
 	{
+		if (!m_pTargetHealth)
+		{
+			m_pTargetHealth = (HealthAttribute*)m_pTarget->GetAttribute(
+			GameCharacter::ATTR_HEALTH);
+		}
 		m_control->GetAgent()->SetTarget(m_pTarget->GetActor());
 		m_fViewRadius = ((Enemy*)m_control->GetOwner())->GetViewRadius();
 	}
@@ -36,9 +57,11 @@ void StateLocustAttack::Enter()
 void StateLocustAttack::Update(float fTime)
 {
 	FSMEnemyAIControl* controller = (FSMEnemyAIControl*)m_control;
-	if (m_pTarget = controller->IsTargetAtProximity(m_fViewRadius))
-	{
+	SetTarget(controller->IsTargetAtProximity(m_fViewRadius));
+	if (m_pTarget)
+	{		
 		m_control->GetAgent()->SetTarget(m_pTarget->GetActor());
+		DamageTarget();
 	}
 	m_control->GetAgent()->Update();	
 }
@@ -70,10 +93,57 @@ FSMState* StateLocustAttack::CheckTransitions(float fTime)
 }
 //----------------------------------------------------------------------
 /**
+* Set the target
+* @param the target
+*/
+void StateLocustAttack::SetTarget(GameCharacter* target)
+{
+	m_pTarget = target;
+	if (m_pTarget)
+		m_pTargetHealth = (HealthAttribute*)m_pTarget->GetAttribute(
+			GameCharacter::ATTR_HEALTH);
+}
+//----------------------------------------------------------------------
+/**
 *	Performs necessary operations when we the state is exited
 *   
 */
 void StateLocustAttack::Exit()
 {
 	m_pTarget = 0;
+	m_pTargetHealth = 0;
+}
+//----------------------------------------------------------------------
+/**
+*	Damage current target
+*   
+*/
+void StateLocustAttack::DamageTarget()
+{
+	if (!m_pTargetHealth) return;
+			
+	NxVec3 curPos    = m_control->GetOwner()->GetActor()->getGlobalPosition();
+	NxVec3 targetPos = m_pTarget->GetActor()->getGlobalPosition();
+	float distance = NxVec3(targetPos - curPos).magnitude();
+	if (distance <= m_fDamageRadius)
+	{
+		m_fAttackTimer -= GameManager::Get()->GetDeltaTime();
+		if (m_fAttackTimer > 0.0f)
+		{
+			return;
+		}
+		if (rand()%100 > 50)
+		{
+			m_pTargetHealth->ReduceHealth(m_fDamage);		
+			if (m_pTargetHealth->GetHealth() <= 0.0f)
+			{
+				m_pTarget->SetActive(false);
+				m_pTarget = 0;
+				m_pTargetHealth = 0;
+			}
+		}
+		
+		m_fAttackTimer = m_fcAttackTime;
+		
+	}
 }

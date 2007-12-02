@@ -18,6 +18,7 @@
 #include "GameManager.h"
 #include "HealthAttribute.h"
 #include "DamageAttribute.h"
+#include "ConfigurationManager.h"
 #include <math.h>
 #include <NiColor.h>
 //----------------------------------------------------------------------
@@ -26,7 +27,8 @@
 */
 StateBeeAttackEnemy::StateBeeAttackEnemy(FSMAIControl* control, int type) : 
 	  FSMState(control, type), m_pTarget(0), m_fAttackTimer(0.0f),
-	  m_fcAttackTime(1.0f), m_bIsAttackStrong(false), m_pOwnerDamage(0)
+	  m_fcAttackTime(1.0f), m_bIsAttackStrong(false), m_pOwnerDamage(0),
+	  m_fDamageRadius(ConfigurationManager::Get()->bee_damageRadius)
 {
 }
 //----------------------------------------------------------------------
@@ -190,14 +192,14 @@ void StateBeeAttackEnemy::DamageTarget()
 		}
 		else
 		{
-			if (!IsTargetInRadius(50.0f)) return;
+			if (!IsTargetInRadius(m_fDamageRadius)) return;
 			m_fAttackTimer -= GameManager::Get()->GetDeltaTime();
 			if (m_fAttackTimer > 0.0f)
 			{
 				return;
 			}
 
-			if (rand()%100 > 50)
+			if (rand()%100 > 40)
 			{
 				if (m_pOwnerDamage)
 					m_pTargetHealth->ReduceHealth(m_pOwnerDamage->GetDamage());	

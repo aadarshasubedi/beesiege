@@ -44,6 +44,7 @@ public:
 	float bee_initialHealth;
 	float bee_armorEffectiveDistance;
 	float bee_damageEffectiveDistance;
+	float bee_damageRadius;
 	float queen_speedGain;
 	float queen_rotationGain;
 	float queen_moveUpSpeedGain;
@@ -52,6 +53,8 @@ public:
 	float queen_fogScaleValue;
 	float locust_initialHealth;
 	float locust_viewRadius;
+	float locust_damageRadius;
+	float locust_damage;
 	float timer_selectSoldiers;
 	float scene_fogDefaultDepth;
 
