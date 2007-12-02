@@ -4,12 +4,12 @@
 #include "StateLocustAttack.h"
 #include "StateEnemyWander.h"
 #include "FSMMachine.h"
-#include "GameCharacter.h"
 #include "GameManager.h"
 #include "FSMEnemyAIControl.h"
 #include "Seek.h"
 #include "HealthAttribute.h"
 #include <NiPhysX.h>
+#include "Enemy.h"
 //----------------------------------------------------------------------
 /**
 *	Performs necessary operations when we the state is entered
@@ -19,6 +19,7 @@ void StateLocustAttack::Enter()
 	if (m_pTarget)
 	{
 		m_control->GetAgent()->SetTarget(m_pTarget->GetActor());
+		m_fViewRadius = ((Enemy*)m_control->GetOwner())->GetViewRadius();
 	}
 	else
 	{
@@ -35,7 +36,7 @@ void StateLocustAttack::Enter()
 void StateLocustAttack::Update(float fTime)
 {
 	FSMEnemyAIControl* controller = (FSMEnemyAIControl*)m_control;
-	if (m_pTarget = controller->IsTargetAtProximity(200.0f))
+	if (m_pTarget = controller->IsTargetAtProximity(m_fViewRadius))
 	{
 		m_control->GetAgent()->SetTarget(m_pTarget->GetActor());
 	}

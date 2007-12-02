@@ -21,6 +21,11 @@ public:
 	void Update(float fTime);
 	FSMState* CheckTransitions(float fTime);
 
+private:
+
+	// the enemy's view radius
+	float m_fViewRadius;
+
 };
 
 NiSmartPointer(StateEnemyWander);

@@ -36,6 +36,11 @@ public:
 		return m_bIsAttackStrong;
 	}
 
+	const float GetViewRadius() const
+	{
+		return m_fViewRadius;
+	}
+
 protected:
 
 	// extra updates and initializations
@@ -47,6 +52,9 @@ protected:
 
 	// are the attackers cohesive
 	bool m_bIsAttackStrong;
+
+	// the enemy's view radius
+	float m_fViewRadius;
 
 };
 

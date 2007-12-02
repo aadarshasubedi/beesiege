@@ -412,7 +412,8 @@ bool ConfigurationManager::ReadLocust(TiXmlElement* node)
 {
 	if (!node) return false;
 
-	if (ReadFloat(locust_initialHealth, node, "initialHealth"))
+	if (ReadFloat(locust_initialHealth, node, "initialHealth") &&
+		ReadFloat(locust_viewRadius, node, "viewRadius"))
 	{
 		return true;
 	}
