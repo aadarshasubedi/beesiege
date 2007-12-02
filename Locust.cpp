@@ -60,5 +60,7 @@ bool Locust::DoExtraInits()
 	HealthAttribute* health = (HealthAttribute*)GetAttribute(GameCharacter::ATTR_HEALTH);
 	if (health) health->Reset(ConfigurationManager::Get()->locust_initialHealth);
 
+	m_fViewRadius = ConfigurationManager::Get()->locust_viewRadius;
+
 	return true;
 }

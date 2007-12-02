@@ -13,7 +13,8 @@ NiImplementRTTI(Enemy, GameCharacter);
  * Ctor
  * 
  */
-Enemy::Enemy(ResourceManager::ResourceType type) : GameCharacter(type), m_bIsAttackStrong(false)
+Enemy::Enemy(ResourceManager::ResourceType type) :
+GameCharacter(type), m_bIsAttackStrong(false), m_fViewRadius(0.0f)
 					
 {
 }

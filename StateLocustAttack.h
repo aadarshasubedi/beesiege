@@ -29,7 +29,10 @@ public:
 	}
 private:
 	
+	// the locust's target
 	GameCharacter* m_pTarget;
+	// the locust's view radius
+	float m_fViewRadius;
 	
 };
 

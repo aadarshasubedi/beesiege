@@ -51,6 +51,7 @@ public:
 	float queen_maxHeight;
 	float queen_fogScaleValue;
 	float locust_initialHealth;
+	float locust_viewRadius;
 	float timer_selectSoldiers;
 	float scene_fogDefaultDepth;
 

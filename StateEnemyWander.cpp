@@ -12,6 +12,7 @@
 #include "BehaviorCombo.h"
 #include "NiTPointerList.h"
 #include "HealthAttribute.h"
+#include "Locust.h"
 #include <NiPhysX.h>
 //----------------------------------------------------------------------
 /**
@@ -21,6 +22,7 @@ void StateEnemyWander::Enter()
 {
 	m_control->GetAgent()->SetTarget(m_control->GetAgent()->GetActor()->getGlobalPosition());
 	m_control->GetAgent()->GetController()->SetBehavior(NiNew Wander);
+	m_fViewRadius = ((Enemy*)m_control->GetOwner())->GetViewRadius();
 }
 //----------------------------------------------------------------------
 /**
@@ -51,11 +53,16 @@ FSMState* StateEnemyWander::CheckTransitions(float fTime)
 			GameManager::Get()->SetCurrentTarget(0);
 		}
 	}
-	else if (targetAtProximity = controller->IsTargetAtProximity(200.0f))
+	else if (targetAtProximity = controller->IsTargetAtProximity(m_fViewRadius))
 	{
-		nextState = controller->GetMachine()->GetState(FSM_ENEMY_LOCUST_ATTACK);
-		NIASSERT(nextState);
-		((StateLocustAttack*)nextState)->SetTarget(targetAtProximity);
+		// if the owner is a locust then return StateLocustAttack
+		if (NiIsKindOf(Locust, m_control->GetOwner()))
+		{
+			nextState = controller->GetMachine()->GetState(FSM_ENEMY_LOCUST_ATTACK);
+			NIASSERT(nextState);
+			((StateLocustAttack*)nextState)->SetTarget(targetAtProximity);
+		}
+		
 	}
 	
 

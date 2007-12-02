@@ -63,6 +63,7 @@
         </queen>
         <locust>
             <initialHealth> 100.0 </initialHealth>
+            <viewRadius> 150.0 </viewRadius>
         </locust>
     </characters>
     <timers>
