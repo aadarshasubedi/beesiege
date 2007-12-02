@@ -1,34 +1,44 @@
 /**
-*	A state that makes the owner attack an enemy
+*	A state that makes a locust attack the closest bee / queen
 */
-#include "StateEnemyWander.h"
 #include "StateLocustAttack.h"
+#include "StateEnemyWander.h"
 #include "FSMMachine.h"
 #include "GameCharacter.h"
 #include "GameManager.h"
 #include "FSMEnemyAIControl.h"
-#include "Wander.h"
-#include "Arrival.h"
-#include "BehaviorCombo.h"
-#include "NiTPointerList.h"
+#include "Seek.h"
 #include "HealthAttribute.h"
 #include <NiPhysX.h>
 //----------------------------------------------------------------------
 /**
 *	Performs necessary operations when we the state is entered
 */
-void StateEnemyWander::Enter()
+void StateLocustAttack::Enter()
 {
-	m_control->GetAgent()->SetTarget(m_control->GetAgent()->GetActor()->getGlobalPosition());
-	m_control->GetAgent()->GetController()->SetBehavior(NiNew Wander);
+	if (m_pTarget)
+	{
+		m_control->GetAgent()->SetTarget(m_pTarget->GetActor());
+	}
+	else
+	{
+		m_control->GetAgent()->SetTarget(m_control->GetAgent()->GetActor()->getGlobalPosition());
+	}
+	
+	m_control->GetAgent()->GetController()->SetBehavior(NiNew Seek);
 }
 //----------------------------------------------------------------------
 /**
 *	Updates the state
 *   @param delta time
 */
-void StateEnemyWander::Update(float fTime)
+void StateLocustAttack::Update(float fTime)
 {
+	FSMEnemyAIControl* controller = (FSMEnemyAIControl*)m_control;
+	if (m_pTarget = controller->IsTargetAtProximity(200.0f))
+	{
+		m_control->GetAgent()->SetTarget(m_pTarget->GetActor());
+	}
 	m_control->GetAgent()->Update();	
 }
 //----------------------------------------------------------------------
@@ -36,28 +46,24 @@ void StateEnemyWander::Update(float fTime)
 *	Checks for transition conditions
 *   @param delta time
 */
-FSMState* StateEnemyWander::CheckTransitions(float fTime)
+FSMState* StateLocustAttack::CheckTransitions(float fTime)
 {	
 	FSMEnemyAIControl* controller = (FSMEnemyAIControl*)m_control;
 	FSMState* nextState = controller->GetMachine()->GetCurrentState();
-	GameCharacter* targetAtProximity = 0;
 	if (IsOwnerDead())
 	{
 		// dead so record a 
 		// kill for the player
 		GameManager::Get()->RecordKill();
-		if (GameManager::Get()->GetCurrentTarget() == controller->GetOwner())
+		if (GameManager::Get()->GetCurrentTarget() == m_control->GetOwner())
 		{
 			GameManager::Get()->SetCurrentTarget(0);
 		}
 	}
-	else if (targetAtProximity = controller->IsTargetAtProximity(200.0f))
+	else if (!m_pTarget)
 	{
-		nextState = controller->GetMachine()->GetState(FSM_ENEMY_LOCUST_ATTACK);
-		NIASSERT(nextState);
-		((StateLocustAttack*)nextState)->SetTarget(targetAtProximity);
+		nextState = m_control->GetMachine()->GetState(FSM_ENEMY_WANDER);
 	}
-	
 
 	return nextState;
 }
@@ -66,7 +72,7 @@ FSMState* StateEnemyWander::CheckTransitions(float fTime)
 *	Performs necessary operations when we the state is exited
 *   
 */
-void StateEnemyWander::Exit()
+void StateLocustAttack::Exit()
 {
-	
+	m_pTarget = 0;
 }

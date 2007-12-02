@@ -6,6 +6,7 @@
 #include "Bee.h"
 
 class Enemy;
+class HealthAttribute;
 
 class StateQueenSelectSoldiers: public FSMState
 {
@@ -38,6 +39,8 @@ private:
 	Enemy* m_pTarget;
 	// a timer that delays selection
 	float m_fSelectionTimer;
+	// the target's health
+	HealthAttribute* m_pTargetHealth;
 };
 
 NiSmartPointer(StateQueenSelectSoldiers);

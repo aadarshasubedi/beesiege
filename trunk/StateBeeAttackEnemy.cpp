@@ -39,6 +39,16 @@ void StateBeeAttackEnemy::Enter()
 	if (m_pTarget)
 	{
 		m_pTargetHealth = (HealthAttribute*)m_pTarget->GetAttribute(GameCharacter::ATTR_HEALTH);
+		// if target just died then return
+		NIASSERT(m_pTargetHealth);
+		if (m_pTargetHealth)
+		{
+			if (m_pTargetHealth->GetHealth() <= 0.0f)
+			{
+				m_pTarget = 0;
+				return;
+			}
+		}
 
 		NxActor* target = m_pTarget->GetActor();
 		m_control->GetAgent()->SetTarget(target);
@@ -166,8 +176,6 @@ bool StateBeeAttackEnemy::IsTargetInRadius(float radius)
 */
 void StateBeeAttackEnemy::DamageTarget()
 {
-	if (!IsTargetInRadius(50.0f)) return;
-
 	if (m_pTargetHealth)
 	{
 		if (m_pTargetHealth->GetHealth() <= 0.0f)
@@ -182,6 +190,7 @@ void StateBeeAttackEnemy::DamageTarget()
 		}
 		else
 		{
+			if (!IsTargetInRadius(50.0f)) return;
 			m_fAttackTimer -= GameManager::Get()->GetDeltaTime();
 			if (m_fAttackTimer > 0.0f)
 			{
@@ -197,5 +206,14 @@ void StateBeeAttackEnemy::DamageTarget()
 
 			m_fAttackTimer = m_fcAttackTime;
 		}			
+	}
+	else
+	{
+		Bee* owner = (Bee*)m_control->GetOwner();
+		if (owner->IsHighlighted())
+		{
+			owner->SetEmmitance(NiColor(0.0f, 0.0f, 0.0f));
+			owner->SetHighlighted(false);
+		}
 	}
 }

@@ -4,6 +4,7 @@
 #include "FSMAIControl.h"
 
 class Enemy;
+class GameCharacter;
 
 class FSMEnemyAIControl: public FSMAIControl
 {
@@ -11,6 +12,7 @@ public:
 	FSMEnemyAIControl(Enemy* enemy);
 	~FSMEnemyAIControl();
 
+	GameCharacter* IsTargetAtProximity(float radius);
 
 private:
 	// see base class

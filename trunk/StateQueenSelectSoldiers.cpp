@@ -7,6 +7,7 @@
 #include "GameManager.h"
 #include "FSMQueenAIControl.h"
 #include "ConfigurationManager.h"
+#include "HealthAttribute.h"
 #include <NiPhysX.h>
 
 //----------------------------------------------------------------------
@@ -15,7 +16,7 @@
 */
 StateQueenSelectSoldiers::StateQueenSelectSoldiers(FSMAIControl* control, 
 												   int type)
-: FSMState(control, type), m_pTarget(0)
+: FSMState(control, type), m_pTarget(0), m_pTargetHealth(0)
 {
 }
 
@@ -35,6 +36,11 @@ void StateQueenSelectSoldiers::Enter()
 {
 	m_fSelectionTimer = ConfigurationManager::Get()->timer_selectSoldiers;
 	m_pTarget = GameManager::Get()->GetCurrentTarget();
+	if (m_pTarget)
+	{
+		m_pTargetHealth = (HealthAttribute*)m_pTarget->
+		GetAttribute(GameCharacter::ATTR_HEALTH);
+	}
 }
 //----------------------------------------------------------------------
 /**
@@ -90,6 +96,7 @@ void StateQueenSelectSoldiers::Exit()
 		}
 	}
 	m_pTarget = 0;
+	m_pTargetHealth = 0;
 	m_lSelectedSoldiers.RemoveAll();
 }
 //------------------------------------------------------------------------ 
@@ -103,11 +110,28 @@ void StateQueenSelectSoldiers::SelectMoreSoldiers()
 	NxVec3 target;
 	if (m_pTarget)
 	{
-		m_fSelectionTimer += GameManager::Get()->GetDeltaTime();
-		if (m_fSelectionTimer < ConfigurationManager::Get()->timer_selectSoldiers)
+		if (m_pTargetHealth)
+		{
+			if (m_pTargetHealth->GetHealth() <= 0.0f)
+			{
+				m_pTarget = 0;
+				m_pTargetHealth = 0;
+				m_fSelectionTimer = 0.0f;
+				return;
+			}
+			else
+			{
+				m_fSelectionTimer += GameManager::Get()->GetDeltaTime();
+				if (m_fSelectionTimer < ConfigurationManager::Get()->timer_selectSoldiers)
+					return;
+				target = m_pTarget->GetActor()->getGlobalPosition();
+				m_fSelectionTimer = 0.0f;
+			}			
+		}		
+		else
+		{
 			return;
-		target = m_pTarget->GetActor()->getGlobalPosition();
-		m_fSelectionTimer = 0.0f;
+		}
 	}
 	else
 	{
