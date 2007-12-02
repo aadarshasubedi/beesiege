@@ -193,3 +193,7 @@ Added simple enemy bases. Also fixed the problem with the HUGE NiMemory-Overview
 *30-Nov-2007* - _Vaios
 
 Added armor that makes health reduce slower when its bigger. Armor is bigger when queen is close, but when the queen is far the armor is negative which makes health actually reduce over time. I also added a billboard that shows health and it is displayed on top of every game character. Green means full health, red means no health. It's there for debugging purposes however this might give you an idea of how we could do health bars...
+
+*2-Dec-2007* - _Vaios
+
+Added StateLocustAttack and modified other things all over. Also added some more data in the configuration file. Now the Locusts can attack their closest opponents and inflict damage on them. Also the bees can now die. Well now there is actually a fight going on in the game and it is actually kinda fun :)
