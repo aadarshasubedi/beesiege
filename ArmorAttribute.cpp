@@ -38,6 +38,7 @@ void ArmorAttribute::Update(float fTime)
 	m_fArmor = m_fcMaxQueenDistance - distance;
 
 	// if armor is negative then reduce health
+	/*
 	if (m_fArmor < 0.0f)
 	{
 		HealthAttribute* health = (HealthAttribute*)GetOwner()->GetAttribute(GameCharacter::ATTR_HEALTH);
@@ -46,4 +47,5 @@ void ArmorAttribute::Update(float fTime)
 			health->ReduceHealth(1.0f, -m_fArmor * 0.01f);
 		}
 	}
+	*/
 }

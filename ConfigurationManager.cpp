@@ -369,7 +369,8 @@ bool ConfigurationManager::ReadBee(TiXmlElement* node)
 	if (ReadFloat(bee_distanceFromTarget, node, "distanceFromTarget") &&
 		ReadFloat(bee_initialHealth, node, "initialHealth") &&
 		ReadFloat(bee_armorEffectiveDistance, node, "armorEffectiveDistance") &&
-		ReadFloat(bee_damageEffectiveDistance, node, "damageEffectiveDistance"))
+		ReadFloat(bee_damageEffectiveDistance, node, "damageEffectiveDistance")&&
+		ReadFloat(bee_damageRadius, node, "damageRadius"))
 	{
 		return true;
 	}
@@ -413,7 +414,9 @@ bool ConfigurationManager::ReadLocust(TiXmlElement* node)
 	if (!node) return false;
 
 	if (ReadFloat(locust_initialHealth, node, "initialHealth") &&
-		ReadFloat(locust_viewRadius, node, "viewRadius"))
+		ReadFloat(locust_viewRadius, node, "viewRadius")&&
+		ReadFloat(locust_damageRadius, node, "damageRadius")&&
+		ReadFloat(locust_damage, node, "damage"))
 	{
 		return true;
 	}

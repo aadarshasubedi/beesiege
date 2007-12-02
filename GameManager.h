@@ -66,6 +66,10 @@ public:
 	{
 		return m_pGameApplication;
 	}
+	const NiTPointerList<GameObj3dPtr>& GetObjects() const 
+	{
+		return m_lObjects;
+	}
 	const NiTPointerList<EnemyPtr>& GetEnemies() const 
 	{
 		return m_lEnemies;

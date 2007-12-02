@@ -7,6 +7,8 @@
 #include "StateLocustAttack.h"
 #include "GameManager.h"
 #include <NiTPointerList.h>
+#include "Bee.h"
+#include "Queen.h"
 //-----------------------------------------------------------------------
 /**
 * Ctor
@@ -57,37 +59,34 @@ GameCharacter* FSMEnemyAIControl::IsTargetAtProximity(float radius)
 	GameCharacter* closest = 0;
 	// find min distance
 	NxVec3 curPos = GetOwner()->GetActor()->getGlobalPosition();
-	// first check queen
-	NxVec3 distance = GameManager::Get()->GetQueen()->
-		GetActor()->getGlobalPosition() - curPos;
-	float distanceMag = distance.magnitude();
-	if (distanceMag < minDistance)
-	{
-		minDistance = distanceMag;
-		closest = (GameCharacter*)GameManager::Get()->GetQueen();
-	}
+	// check in game objects for targets
+	NxVec3 distance;
+	float distanceMag;
 	
-	// then check soldiers
-	const NiTPointerList<BeePtr>& soldiers = 
-		GameManager::Get()->GetQueen()->GetSoldiers();
-	if (soldiers.IsEmpty())
+	const NiTPointerList<GameObj3dPtr>& targets = GameManager::Get()->GetObjects();
+	if (targets.IsEmpty())
 	{
-		return closest;
+		return 0;
 	}
 
-	NiTListIterator it = soldiers.GetHeadPos();
-	for (int i=0; i<soldiers.GetSize(); i++)
+	NiTListIterator it = targets.GetHeadPos();
+	for (int i=0; i<targets.GetSize(); i++)
 	{
-		GameCharacter* current = (GameCharacter*)soldiers.Get(it);
-		distance = current->GetActor()->getGlobalPosition() -
-			curPos;
-		distanceMag = distance.magnitude();
-		if (distanceMag < minDistance)
+		GameObj3d* target = targets.Get(it);
+		if (NiIsKindOf(Queen, target) || NiIsKindOf(Bee, target))
 		{
-			minDistance = distanceMag;
-			closest = current;
-		}
-		it = soldiers.GetNextPos(it);
+			GameCharacter* current = (GameCharacter*)target;
+			distance = current->GetActor()->getGlobalPosition() -
+					   curPos;
+			distanceMag = distance.magnitude();
+			if (distanceMag < minDistance)
+			{
+				minDistance = distanceMag;
+				closest = current;
+			}			
+		}				
+
+		it = targets.GetNextPos(it);
 	}
 
 	return closest;

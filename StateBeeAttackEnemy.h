@@ -25,8 +25,6 @@ private:
 	Enemy* m_pTarget;
 	// the enemy's health
 	HealthAttribute* m_pTargetHealth;
-	// returns true if the target is in radius
-	bool IsTargetInRadius(float radius);
 	// timer for delaying attacks
 	float m_fAttackTimer; 
 	const float m_fcAttackTime;
@@ -34,7 +32,11 @@ private:
 	bool m_bIsAttackStrong;
 	// the bee's damage attribute
 	DamageAttribute* m_pOwnerDamage;
+	// the bee's damage radius
+	float m_fDamageRadius;
 
+	// returns true if the target is in radius
+	bool IsTargetInRadius(float radius);
 	// randomly inflicts damage on the enemy
 	void DamageTarget();
 };

@@ -49,9 +49,10 @@
     <characters>
         <bee>
             <distanceFromTarget> 0.0 </distanceFromTarget>
-            <initialHealth> 50.0 </initialHealth>
+            <initialHealth> 10.0 </initialHealth>
             <armorEffectiveDistance> 500.0 </armorEffectiveDistance>
             <damageEffectiveDistance> 500.0 </damageEffectiveDistance>
+            <damageRadius> 20.0 </damageRadius>
         </bee>
         <queen>
             <speedGain> 500.0 </speedGain>
@@ -64,6 +65,8 @@
         <locust>
             <initialHealth> 100.0 </initialHealth>
             <viewRadius> 150.0 </viewRadius>
+            <damageRadius> 20.0 </damageRadius>
+            <damage> 5.0 </damage>
         </locust>
     </characters>
     <timers>
