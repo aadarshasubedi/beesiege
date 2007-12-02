@@ -107,7 +107,7 @@ void GameManager::UpdateAll(float fTime)
 				RemoveEnemy(enemy);
 			}
 			RemoveObject(obj);
-			//it = m_lObjects.GetNextPos(it);
+			it = m_lObjects.GetNextPos(it);
 			continue;
 		}
 		obj->Update(fTime);
@@ -233,16 +233,6 @@ bool GameManager::AddObject(GameObj3dPtr object, NiNodePtr parent, NiPhysXSceneP
 }
 //------------------------------------------------------------------------ 
 /** 
- * Adds an agent to the agent list
- * 
- * @param agent
- *//*
-void GameManager::AddAgent(AgentPtr agent)
-{
-	m_lAgents.AddTail(agent);
-}
-//------------------------------------------------------------------------ 
-/** 
  * Removes an object from the list
  * 
  * @param object
@@ -251,6 +241,7 @@ void GameManager::RemoveObject(GameObj3dPtr object)
 {
 	if (!m_lObjects.IsEmpty())
 	{
+		// remove physx prop and actor from scene
 		NiPhysXPropPtr prop = object->GetProp();
 		if (prop)
 		{
@@ -261,6 +252,7 @@ void GameManager::RemoveObject(GameObj3dPtr object)
 			}
 		}
 
+		// remove scene node
 		NiNode* parent = object->GetNode()->GetParent();
 		if (parent)
 			parent->DetachChild(object->GetNode());

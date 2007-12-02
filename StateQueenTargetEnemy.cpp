@@ -9,6 +9,7 @@
 #include "GameManager.h"
 #include "FSMQueenAIControl.h"
 #include "ConfigurationManager.h"
+#include "HealthAttribute.h"
 #include "Enemy.h"
 #include <NiPhysX.h>
 //----------------------------------------------------------------------
@@ -33,6 +34,15 @@ void StateQueenTargetEnemy::Update(float fTime)
 	{
 		controller->issuedTargetEnemyCommand = false;
 		TargetNextEnemy();
+	}
+
+	// if the current target is dead then deselect it
+	if (m_pTargetHealth)
+	{
+		if (m_pTargetHealth->GetHealth() <= 0.0f)
+		{
+			DeselectCurrent();
+		}
 	}
 
 	// if the current target move out of the queen's radius then
@@ -153,6 +163,8 @@ void StateQueenTargetEnemy::TargetNextEnemy()
 	// select target (change emmisive color)
 	if (m_pCurrentTarget)
 	{
+		m_pTargetHealth = (HealthAttribute*)m_pCurrentTarget->
+			GetAttribute(GameCharacter::ATTR_HEALTH);
 		GameManager::Get()->SetCurrentTarget(m_pCurrentTarget);
 		m_pCurrentTarget->SetEmmitance(NiColor(1.0, 0.0, 0.0));
 		if (!m_pCurrentTarget->GetAttackers().IsEmpty())
@@ -206,4 +218,5 @@ void StateQueenTargetEnemy::DeselectCurrent()
 	m_pCurrentTarget->SetStrongAttack(false);
 	m_pCurrentTarget = 0;
 	GameManager::Get()->SetCurrentTarget(0);
+	m_pTargetHealth = 0;
 }
