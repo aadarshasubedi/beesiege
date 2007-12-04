@@ -197,3 +197,7 @@ Added armor that makes health reduce slower when its bigger. Armor is bigger whe
 *2-Dec-2007* - _Vaios
 
 Added StateLocustAttack and modified other things all over. Also added some more data in the configuration file. Now the Locusts can attack their closest opponents and inflict damage on them. Also the bees can now die. Well now there is actually a fight going on in the game and it is actually kinda fun :)
+
+*4-Dec-2007* - _Vaios
+
+Added sound. Since I could not find any appropriate sounds for the things that are going on in the game I recorded the sounds myself and changed the pitch to make them sound cartoonish! Lol!!! I even made the bzzzzzz sounds... It was really funny... Sound is enabled by default. To disable it comment the line: #define ENABLE_SOUND in ResourceManager.cpp . Have fun...
