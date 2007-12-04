@@ -6,11 +6,14 @@
 
 #include "ResourceManager.h"
 #include "SoundManager.h"
+#include "GameCharacter.h"
 #include <NiApplication.h>
 #include <NiPhysX.h>
 #include <NiCloningProcess.h>
 #include <fstream>
 using namespace std;
+
+#define ENABLE_SOUND
 
 //------------------------------------------------------------------------ 
 /** 
@@ -27,7 +30,7 @@ ResourceManager::ResourceManager()
  */
 ResourceManager::~ResourceManager()
 {
-	//SoundManager::Destroy();
+	SoundManager::Destroy();
 	m_tResourcesSounds.RemoveAll();
 	m_tResourcesFonts.RemoveAll();
 	m_tResourcesModels.RemoveAll();
@@ -57,18 +60,42 @@ bool ResourceManager::Init(NiStream* stream, NiRenderer* renderer)
 	bSuccess = LoadNif(stream, string("models/health.nif"), RES_MODEL_HEALTH);
 	if (!bSuccess) return false;
 
+	// load sounds
+	bSuccess = SoundManager::Get()->Init();
+#ifdef ENABLE_SOUND
+	if (!bSuccess) return false;
+	/////////////////////////////////////////////////////////////////////////////////
+	bSuccess = LoadSound(RES_SOUND_BEE, NiNew 
+		SoundDesc(NiApplication::ConvertMediaFilename("sounds/bee4.mp3"), true, true)); 
+	if (!bSuccess) return false;
+
+	/////////////////////////////////////////////////////////////////////////////////
+	bSuccess = LoadSound(RES_SOUND_BEE_AWAITING, NiNew 
+		SoundDesc(NiApplication::ConvertMediaFilename("sounds/beeAwaiting.mp3"), true, false));
+	if (!bSuccess) return false;
+	/////////////////////////////////////////////////////////////////////////////////
+	bSuccess = LoadSound(RES_SOUND_BEE_DYING, NiNew 
+		SoundDesc(NiApplication::ConvertMediaFilename("sounds/beeDying.mp3"), true, false));
+	if (!bSuccess) return false;
+
+	/////////////////////////////////////////////////////////////////////////////////
+	bSuccess = LoadSound(RES_SOUND_LOCUST, NiNew
+		SoundDesc(NiApplication::ConvertMediaFilename("sounds/locust.mp3"), true, true));
+	if (!bSuccess) return false;
+	/////////////////////////////////////////////////////////////////////////////////
+	bSuccess = LoadSound(RES_SOUND_LOCUST_DYING, NiNew 
+		SoundDesc(NiApplication::ConvertMediaFilename("sounds/locustDying.mp3"), true, false));
+	if (!bSuccess) return false;
+	/////////////////////////////////////////////////////////////////////////////////
+	bSuccess = LoadSound(RES_SOUND_AMBIENT, NiNew 
+		SoundDesc(NiApplication::ConvertMediaFilename("sounds/ambient.mp3"), false, true));
+	if (!bSuccess) return false;
+#endif
+	/////////////////////////////////////////////////////////////////////////////////
+
 	// load fonts
 	bSuccess = LoadFont(string("fonts/trebuchet.nff"), renderer, RES_FONT_SELECTEDSOLDIERS);
 	if (!bSuccess) return false;
-
-	// load sounds
-	//bSuccess = SoundManager::Get()->Init();
-	//if (!bSuccess) return false;
-
-	//bSuccess = LoadSound(string("sounds/bee4.mp3"), 
-	//RES_SOUND_BEE); 
-	//if (!bSuccess) return false;
-
 
 	return bSuccess;
 	
@@ -140,12 +167,12 @@ NiFontPtr ResourceManager::GetFont(ResourceType type)
  * 
  * @return SoundPtr
  */
-SoundPtr ResourceManager::GetSound(ResourceType type)
+SoundPtr ResourceManager::GetSound(ResourceType type, GameCharacter* owner)
 {
 	SoundDescPtr soundDesc;
 	if (m_tResourcesSounds.GetAt(type, soundDesc))
 	{
-		SoundPtr sound = SoundManager::Get()->CreateSound(soundDesc);
+		SoundPtr sound = SoundManager::Get()->CreateSound(soundDesc, owner);
 		return sound;
 	}
 	
@@ -241,21 +268,18 @@ bool ResourceManager::LoadFont(const std::string &filename, NiRenderer* renderer
  * 
  * @return bool
  */
-bool ResourceManager::LoadSound(const std::string& filename, ResourceType type)
+bool ResourceManager::LoadSound(ResourceType type, SoundDescPtr desc)
 {
-	const char *convertedFilename = NiApplication::ConvertMediaFilename(filename.c_str());
 	ifstream f;
-	f.open(convertedFilename, ifstream::in);
+	f.open(desc->filename.c_str(), ifstream::in);
 	f.close();
 	if (f.fail())
 	{
-		string err("Error sound: " + filename + " was not found");
+		string err("Error sound: " + desc->filename + " was not found");
 		NiMessageBox(err.c_str(), "Error");
 		return false;
 	}
 
-	SoundDescPtr desc = NiNew SoundDesc(convertedFilename);
-	desc->mode = FMOD_LOOP_NORMAL | FMOD_3D | FMOD_HARDWARE;
 	m_tResourcesSounds.SetAt(type, desc);
 	return true;
 }

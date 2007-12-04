@@ -76,6 +76,7 @@ FSMState* StateLocustAttack::CheckTransitions(float fTime)
 	FSMState* nextState = controller->GetMachine()->GetCurrentState();
 	if (IsOwnerDead())
 	{
+		controller->PlayDyingSound();
 		// dead so record a 
 		// kill for the player
 		GameManager::Get()->RecordKill();
@@ -137,7 +138,7 @@ void StateLocustAttack::DamageTarget()
 			m_pTargetHealth->ReduceHealth(m_fDamage);		
 			if (m_pTargetHealth->GetHealth() <= 0.0f)
 			{
-				m_pTarget->SetActive(false);
+				//m_pTarget->SetActive(false);
 				m_pTarget = 0;
 				m_pTargetHealth = 0;
 			}

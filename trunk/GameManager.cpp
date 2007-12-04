@@ -18,7 +18,8 @@
  */
 GameManager::GameManager() : 
 m_fDeltaTime(0.0f), m_plAgents(0), m_pCurrentTarget(0),
-m_fKillingRate(0.0f), m_fKillCount(0.0f), m_fLastKillTime(0.0f)
+m_fKillingRate(0.0f), m_fKillCount(0.0f), m_fLastKillTime(0.0f),
+m_spAmbientSounds(0)
 {
 }
 //------------------------------------------------------------------------ 
@@ -29,6 +30,11 @@ m_fKillingRate(0.0f), m_fKillCount(0.0f), m_fLastKillTime(0.0f)
 GameManager::~GameManager()
 {
 
+	if (m_spAmbientSounds)
+	{
+		m_spAmbientSounds->Stop();
+		m_spAmbientSounds = 0;
+	}
 	m_lObjects.RemoveAll();
 	m_lEnemies.RemoveAll();
 	m_spQueen = 0;
@@ -81,6 +87,13 @@ bool GameManager::Init(NiNodePtr parent, NiPhysXScenePtr physXScene, NiApplicati
 	if (!AddObject((GameObj3dPtr)(NiNew EnemyBase), parent))
 	{
 		return false;
+	}
+
+	m_spAmbientSounds = ResourceManager::Get()->GetSound(
+		ResourceManager::RES_SOUND_AMBIENT, 0);
+	if (m_spAmbientSounds)
+	{
+		m_spAmbientSounds->Play();
 	}
 	return true;
 }

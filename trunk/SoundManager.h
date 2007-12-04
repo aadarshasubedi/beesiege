@@ -9,6 +9,7 @@ class Sound;
 NiSmartPointer(Sound);
 class SoundDesc;
 NiSmartPointer(SoundDesc);
+class GameCharacter;
 
 // Singleton Class
 class SoundManager : public SingletonObj<SoundManager>
@@ -42,7 +43,7 @@ private:
 	// initializes the manager (to be called by ResourceManager)
 	bool Init();
 	// creates a sound
-	Sound* CreateSound(SoundDescPtr spDesc);
+	SoundPtr CreateSound(SoundDescPtr spDesc, GameCharacter* owner);
 	// a static pointer to the FMOD sound system
 	static FMOD::System* m_pSystem;
 	// max channels

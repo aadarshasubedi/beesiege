@@ -140,6 +140,8 @@ private:
 	float m_fKillCount;
 	// the last time the player killed something
 	float m_fLastKillTime;
+	// the background ambient sounds
+	SoundPtr m_spAmbientSounds;
 };
 
 #endif

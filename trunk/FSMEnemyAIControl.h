@@ -12,12 +12,16 @@ public:
 	FSMEnemyAIControl(Enemy* enemy);
 	~FSMEnemyAIControl();
 
+	// is a target close by
 	GameCharacter* IsTargetAtProximity(float radius);
+	// play sound when dying
+	void PlayDyingSound();
 
 private:
 	// see base class
 	void UpdatePerceptions(float fTime);
 	void DoExtraUpdates(float fTime);
+	
 };
 
 NiSmartPointer(FSMEnemyAIControl);

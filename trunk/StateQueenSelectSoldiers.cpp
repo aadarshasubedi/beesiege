@@ -8,6 +8,7 @@
 #include "FSMQueenAIControl.h"
 #include "ConfigurationManager.h"
 #include "HealthAttribute.h"
+#include "Sound.h"
 #include <NiPhysX.h>
 
 //----------------------------------------------------------------------
@@ -152,6 +153,18 @@ void StateQueenSelectSoldiers::SelectMoreSoldiers()
 }
 //------------------------------------------------------------------------ 
 /**
+* Plays a sound when a bee is selected
+*/
+void StateQueenSelectSoldiers::PlaySelectionSound(Bee* bee)
+{
+	SoundPtr snd = (Sound*)bee->GetAttribute(GameCharacter::ATTR_SOUND_1);
+	if (snd)
+	{
+		snd->Play();
+	}
+}
+//------------------------------------------------------------------------ 
+/**
 * Finds a bee that is closest to a target
 */
 BeePtr StateQueenSelectSoldiers::FindSoldierClosestTo(const NxVec3 &position)
@@ -168,16 +181,24 @@ BeePtr StateQueenSelectSoldiers::FindSoldierClosestTo(const NxVec3 &position)
 	for (int i=0; i<size; i++)
 	{
 		BeePtr soldier = soldiers.Get(it);
-		distance = position - soldier->GetActor()->getGlobalPosition();
-		float mag = distance.magnitude();
-		if (mag < minDistance)
+		if (soldier->GetActor())
 		{
-			minDistance = mag;
-			closestSoldier = soldier;
+			distance = position - soldier->GetActor()->getGlobalPosition();
+			float mag = distance.magnitude();
+			if (mag < minDistance)
+			{
+				minDistance = mag;
+				closestSoldier = soldier;
+			}
 		}
+		
 		it = soldiers.GetNextPos(it);
 				   
 	}
 
+	if (closestSoldier)
+	{
+		PlaySelectionSound(closestSoldier);
+	}
 	return closestSoldier;
 }
