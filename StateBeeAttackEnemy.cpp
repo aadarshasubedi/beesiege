@@ -134,6 +134,7 @@ FSMState* StateBeeAttackEnemy::CheckTransitions(float fTime)
 	FSMState* nextState = m_control->GetMachine()->GetCurrentState();
 	if (IsOwnerDead())
 	{
+		((FSMBeeAIControl*)m_control)->PlayDyingSound();
 		return nextState;
 	}
 	else if (!m_pTarget)

@@ -62,6 +62,7 @@ FSMState* StateFollowQueen::CheckTransitions(float fTime)
 
 	if (IsOwnerDead())
 	{
+		((FSMBeeAIControl*)m_control)->PlayDyingSound();
 		return nextState;
 	}
 	else if(((FSMBeeAIControl*)m_control)->issuedAttackCommand)

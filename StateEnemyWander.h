@@ -26,6 +26,8 @@ private:
 	// the enemy's view radius
 	float m_fViewRadius;
 
+	
+
 };
 
 NiSmartPointer(StateEnemyWander);

@@ -20,7 +20,10 @@ public:
 		ATTR_HEALTH,
 		ATTR_ARMOR,
 		ATTR_DAMAGE,
-		ATTR_SOUND
+		ATTR_SOUND_DEFAULT,
+		ATTR_SOUND_1,
+		ATTR_SOUND_2,
+		ATTR_SOUND_3
 	};
 
 	// ctor / dtor

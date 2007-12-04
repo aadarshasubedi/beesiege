@@ -8,6 +8,7 @@
 #include "State_FollowQueen.h"
 #include "Bee.h"
 #include "Enemy.h"
+#include "Sound.h"
 #include "GameManager.h"
 //-----------------------------------------------------------------------
 /**
@@ -71,5 +72,18 @@ void FSMBeeAIControl::UpdatePerceptions(float fTime)
 void FSMBeeAIControl::DoExtraUpdates(float fTime)
 {
 	
+	
+}
+//-----------------------------------------------------------------------
+/**
+* Plays a sound when the bee is dying
+*/
+void FSMBeeAIControl::PlayDyingSound()
+{
+	SoundPtr snd = (Sound*)GetOwner()->GetAttribute(GameCharacter::ATTR_SOUND_2);
+	if (snd)
+	{
+		snd->Play();
+	}
 	
 }

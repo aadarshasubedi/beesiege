@@ -10,7 +10,7 @@ class SoundDesc : public GameObj
 
 public:
 	// ctor / dtor
-	SoundDesc(const char* file);
+	SoundDesc(const char* file, bool is3DSound, bool isLooping);
 	~SoundDesc();
 
 	// the filename of the sound
@@ -20,6 +20,8 @@ public:
 	float dopplerscale;
 	float distancefactor;
 	float rolloffscale;
+	bool is3D;
+	bool isLoop;
 };
 
 NiSmartPointer(SoundDesc);

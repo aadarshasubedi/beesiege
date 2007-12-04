@@ -9,6 +9,7 @@
 #include "HealthAttribute.h"
 #include "ArmorAttribute.h"
 #include "DamageAttribute.h"
+#include "Sound.h"
 #include "ConfigurationManager.h"
 #include "NiTMap.h"
 
@@ -73,6 +74,20 @@ bool Bee::DoExtraInits()
 	// set initial position
 	m_pActor->setGlobalPosition(GameManager::Get()->
 		GetQueen()->GetActor()->getGlobalPosition() - NxVec3(50.0, 0.0, 0.0));
+
+	SoundPtr sound = ResourceManager::Get()->GetSound(
+		ResourceManager::RES_SOUND_BEE, this);
+	if (sound)
+	{
+		AddAttribute(GameCharacter::ATTR_SOUND_DEFAULT, (CharacterAttribute*)sound);
+		sound->Play();
+	}
+
+	AddAttribute(GameCharacter::ATTR_SOUND_1, (CharacterAttribute*) ResourceManager::Get()->GetSound(
+		ResourceManager::RES_SOUND_BEE_AWAITING, this));
+
+	AddAttribute(GameCharacter::ATTR_SOUND_2, (CharacterAttribute*) ResourceManager::Get()->GetSound(
+		ResourceManager::RES_SOUND_BEE_DYING, this));
 
 	// set dampings
 	m_pActor->setLinearDamping(10.0f);

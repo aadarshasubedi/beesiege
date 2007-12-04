@@ -11,6 +11,7 @@
 #include "Sound.h"
 
 class NiRenderer;
+class GameCharacter;
 
 // Singleton Class
 class ResourceManager : public SingletonObj<ResourceManager>
@@ -33,7 +34,17 @@ public:
 		RES_FONT_SELECTEDSOLDIERS,
 
 		// sounds
-		RES_SOUND_BEE
+		RES_SOUND_AMBIENT,
+		RES_SOUND_BEE,
+		RES_SOUND_BEE_AWAITING,
+		RES_SOUND_BEE_DYING,
+		RES_SOUND_LOCUST,
+		RES_SOUND_LOCUST_DYING,
+		RES_SOUND_DRAGONFLY,
+		RES_SOUND_DRAGONFLY_DYING,
+		RES_SOUND_QUEEN,
+		RES_SOUND_QUEEN_DYING,
+		RES_SOUND_QUEEN_SOS
 	};
 
 	// initializes the manager
@@ -43,7 +54,7 @@ public:
 	NiNodePropPtr GetNodeProp(ResourceType type);
 	NiNodePtr GetNode(ResourceType type);
 	NiFontPtr GetFont(ResourceType type);
-	SoundPtr  GetSound(ResourceType type);
+	SoundPtr  GetSound(ResourceType type, GameCharacter* owner);
 	
 private:
 	// private ctor / dtor
@@ -57,7 +68,7 @@ private:
 	// loads a font
 	bool LoadFont(const std::string& filename, NiRenderer* renderer, ResourceType type);
 	// loads a sound
-	bool LoadSound(const std::string& filename, ResourceType type);
+	bool LoadSound(ResourceType type, SoundDescPtr desc);
 
 	// hash tables that contain our resources
 	NiTMap<ResourceType , NiNodePropPtr> m_tResourcesModels; 

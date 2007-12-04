@@ -13,6 +13,7 @@
 #include "NiTPointerList.h"
 #include "HealthAttribute.h"
 #include "Locust.h"
+#include "Sound.h"
 #include <NiPhysX.h>
 //----------------------------------------------------------------------
 /**
@@ -45,6 +46,7 @@ FSMState* StateEnemyWander::CheckTransitions(float fTime)
 	GameCharacter* targetAtProximity = 0;
 	if (IsOwnerDead())
 	{
+		controller->PlayDyingSound();
 		// dead so record a 
 		// kill for the player
 		GameManager::Get()->RecordKill();

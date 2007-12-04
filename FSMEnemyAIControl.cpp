@@ -9,6 +9,7 @@
 #include <NiTPointerList.h>
 #include "Bee.h"
 #include "Queen.h"
+#include "Sound.h"
 //-----------------------------------------------------------------------
 /**
 * Ctor
@@ -91,4 +92,17 @@ GameCharacter* FSMEnemyAIControl::IsTargetAtProximity(float radius)
 
 	return closest;
 
+}
+//----------------------------------------------------------------------
+/**
+*	Plays a sound when the owner is dying
+*   
+*/
+void FSMEnemyAIControl::PlayDyingSound()
+{
+	SoundPtr snd = (Sound*)GetOwner()->GetAttribute(GameCharacter::ATTR_SOUND_1);
+	if (snd)
+	{
+		snd->Play();
+	}
 }

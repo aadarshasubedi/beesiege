@@ -12,12 +12,17 @@ public:
 	// ctor / dtor
 	FSMBeeAIControl(Bee* bee);
 	~FSMBeeAIControl();
+	
+	// play a sound when dying
+	void PlayDyingSound();
+
 	// the bee's target
 	Enemy* m_pTargetEnemy;
 	// booleans that affect the controller's states
 	bool isHealthBelowZero; 
 	bool isTargetDead;
 	bool issuedAttackCommand; 
+
 
 private:
 	// see base class

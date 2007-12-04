@@ -8,7 +8,7 @@
 #include "FSMEnemyAIControl.h"
 #include "HealthAttribute.h"
 #include "ConfigurationManager.h"
-
+#include "Sound.h"
 //----------------------------------------------------------------------
 // implements RTTI
 NiImplementRTTI(Locust, Enemy);
@@ -61,6 +61,17 @@ bool Locust::DoExtraInits()
 	if (health) health->Reset(ConfigurationManager::Get()->locust_initialHealth);
 
 	m_fViewRadius = ConfigurationManager::Get()->locust_viewRadius;
+
+	SoundPtr sound = ResourceManager::Get()->GetSound(
+		ResourceManager::RES_SOUND_LOCUST, this);
+	if (sound)
+	{
+		AddAttribute(GameCharacter::ATTR_SOUND_DEFAULT, (CharacterAttribute*)sound);
+		sound->Play();
+	}
+
+	AddAttribute(GameCharacter::ATTR_SOUND_1, (CharacterAttribute*) ResourceManager::Get()->GetSound(
+		ResourceManager::RES_SOUND_LOCUST_DYING, this));
 
 	return true;
 }

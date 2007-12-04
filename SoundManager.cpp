@@ -4,6 +4,7 @@
 #include "SoundDesc.h"
 #include "Sound.h"
 #include "SoundManager.h"
+#include "GameCharacter.h"
 using namespace std;
 
 //---------------------------------------------------------------------------------- 
@@ -106,7 +107,7 @@ void SoundManager::Update(const NxVec3& listenerPos,
  * 
  * @return Sound*
  */
-Sound* SoundManager::CreateSound(SoundDescPtr spDesc)
+SoundPtr SoundManager::CreateSound(SoundDescPtr spDesc, GameCharacter* owner)
 {
 	if (!m_bInitialized) return 0;
 	
@@ -119,7 +120,7 @@ Sound* SoundManager::CreateSound(SoundDescPtr spDesc)
 		return 0;
 	}
 
-	Sound* sound = NiNew Sound(spDesc, fmodSound);
+	SoundPtr sound = NiNew Sound(owner, spDesc, fmodSound);
 	return sound;
 }
 //---------------------------------------------------------------------------------- 

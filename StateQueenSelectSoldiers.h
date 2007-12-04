@@ -8,6 +8,7 @@
 class Enemy;
 class HealthAttribute;
 
+
 class StateQueenSelectSoldiers: public FSMState
 {
 public:
@@ -28,11 +29,15 @@ public:
 		return m_lSelectedSoldiers;
 	}
 private:
-	// adds more soldiers to the sellection list
+	// adds more soldiers to the selection list
 	void SelectMoreSoldiers();
+	// plays a sound when a bee is selected
+	void PlaySelectionSound(Bee* bee);
 	// returns a soldier that is closest to a certain
 	// position
 	BeePtr FindSoldierClosestTo(const NxVec3& position);
+	
+	
 	// a list that contains te selected soldiers
 	NiTPointerList<BeePtr> m_lSelectedSoldiers;
 	// the queen's target
@@ -41,6 +46,7 @@ private:
 	float m_fSelectionTimer;
 	// the target's health
 	HealthAttribute* m_pTargetHealth;
+	
 };
 
 NiSmartPointer(StateQueenSelectSoldiers);

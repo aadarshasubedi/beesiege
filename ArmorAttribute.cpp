@@ -35,7 +35,7 @@ void ArmorAttribute::Update(float fTime)
 	NxVec3 queenPos = GameManager::Get()->GetQueen()->GetActor()->getGlobalPosition();
 	NxVec3 ownerPos = GetOwner()->GetActor()->getGlobalPosition();
 	float distance = NxVec3(queenPos - ownerPos).magnitude();
-	m_fArmor = m_fcMaxQueenDistance - distance;
+	m_fArmor = (m_fcMaxQueenDistance - distance) * 0.01f;
 
 	// if armor is negative then reduce health
 	/*

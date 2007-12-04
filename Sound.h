@@ -3,10 +3,12 @@
 
 #include <fmod.hpp>
 #include "SoundDesc.h"
+#include "CharacterAttribute.h"
 
 class NxVec3;
+class GameCharacter;
 
-class Sound : public GameObj
+class Sound : public CharacterAttribute
 {
 	friend class SoundManager;
 
@@ -21,10 +23,12 @@ public:
 	// stops sound
 	void Stop();
 	// updates the sound's 3d attributes
-	void Update(const NxVec3& pos, const NxVec3& vel);
+	void Update(float fTime);
 private:
 	// private Ctor / Dtor (to be used by SoundManager)
-	Sound(SoundDescPtr spDesc, FMOD::Sound* sound);
+	Sound(GameCharacter *owner, 
+			 SoundDescPtr spDesc, 
+			 FMOD::Sound* sound);
 	~Sound();
 	// sound descriptor
 	SoundDescPtr m_spDesc;
