@@ -94,7 +94,8 @@ bool GameApp::CreateScene()
 	// load main scene (better to be done separately than doing it in 
 	// the ResourceManager, because it might have multiple PhysX props
     bSuccess = kStream.Load(
-        NiApplication::ConvertMediaFilename("models/final_again_1.nif"));
+        //NiApplication::ConvertMediaFilename("models/final_again_1.nif"));
+	    NiApplication::ConvertMediaFilename("models/temp_final1.nif"));
     
     if (!bSuccess)
     {
@@ -125,7 +126,7 @@ bool GameApp::CreateScene()
 	fog->SetFogColor(backgroundColor);
 	m_spScene->AttachProperty(fog);
 
-
+	
 	// init game manager
 	bSuccess = GameManager::Get()->Init(m_spScene, m_spPhysXScene, this);
 	if (!bSuccess) return false;
@@ -159,6 +160,7 @@ bool GameApp::CreateScene()
 	
     return bSuccess;
 }
+
 //---------------------------------------------------------------------- 
 /** 
  * Processes user input
