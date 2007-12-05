@@ -11,6 +11,7 @@
 #include "GameApp.h"
 #include "Level.h"
 #include "ResourceManager.h"
+#include "Flower.h"
 
 class GameObj3d;
 NiSmartPointer(GameObj3d);
@@ -19,6 +20,7 @@ NiSmartPointer(NiPhysXScene);
 
 // template class that copies two NiTPointer lists
 template <class T>
+
 void CopyLists (const NiTPointerList<T> &from, NiTPointerList<T> &to)
 {
 	to.RemoveAll();
@@ -74,6 +76,10 @@ public:
 	{
 		return m_lEnemies;
 	}
+	const NiTPointerList<FlowerPtr>& GetFlowers() const 
+	{
+		return m_lFlowers;
+	}
 	const float GetDeltaTime() const
 	{
 		return m_fDeltaTime;
@@ -110,10 +116,13 @@ private:
 	void RemoveObject(GameObj3dPtr object);
 	// removes an enemy from the list
 	void RemoveEnemy(EnemyPtr enemy);
+	// Creatas all the flowers in the scene
+	void CreateFlowers(NiNodePtr parent);
 
 	// object, agent and enemy lists
 	NiTPointerList<GameObj3dPtr> m_lObjects;
 	NiTPointerList<EnemyPtr>     m_lEnemies;
+	NiTPointerList<FlowerPtr>		 m_lFlowers;
 	const NiTPointerList<AgentPtr>*    m_plAgents;
 	
 	// the main queen that the player controls
