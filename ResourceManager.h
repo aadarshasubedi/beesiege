@@ -29,6 +29,7 @@ public:
 		RES_MODEL_ENEMY2,
 		RES_MODEL_BASE,
 		RES_MODEL_HEALTH,
+		RES_MODEL_FLOWER,
 
 		// fonts
 		RES_FONT_SELECTEDSOLDIERS,
@@ -65,6 +66,7 @@ private:
 	bool LoadNif(NiStream* stream, 
 		         const std::string& filename,
 				 ResourceType type);
+	
 	// loads a font
 	bool LoadFont(const std::string& filename, NiRenderer* renderer, ResourceType type);
 	// loads a sound
@@ -74,6 +76,8 @@ private:
 	NiTMap<ResourceType , NiNodePropPtr> m_tResourcesModels; 
 	NiTMap<ResourceType , NiFontPtr> m_tResourcesFonts;
 	NiTMap<ResourceType, SoundDescPtr> m_tResourcesSounds;
+
+	
 };
 
 #endif
