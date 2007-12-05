@@ -1,6 +1,10 @@
 /**
  * Holds game objects and updates them. Singleton class.
  */
+
+#include <iostream>
+#include <sstream>
+#include <string>
 #include "GameManager.h"
 #include "GameObj3d.h"
 #include "Bee.h"
@@ -11,6 +15,8 @@
 #include <NiPhysXScene.h>
 #include <NiApplication.h>
 #include "EnemyBase.h"
+#include "Flower.h"
+using namespace std;
 //------------------------------------------------------------------------ 
 /** 
  * Ctor
@@ -37,6 +43,7 @@ GameManager::~GameManager()
 	}
 	m_lObjects.RemoveAll();
 	m_lEnemies.RemoveAll();
+	m_lFlowers.RemoveAll();
 	m_spQueen = 0;
 	m_spCurrentLevel = 0;
 	ConfigurationManager::Destroy();
@@ -88,6 +95,11 @@ bool GameManager::Init(NiNodePtr parent, NiPhysXScenePtr physXScene, NiApplicati
 	{
 		return false;
 	}
+	
+	// Create all the flowers in the scene
+	CreateFlowers(parent);
+	
+		
 
 	m_spAmbientSounds = ResourceManager::Get()->GetSound(
 		ResourceManager::RES_SOUND_AMBIENT, 0);
@@ -97,6 +109,26 @@ bool GameManager::Init(NiNodePtr parent, NiPhysXScenePtr physXScene, NiApplicati
 	}
 	return true;
 }
+//------------------------------------------------------------------------
+/**
+*Creates all the flowers and tranlates them to its position in the scene
+*/
+void GameManager::CreateFlowers(NiNodePtr parent)
+{	
+	for(int i=1;i<2;i++)
+	{
+		stringstream s;
+		s << i;
+		string str1 = "attachmentBox" + s.str();
+		char* c = new char[str1.length()];
+		strcpy(c,str1.c_str());
+		NiFixedString s1 = c;
+		NiNode* attacher1 = (NiNode*) parent->GetObjectByName(s1);
+		FlowerPtr flower = (Flower*)(GameObj3d*)CreateObject3d(ResourceManager::RES_MODEL_FLOWER);
+		flower->GetNode()->SetTranslate(attacher1->GetTranslate());
+	}
+}
+
 //------------------------------------------------------------------------ 
 /** 
  * Updates all game objects
@@ -178,6 +210,14 @@ GameObj3dPtr GameManager::CreateObject3d(ResourceManager::ResourceType type)
 				obj = 0;
 			}
 			m_lEnemies.AddTail((Enemy*)(GameObj3d*)obj);
+			break;
+	case ResourceManager::RES_MODEL_FLOWER:
+		obj = NiNew Flower;
+			if (!AddObject(obj, mainScene))
+			{
+				obj = 0;
+			}
+			m_lFlowers.AddTail((Flower*)(GameObj3d*)obj);
 			break;
 	default:
 		return 0;
