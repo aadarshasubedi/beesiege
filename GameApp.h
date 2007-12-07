@@ -28,7 +28,6 @@ public:
 	void RenderScreenItems();
 	// terminates the application
 	void Terminate();
-
 	// getters
 	NiNodePtr       GetScene() const {return m_spScene;}
 	NiPhysXScenePtr GetPhysXScene() const {return m_spPhysXScene;}
@@ -40,6 +39,7 @@ protected:
 	void SetPhysXSDKParams(const NxParameter kParam = NX_PARAMS_NUM_VALUES);
 	// creates the PhysX scene
 	bool CreatePhysXScene();
+
 	// Pointer to the PhysX manager
 	NiPhysXManager* m_pPhysXManager;
 	// the PhysX scene
@@ -49,6 +49,14 @@ protected:
 	CameraControllerPtr m_spCameraController;
 	// last PhysX simulation time, required for correct PhysX simulation
 	float m_fLastSimTime;
+
+	// creates screen polygons
+	void CreateScreenPolygon(const char* imageFile,float fLeft,float fTop);
+
+	NiScreenTexturePtr m_spHoneyBeePolygon;
+	NiScreenTexturePtr m_spSoldierBeePolygon;
+	NiScreenTexturePtr m_spHealerBeePolygon;
+
 	
 };
 

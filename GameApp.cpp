@@ -157,6 +157,14 @@ bool GameApp::CreateScene()
     m_spPhysXScene->UpdateSources(0.001f);
     m_spPhysXScene->Simulate(0.001f);
     m_fLastSimTime = 0.001f;
+
+	//draw the rectangles for the bees onto the screen
+	CreateScreenPolygon("Textures/honey_bee.bmp", 10.0f, 650.0f);
+	CreateScreenPolygon("Textures/soldier_bee.bmp", 110.0f, 650.0f);
+	CreateScreenPolygon("Textures/healer_bee.bmp", 210.0f,650.0f);
+	/*GetScreenTextures().AddTail(m_spHoneyBeePolygon);
+	GetScreenTextures().AddTail(m_spSoldierBeePolygon);
+	GetScreenTextures().AddTail(m_spHealerBeePolygon);*/
 	
     return bSuccess;
 }
@@ -334,5 +342,59 @@ bool GameApp::CreatePhysXScene()
     }
     
     return true;
+}
+
+
+//NiScreenElements* GameApp::CreateScreenPolygon(const char* imageFile,float fLeft, float fTop, float fWidth, float fHeight)
+//{
+//	//if ((fScale < 0.05f) || (fScale > 0.9f))    // Sanity check on scale.
+// //       return NULL;
+//
+//    NiScreenElements* characterPoly = NiNew NiScreenElements(NiNew NiScreenElementsData(false, false, 1));
+//
+//    characterPoly->Insert(4); //number of vertices for polygon
+//    // Create polygon near lower right corner. SetRectangle(iPolygon, fLeft, fTop, fWidth, fHeight)
+//    characterPoly->SetRectangle(0, fLeft, fTop, fWidth, fHeight);
+//    characterPoly->UpdateBound();
+//    //characterPoly->SetTextures(0, 0, 0.0f, 0.0f, 1.0f, 1.0f);
+//
+//	// Texture for the polygon.
+//	NiTexturingProperty* charTextureProp = NiNew NiTexturingProperty(NiApplication::ConvertMediaFilename(imageFile));
+//	charTextureProp->SetApplyMode(NiTexturingProperty::APPLY_REPLACE);
+//	charTextureProp->SetBaseFilterMode(NiTexturingProperty::FILTER_BILERP);
+//    charTextureProp->SetBaseClampMode(NiTexturingProperty::CLAMP_S_CLAMP_T);
+//    characterPoly->AttachProperty(charTextureProp);
+//
+//    // Don't test the z-buffer for screen polygons.
+//    NiZBufferProperty* charZProp = NiNew NiZBufferProperty;
+//    charZProp->SetZBufferTest(false);
+//    charZProp->SetZBufferWrite(false);
+//    characterPoly->AttachProperty(charZProp);
+//
+//    characterPoly->UpdateProperties();
+//    characterPoly->Update(0.0f);
+//
+//    return characterPoly;
+//
+//}
+
+
+void GameApp::CreateScreenPolygon(const char* imageFile,float fLeft, float fTop)
+{
+	NiSourceTexture* pkTexture = NiSourceTexture::Create(
+    NiApplication::ConvertMediaFilename(imageFile));
+
+    // We want the screen texture to display within the safe zone, so we first get the safe
+    // zone for the renderer 
+    unsigned int uiWidth, uiHeight;
+    NiRect<float> kSafeZone = m_spRenderer->GetSafeZone();
+    m_spRenderer->ConvertFromNDCToPixels(kSafeZone.m_right, kSafeZone.m_bottom,
+        uiWidth, uiHeight);
+
+    NiScreenTexture* pkScreenTexture = NiNew NiScreenTexture(pkTexture);
+    pkScreenTexture->AddNewScreenRect(fTop, uiWidth - fLeft - pkTexture->GetWidth(),
+        pkTexture->GetWidth(), pkTexture->GetHeight(), 0, 0);
+
+    GetScreenTextures().AddTail(pkScreenTexture);
 }
 
