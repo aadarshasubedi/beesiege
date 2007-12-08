@@ -59,7 +59,7 @@ bool ResourceManager::Init(NiStream* stream, NiRenderer* renderer)
 	if (!bSuccess) return false;
 	bSuccess = LoadNif(stream, string("models/health.nif"), RES_MODEL_HEALTH);
 	if (!bSuccess) return false;
-	bSuccess = LoadNif(stream, string("models/flower3.nif"),RES_MODEL_FLOWER);
+	bSuccess = LoadNif(stream, string("models/flowers6.nif"),RES_MODEL_FLOWER);
 	if (!bSuccess) return false;
 
 	// load sounds
