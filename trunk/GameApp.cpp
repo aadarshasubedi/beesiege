@@ -79,7 +79,7 @@ bool GameApp::CreateScene()
 
 	SetMaxFrameRate(120.0f);
 
-	HidePointer();
+	//HidePointer();
 
 	// create the main PhysX scene
 	if (!CreatePhysXScene())
@@ -95,7 +95,7 @@ bool GameApp::CreateScene()
 	// the ResourceManager, because it might have multiple PhysX props
     bSuccess = kStream.Load(
         //NiApplication::ConvertMediaFilename("models/final_again_1.nif"));
-	    NiApplication::ConvertMediaFilename("models/temp_final1.nif"));
+	    NiApplication::ConvertMediaFilename("models/temp_final4.nif"));
     
     if (!bSuccess)
     {
@@ -165,6 +165,38 @@ bool GameApp::CreateScene()
 	/*GetScreenTextures().AddTail(m_spHoneyBeePolygon);
 	GetScreenTextures().AddTail(m_spSoldierBeePolygon);
 	GetScreenTextures().AddTail(m_spHealerBeePolygon);*/
+
+		//testing buttons
+//	NiUIGroupPtr pkUIGroup = NiNew NiUIGroup("Create Bees",
+  //      50.0f);
+   // NiUIButton* pkButton = NULL;
+        
+    //pkButton = NiNew NiUIButton("Honey Bee");
+    //pkButton->SetOffset(10.0f, 650.0f);
+  //  pkButton->SetDimensions(25.0, 25.0);
+    //pkButton->SubscribeToPressEvent(&m_kLODNextSlot);
+  //  pkButton->AddKeyboardHotkey(NiInputKeyboard::KEY_N);
+    //pkButton->AddGamePadHotkey(NiInputGamePad::NIGP_RUP);
+ //   pkUIGroup->AddChild(pkButton);
+    //fCurHeight += m_fUIElementHeight;
+    
+    /*pkButton = NiNew NiUIButton("Next Animation State");
+    pkButton->SetOffset(fOffset, fCurHeight);
+    pkButton->SetDimensions(fElementWidth, m_fUIElementHeight);
+    pkButton->SubscribeToPressEvent(&m_kNextAnimStateSlot);
+    pkButton->AddKeyboardHotkey(NiInputKeyboard::KEY_SPACE);
+    pkButton->AddGamePadHotkey(NiInputGamePad::NIGP_RRIGHT);
+    pkUIGroup->AddChild(pkButton);
+    fCurHeight += m_fUIElementHeight;
+    
+    AddDefaultUIElements(pkUIGroup, fOffset, fCurHeight, fElementWidth,
+        m_fUIElementHeight);*/
+    
+    //float fGroupWidth = fElementWidth + 2.0f * fOffset;
+ //   pkUIGroup->SetOffset(10.0f, 650.0f);
+  //  pkUIGroup->SetDimensions(30.0f,30.0f);
+  //  pkUIGroup->UpdateRect();
+   // NiUIManager::GetUIManager()->AddUIGroup(pkUIGroup);
 	
     return bSuccess;
 }
@@ -396,5 +428,6 @@ void GameApp::CreateScreenPolygon(const char* imageFile,float fLeft, float fTop)
         pkTexture->GetWidth(), pkTexture->GetHeight(), 0, 0);
 
     GetScreenTextures().AddTail(pkScreenTexture);
+	
 }
 
