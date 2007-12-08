@@ -201,3 +201,10 @@ Added StateLocustAttack and modified other things all over. Also added some more
 *4-Dec-2007* - _Vaios
 
 Added sound. Since I could not find any appropriate sounds for the things that are going on in the game I recorded the sounds myself and changed the pitch to make them sound cartoonish! Lol!!! I even made the bzzzzzz sounds... It was really funny... Sound is enabled by default. To disable it comment the line: #define ENABLE_SOUND in ResourceManager.cpp . Have fun...
+
+*8-Dec-2007* - _Smiral
+
+Added Flowers to the scene. Just go a bit ahead with the bee and u will see the first bunck of flowers. Also the bee was able to go thru the base of the environment so fixed that too.. 
+
+btw Vaios the bzzz sounds .... it doesn't seem tat its recorded by u ... did u tweak them after recording .. .they r just amazing....
+
