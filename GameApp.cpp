@@ -34,8 +34,9 @@ NiApplication* NiApplication::Create()
  * The constructor
  * 
  */
-GameApp::GameApp() : NiApplication("BeeSiege",
-    DEFAULT_WIDTH, DEFAULT_HEIGHT), m_fLastSimTime(0.0f)
+//GameApp::GameApp() : NiApplication("BeeSiege",
+//    DEFAULT_WIDTH, DEFAULT_HEIGHT), m_fLastSimTime(0.0f)
+GameApp::GameApp():NiSample("BeeSeige",DEFAULT_WIDTH, DEFAULT_HEIGHT),m_fLastSimTime(0.0f)
 {
 	SetMediaPath("../../res/");
 }
@@ -55,7 +56,7 @@ bool GameApp::Initialize()
         return false;
     SetPhysXSDKParams();
 
-	return NiApplication::Initialize();
+	return NiSample::Initialize();
 }
 //---------------------------------------------------------------------- 
 /** 
@@ -159,48 +160,62 @@ bool GameApp::CreateScene()
     m_fLastSimTime = 0.001f;
 
 	//draw the rectangles for the bees onto the screen
-	CreateScreenPolygon("Textures/honey_bee.bmp", 10.0f, 650.0f);
-	CreateScreenPolygon("Textures/soldier_bee.bmp", 110.0f, 650.0f);
-	CreateScreenPolygon("Textures/healer_bee.bmp", 210.0f,650.0f);
+	CreateScreenPolygon("Textures/honey_bee_smaller.bmp", 20.0f, 60.0f);
+	CreateScreenPolygon("Textures/soldier_bee_smaller.bmp", 20.0f, 110.0f);
+	CreateScreenPolygon("Textures/healer_bee_smaller.bmp", 20.0f,160.0f);
 	/*GetScreenTextures().AddTail(m_spHoneyBeePolygon);
 	GetScreenTextures().AddTail(m_spSoldierBeePolygon);
 	GetScreenTextures().AddTail(m_spHealerBeePolygon);*/
 
-		//testing buttons
-//	NiUIGroupPtr pkUIGroup = NiNew NiUIGroup("Create Bees",
-  //      50.0f);
-   // NiUIButton* pkButton = NULL;
-        
-    //pkButton = NiNew NiUIButton("Honey Bee");
-    //pkButton->SetOffset(10.0f, 650.0f);
-  //  pkButton->SetDimensions(25.0, 25.0);
-    //pkButton->SubscribeToPressEvent(&m_kLODNextSlot);
-  //  pkButton->AddKeyboardHotkey(NiInputKeyboard::KEY_N);
-    //pkButton->AddGamePadHotkey(NiInputGamePad::NIGP_RUP);
- //   pkUIGroup->AddChild(pkButton);
-    //fCurHeight += m_fUIElementHeight;
-    
-    /*pkButton = NiNew NiUIButton("Next Animation State");
-    pkButton->SetOffset(fOffset, fCurHeight);
-    pkButton->SetDimensions(fElementWidth, m_fUIElementHeight);
-    pkButton->SubscribeToPressEvent(&m_kNextAnimStateSlot);
-    pkButton->AddKeyboardHotkey(NiInputKeyboard::KEY_SPACE);
-    pkButton->AddGamePadHotkey(NiInputGamePad::NIGP_RRIGHT);
-    pkUIGroup->AddChild(pkButton);
-    fCurHeight += m_fUIElementHeight;
-    
-    AddDefaultUIElements(pkUIGroup, fOffset, fCurHeight, fElementWidth,
-        m_fUIElementHeight);*/
-    
-    //float fGroupWidth = fElementWidth + 2.0f * fOffset;
- //   pkUIGroup->SetOffset(10.0f, 650.0f);
-  //  pkUIGroup->SetDimensions(30.0f,30.0f);
-  //  pkUIGroup->UpdateRect();
-   // NiUIManager::GetUIManager()->AddUIGroup(pkUIGroup);
-	
     return bSuccess;
 }
 
+bool GameApp::CreateUIElements()
+{
+    if (!NiSample::CreateUIElements())
+        return false;
+
+    float fCurHeight = m_kUIElementGroupOffset.y;
+    float fOffset = m_kUIElementGroupOffset.x;
+    float fElementWidth = m_fUIElementWidth;
+
+    NiUIGroupPtr pkUIGroup = NiNew NiUIGroup("Create Bees",m_fUIGroupHeaderHeight);
+    NiUIButton* pkButton = NULL;
+        
+    pkButton = NiNew NiUIButton("Honey Bees");
+    pkButton->SetOffset(fOffset, fCurHeight);
+    pkButton->SetDimensions(0.15f, m_fUIElementHeight);
+    //pkButton->SubscribeToPressEvent(&m_createHoneyBee);
+    pkButton->AddKeyboardHotkey(NiInputKeyboard::KEY_1);
+    pkUIGroup->AddChild(pkButton);
+    fCurHeight += m_fUIElementHeight;
+
+
+    pkButton = NiNew NiUIButton("Soldier Bees");
+    pkButton->SetOffset(fOffset, fCurHeight);
+    pkButton->SetDimensions(0.15f, m_fUIElementHeight);
+    //pkButton->SubscribeToPressEvent(&m_createSoldierBee);
+    pkButton->AddKeyboardHotkey(NiInputKeyboard::KEY_2);
+    pkUIGroup->AddChild(pkButton);
+    fCurHeight += m_fUIElementHeight;
+
+
+    pkButton = NiNew NiUIButton("Healer Bees");
+    pkButton->SetOffset(fOffset, fCurHeight);
+    pkButton->SetDimensions(0.15f, m_fUIElementHeight);
+    //pkButton->SubscribeToPressEvent(&m_createHealerBee);
+    pkButton->AddKeyboardHotkey(NiInputKeyboard::KEY_3);
+    pkUIGroup->AddChild(pkButton);
+    fCurHeight += m_fUIElementHeight;
+    
+    float fGroupWidth = fElementWidth + 2.0f * fOffset;
+	pkUIGroup->SetOffset(0.75f, 0.0f);
+	pkUIGroup->SetDimensions(0.25f, fCurHeight + 0.5f * m_fUIElementHeight);
+    pkUIGroup->UpdateRect();
+    NiUIManager::GetUIManager()->AddUIGroup(pkUIGroup);
+
+    return true;
+}
 //---------------------------------------------------------------------- 
 /** 
  * Processes user input
@@ -375,40 +390,6 @@ bool GameApp::CreatePhysXScene()
     
     return true;
 }
-
-
-//NiScreenElements* GameApp::CreateScreenPolygon(const char* imageFile,float fLeft, float fTop, float fWidth, float fHeight)
-//{
-//	//if ((fScale < 0.05f) || (fScale > 0.9f))    // Sanity check on scale.
-// //       return NULL;
-//
-//    NiScreenElements* characterPoly = NiNew NiScreenElements(NiNew NiScreenElementsData(false, false, 1));
-//
-//    characterPoly->Insert(4); //number of vertices for polygon
-//    // Create polygon near lower right corner. SetRectangle(iPolygon, fLeft, fTop, fWidth, fHeight)
-//    characterPoly->SetRectangle(0, fLeft, fTop, fWidth, fHeight);
-//    characterPoly->UpdateBound();
-//    //characterPoly->SetTextures(0, 0, 0.0f, 0.0f, 1.0f, 1.0f);
-//
-//	// Texture for the polygon.
-//	NiTexturingProperty* charTextureProp = NiNew NiTexturingProperty(NiApplication::ConvertMediaFilename(imageFile));
-//	charTextureProp->SetApplyMode(NiTexturingProperty::APPLY_REPLACE);
-//	charTextureProp->SetBaseFilterMode(NiTexturingProperty::FILTER_BILERP);
-//    charTextureProp->SetBaseClampMode(NiTexturingProperty::CLAMP_S_CLAMP_T);
-//    characterPoly->AttachProperty(charTextureProp);
-//
-//    // Don't test the z-buffer for screen polygons.
-//    NiZBufferProperty* charZProp = NiNew NiZBufferProperty;
-//    charZProp->SetZBufferTest(false);
-//    charZProp->SetZBufferWrite(false);
-//    characterPoly->AttachProperty(charZProp);
-//
-//    characterPoly->UpdateProperties();
-//    characterPoly->Update(0.0f);
-//
-//    return characterPoly;
-//
-//}
 
 
 void GameApp::CreateScreenPolygon(const char* imageFile,float fLeft, float fTop)
