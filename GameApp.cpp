@@ -176,56 +176,8 @@ bool GameApp::CreateScene()
 
 bool GameApp::CreateUIElements()
 {
-	/*
-    if (!NiSample::CreateUIElements())
-        return false;
-
-    float fCurHeight = m_kUIElementGroupOffset.y;
-    float fOffset = m_kUIElementGroupOffset.x;
-    float fElementWidth = m_fUIElementWidth;
-
-    NiUIGroupPtr pkUIGroup = NiNew NiUIGroup("Create Bees",m_fUIGroupHeaderHeight);
-    NiUIButton* pkButton = 0;
-        
-    pkButton = NiNew NiUIButton("Honey Bees");
-    pkButton->SetOffset(fOffset, fCurHeight);
-    pkButton->SetDimensions(0.15f, m_fUIElementHeight);
-    //pkButton->SubscribeToPressEvent(&m_createHoneyBee);
-    pkButton->AddKeyboardHotkey(NiInputKeyboard::KEY_1);
-    pkUIGroup->AddChild(pkButton);
-    fCurHeight += m_fUIElementHeight;
-
-
-    pkButton = NiNew NiUIButton("Soldier Bees");
-    pkButton->SetOffset(fOffset, fCurHeight);
-    pkButton->SetDimensions(0.15f, m_fUIElementHeight);
-    //pkButton->SubscribeToPressEvent(&m_createSoldierBee);
-    pkButton->AddKeyboardHotkey(NiInputKeyboard::KEY_2);
-    pkUIGroup->AddChild(pkButton);
-    fCurHeight += m_fUIElementHeight;
-
-
-    pkButton = NiNew NiUIButton("Healer Bees");
-    pkButton->SetOffset(fOffset, fCurHeight);
-    pkButton->SetDimensions(0.15f, m_fUIElementHeight);
-    //pkButton->SubscribeToPressEvent(&m_createHealerBee);
-    pkButton->AddKeyboardHotkey(NiInputKeyboard::KEY_3);
-    pkUIGroup->AddChild(pkButton);
-    fCurHeight += m_fUIElementHeight;
-    
-	AddDefaultUIElements(pkUIGroup, fOffset, fCurHeight, fElementWidth,
-        m_fUIElementHeight);
-
-    float fGroupWidth = fElementWidth + 2.0f * fOffset;
-	pkUIGroup->SetOffset(0.75f, 0.0f);
-	pkUIGroup->SetDimensions(0.25f, fCurHeight + 0.5f * m_fUIElementHeight);
-    pkUIGroup->UpdateRect();
-    NiUIManager::GetUIManager()->AddUIGroup(pkUIGroup);
-
-    return true;
-	*/
-	if (!NiSample::CreateUIElements())
-        return false;
+	//if (!NiSample::CreateUIElements())
+      //  return false;
 
     unsigned int uiX, uiY;
     m_spRenderer->GetOnScreenCoord(0.0f, 0.0f, 0, 0, uiX, uiY, 
@@ -235,7 +187,7 @@ bool GameApp::CreateUIElements()
     float fOffset = m_kUIElementGroupOffset.x;
     float fElementWidth = m_fUIElementWidth;
 
-    NiUIGroup* pkUIGroup = NiNew NiUIGroup("Options", m_fUIGroupHeaderHeight);
+    NiUIGroup* pkUIGroup = NiNew NiUIGroup("Create Bees", m_fUIGroupHeaderHeight);
     
     NiUIButton* pkButton = NiNew NiUIButton("Honey Bees");
     pkButton->SetOffset(fOffset, fCurHeight);
@@ -482,7 +434,6 @@ bool GameApp::CreateUISystem()
 	{
 		return false;
 	}
-
 	return true;
 	/*
 	NiUIManager::Create();

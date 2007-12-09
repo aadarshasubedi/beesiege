@@ -8,6 +8,7 @@
 #include "Agent.h"
 
 class GameCharacter;
+class GameManager;
 
 class FSMAIControl: public ControllerAttr
 {
@@ -33,6 +34,8 @@ protected:
 	FSMMachinePtr m_spMachine;
 	// the agent that the controller operates with
 	AgentPtr m_spAgent;
+	// pointer to the gamemanager
+	GameManager* m_pGameManager;
 	// collects information about the state of the environment
 	virtual void UpdatePerceptions(float fTime) = 0;
 	// performs extra updates

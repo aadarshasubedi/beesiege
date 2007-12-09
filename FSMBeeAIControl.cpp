@@ -9,7 +9,6 @@
 #include "Bee.h"
 #include "Enemy.h"
 #include "Sound.h"
-#include "GameManager.h"
 //-----------------------------------------------------------------------
 /**
 * Ctor
@@ -27,11 +26,6 @@ FSMBeeAIControl::FSMBeeAIControl(Bee* bee) : FSMAIControl((GameCharacter*)bee),
 	m_spMachine->AddState(NiNew StateBeeAttackEnemy(this), FSM_ATTACK_ENEMY);
 	m_spMachine->SetDefaultState(followQueen);
 
-	// add agent to the GameManager agents list
-	// so that other agents know about it when they
-	// do group behaviors
-	//GameManager::Get()->AddAgent(m_spAgent);
-
 }
 //-----------------------------------------------------------------------
 /**
@@ -41,8 +35,7 @@ FSMBeeAIControl::FSMBeeAIControl(Bee* bee) : FSMAIControl((GameCharacter*)bee),
 FSMBeeAIControl::~FSMBeeAIControl()
 {
 	m_pTargetEnemy = 0;
-	// remove agent from game manager
-	//GameManager::Get()->RemoveAgent(m_spAgent);
+	
 }
 //-----------------------------------------------------------------------
 /**

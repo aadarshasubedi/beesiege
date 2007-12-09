@@ -28,13 +28,6 @@ public:
 
 protected:
 
-	// collects information needed for the simulation
-	void Sense(const NxVec3& target);
-	// calculates the force that will move the agent
-	void UpdateForces();
-	// passes forces to PhysX
-	void UpdatePhysX();
-
 	// the agent that the controller controls
 	Agent*      m_pAgent;
 	// Agent position, orientation etc.
@@ -53,6 +46,14 @@ protected:
 	const float m_fcPI;
 	// turn spring dynamics off
 	bool   m_bTurnSpringsOff;
+	
+
+	// collects information needed for the simulation
+	void Sense(const NxVec3& target);
+	// calculates the force that will move the agent
+	void UpdateForces();
+	// passes forces to PhysX
+	void UpdatePhysX();
 
 	// clamps an angle in a range
 	void Clamp(float& degree, float minV, float maxV){

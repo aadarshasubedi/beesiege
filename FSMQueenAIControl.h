@@ -4,6 +4,8 @@
 #include "FSMAIControl.h"
 
 class Queen;
+class Flower;
+class ConfigurationManager;
 
 class FSMQueenAIControl: public FSMAIControl
 {
@@ -22,8 +24,17 @@ public:
 	bool issuedMoveRightCommand;
 	bool issuedMoveVerticalCommand;
 	bool issuedRotateCommand;
+
+	Flower* m_pCurrentFlowerTarget;
 	
 private:
+
+	// frame count
+	int m_iFrames;
+	// pointer to ConfigurationManager
+	ConfigurationManager* m_pConfigManager;
+	// radius to look for flowers
+	const float m_fcFlowersRadius;
 
 	// see base class
 	void DoExtraUpdates(float fTime);
@@ -36,6 +47,9 @@ private:
 	void MoveQueenRight();
 	void MoveQueenVertical();
 	void RotateQueen();
+
+	// target closest flower bed
+	void TargetClosestFlowers();
 
 };
 

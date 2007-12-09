@@ -68,7 +68,7 @@ void InputManager::ProcessKeyboard(NiInputKeyboard* keyboard,GameApp* gameApp)
 			gameMgr->GetQueen()->SetMoveRight();	
 		}
 		// add a bee
-		if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_SPACE))
+		if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_2))
 		{
 			BeePtr soldier = (Bee*)(GameObj3d*)gameMgr->CreateObject3d(ResourceManager::RES_MODEL_BEE);
 			
@@ -76,7 +76,7 @@ void InputManager::ProcessKeyboard(NiInputKeyboard* keyboard,GameApp* gameApp)
 		}
 		
 		// cycle through targets
-		if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_TAB))
+		if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_SPACE))
 		{
 			gameMgr->GetQueen()->SetTargetEnemy();
 			
