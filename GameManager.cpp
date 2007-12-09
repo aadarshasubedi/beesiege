@@ -115,7 +115,7 @@ bool GameManager::Init(NiNodePtr parent, NiPhysXScenePtr physXScene, NiApplicati
 */
 void GameManager::CreateFlowers(NiNodePtr parent)
 {	
-	for(int i=1;i<2;i++)
+	for(int i=1;i<20;i++)
 	{
 		stringstream s;
 		s << i;
