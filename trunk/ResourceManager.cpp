@@ -7,7 +7,7 @@
 #include "ResourceManager.h"
 #include "SoundManager.h"
 #include "GameCharacter.h"
-#include <NiApplication.h>
+#include <NiSample.h>
 #include <NiPhysX.h>
 #include <NiCloningProcess.h>
 #include <fstream>
@@ -68,12 +68,12 @@ bool ResourceManager::Init(NiStream* stream, NiRenderer* renderer)
 	if (!bSuccess) return false;
 	/////////////////////////////////////////////////////////////////////////////////
 	bSuccess = LoadSound(RES_SOUND_BEE, NiNew 
-		SoundDesc(NiApplication::ConvertMediaFilename("sounds/bee4.mp3"), true, true)); 
+		SoundDesc(NiSample::ConvertMediaFilename("sounds/bee4.mp3"), true, true)); 
 	if (!bSuccess) return false;
 
 	/////////////////////////////////////////////////////////////////////////////////
 	bSuccess = LoadSound(RES_SOUND_BEE_AWAITING, NiNew 
-		SoundDesc(NiApplication::ConvertMediaFilename("sounds/beeAwaiting.mp3"), true, false));
+		SoundDesc(NiSample::ConvertMediaFilename("sounds/beeAwaiting.mp3"), true, false));
 	if (!bSuccess) return false;
 	/////////////////////////////////////////////////////////////////////////////////
 	bSuccess = LoadSound(RES_SOUND_BEE_DYING, NiNew 
@@ -82,15 +82,15 @@ bool ResourceManager::Init(NiStream* stream, NiRenderer* renderer)
 
 	/////////////////////////////////////////////////////////////////////////////////
 	bSuccess = LoadSound(RES_SOUND_LOCUST, NiNew
-		SoundDesc(NiApplication::ConvertMediaFilename("sounds/locust.mp3"), true, true));
+		SoundDesc(NiSample::ConvertMediaFilename("sounds/locust.mp3"), true, true));
 	if (!bSuccess) return false;
 	/////////////////////////////////////////////////////////////////////////////////
 	bSuccess = LoadSound(RES_SOUND_LOCUST_DYING, NiNew 
-		SoundDesc(NiApplication::ConvertMediaFilename("sounds/locustDying.mp3"), true, false));
+		SoundDesc(NiSample::ConvertMediaFilename("sounds/locustDying.mp3"), true, false));
 	if (!bSuccess) return false;
 	/////////////////////////////////////////////////////////////////////////////////
 	bSuccess = LoadSound(RES_SOUND_AMBIENT, NiNew 
-		SoundDesc(NiApplication::ConvertMediaFilename("sounds/ambient.mp3"), false, true));
+		SoundDesc(NiSample::ConvertMediaFilename("sounds/ambient.mp3"), false, true));
 	if (!bSuccess) return false;
 #endif
 	/////////////////////////////////////////////////////////////////////////////////
@@ -197,7 +197,7 @@ bool ResourceManager::LoadNif(NiStream* stream,
 	if (!stream) return false;
 
 	bool bSuccess = stream->Load(
-		NiApplication::ConvertMediaFilename(filename.c_str()));
+		NiSample::ConvertMediaFilename(filename.c_str()));
     
     if (!bSuccess)
     {
@@ -248,7 +248,7 @@ bool ResourceManager::LoadFont(const std::string &filename, NiRenderer* renderer
 							   ResourceType type)
 {
 	NiFontPtr font = NiFont::Create(renderer, 
-		NiApplication::ConvertMediaFilename(filename.c_str()));
+		NiSample::ConvertMediaFilename(filename.c_str()));
 	if (font)
 	{
 		m_tResourcesFonts.SetAt(type, font);

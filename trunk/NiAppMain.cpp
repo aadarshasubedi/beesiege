@@ -12,6 +12,7 @@
 // http://www.emergent.net
 
 // Precompiled Header
+
 #include <NiApplicationPCH.h>
 #include <NiStandardAllocator.h>
 #include <NiApplication.h>

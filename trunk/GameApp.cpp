@@ -12,7 +12,7 @@
 #include "TextManager.h"
 #include "SoundManager.h"
 #include <NiFogProperty.h>
-#include <NiStandardAllocator.h>
+#include <NiSystemCursor.h>
 #include <math.h>
 
 #pragma comment(lib, "NiBinaryShaderLibDX9.lib")
@@ -23,7 +23,7 @@
 //--------------------------------------------------------------------------- 
 /** Creates a new NiApplication* 
  * 
- * @return NiApplication*
+ * @return NiSample*
  */
 NiApplication* NiApplication::Create()
 {
@@ -36,13 +36,15 @@ NiApplication* NiApplication::Create()
  */
 //GameApp::GameApp() : NiApplication("BeeSiege",
 //    DEFAULT_WIDTH, DEFAULT_HEIGHT), m_fLastSimTime(0.0f)
-GameApp::GameApp():NiSample("BeeSeige",DEFAULT_WIDTH, DEFAULT_HEIGHT),m_fLastSimTime(0.0f)
+GameApp::GameApp():NiSample("BeeSiege",DEFAULT_WIDTH, DEFAULT_HEIGHT),m_fLastSimTime(0.0f)
 {
-	SetMediaPath("../../res/");
+	NiSample::SetMediaPath("../../res/");
+	m_bUseNavSystem = false;
+	//SetMediaPath("../../res/");
 }
 //---------------------------------------------------------------------- 
 /** 
- * Initializes NiApplication
+ * Initializes NiSample
  * 
  * 
  * @return bool
@@ -56,11 +58,15 @@ bool GameApp::Initialize()
         return false;
     SetPhysXSDKParams();
 
-	return NiSample::Initialize();
+	if (!NiSample::Initialize())
+		return false;
+
+	ShowPointer();
+	return true;
 }
 //---------------------------------------------------------------------- 
 /** 
- * Creates the NiApplication's scene
+ * Creates the NiSample's scene
  * 
  * 
  * @return bool
@@ -80,8 +86,6 @@ bool GameApp::CreateScene()
 
 	SetMaxFrameRate(120.0f);
 
-	//HidePointer();
-
 	// create the main PhysX scene
 	if (!CreatePhysXScene())
 	{
@@ -96,7 +100,7 @@ bool GameApp::CreateScene()
 	// the ResourceManager, because it might have multiple PhysX props
     bSuccess = kStream.Load(
         //NiApplication::ConvertMediaFilename("models/final_again_1.nif"));
-	    NiApplication::ConvertMediaFilename("models/temp_final4.nif"));
+	    NiSample::ConvertMediaFilename("models/temp_final4.nif"));
     
     if (!bSuccess)
     {
@@ -172,6 +176,7 @@ bool GameApp::CreateScene()
 
 bool GameApp::CreateUIElements()
 {
+	/*
     if (!NiSample::CreateUIElements())
         return false;
 
@@ -180,7 +185,7 @@ bool GameApp::CreateUIElements()
     float fElementWidth = m_fUIElementWidth;
 
     NiUIGroupPtr pkUIGroup = NiNew NiUIGroup("Create Bees",m_fUIGroupHeaderHeight);
-    NiUIButton* pkButton = NULL;
+    NiUIButton* pkButton = 0;
         
     pkButton = NiNew NiUIButton("Honey Bees");
     pkButton->SetOffset(fOffset, fCurHeight);
@@ -208,9 +213,60 @@ bool GameApp::CreateUIElements()
     pkUIGroup->AddChild(pkButton);
     fCurHeight += m_fUIElementHeight;
     
+	AddDefaultUIElements(pkUIGroup, fOffset, fCurHeight, fElementWidth,
+        m_fUIElementHeight);
+
     float fGroupWidth = fElementWidth + 2.0f * fOffset;
 	pkUIGroup->SetOffset(0.75f, 0.0f);
 	pkUIGroup->SetDimensions(0.25f, fCurHeight + 0.5f * m_fUIElementHeight);
+    pkUIGroup->UpdateRect();
+    NiUIManager::GetUIManager()->AddUIGroup(pkUIGroup);
+
+    return true;
+	*/
+	if (!NiSample::CreateUIElements())
+        return false;
+
+    unsigned int uiX, uiY;
+    m_spRenderer->GetOnScreenCoord(0.0f, 0.0f, 0, 0, uiX, uiY, 
+        NiRenderer::CORNER_TOP_LEFT);
+
+    float fCurHeight = m_kUIElementGroupOffset.y;
+    float fOffset = m_kUIElementGroupOffset.x;
+    float fElementWidth = m_fUIElementWidth;
+
+    NiUIGroup* pkUIGroup = NiNew NiUIGroup("Options", m_fUIGroupHeaderHeight);
+    
+    NiUIButton* pkButton = NiNew NiUIButton("Honey Bees");
+    pkButton->SetOffset(fOffset, fCurHeight);
+    pkButton->SetDimensions(0.15f, m_fUIElementHeight);
+    //pkButton->SubscribeToPressEvent(&m_createHoneyBee);
+    pkButton->AddKeyboardHotkey(NiInputKeyboard::KEY_1);
+    pkUIGroup->AddChild(pkButton);
+    fCurHeight += m_fUIElementHeight;
+
+
+    pkButton = NiNew NiUIButton("Soldier Bees");
+    pkButton->SetOffset(fOffset, fCurHeight);
+    pkButton->SetDimensions(0.15f, m_fUIElementHeight);
+    //pkButton->SubscribeToPressEvent(&m_createSoldierBee);
+    pkButton->AddKeyboardHotkey(NiInputKeyboard::KEY_2);
+    pkUIGroup->AddChild(pkButton);
+    fCurHeight += m_fUIElementHeight;
+
+
+    pkButton = NiNew NiUIButton("Healer Bees");
+    pkButton->SetOffset(fOffset, fCurHeight);
+    pkButton->SetDimensions(0.15f, m_fUIElementHeight);
+    //pkButton->SubscribeToPressEvent(&m_createHealerBee);
+    pkButton->AddKeyboardHotkey(NiInputKeyboard::KEY_3);
+    pkUIGroup->AddChild(pkButton);
+    fCurHeight += m_fUIElementHeight;
+
+    float fGroupWidth = fElementWidth + 2.0f * fOffset;
+    pkUIGroup->SetOffset(1.0f - fGroupWidth, 0.0f);
+    pkUIGroup->SetDimensions(fGroupWidth, fCurHeight + 
+        0.5f * m_fUIElementHeight);
     pkUIGroup->UpdateRect();
     NiUIManager::GetUIManager()->AddUIGroup(pkUIGroup);
 
@@ -223,7 +279,7 @@ bool GameApp::CreateUIElements()
  */
 void GameApp::ProcessInput()
 {
-	NiApplication::ProcessInput();
+	NiSample::ProcessInput();
 
 	if (GetInputSystem())
 	{
@@ -243,7 +299,7 @@ void GameApp::UpdateFrame()
     m_spPhysXScene->UpdateDestinations(m_fLastSimTime);
 
 	 // Calls process input
-    NiApplication::UpdateFrame();
+    NiSample::UpdateFrame();
 
 	// Update all of our GameObj3ds
 	GameManager::Get()->UpdateAll(m_fAccumTime);
@@ -278,7 +334,7 @@ void GameApp::UpdateFrame()
  */
 void GameApp::RenderScreenItems()
 {
-	NiApplication::RenderScreenItems();
+	NiSample::RenderScreenItems();
 	TextManager::Get()->DisplayText();
 }
 //--------------------------------------------------------------------- 
@@ -294,7 +350,7 @@ void GameApp::Terminate()
 	GameManager::Destroy();
 	ResourceManager::Destroy();
 	InputManager::Destroy();
-	NiApplication::Terminate();
+	NiSample::Terminate();
 	if (m_pPhysXManager)
         m_pPhysXManager->Shutdown();
 
@@ -390,8 +446,11 @@ bool GameApp::CreatePhysXScene()
     
     return true;
 }
-
-
+//------------------------------------------------------------------------ 
+/** 
+ * 
+ * Creates a screen texture
+ */
 void GameApp::CreateScreenPolygon(const char* imageFile,float fLeft, float fTop)
 {
 	NiSourceTexture* pkTexture = NiSourceTexture::Create(
@@ -409,6 +468,73 @@ void GameApp::CreateScreenPolygon(const char* imageFile,float fLeft, float fTop)
         pkTexture->GetWidth(), pkTexture->GetHeight(), 0, 0);
 
     GetScreenTextures().AddTail(pkScreenTexture);
+}
+//------------------------------------------------------------------------ 
+/** 
+ * 
+ * Creates UI System
+ * 
+ * @return bool
+ */
+bool GameApp::CreateUISystem()
+{
+	if (!NiSample::CreateUISystem())
+	{
+		return false;
+	}
+
+	return true;
+	/*
+	NiUIManager::Create();
+	if (!NiUIManager::GetUIManager()->Initialize(GetInputSystem(), 
+		NiSample::ConvertMediaFilename("Textures/UISkinFull.dds"), m_spCursor))
+	{
+		return false;
+	}
+
+	if (!NiNavManager::Create())
+	{
+		return false;
+	}
+
+	return true;
+	*/
+}
+//------------------------------------------------------------------------ 
+/** 
+ * 
+ * Creates default cursor
+ * 
+ * @return bool
+ */
+bool GameApp::CreateCursor()
+{
+	NiRect<int> kRect;
+
+	kRect.m_left = 0;
+	kRect.m_top = 0;
+	kRect.m_right = m_spRenderer->GetDefaultBackBuffer()->GetWidth();
+	kRect.m_bottom = m_spRenderer->GetDefaultBackBuffer()->GetHeight();
+
+	m_spCursor = NiSystemCursor::Create(m_spRenderer, kRect,
+		NiCursor::IMMEDIATE, NiSystemCursor::STANDARD,
+		NiSample::ConvertMediaFilename("textures/SystemCursors.tga"),m_spRenderer->GetDefaultRenderTargetGroup());
+	m_spCursor->SetFlags(4);
+	m_spCursor->SetPosition(0.0f, 512.0f, 371.0f);
+	m_spCursor->Show(true);
+	
+	NIASSERT(m_spCursor);
+	return true;
 	
 }
-
+//------------------------------------------------------------------------ 
+/** 
+ * 
+ * Overrides NiSample::CreateCamera (does nothing)
+ * 
+ * @return bool
+ */
+bool GameApp::CreateCamera()
+{
+	return true;
+}

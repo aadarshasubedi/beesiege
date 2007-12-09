@@ -39,7 +39,7 @@ class GameManager : public SingletonObj<GameManager>
 public:
 
 	// initializes the manager
-	bool Init(NiNodePtr parent, NiPhysXScenePtr physXScene, NiApplication* app);
+	bool Init(NiNodePtr parent, NiPhysXScenePtr physXScene, NiSample* app);
 	// updates all objects
 	void UpdateAll(float fTime);
 	// creates a GameObj3d depending on the type
