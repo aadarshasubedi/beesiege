@@ -208,3 +208,8 @@ Added Flowers to the scene. Just go a bit ahead with the bee and u will see the 
 
 btw Vaios the bzzz sounds .... it doesn't seem tat its recorded by u ... did u tweak them after recording .. .they r just amazing....
 
+*9-Dec-2007* - _Vaios
+
+Integrated UI and flowers and fixed most of the UI bugs. I also added a TargetClosestFlowers function, which makes the queen automatically target the closest flower bed, every 5 frames. I though that maybe it is too complicated for the user to select flower beds too, so now it happens automatically. I also changed the keys a little bit, so '2' spawns bees and Space targets enemies. 
+
+Yes Smiral I processed the sounds a little bit, basically I simple increased their pitch. Aren't I an amazing sound actor??? :P
