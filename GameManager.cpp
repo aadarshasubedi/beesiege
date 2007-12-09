@@ -59,12 +59,12 @@ GameManager::~GameManager()
  * 
  * @return bool
  */
-bool GameManager::Init(NiNodePtr parent, NiPhysXScenePtr physXScene, NiApplication* app )
+bool GameManager::Init(NiNodePtr parent, NiPhysXScenePtr physXScene, NiSample* app )
 {
 	// read configuration file
 	m_pGameApplication = (GameApp*)app;
 	if (!ConfigurationManager::Get()->ReadConfigurationFile(
-		NiApplication::ConvertMediaFilename("data/configuration.xml")))
+		NiSample::ConvertMediaFilename("data/configuration.xml")))
 	{
 		NiMessageBox("Could Not Read Configuration File", "Error");
 		return false;
