@@ -3,12 +3,14 @@
 
 #undef NI_MEMORY_DEBUGGER
 
+#include <NiSample.h>
 #include <NiApplication.h>
+#include <NiUIManager.h>
 #include <NiPhysX.h>
 #include "CameraController.h"
 
 // Main Application
-class GameApp : public NiApplication
+class GameApp : public NiSample
 {
 public:
 	// ctor
@@ -52,12 +54,9 @@ protected:
 
 	// creates screen polygons
 	void CreateScreenPolygon(const char* imageFile,float fLeft,float fTop);
+	//Creates UI Elements
+	virtual bool CreateUIElements();
 
-	NiScreenTexturePtr m_spHoneyBeePolygon;
-	NiScreenTexturePtr m_spSoldierBeePolygon;
-	NiScreenTexturePtr m_spHealerBeePolygon;
-
-	
 };
 
 
