@@ -64,7 +64,7 @@ GameCharacter* FSMEnemyAIControl::IsTargetAtProximity(float radius)
 	NxVec3 distance;
 	float distanceMag;
 	
-	const NiTPointerList<GameObj3dPtr>& targets = GameManager::Get()->GetObjects();
+	const NiTPointerList<GameObj3dPtr>& targets = m_pGameManager->GetObjects();
 	if (targets.IsEmpty())
 	{
 		return 0;

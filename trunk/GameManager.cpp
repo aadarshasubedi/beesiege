@@ -88,8 +88,8 @@ bool GameManager::Init(NiNodePtr parent, NiPhysXScenePtr physXScene, NiSample* a
 		return false;
 	}
 
-	m_spCurrentLevel = LevelManager::Get()->GetLevel(1);
-	CopyLists(m_spCurrentLevel->GetEnemies(), m_lEnemies);
+	//m_spCurrentLevel = LevelManager::Get()->GetLevel(1);
+	//CopyLists(m_spCurrentLevel->GetEnemies(), m_lEnemies);
 
 	if (!AddObject((GameObj3dPtr)(NiNew EnemyBase), parent))
 	{
@@ -98,8 +98,6 @@ bool GameManager::Init(NiNodePtr parent, NiPhysXScenePtr physXScene, NiSample* a
 	
 	// Create all the flowers in the scene
 	CreateFlowers(parent);
-	
-		
 
 	m_spAmbientSounds = ResourceManager::Get()->GetSound(
 		ResourceManager::RES_SOUND_AMBIENT, 0);

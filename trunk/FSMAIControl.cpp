@@ -4,7 +4,7 @@
 */
 
 #include "FSMAIControl.h"
-
+#include "GameManager.h"
 //------------------------------------------------------------
 /**
 * Ctor
@@ -13,7 +13,8 @@
 FSMAIControl::FSMAIControl(GameCharacter* character)
 : ControllerAttr(character),
   m_spMachine(NiNew FSMMachine()),
-  m_spAgent(NiNew Agent(character->GetActor()))
+  m_spAgent(NiNew Agent(character->GetActor())),
+  m_pGameManager(GameManager::Get())
 {
 }
 //------------------------------------------------------------

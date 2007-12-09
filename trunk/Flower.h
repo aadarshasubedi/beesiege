@@ -12,10 +12,13 @@ public:
 	Flower();		
 	virtual ~Flower();	
 
+
 protected:
 
 	virtual void DoExtraUpdates(float fTime);
 	virtual bool DoExtraInits();
+
+
 
 };
 
