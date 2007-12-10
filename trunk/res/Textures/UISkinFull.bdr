@@ -1,0 +1,67 @@
+[Files]
+# Format:
+# UIAtlas Name      Filename
+text_for_low_resolution	 Arial8_BA.NFF 
+text_for_med_resolution  Arial10_BA.NFF
+text_for_high_resolution Arial12_BA.NFF
+
+[ImageRects]
+# Format:
+# UIAtlas Name     OuterRect.left, OuterRect.top, OuterRect.width, OuterRect.height,  
+#                  InnerRect.left, InnerRect.top, InnerRect.width, InnerRect.height
+# Note that the inner rect values are optional. If not specified, they match the outer rect
+keyboard_button_wide	   7, 4, 113, 56,   16,  6,  94,  34
+ui_label		           256, 256, 1, 1
+ui_button_default		   128, 0, 128, 64,   136, 9, 112,  46
+ui_button_down		       256, 0, 128, 64,   264, 9, 112,  46
+ui_button_high		       384, 0, 128, 64,   392, 9, 112,  46  
+ui_check_box_default	   0,   256, 30, 30     
+ui_check_box_high		   64,  256, 30, 30   
+ui_check_mark		       128, 256, 30, 30
+ui_group        		   128, 0, 128, 64,   136, 9, 112,  46
+ui_slider_track_default    192, 256, 128, 13   255, 260, 2, 5
+ui_slider_track_high	   192, 272, 128, 13    255, 276, 2, 5
+ui_slider_mark_default	   320, 256,  11, 24     324, 264, 3, 8
+ui_slider_mark_high		   332, 256,  11, 24     336, 264, 3, 8
+gamepad_button_rdown		   0,   64,  49, 49 
+gamepad_button_rright		   64,  64,  49, 49
+gamepad_button_select		   128, 64,  64, 64    
+gamepad_button_L1		   192, 64,  64, 64
+gamepad_button_L2		   256, 64,  64, 64     
+gamepad_button_R1		   320, 64,  64, 64
+gamepad_button_R2		   384, 64,  64, 64    
+gamepad_button_start       448, 64,  64, 64    
+gamepad_button_rleft		   0,   128,  49, 49    
+gamepad_button_rup		   64,  128,  49, 49   
+gamepad_control_stick      128, 128,  64, 64    
+gamepad_control_stick_horizontal   192, 128,  64, 64
+gamepad_control_stick_omni	   256, 128,  64, 64
+gamepad_control_stick_vertical     320, 128,  64, 64
+gamepad_dpad		       384, 128,  64, 64
+gamepad_dpad_horizontal    448, 128,  64, 64
+gamepad_dpad_omni		   0, 192,  64, 64
+gamepad_dpad_vertical	   64, 192,  64, 64
+keyboard_button		       135, 196,  51, 55,  143, 98, 34, 34
+mouse_button_left		   192, 192,  64, 64
+mouse_button_right		   256, 192,  64, 64 
+mouse_button_scroll		   320, 192,  64, 64
+mouse_move		           384, 192,  64, 64
+mouse_null		           448, 192,  64, 64
+ui_min_default			   354, 260, 36, 24
+ui_min_down			   390, 260, 36, 24
+ui_min_high			   425, 260, 36, 24
+ui_max_default			   354, 283, 36, 24	
+ui_max_down			   390, 283, 36, 24
+ui_max_high			   425, 283, 36, 24
+
+
+[Colors]
+#Format:
+# UVAtlas Name    R,  G,  B,  A
+text_on_keyboard_button		    0.000000, 0.000000, 0.000000, 1.000000
+text_on_ui_default              1.000000, 1.000000, 1.000000, 1.000000
+text_on_ui_down		            0.000000, 0.000000, 0.000000, 1.000000
+text_on_ui_high		            1.000000, 0.900000, 0.000000, 1.000000
+text_on_gamepad_control_stick	1.000000, 0.900000, 0.000000, 1.000000
+
+
