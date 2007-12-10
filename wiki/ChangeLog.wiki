@@ -213,3 +213,7 @@ btw Vaios the bzzz sounds .... it doesn't seem tat its recorded by u ... did u t
 Integrated UI and flowers and fixed most of the UI bugs. I also added a TargetClosestFlowers function, which makes the queen automatically target the closest flower bed, every 5 frames. I thought that maybe it is too complicated for the user to select flower beds too, so now it happens automatically. I also changed the keys a little bit, so '2' spawns bees and Space targets enemies. 
 
 Yes Smiral I processed the sounds a little bit, basically I simple increased their pitch. Aren't I an amazing sound actor??? :P
+
+*10-Dec-2007* - _Vaios
+
+I fixed CreateUISystem so now you don't have to place your project inside the Samples folder.
