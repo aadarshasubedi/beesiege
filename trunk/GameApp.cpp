@@ -429,27 +429,40 @@ void GameApp::CreateScreenPolygon(const char* imageFile,float fLeft, float fTop)
  * @return bool
  */
 bool GameApp::CreateUISystem()
-{
-	if (!NiSample::CreateUISystem())
-	{
-		return false;
-	}
-	return true;
-	/*
-	NiUIManager::Create();
-	if (!NiUIManager::GetUIManager()->Initialize(GetInputSystem(), 
+{	
+    NiUIManager::Create();
+    NiUIManager* pkUIManager = NiUIManager::GetUIManager();
+    if (pkUIManager == NULL)
+	  return false;
+
+    if (!pkUIManager->Initialize(GetInputSystem(),
 		NiSample::ConvertMediaFilename("Textures/UISkinFull.dds"), m_spCursor))
-	{
-		return false;
-	}
+    {
+	  return false;
+    }
 
-	if (!NiNavManager::Create())
-	{
-		return false;
-	}
+    m_fUIElementHeight = pkUIManager->GetMaxCharHeightInNSC() * 3.0f;
+    m_fUIElementWidth = NiMin(0.40f, 
+	  pkUIManager->GetMaxCharWidthInNSC() * 25.0f);
+    m_fUIGroupHeaderHeight = pkUIManager->GetMaxCharHeightInNSC() * 2.75f;
+    m_kUIElementGroupOffset.x = pkUIManager->GetMaxCharWidthInNSC() * 1.5f;
+    m_kUIElementGroupOffset.y = pkUIManager->GetMaxCharHeightInNSC() * 0.5f +
+	  m_fUIGroupHeaderHeight;
 
-	return true;
-	*/
+    if (m_bUseNavSystem)
+    {
+	  if (!NiNavManager::Create())
+		return false;
+    }
+
+    NiUIManager::GetUIManager()->ReserveGamePadButton(
+	  NiInputGamePad::NIGP_A, &m_kHideAll, NiUIManager::WASPRESSED);
+    NiUIManager::GetUIManager()->ReserveKeyboardButton(
+	  NiInputKeyboard::KEY_Z, &m_kHideAll, NiUIManager::WASPRESSED);
+
+    return true;
+
+	
 }
 //------------------------------------------------------------------------ 
 /** 
