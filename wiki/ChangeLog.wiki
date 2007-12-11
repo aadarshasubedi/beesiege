@@ -219,3 +219,19 @@ Yes Smiral I processed the sounds a little bit, basically I simple increased the
 I fixed CreateUISystem so now you don't have to place your project inside the Samples folder.
 
 Also added healer bees (HealerBee) and FSMHealerAIControl. You can create healers by pressing '3'. The healers just follow the queen and heal nearby allies for 10 seconds. After the 10 seconds the die. I use the bee model for the healers so we might need to change that.
+
+*11-Dec-2007* - _Vaios
+
+Added honey bees and their states (FSMHoneyBeeAIControl, StateHoneyBeeGather). I also implemented e mechanism for sending honey bees to flowers to collect honey. First to spawn honey bees you press '1'. To collect honey you first have to go close to a flower. The flower will be targeted automatically if you re close enough. When the flower is highlighted you hold Shift + right click, to select honey bees. If you release the right click while Shift is down or if you simply release Shift, the honey bees will go to the flower and collect honey. Once they are done they will return to the queen and go back to a follow state. When they reach the queen they will give her the honey they collected.
+
+I didn't have enough time to fully test the system for bugs, but it seems to be working fine. So again we need a model for the honey bees. Also we need one or a few models for the bosses. One will work I guess. 
+
+The remaining systems that we have to implement are:
+    # Bosses
+    # Position the bases
+    # Fix the spawn enemy function so that it spawns enemies at a good rate
+    # Queuing bees
+    # Add a win state (!)
+    # Dragonflies
+
+If i forget something please add it to the list above.
