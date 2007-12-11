@@ -7,6 +7,7 @@ class GameCharacter;
 
 class CharacterAttribute : public GameObj
 {
+	NiDeclareRTTI;
 public:
 
 	// ctor / dtor

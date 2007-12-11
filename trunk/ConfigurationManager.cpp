@@ -352,6 +352,9 @@ bool ConfigurationManager::ReadCharacters(TiXmlElement* node)
 	if (!ReadLocust(node->FirstChildElement("locust")))
 		return false;
 
+	if (!ReadHealer(node->FirstChildElement("healer")))
+		return false;
+
 	return true;
 }
 //------------------------------------------------------------------------ 
@@ -394,7 +397,8 @@ bool ConfigurationManager::ReadQueen(TiXmlElement* node)
 		ReadFloat(queen_moveUpSpeedGain, node, "moveUpSpeedGain") &&
 		ReadFloat(queen_viewRadius, node, "viewRadius") &&
 		ReadFloat(queen_maxHeight, node, "maxHeight") &&
-		ReadFloat(queen_fogScaleValue, node, "fogScaleValue"))
+		ReadFloat(queen_fogScaleValue, node, "fogScaleValue") &&
+		ReadFloat(queen_initialHealth, node, "initialHealth"))
 	{
 		return true;
 	}
@@ -417,6 +421,28 @@ bool ConfigurationManager::ReadLocust(TiXmlElement* node)
 		ReadFloat(locust_viewRadius, node, "viewRadius")&&
 		ReadFloat(locust_damageRadius, node, "damageRadius")&&
 		ReadFloat(locust_damage, node, "damage"))
+	{
+		return true;
+	}
+
+	return false;
+}
+//------------------------------------------------------------------------ 
+/** 
+ * Reads HealerBees
+ * 
+ * @param node
+ * 
+ * @return bool
+ */ 
+bool ConfigurationManager::ReadHealer(TiXmlElement* node)
+{
+	if (!node) return false;
+
+	if (ReadFloat(healer_initialHealth, node, "initialHealth") &&
+		ReadFloat(healer_radius, node, "healRadius")&&
+		ReadFloat(healer_duration, node, "duration")&&
+		ReadFloat(healer_healAmount, node, "healingAmount"))
 	{
 		return true;
 	}

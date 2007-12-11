@@ -8,6 +8,7 @@
 #include "GameManager.h"
 #include "GameObj3d.h"
 #include "Bee.h"
+#include "HealerBee.h"
 #include "Locust.h"
 #include "ConfigurationManager.h"
 #include "TextManager.h"
@@ -146,8 +147,15 @@ void GameManager::UpdateAll(float fTime)
 		{
 			if (NiIsKindOf(Enemy, obj))
 			{
-				EnemyPtr enemy = (Enemy*)(GameObj3d*)obj;
-				RemoveEnemy(enemy);
+				RemoveEnemy((Enemy*)(GameObj3d*)obj);				
+			}
+			else if (NiIsKindOf(Bee, obj))
+			{
+				GetQueen()->RemoveSoldier((Bee*)(GameObj3d*)obj);
+			}
+			else if (NiIsKindOf(HealerBee, obj))
+			{
+				GetQueen()->RemoveHealer((HealerBee*)(GameObj3d*)obj);
 			}
 			RemoveObject(obj);
 			it = m_lObjects.GetNextPos(it);
@@ -189,6 +197,13 @@ GameObj3dPtr GameManager::CreateObject3d(ResourceManager::ResourceType type)
 	{
 	case ResourceManager::RES_MODEL_BEE:
 			obj = NiNew Bee;
+			if (!AddObject(obj, mainScene, physxScene))
+			{
+				obj = 0;
+			}
+			break;
+	case ResourceManager::RES_MODEL_HEALERBEE:
+			obj = NiNew HealerBee;
 			if (!AddObject(obj, mainScene, physxScene))
 			{
 				obj = 0;

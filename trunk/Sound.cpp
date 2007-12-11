@@ -3,6 +3,9 @@
 #include "GameCharacter.h"
 #include <NxVec3.h>
 
+
+//-------------------------------------------------------------------
+NiImplementRTTI(Sound,CharacterAttribute);
 //-------------------------------------------------------------------
 Sound::Sound(GameCharacter *owner, 
 			 SoundDescPtr spDesc, 

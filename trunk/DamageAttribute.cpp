@@ -7,6 +7,10 @@
 #include "Queen.h"
 #include "GameCharacter.h"
 #include "ConfigurationManager.h"
+
+
+//-------------------------------------------------------------------------
+NiImplementRTTI(DamageAttribute,CharacterAttribute);
 //-------------------------------------------------------------------------
 /**
 * Ctor

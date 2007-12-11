@@ -1,30 +1,24 @@
 /**
- * A queen's soldier.  
+ * A bee that heals allies and dies after
+ * she's done
  */
 
-#include "Bee.h"
-#include "FSMBeeAIControl.h"
-#include "Enemy.h"
-#include "GameManager.h"
+#include "HealerBee.h"
 #include "HealthAttribute.h"
 #include "ArmorAttribute.h"
-#include "DamageAttribute.h"
 #include "Sound.h"
 #include "ConfigurationManager.h"
-#include "NiTMap.h"
-
+#include "FSMHealerAIControl.h"
+#include "GameManager.h"
 //----------------------------------------------------------------------
 // implements RTTI
-NiImplementRTTI(Bee, GameCharacter);
+NiImplementRTTI(HealerBee, GameCharacter);
 //------------------------------------------------------------------------
 /** 
  * Ctor
  * 
  */
-Bee::Bee() : GameCharacter(ResourceManager::RES_MODEL_BEE),
-			 m_pEnemyTarget(0),
-			 m_bIssuedAttackCommand(false),
-			 m_bHighlighted(false)
+HealerBee::HealerBee() : GameCharacter(ResourceManager::RES_MODEL_HEALERBEE)
 {
 }
 //------------------------------------------------------------------------
@@ -32,7 +26,7 @@ Bee::Bee() : GameCharacter(ResourceManager::RES_MODEL_BEE),
  * Dtor
  * 
  */
-Bee::~Bee()
+HealerBee::~HealerBee()
 {
 	
 }
@@ -42,7 +36,7 @@ Bee::~Bee()
  * 
  * @param fTime
  */
-void Bee::DoExtraUpdates(float fTime)
+void HealerBee::DoExtraUpdates(float fTime)
 {
 	GameCharacter::DoExtraUpdates(fTime);
 	
@@ -54,7 +48,7 @@ void Bee::DoExtraUpdates(float fTime)
  * 
  * @return bool
  */
-bool Bee::DoExtraInits()
+bool HealerBee::DoExtraInits()
 {
 	if (!GameCharacter::DoExtraInits())
 	{
@@ -63,14 +57,11 @@ bool Bee::DoExtraInits()
 
 	// add a health attribute
 	HealthAttributePtr health = NiNew HealthAttribute(this);
-	health->Reset(ConfigurationManager::Get()->bee_initialHealth);
+	health->Reset(ConfigurationManager::Get()->healer_initialHealth);
 	AddAttribute(GameCharacter::ATTR_HEALTH, (CharacterAttribute*)health);
 	// add an armor attribute
 	AddAttribute(GameCharacter::ATTR_ARMOR, NiNew ArmorAttribute(this));
-	// add a damage attribute
-	AddAttribute(GameCharacter::ATTR_DAMAGE, NiNew DamageAttribute(this));
-	// add an FSMBeeAIControl
-	AddAttribute(GameCharacter::ATTR_CONTROLLER, NiNew FSMBeeAIControl(this));
+	
 	// set initial position
 	m_pActor->setGlobalPosition(GameManager::Get()->
 		GetQueen()->GetActor()->getGlobalPosition() - NxVec3(50.0, 0.0, 0.0));
@@ -83,18 +74,12 @@ bool Bee::DoExtraInits()
 		sound->Play();
 	}
 
-	AddAttribute(GameCharacter::ATTR_SOUND_1, (CharacterAttribute*) ResourceManager::Get()->GetSound(
-		ResourceManager::RES_SOUND_BEE_AWAITING, this));
-
-	AddAttribute(GameCharacter::ATTR_SOUND_2, (CharacterAttribute*) ResourceManager::Get()->GetSound(
-		ResourceManager::RES_SOUND_BEE_DYING, this));
+	// add an FSMBeeAIControl
+	AddAttribute(GameCharacter::ATTR_CONTROLLER, NiNew FSMHealerAIControl(this));
 
 	// set dampings
 	m_pActor->setLinearDamping(8.0f);
 	m_pActor->setAngularDamping(8.0f);
-
-	
-	
 
 	return true;
 }

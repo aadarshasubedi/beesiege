@@ -5,6 +5,10 @@
 #include "HealthAttribute.h"
 #include "ArmorAttribute.h"
 #include "GameCharacter.h"
+
+
+//-------------------------------------------------------------------------
+NiImplementRTTI(HealthAttribute,CharacterAttribute);
 //-------------------------------------------------------------------------
 /**
 * Ctor

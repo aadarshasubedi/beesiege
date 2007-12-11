@@ -8,6 +8,9 @@
 #include "StateQueenSelectSoldiers.h"
 #include "ConfigurationManager.h"
 #include "Flower.h"
+
+//-----------------------------------------------------------------------
+NiImplementRTTI(FSMQueenAIControl,FSMAIControl);
 //--------------------------------------------------------------------
 /**
 * Ctor

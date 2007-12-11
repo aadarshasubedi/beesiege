@@ -6,6 +6,8 @@
 #include "GameCharacter.h"
 
 //---------------------------------------------------------------------------------
+NiImplementRTTI(CharacterAttribute,GameObj);
+//---------------------------------------------------------------------------------
 /**
 *	Ctor
 *   @param The owner of the attribute

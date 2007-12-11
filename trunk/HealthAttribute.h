@@ -7,6 +7,8 @@ class GameCharacter;
 
 class HealthAttribute : public CharacterAttribute
 {
+	NiDeclareRTTI;
+
 public:
 
 	// ctor / dtor

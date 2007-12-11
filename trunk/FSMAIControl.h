@@ -12,6 +12,7 @@ class GameManager;
 
 class FSMAIControl: public ControllerAttr
 {
+	NiDeclareRTTI;
 public:
 	// ctor / dtor
 	FSMAIControl(GameCharacter* character);

@@ -202,11 +202,14 @@ void StateQueenTargetEnemy::DeselectCurrent()
 			if (NiIsKindOf(Bee, attackers.Get(it)))
 			{
 				Bee* attacker = (Bee*)(GameCharacter*)attackers.Get(it);
-				if (attacker->IsHighlighted())
+				if (attacker)
 				{
-					attacker->SetEmmitance(NiColor(0.0, 0.0, 0.0));
-					attacker->SetHighlighted(false);
-				}
+					if (attacker->IsHighlighted())
+					{
+						attacker->SetEmmitance(NiColor(0.0, 0.0, 0.0));
+						attacker->SetHighlighted(false);
+					}
+				}				
 			}
 			else
 			{

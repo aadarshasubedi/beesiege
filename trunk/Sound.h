@@ -11,7 +11,7 @@ class GameCharacter;
 class Sound : public CharacterAttribute
 {
 	friend class SoundManager;
-
+	NiDeclareRTTI;
 public:
 
 	// plays sound

@@ -6,6 +6,7 @@
 
 class FSMAIControl;
 class HealthAttribute;
+class GameManager;
 
 class FSMState: public GameObj
 {
@@ -49,6 +50,9 @@ protected:
 	// checks if the owner is dead
 	// and sets it to non-active if it is
 	bool IsOwnerDead();
+
+	// pointer to the game manager
+	GameManager* m_pGameManager;
 };
 
 NiSmartPointer(FSMState);

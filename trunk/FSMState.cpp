@@ -5,13 +5,15 @@
 #include "FSMState.h"
 #include "FSMAIControl.h"
 #include "HealthAttribute.h"
+#include "GameManager.h"
 //------------------------------------------------------
 /**
 * Ctor
 */
 FSMState::FSMState(FSMAIControl* control, int type) :
  m_type(type),
- m_control(control)
+ m_control(control),
+ m_pGameManager(GameManager::Get())
 { 
 	m_pOwnerHealth = (HealthAttribute*)m_control->GetOwner()->
 		GetAttribute(GameCharacter::ATTR_HEALTH);

@@ -4,8 +4,6 @@
 #include "InputManager.h"
 #include "GameManager.h"
 #include "GameApp.h"
-#include "Bee.h"
-#include "Locust.h"
 
 //------------------------------------------------------------------- 
 /** 
@@ -67,12 +65,16 @@ void InputManager::ProcessKeyboard(NiInputKeyboard* keyboard,GameApp* gameApp)
 		{
 			gameMgr->GetQueen()->SetMoveRight();	
 		}
-		// add a bee
+		
+		// add a soldier bee
 		if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_2))
 		{
-			BeePtr soldier = (Bee*)(GameObj3d*)gameMgr->CreateObject3d(ResourceManager::RES_MODEL_BEE);
-			
-			
+			gameMgr->CreateObject3d(ResourceManager::RES_MODEL_BEE);						
+		}
+		// add a healer bee
+		if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_3))
+		{
+			gameMgr->CreateObject3d(ResourceManager::RES_MODEL_HEALERBEE);						
 		}
 		
 		// cycle through targets

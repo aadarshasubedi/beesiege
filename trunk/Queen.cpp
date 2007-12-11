@@ -5,7 +5,8 @@
 #include "Queen.h"
 #include "FSMQueenAIControl.h"
 #include "ResourceManager.h"
-
+#include "HealthAttribute.h"
+#include "ConfigurationManager.h"
 //----------------------------------------------------------------------
 // implements RTTI
 NiImplementRTTI(Queen, GameCharacter);
@@ -38,6 +39,7 @@ Queen::Queen()
 Queen::~Queen()
 {
 	m_lSoldiers.RemoveAll();
+	m_lHealers.RemoveAll();
 }
 //------------------------------------------------------------------------ 
 /**
@@ -56,6 +58,24 @@ void Queen::AddSoldier(BeePtr soldier)
 void Queen::RemoveSoldier(BeePtr soldier)
 {
 	m_lSoldiers.Remove(soldier);
+}
+//------------------------------------------------------------------------ 
+/**
+* Adds a healer to the list
+* @param the healer
+*/
+void Queen::AddHealer(HealerBeePtr healer)
+{
+	m_lHealers.AddTail(healer);
+}
+//------------------------------------------------------------------------ 
+/**
+* Removes a soldier from the list
+* @param the soldier
+*/
+void Queen::RemoveHealer(HealerBeePtr healer)
+{
+	m_lHealers.Remove(healer);
 }
 //------------------------------------------------------------------------ 
 /** 
@@ -81,6 +101,10 @@ bool Queen::DoExtraInits()
 		return false;
 	}
 
+	// add a health attribute
+	HealthAttributePtr health = NiNew HealthAttribute(this);
+	health->Reset(ConfigurationManager::Get()->queen_initialHealth);
+	AddAttribute(GameCharacter::ATTR_HEALTH, (CharacterAttribute*)health);
 	// add a controller
 	AddAttribute(GameCharacter::ATTR_CONTROLLER, NiNew FSMQueenAIControl(this));
 

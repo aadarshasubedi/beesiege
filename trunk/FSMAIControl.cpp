@@ -5,6 +5,9 @@
 
 #include "FSMAIControl.h"
 #include "GameManager.h"
+
+//------------------------------------------------------------
+NiImplementRTTI(FSMAIControl,ControllerAttr);
 //------------------------------------------------------------
 /**
 * Ctor
