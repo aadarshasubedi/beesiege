@@ -51,7 +51,7 @@ bool ResourceManager::Init(NiStream* stream, NiRenderer* renderer)
 	// load models
 	bSuccess = LoadNif(stream, string("models/beefinal.nif"), RES_MODEL_BEE);
 	if (!bSuccess) return false;
-	bSuccess = LoadNif(stream, string("models/beefinal.nif"), RES_MODEL_HEALERBEE);
+	bSuccess = LoadNif(stream, string("models/healer.nif"), RES_MODEL_HEALERBEE);
 	if (!bSuccess) return false;
 	bSuccess = LoadNif(stream, string("models/queenFinal.nif"), RES_MODEL_QUEEN);
 	if (!bSuccess) return false;
