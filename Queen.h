@@ -3,6 +3,7 @@
 
 #include "Enemy.h"
 #include "Bee.h"
+#include "HealerBee.h"
 #include <NiTPointerList.h>
 
 
@@ -17,6 +18,10 @@ public:
 	// adds / removes a soldier from the queen's list
 	void AddSoldier (BeePtr soldier);
 	void RemoveSoldier (BeePtr soldier);
+	// adds / removes a healer from the queen's list
+	void AddHealer (HealerBeePtr healer);
+	void RemoveHealer (HealerBeePtr healer);
+
 	// getters / setters
 	const NiTPointerList<BeePtr>& GetSoldiers() const
 	{
@@ -147,6 +152,8 @@ private:
 	bool m_bIssuedRotate;
 	// a list that contains the queen's soldiers
 	NiTPointerList<BeePtr> m_lSoldiers;
+	// a list that contains the queen's healers
+	NiTPointerList<HealerBeePtr> m_lHealers;
 	// amount of rotation to be added
 	float				   m_fRotateDx;
 	float				   m_fRotateDy;

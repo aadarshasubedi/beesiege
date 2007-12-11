@@ -6,6 +6,8 @@
 
 class ControllerAttr : public CharacterAttribute
 {
+
+	NiDeclareRTTI;
 public:
 	// ctor / dtor
 	ControllerAttr(GameCharacter* owner);

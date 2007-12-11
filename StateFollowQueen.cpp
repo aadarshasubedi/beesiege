@@ -3,10 +3,12 @@
 */
 #include "State_FollowQueen.h"
 #include "Bee.h"
+#include "HealerBee.h"
 #include "Queen.h"
 #include "FSMMachine.h"
 #include "GameManager.h"
 #include "FSMBeeAIControl.h"
+#include "FSMHealerAIControl.h"
 #include "Arrival.h"
 #include "Seek.h"
 #include "Departure.h"
@@ -21,10 +23,20 @@
 */
 void StateFollowQueen::Enter()
 {
-	GameManager::Get()->GetQueen()->AddSoldier((Bee*)((FSMBeeAIControl*)m_control)->GetOwner());
+	if (NiIsKindOf(FSMBeeAIControl, m_control))
+	{
+		m_eType = BEE_AI_CONTROL;
+		m_pGameManager->GetQueen()->AddSoldier((Bee*)(m_control->GetOwner()));
+	}
+	else if (NiIsKindOf(FSMHealerAIControl, m_control))
+	{
+		m_eType = HEALER_BEE_AI_CONTROL;
+		m_pGameManager->GetQueen()->AddHealer((HealerBee*)(m_control->GetOwner()));
+	} 
+
 	// set the target to the queen
 	m_control->GetAgent()->SetTarget(
-		GameManager::Get()->GetQueen()->GetActor());
+		m_pGameManager->GetQueen()->GetActor());
 	
 	// create a behavior combo
 	NiTPointerList<BehaviorPtr> lBehaviors;
@@ -62,15 +74,23 @@ FSMState* StateFollowQueen::CheckTransitions(float fTime)
 
 	if (IsOwnerDead())
 	{
-		((FSMBeeAIControl*)m_control)->PlayDyingSound();
+		if (m_eType == BEE_AI_CONTROL)
+		{
+			((FSMBeeAIControl*)m_control)->PlayDyingSound();
+		}
+	
 		return nextState;
 	}
-	else if(((FSMBeeAIControl*)m_control)->issuedAttackCommand)
+	else if (m_eType == BEE_AI_CONTROL)
 	{
-		((FSMBeeAIControl*)m_control)->issuedAttackCommand = false;
-		//return attack state
-		nextState = ((FSMBeeAIControl*)m_control)->GetMachine()->GetState(FSM_ATTACK_ENEMY);
+		if(((FSMBeeAIControl*)m_control)->issuedAttackCommand)
+		{
+			((FSMBeeAIControl*)m_control)->issuedAttackCommand = false;
+			//return attack state
+			nextState = ((FSMBeeAIControl*)m_control)->GetMachine()->GetState(FSM_ATTACK_ENEMY);
+		}
 	}
+		
 	
 	return nextState;
 }

@@ -8,6 +8,7 @@ class Enemy;
 
 class FSMBeeAIControl: public FSMAIControl
 {
+	NiDeclareRTTI;
 public:
 	// ctor / dtor
 	FSMBeeAIControl(Bee* bee);

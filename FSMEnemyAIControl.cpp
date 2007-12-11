@@ -8,8 +8,12 @@
 #include "GameManager.h"
 #include <NiTPointerList.h>
 #include "Bee.h"
+#include "HealerBee.h"
 #include "Queen.h"
 #include "Sound.h"
+
+//-----------------------------------------------------------------------
+NiImplementRTTI(FSMEnemyAIControl,FSMAIControl);
 //-----------------------------------------------------------------------
 /**
 * Ctor
@@ -74,7 +78,9 @@ GameCharacter* FSMEnemyAIControl::IsTargetAtProximity(float radius)
 	for (int i=0; i<targets.GetSize(); i++)
 	{
 		GameObj3d* target = targets.Get(it);
-		if (NiIsKindOf(Queen, target) || NiIsKindOf(Bee, target))
+		if (NiIsKindOf(Queen, target) || 
+			NiIsKindOf(Bee, target) ||
+			NiIsKindOf(HealerBee, target))
 		{
 			GameCharacter* current = (GameCharacter*)target;
 			distance = current->GetActor()->getGlobalPosition() -

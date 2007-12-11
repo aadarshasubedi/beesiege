@@ -7,6 +7,8 @@
 
 
 //-----------------------------------------------------------------------
+NiImplementRTTI(ControllerAttr,CharacterAttribute);
+//-----------------------------------------------------------------------
 /**
 * Ctor
 * @param The owner of the attribute

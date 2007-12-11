@@ -8,6 +8,10 @@
 #include "Queen.h"
 #include "GameCharacter.h"
 #include "ConfigurationManager.h"
+
+
+//---------------------------------------------------------------------------------
+NiImplementRTTI(ArmorAttribute,CharacterAttribute);
 //-------------------------------------------------------------------------
 /**
 * Ctor

@@ -61,6 +61,7 @@
             <viewRadius> 500.0 </viewRadius>
             <maxHeight> 578.495 </maxHeight>
             <fogScaleValue> 27000000.0 </fogScaleValue>
+            <initialHealth> 500.0 </initialHealth>
         </queen>
         <locust>
             <initialHealth> 100.0 </initialHealth>
@@ -68,6 +69,12 @@
             <damageRadius> 20.0 </damageRadius>
             <damage> 5.0 </damage>
         </locust>
+        <healer>
+            <initialHealth> 10.0 </initialHealth>
+            <healRadius> 150.0 </healRadius>
+            <duration> 10.0 </duration>
+            <healingAmount> 0.03 </healingAmount>
+        </healer>
     </characters>
     <timers>
         <selectSoldiersTimer> 0.5 </selectSoldiersTimer>

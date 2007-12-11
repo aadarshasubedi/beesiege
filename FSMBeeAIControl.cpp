@@ -9,6 +9,9 @@
 #include "Bee.h"
 #include "Enemy.h"
 #include "Sound.h"
+
+//-----------------------------------------------------------------------
+NiImplementRTTI(FSMBeeAIControl,FSMAIControl);
 //-----------------------------------------------------------------------
 /**
 * Ctor

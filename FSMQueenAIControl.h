@@ -9,6 +9,7 @@ class ConfigurationManager;
 
 class FSMQueenAIControl: public FSMAIControl
 {
+	NiDeclareRTTI;
 public:
 	FSMQueenAIControl(Queen* queen);
 	~FSMQueenAIControl();

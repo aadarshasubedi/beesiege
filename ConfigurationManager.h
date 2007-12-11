@@ -51,10 +51,15 @@ public:
 	float queen_viewRadius;
 	float queen_maxHeight;
 	float queen_fogScaleValue;
+	float queen_initialHealth;
 	float locust_initialHealth;
 	float locust_viewRadius;
 	float locust_damageRadius;
 	float locust_damage;
+	float healer_initialHealth;
+	float healer_radius;
+	float healer_duration;
+	float healer_healAmount;
 	float timer_selectSoldiers;
 	float scene_fogDefaultDepth;
 
@@ -81,6 +86,7 @@ private:
 	bool ReadBee(TiXmlElement* node);
 	bool ReadQueen(TiXmlElement* node);
 	bool ReadLocust(TiXmlElement* node);
+	bool ReadHealer(TiXmlElement* node);
 	bool ReadTimers(TiXmlElement* node);
 	bool ReadScene(TiXmlElement* node);
 };

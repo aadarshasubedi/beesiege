@@ -8,6 +8,7 @@ class GameCharacter;
 
 class FSMEnemyAIControl: public FSMAIControl
 {
+	NiDeclareRTTI;
 public:
 	FSMEnemyAIControl(Enemy* enemy);
 	~FSMEnemyAIControl();
