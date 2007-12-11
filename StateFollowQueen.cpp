@@ -4,11 +4,13 @@
 #include "State_FollowQueen.h"
 #include "Bee.h"
 #include "HealerBee.h"
+#include "HoneyBee.h"
 #include "Queen.h"
 #include "FSMMachine.h"
 #include "GameManager.h"
 #include "FSMBeeAIControl.h"
 #include "FSMHealerAIControl.h"
+#include "FSMHoneyBeeAIControl.h"
 #include "Arrival.h"
 #include "Seek.h"
 #include "Departure.h"
@@ -33,6 +35,12 @@ void StateFollowQueen::Enter()
 		m_eType = HEALER_BEE_AI_CONTROL;
 		m_pGameManager->GetQueen()->AddHealer((HealerBee*)(m_control->GetOwner()));
 	} 
+	else
+	{
+		m_eType = HONEY_BEE_AI_CONTROL;
+		m_pGameManager->GetQueen()->AddGatherer((HoneyBee*)(m_control->GetOwner()));
+
+	}
 
 	// set the target to the queen
 	m_control->GetAgent()->SetTarget(
@@ -61,6 +69,11 @@ void StateFollowQueen::Enter()
 void StateFollowQueen::Update(float fTime)
 {
 	m_control->GetAgent()->Update();
+
+	if (m_eType == HONEY_BEE_AI_CONTROL)
+	{
+		((HoneyBee*)m_control->GetOwner())->GiveHoneyToQueen();
+	}
 }
 //----------------------------------------------------------------------
 /**
@@ -87,7 +100,16 @@ FSMState* StateFollowQueen::CheckTransitions(float fTime)
 		{
 			((FSMBeeAIControl*)m_control)->issuedAttackCommand = false;
 			//return attack state
-			nextState = ((FSMBeeAIControl*)m_control)->GetMachine()->GetState(FSM_ATTACK_ENEMY);
+			nextState = m_control->GetMachine()->GetState(FSM_ATTACK_ENEMY);
+		}
+	}
+	else if (m_eType == HONEY_BEE_AI_CONTROL)
+	{
+		if(((FSMHoneyBeeAIControl*)m_control)->issuedGatherCommand)
+		{
+			((FSMHoneyBeeAIControl*)m_control)->issuedGatherCommand = false;
+			//return gather state
+			nextState = m_control->GetMachine()->GetState(FSM_GATHER_HONEY);
 		}
 	}
 		

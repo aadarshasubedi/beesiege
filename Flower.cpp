@@ -14,7 +14,12 @@ NiImplementRTTI(Flower, GameObj3d);
 * Constructor
 */
 Flower::Flower() :
-GameObj3d(ResourceManager::RES_MODEL_FLOWER)
+GameObj3d(ResourceManager::RES_MODEL_FLOWER),
+m_fcMaxHoney(100.0f),
+m_fHoneyCapacity(m_fcMaxHoney),
+m_fcResetTime(120.0f),
+m_fResetTimer(m_fcResetTime),
+m_pGameManager(GameManager::Get())
 {
 }
 //--------------------------------------------------------------
@@ -29,6 +34,15 @@ Flower::~Flower()
 
 void Flower::DoExtraUpdates(float fTime)
 {
+	if (!HasHoney())
+	{
+		m_fResetTimer -= m_pGameManager->GetDeltaTime();
+		if (m_fResetTimer <= 0.0f)
+		{
+			ResetHoney();
+			m_fResetTimer = m_fcResetTime;
+		}
+	}
 }
 
 //--------------------------------------------------------------

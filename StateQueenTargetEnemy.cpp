@@ -78,7 +78,11 @@ FSMState* StateQueenTargetEnemy::CheckTransitions(float fTime)
 		m_pCurrentTarget)
 	{
 		nextState = controller->GetMachine()->GetState(FSM_QUEEN_SELECTSOLDIERS);
-		NIASSERT(nextState);
+	}
+	else if (controller->issuedSelectGatherersCommand &&
+		GameManager::Get()->GetCurrentFlowerTarget())
+	{
+		nextState = controller->GetMachine()->GetState(FSM_QUEEN_SELECTGATHERERS);
 	}
 	return nextState;
 }

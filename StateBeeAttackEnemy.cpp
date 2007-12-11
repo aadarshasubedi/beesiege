@@ -20,7 +20,7 @@
 #include "DamageAttribute.h"
 #include "ConfigurationManager.h"
 #include <math.h>
-#include <NiColor.h>
+
 //----------------------------------------------------------------------
 /**
 *	Ctor

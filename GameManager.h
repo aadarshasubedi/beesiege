@@ -17,6 +17,7 @@ class GameObj3d;
 NiSmartPointer(GameObj3d);
 class NiPhysXScene;
 NiSmartPointer(NiPhysXScene);
+class Flower;
 
 // template class that copies two NiTPointer lists
 template <class T>
@@ -37,6 +38,14 @@ class GameManager : public SingletonObj<GameManager>
 {
 	friend SingletonObj<GameManager>;
 public:
+
+	// selection mode
+	enum SelectionMode
+	{
+		SELECTION_SOLDIERS,
+		SELECTION_HEALERS,
+		SELECTION_GATHERERS
+	};
 
 	// initializes the manager
 	bool Init(NiNodePtr parent, NiPhysXScenePtr physXScene, NiSample* app);
@@ -101,7 +110,22 @@ public:
 		return m_pCurrentTarget;
 	}
 
-	
+	void SetCurrentFlowerTarget (Flower* target)
+	{
+		m_pCurrentFlowerTarget = target;
+	}
+	Flower* GetCurrentFlowerTarget() const
+	{
+		return m_pCurrentFlowerTarget;
+	}
+	const SelectionMode GetSelectionMode() const
+	{
+		return m_eSelectionMode;
+	}
+	void SetSelectionMode (SelectionMode mode)
+	{
+		m_eSelectionMode = mode;
+	}
 private:
 
 	// private ctor / dtor
@@ -151,6 +175,11 @@ private:
 	float m_fLastKillTime;
 	// the background ambient sounds
 	SoundPtr m_spAmbientSounds;
+	// current flower target
+	Flower* m_pCurrentFlowerTarget;
+	// selection mode
+	SelectionMode m_eSelectionMode;
+	
 };
 
 #endif
