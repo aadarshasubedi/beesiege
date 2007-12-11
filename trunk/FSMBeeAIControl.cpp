@@ -47,7 +47,6 @@ FSMBeeAIControl::~FSMBeeAIControl()
 */
 void FSMBeeAIControl::UpdatePerceptions(float fTime)
 {
-	NIASSERT(m_pOwner);
 	Bee* ownerBee = (Bee*)m_pOwner;
 	issuedAttackCommand = ownerBee->WasAttackIssued();
 

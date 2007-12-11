@@ -6,6 +6,7 @@
 #include "Queen.h"
 #include "StateQueenTargetEnemy.h"
 #include "StateQueenSelectSoldiers.h"
+#include "StateQueenSelectGatherers.h"
 #include "ConfigurationManager.h"
 #include "Flower.h"
 
@@ -20,7 +21,9 @@ FSMQueenAIControl::FSMQueenAIControl(Queen* queen)
 : FSMAIControl((GameCharacter*)queen),
   issuedTargetEnemyCommand(false),
   issuedSelectSoldiersCommand(false),
+  issuedSelectGatherersCommand(false),
   issuedAttackCommand(false),
+  issuedGatherCommand(false),
   issuedMoveForwardCommand(false),
   issuedMoveBackwardCommand(false),
   issuedMoveLeftCommand(false),
@@ -35,6 +38,7 @@ FSMQueenAIControl::FSMQueenAIControl(Queen* queen)
 	StateQueenTargetEnemy* defaultState = NiNew StateQueenTargetEnemy(this);
 	m_spMachine->AddState(defaultState, FSM_QUEEN_TARGETENEMY);
 	m_spMachine->AddState(NiNew StateQueenSelectSoldiers(this), FSM_QUEEN_SELECTSOLDIERS);
+	m_spMachine->AddState(NiNew StateQueenSelectGatherers(this), FSM_QUEEN_SELECTGATHERERS);
 	m_spMachine->SetDefaultState(defaultState);
 }
 //--------------------------------------------------------------------
@@ -53,23 +57,27 @@ void FSMQueenAIControl::UpdatePerceptions(float fTime)
 {
 	NIASSERT(m_pOwner);
 	QueenPtr queenOwner = (Queen*)m_pOwner;
-	issuedSelectSoldiersCommand = queenOwner->WasSelectSoldiersIssued();
-	issuedAttackCommand         = queenOwner->WasAttackEnemyIssued();
-	issuedTargetEnemyCommand    = queenOwner->WasTargetEnemyIssued();
-	issuedMoveForwardCommand	= queenOwner->WasMoveForwardIssued();
-	issuedMoveBackwardCommand	= queenOwner->WasMoveBackwardIssued();
-	issuedMoveLeftCommand		= queenOwner->WasMoveLeftIssued();
-	issuedMoveRightCommand		= queenOwner->WasMoveRightIssued();
-	issuedMoveVerticalCommand	= queenOwner->WasMoveVerticalIssued();
-	issuedRotateCommand			= queenOwner->WasRotateIssued();
+	issuedSelectSoldiersCommand  = queenOwner->WasSelectSoldiersIssued();
+	issuedSelectGatherersCommand = queenOwner->WasSelectGatherersIssued();
+	issuedAttackCommand          = queenOwner->WasAttackEnemyIssued();
+	issuedGatherCommand          = queenOwner->WasGatherIssued();
+	issuedTargetEnemyCommand     = queenOwner->WasTargetEnemyIssued();
+	issuedMoveForwardCommand	 = queenOwner->WasMoveForwardIssued();
+	issuedMoveBackwardCommand	 = queenOwner->WasMoveBackwardIssued();
+	issuedMoveLeftCommand		 = queenOwner->WasMoveLeftIssued();
+	issuedMoveRightCommand		 = queenOwner->WasMoveRightIssued();
+	issuedMoveVerticalCommand	 = queenOwner->WasMoveVerticalIssued();
+	issuedRotateCommand			 = queenOwner->WasRotateIssued();
 
 	queenOwner->SetMoveBackward(false);
 	queenOwner->SetMoveForward(false);
 	queenOwner->SetMoveLeft(false);
 	queenOwner->SetMoveRight(false);
 	queenOwner->SetAttackEnemy(false);
+	queenOwner->SetGather(false);
 	queenOwner->SetTargetEnemy(false);
 	queenOwner->SetSelectSoldiers(false);
+	queenOwner->SetSelectGatherers(false);
 }
 //-----------------------------------------------------------------------
 /**
@@ -206,8 +214,11 @@ void FSMQueenAIControl::TargetClosestFlowers()
 	{
 		NiPoint3 targetPos = m_pCurrentFlowerTarget->GetNode()->GetTranslate();
 		distance = NxVec3(targetPos.x, targetPos.y, targetPos.z) - pos;
-		if (distance.magnitude() < m_fcFlowersRadius)
+		float mag = distance.magnitude();
+		if ( mag < m_fcFlowersRadius)
+		{
 			return;
+		}
 
 		// current target is not in radius so deselect it
 		m_pCurrentFlowerTarget->SetEmmitance(NiColor(0.0, 0.0, 0.0));
@@ -217,13 +228,17 @@ void FSMQueenAIControl::TargetClosestFlowers()
 	float minDistance = 50000.0f;
 	NiTListIterator it = flowers.GetHeadPos();
 	FlowerPtr current = 0;
+	FlowerPtr closest = 0;
 	for (int i=0; i<flowers.GetSize(); i++)
 	{
 		current = flowers.Get(it);
 		// if this is our current target continue
 		// since we already checked that
 		if (current == m_pCurrentFlowerTarget) 
+		{
+			it = flowers.GetNextPos(it);
 			continue;
+		}
 
 		NiPoint3 flowerPos = current->GetNode()->GetTranslate();
 		distance = NxVec3(flowerPos.x, flowerPos.y, flowerPos.z) - pos;
@@ -233,13 +248,15 @@ void FSMQueenAIControl::TargetClosestFlowers()
 			if (distanceMag < minDistance)
 			{
 				minDistance = distanceMag;
-				m_pCurrentFlowerTarget = current;
+				closest = current;
 			}
 		}
 
 		it = flowers.GetNextPos(it);
 	}
 
+	m_pCurrentFlowerTarget = closest;
+	m_pGameManager->SetCurrentFlowerTarget(m_pCurrentFlowerTarget);
 	if (m_pCurrentFlowerTarget)
 	{
 		m_pCurrentFlowerTarget->SetEmmitance(NiColor(0.0, 0.5, 1.0));

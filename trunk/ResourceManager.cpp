@@ -53,6 +53,8 @@ bool ResourceManager::Init(NiStream* stream, NiRenderer* renderer)
 	if (!bSuccess) return false;
 	bSuccess = LoadNif(stream, string("models/healer.nif"), RES_MODEL_HEALERBEE);
 	if (!bSuccess) return false;
+	bSuccess = LoadNif(stream, string("models/beeFinal.nif"), RES_MODEL_HONEYBEE);
+	if (!bSuccess) return false;
 	bSuccess = LoadNif(stream, string("models/queenFinal.nif"), RES_MODEL_QUEEN);
 	if (!bSuccess) return false;
 	bSuccess = LoadNif(stream, string("models/locust_physx1.nif"), RES_MODEL_LOCUST);

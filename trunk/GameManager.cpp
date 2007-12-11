@@ -9,6 +9,7 @@
 #include "GameObj3d.h"
 #include "Bee.h"
 #include "HealerBee.h"
+#include "HoneyBee.h"
 #include "Locust.h"
 #include "ConfigurationManager.h"
 #include "TextManager.h"
@@ -26,7 +27,7 @@ using namespace std;
 GameManager::GameManager() : 
 m_fDeltaTime(0.0f), m_plAgents(0), m_pCurrentTarget(0),
 m_fKillingRate(0.0f), m_fKillCount(0.0f), m_fLastKillTime(0.0f),
-m_spAmbientSounds(0)
+m_spAmbientSounds(0),m_pCurrentFlowerTarget(0), m_eSelectionMode(SELECTION_SOLDIERS)
 {
 }
 //------------------------------------------------------------------------ 
@@ -204,6 +205,13 @@ GameObj3dPtr GameManager::CreateObject3d(ResourceManager::ResourceType type)
 			break;
 	case ResourceManager::RES_MODEL_HEALERBEE:
 			obj = NiNew HealerBee;
+			if (!AddObject(obj, mainScene, physxScene))
+			{
+				obj = 0;
+			}
+			break;
+	case ResourceManager::RES_MODEL_HONEYBEE:
+			obj = NiNew HoneyBee;
 			if (!AddObject(obj, mainScene, physxScene))
 			{
 				obj = 0;

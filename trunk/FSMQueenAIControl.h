@@ -18,7 +18,9 @@ public:
 	// state
 	bool issuedTargetEnemyCommand;
 	bool issuedSelectSoldiersCommand;
+	bool issuedSelectGatherersCommand;
 	bool issuedAttackCommand;
+	bool issuedGatherCommand;
 	bool issuedMoveForwardCommand;
 	bool issuedMoveBackwardCommand;
 	bool issuedMoveLeftCommand;

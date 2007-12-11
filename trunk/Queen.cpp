@@ -18,7 +18,9 @@ NiImplementRTTI(Queen, GameCharacter);
 Queen::Queen() 
 : GameCharacter(ResourceManager::RES_MODEL_QUEEN),
   m_bIssuedSelectSoldiers(false),
+  m_bIssuedSelectGatherers(false),
   m_bIssuedAttackEnemy(false),
+  m_bIssuedGather(false),
   m_bIssuedTargetEnemy(false),
   m_bIssuedMoveForward(false),
   m_bIssuedMoveBackward(false),
@@ -27,7 +29,8 @@ Queen::Queen()
   m_bIssuedMoveVertical(false),
   m_bIssuedRotate(false),
   m_fRotateDx(0.0f),
-  m_fRotateDy(0.0f)
+  m_fRotateDy(0.0f),
+  m_fHoney(0.0f)
 {
 	
 }
@@ -40,6 +43,7 @@ Queen::~Queen()
 {
 	m_lSoldiers.RemoveAll();
 	m_lHealers.RemoveAll();
+	m_lGatherers.RemoveAll();
 }
 //------------------------------------------------------------------------ 
 /**
@@ -70,12 +74,30 @@ void Queen::AddHealer(HealerBeePtr healer)
 }
 //------------------------------------------------------------------------ 
 /**
-* Removes a soldier from the list
-* @param the soldier
+* Removes a healer from the list
+* @param the healer
 */
 void Queen::RemoveHealer(HealerBeePtr healer)
 {
 	m_lHealers.Remove(healer);
+}
+//------------------------------------------------------------------------ 
+/**
+* Adds a honey bee to the list
+* @param the honey bee
+*/
+void Queen::AddGatherer(HoneyBeePtr gatherer)
+{
+	m_lGatherers.AddTail(gatherer);
+}
+//------------------------------------------------------------------------ 
+/**
+* Removes a honey bee from the list
+* @param the honey bee
+*/
+void Queen::RemoveGatherer(HoneyBeePtr gatherer)
+{
+	m_lGatherers.Remove(gatherer);
 }
 //------------------------------------------------------------------------ 
 /** 

@@ -65,7 +65,11 @@ void InputManager::ProcessKeyboard(NiInputKeyboard* keyboard,GameApp* gameApp)
 		{
 			gameMgr->GetQueen()->SetMoveRight();	
 		}
-		
+		// add a honey bee
+		if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_1))
+		{
+			gameMgr->CreateObject3d(ResourceManager::RES_MODEL_HONEYBEE);						
+		}
 		// add a soldier bee
 		if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_2))
 		{
@@ -80,8 +84,19 @@ void InputManager::ProcessKeyboard(NiInputKeyboard* keyboard,GameApp* gameApp)
 		// cycle through targets
 		if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_SPACE))
 		{
-			gameMgr->GetQueen()->SetTargetEnemy();
-			
+			gameMgr->GetQueen()->SetTargetEnemy();			
+		}
+
+		// change selection mode
+		if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_LSHIFT))
+		{
+			gameMgr->SetSelectionMode(GameManager::SELECTION_GATHERERS);
+		}
+
+		if(keyboard->KeyWasReleased(NiInputKeyboard::KEY_LSHIFT))
+		{
+			gameMgr->SetSelectionMode(GameManager::SELECTION_SOLDIERS);
+			gameMgr->GetQueen()->SetGather();
 		}
     }
 }
@@ -104,32 +119,38 @@ void InputManager::ProcessMouse(NiInputMouse* mouse, GameApp* gameApp)
 		// select more soldiers
 		if(mouse->ButtonIsDown(NiInputMouse::NIM_LEFT))
 		{
-			gameMgr->SetStrongAttack(true);
-			//gameMgr->GetQueen()->SetSelectSoldiers();
+			gameMgr->SetStrongAttack(true);			
 		}
 		// stop selecting soldiers
 		else if(mouse->ButtonWasReleased(NiInputMouse::NIM_LEFT))
 		{
-			gameMgr->SetStrongAttack(false);
-			//gameMgr->GetQueen()->SetAttackEnemy();
+			gameMgr->SetStrongAttack(false);		
 		}
-		// rotate view
+	
 		if(mouse->ButtonIsDown(NiInputMouse::NIM_RIGHT))
 		{
-			//gameApp->GetCameraController()->RotateCamera((float)mx, (float)my);
-			gameMgr->GetQueen()->SetSelectSoldiers();
+			if (gameMgr->GetSelectionMode() == GameManager::SELECTION_GATHERERS)
+			{
+				gameMgr->GetQueen()->SetSelectGatherers();
+			}
+			else if (gameMgr->GetSelectionMode() == GameManager::SELECTION_SOLDIERS)
+			{
+				gameMgr->GetQueen()->SetSelectSoldiers();
+			}
+			
 		}
-		// rotate queen
-		else
-		{
-			//
-			//
-		}
+	
 		// stop rotating queen
 		if(mouse->ButtonWasReleased(NiInputMouse::NIM_RIGHT))
-		{
-			//gameApp->GetCameraController()->StopRotateCamera();
-			gameMgr->GetQueen()->SetAttackEnemy();
+		{		
+			if (gameMgr->GetSelectionMode() == GameManager::SELECTION_GATHERERS)
+			{
+				gameMgr->GetQueen()->SetGather();
+			}
+			else if (gameMgr->GetSelectionMode() == GameManager::SELECTION_SOLDIERS)
+			{
+				gameMgr->GetQueen()->SetAttackEnemy();	
+			}
 		}
 		
 		gameMgr->GetQueen()->SetRotate((float)mx);

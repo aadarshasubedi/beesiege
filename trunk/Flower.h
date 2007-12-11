@@ -3,6 +3,8 @@
 
 #include "GameObj3d.h"  
 
+class GameManager;
+
 class Flower : public GameObj3d
 {
 	NiDeclareRTTI;
@@ -10,15 +12,38 @@ class Flower : public GameObj3d
 public: 
 
 	Flower();		
-	virtual ~Flower();	
+	~Flower();	
+
+	const bool HasHoney() const
+	{
+		return m_fHoneyCapacity > 0.0f;
+	}
+
+	void DecreaseHoneyAmount (float value)
+	{
+		m_fHoneyCapacity -= value;
+	}
 
 
 protected:
 
-	virtual void DoExtraUpdates(float fTime);
-	virtual bool DoExtraInits();
+	void DoExtraUpdates(float fTime);
+	bool DoExtraInits();
+	
+	void ResetHoney()
+	{
+		m_fHoneyCapacity = m_fcMaxHoney;
+	}
 
-
+	// maxi honey capacity
+	const float m_fcMaxHoney;
+	// amount of honey
+	float m_fHoneyCapacity;
+	// timer to reset flower
+	const float m_fcResetTime;
+	float m_fResetTimer;
+	// pointer to the game manager
+	GameManager* m_pGameManager;
 
 };
 
