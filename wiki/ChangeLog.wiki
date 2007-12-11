@@ -217,3 +217,5 @@ Yes Smiral I processed the sounds a little bit, basically I simple increased the
 *10-Dec-2007* - _Vaios
 
 I fixed CreateUISystem so now you don't have to place your project inside the Samples folder.
+
+Also added healer bees (HealerBee) and FSMHealerAIControl. You can create healers by pressing '3'. The healers just follow the queen and heal nearby allies for 10 seconds. After the 10 seconds the die. I use the bee model for the healers so we might need to change that.
