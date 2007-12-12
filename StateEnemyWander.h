@@ -10,10 +10,7 @@ class StateEnemyWander: public FSMState
 public:
 
 	// ctor
-	StateEnemyWander(FSMAIControl* control, int type=FSM_ENEMY_WANDER) : 
-	  FSMState(control, type)
-	{
-	}
+	StateEnemyWander(FSMAIControl* control, int type=FSM_ENEMY_WANDER);
 
 	// see base class
 	void Enter();
@@ -23,6 +20,13 @@ public:
 
 private:
 
+	enum AIControlType
+	{
+		LOCUST_AI_CONTROL,
+		DRAGONFLY_AI_CONTROL		
+	};
+
+	AIControlType m_eType;
 	// the enemy's view radius
 	float m_fViewRadius;
 

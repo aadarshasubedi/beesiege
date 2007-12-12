@@ -7,6 +7,7 @@
 #include "EnemyBase.h"
 #include "GameManager.h"
 #include "Locust.h"
+#include "Dragonfly.h"
 //-----------------------------------------------------------------------------
 NiImplementRTTI(EnemyBase, GameObj3d);
 //-----------------------------------------------------------------------------
@@ -61,12 +62,25 @@ void EnemyBase::SpawnEnemy()
 		// reset timer
 		m_fSpawnTimer = m_fSpawnTimerInitial;
 		// spawn enemy
-		LocustPtr enemy = (Locust*)(GameObj3d*)GameManager::Get()->
-			CreateObject3d(ResourceManager::RES_MODEL_LOCUST);
-		if (enemy)
+		if (rand()%100 > 50)
 		{
-			NiPoint3 pos = m_spNode->GetTranslate();
-			enemy->GetActor()->setGlobalPosition(NxVec3(pos.x, pos.y, pos.z));
+			DragonFlyPtr enemy = (DragonFly*)(GameObj3d*)GameManager::Get()->
+			CreateObject3d(ResourceManager::RES_MODEL_DRAGONFLY);
+			if (enemy)
+			{
+				NiPoint3 pos = m_spNode->GetTranslate();
+				enemy->GetActor()->setGlobalPosition(NxVec3(pos.x, pos.y, pos.z));
+			}
+		}
+		else
+		{
+			LocustPtr enemy = (Locust*)(GameObj3d*)GameManager::Get()->
+			CreateObject3d(ResourceManager::RES_MODEL_LOCUST);
+			if (enemy)
+			{
+				NiPoint3 pos = m_spNode->GetTranslate();
+				enemy->GetActor()->setGlobalPosition(NxVec3(pos.x, pos.y, pos.z));
+			}
 		}
 	}
 }

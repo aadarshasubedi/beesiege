@@ -11,6 +11,7 @@
 #include "HealerBee.h"
 #include "HoneyBee.h"
 #include "Locust.h"
+#include "Dragonfly.h"
 #include "ConfigurationManager.h"
 #include "TextManager.h"
 #include "LevelManager.h"
@@ -226,6 +227,14 @@ GameObj3dPtr GameManager::CreateObject3d(ResourceManager::ResourceType type)
 			break;
 	case ResourceManager::RES_MODEL_LOCUST:
 			obj = NiNew Locust;
+			if (!AddObject(obj, mainScene, physxScene))
+			{
+				obj = 0;
+			}
+			m_lEnemies.AddTail((Enemy*)(GameObj3d*)obj);
+			break;
+	case ResourceManager::RES_MODEL_DRAGONFLY:
+			obj = NiNew DragonFly;
 			if (!AddObject(obj, mainScene, physxScene))
 			{
 				obj = 0;

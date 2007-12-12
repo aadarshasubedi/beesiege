@@ -3,6 +3,7 @@
 */
 #include "StateEnemyWander.h"
 #include "StateLocustAttack.h"
+#include "StateDragonflyAttack.h"
 #include "FSMMachine.h"
 #include "GameCharacter.h"
 #include "GameManager.h"
@@ -13,8 +14,28 @@
 #include "NiTPointerList.h"
 #include "HealthAttribute.h"
 #include "Locust.h"
+#include "Dragonfly.h"
 #include "Sound.h"
 #include <NiPhysX.h>
+
+//----------------------------------------------------------------------
+/**
+*	Ctor
+*/
+StateEnemyWander::StateEnemyWander(FSMAIControl* control, int type) : 
+  FSMState(control, type)
+{
+	GameCharacter* owner = m_control->GetOwner();
+	if (NiIsKindOf(Locust, owner))
+	{
+		m_eType = LOCUST_AI_CONTROL;
+	}
+	else if (NiIsKindOf(DragonFly, owner))
+	{
+		m_eType = DRAGONFLY_AI_CONTROL;
+	}
+
+}
 //----------------------------------------------------------------------
 /**
 *	Performs necessary operations when we the state is entered
@@ -55,18 +76,25 @@ FSMState* StateEnemyWander::CheckTransitions(float fTime)
 			GameManager::Get()->SetCurrentTarget(0);
 		}
 	}
-	else if (targetAtProximity = controller->IsTargetAtProximity(m_fViewRadius))
+	else if (m_eType == LOCUST_AI_CONTROL)
 	{
-		// if the owner is a locust then return StateLocustAttack
-		if (NiIsKindOf(Locust, m_control->GetOwner()))
+		if  (targetAtProximity = controller->IsTargetAtProximity(m_fViewRadius))
 		{
-			nextState = controller->GetMachine()->GetState(FSM_ENEMY_LOCUST_ATTACK);
-			NIASSERT(nextState);
-			((StateLocustAttack*)nextState)->SetTarget(targetAtProximity);
+			nextState = controller->GetMachine()->GetState(FSM_ENEMY_LOCUST_ATTACK);			
+			((StateLocustAttack*)nextState)->SetTarget(targetAtProximity);						
 		}
-		
 	}
-	
+	else if (m_eType == DRAGONFLY_AI_CONTROL)
+	{
+		NxVec3 pos = m_control->GetAgent()->GetActor()->getGlobalPosition();
+		NxVec3 distance = m_pGameManager->GetQueen()->GetActor()->
+								getGlobalPosition() - pos;
+		if (distance.magnitude() < m_fViewRadius)
+		{
+			nextState = controller->GetMachine()->GetState(FSM_ENEMY_DRAGONFLY_ATTACK);			
+			((StateDragonflyAttack*)nextState)->SetTarget(m_pGameManager->GetQueen());	
+		}
+	}
 
 	return nextState;
 }
