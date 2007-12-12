@@ -253,3 +253,5 @@ I need to use the function which refreshes the render every frame in order to sh
 4) I tried working with NiUIImage and NiUIImageButton classes to avoid using separate polygons for images but the above UI elements do not take any random pictures, only some Gamebryo fixed UI textures using a standard enum...very disappointing.
 
 Finally, I will work on the honey bee and boss models one of these days. So you can use any dummy right now. We'll have something by Friday.
+
+Yes, the honey collection by the bees is working fine and looks good. However, i see here that the healer bee models disappear after a fixed amount of time. What happens?
