@@ -1,8 +1,8 @@
 /**
- * Enemy: Locust
+ * Enemy: DragonFly
  */
 
-#include "Locust.h"
+#include "DragonFly.h"
 #include "GameManager.h"
 #include "ResourceManager.h"
 #include "FSMEnemyAIControl.h"
@@ -11,13 +11,13 @@
 #include "Sound.h"
 //----------------------------------------------------------------------
 // implements RTTI
-NiImplementRTTI(Locust, Enemy);
+NiImplementRTTI(DragonFly, Enemy);
 //------------------------------------------------------------------------ 
 /** 
  * Ctor
  * 
  */
-Locust::Locust() : Enemy(ResourceManager::RES_MODEL_LOCUST)
+DragonFly::DragonFly() : Enemy(ResourceManager::RES_MODEL_DRAGONFLY)
 					
 {
 }
@@ -26,7 +26,7 @@ Locust::Locust() : Enemy(ResourceManager::RES_MODEL_LOCUST)
  * Dtor
  * 
  */
-Locust::~Locust()
+DragonFly::~DragonFly()
 {
 
 }
@@ -36,7 +36,7 @@ Locust::~Locust()
  * 
  * @param fTime
  */
-void Locust::DoExtraUpdates(float fTime)
+void DragonFly::DoExtraUpdates(float fTime)
 {
 	Enemy::DoExtraUpdates(fTime);
 }
@@ -47,7 +47,7 @@ void Locust::DoExtraUpdates(float fTime)
  * 
  * @return bool
  */
-bool Locust::DoExtraInits()
+bool DragonFly::DoExtraInits()
 {
 	if (!Enemy::DoExtraInits())
 	{
@@ -58,9 +58,9 @@ bool Locust::DoExtraInits()
 	AddAttribute(GameCharacter::ATTR_CONTROLLER, NiNew FSMEnemyAIControl(this));
 	// set initial health
 	HealthAttribute* health = (HealthAttribute*)GetAttribute(GameCharacter::ATTR_HEALTH);
-	if (health) health->Reset(ConfigurationManager::Get()->locust_initialHealth);
+	if (health) health->Reset(ConfigurationManager::Get()->dragonfly_initialHealth);
 
-	m_fViewRadius = ConfigurationManager::Get()->locust_viewRadius;
+	m_fViewRadius = ConfigurationManager::Get()->dragonfly_viewRadius;
 
 	SoundPtr sound = ResourceManager::Get()->GetSound(
 		ResourceManager::RES_SOUND_LOCUST, this);

@@ -75,6 +75,12 @@
             <duration> 10.0 </duration>
             <healingAmount> 0.03 </healingAmount>
         </healer>
+        <dragonFly>
+            <initialHealth> 100.0 </initialHealth>
+            <viewRadius> 150.0 </viewRadius>
+            <damageRadius> 20.0 </damageRadius>
+            <damage> 5.0 </damage>
+        </dragonFly>
     </characters>
     <timers>
         <selectSoldiersTimer> 0.5 </selectSoldiersTimer>

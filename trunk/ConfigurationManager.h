@@ -56,6 +56,10 @@ public:
 	float locust_viewRadius;
 	float locust_damageRadius;
 	float locust_damage;
+	float dragonfly_initialHealth;
+	float dragonfly_viewRadius;
+	float dragonfly_damageRadius;
+	float dragonfly_damage;
 	float healer_initialHealth;
 	float healer_radius;
 	float healer_duration;
@@ -86,6 +90,7 @@ private:
 	bool ReadBee(TiXmlElement* node);
 	bool ReadQueen(TiXmlElement* node);
 	bool ReadLocust(TiXmlElement* node);
+	bool ReadDragonFly(TiXmlElement* node);
 	bool ReadHealer(TiXmlElement* node);
 	bool ReadTimers(TiXmlElement* node);
 	bool ReadScene(TiXmlElement* node);

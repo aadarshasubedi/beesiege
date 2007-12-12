@@ -5,10 +5,12 @@
 #include "Enemy.h"
 #include "StateEnemyWander.h"
 #include "StateLocustAttack.h"
+#include "StateDragonflyAttack.h"
 #include "GameManager.h"
 #include <NiTPointerList.h>
 #include "Bee.h"
 #include "HealerBee.h"
+#include "HoneyBee.h"
 #include "Queen.h"
 #include "Sound.h"
 
@@ -24,6 +26,7 @@ FSMEnemyAIControl::FSMEnemyAIControl(Enemy* enemy) : FSMAIControl((GameCharacter
 	StateEnemyWander* defaultState = NiNew StateEnemyWander(this);
 	m_spMachine->AddState(defaultState, FSM_ENEMY_WANDER);
 	m_spMachine->AddState(NiNew StateLocustAttack(this), FSM_ENEMY_LOCUST_ATTACK);
+	m_spMachine->AddState(NiNew StateDragonflyAttack(this), FSM_ENEMY_DRAGONFLY_ATTACK);
 	m_spMachine->SetDefaultState(defaultState);
 }
 //-----------------------------------------------------------------------
@@ -80,7 +83,8 @@ GameCharacter* FSMEnemyAIControl::IsTargetAtProximity(float radius)
 		GameObj3d* target = targets.Get(it);
 		if (NiIsKindOf(Queen, target) || 
 			NiIsKindOf(Bee, target) ||
-			NiIsKindOf(HealerBee, target))
+			NiIsKindOf(HealerBee, target)||
+			NiIsKindOf(HoneyBee, target))
 		{
 			GameCharacter* current = (GameCharacter*)target;
 			distance = current->GetActor()->getGlobalPosition() -

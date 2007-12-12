@@ -355,6 +355,9 @@ bool ConfigurationManager::ReadCharacters(TiXmlElement* node)
 	if (!ReadHealer(node->FirstChildElement("healer")))
 		return false;
 
+	if (!ReadDragonFly(node->FirstChildElement("dragonFly")))
+		return false;
+
 	return true;
 }
 //------------------------------------------------------------------------ 
@@ -443,6 +446,28 @@ bool ConfigurationManager::ReadHealer(TiXmlElement* node)
 		ReadFloat(healer_radius, node, "healRadius")&&
 		ReadFloat(healer_duration, node, "duration")&&
 		ReadFloat(healer_healAmount, node, "healingAmount"))
+	{
+		return true;
+	}
+
+	return false;
+}
+//------------------------------------------------------------------------ 
+/** 
+ * Reads Dragonflies
+ * 
+ * @param node
+ * 
+ * @return bool
+ */ 
+bool ConfigurationManager::ReadDragonFly(TiXmlElement* node)
+{
+	if (!node) return false;
+
+	if (ReadFloat(dragonfly_initialHealth, node, "initialHealth") &&
+		ReadFloat(dragonfly_viewRadius, node, "viewRadius")&&
+		ReadFloat(dragonfly_damageRadius, node, "damageRadius")&&
+		ReadFloat(dragonfly_damage, node, "damage"))
 	{
 		return true;
 	}
