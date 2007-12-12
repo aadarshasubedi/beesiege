@@ -65,6 +65,8 @@ void InputManager::ProcessKeyboard(NiInputKeyboard* keyboard,GameApp* gameApp)
 		{
 			gameMgr->GetQueen()->SetMoveRight();	
 		}
+
+		/*
 		// add a honey bee
 		if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_1))
 		{
@@ -83,6 +85,7 @@ void InputManager::ProcessKeyboard(NiInputKeyboard* keyboard,GameApp* gameApp)
 			gameApp->beeCreationQueue.AddTail(ResourceManager::RES_MODEL_HEALERBEE);
 			gameMgr->CreateObject3d(ResourceManager::RES_MODEL_HEALERBEE);						
 		}
+		*/
 		
 		// cycle through targets
 		if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_SPACE))
