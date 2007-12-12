@@ -68,16 +68,19 @@ void InputManager::ProcessKeyboard(NiInputKeyboard* keyboard,GameApp* gameApp)
 		// add a honey bee
 		if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_1))
 		{
+			gameApp->beeCreationQueue.AddTail(ResourceManager::RES_MODEL_HONEYBEE);
 			gameMgr->CreateObject3d(ResourceManager::RES_MODEL_HONEYBEE);						
 		}
 		// add a soldier bee
 		if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_2))
 		{
+			gameApp->beeCreationQueue.AddTail(ResourceManager::RES_MODEL_BEE);
 			gameMgr->CreateObject3d(ResourceManager::RES_MODEL_BEE);						
 		}
 		// add a healer bee
 		if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_3))
 		{
+			gameApp->beeCreationQueue.AddTail(ResourceManager::RES_MODEL_HEALERBEE);
 			gameMgr->CreateObject3d(ResourceManager::RES_MODEL_HEALERBEE);						
 		}
 		

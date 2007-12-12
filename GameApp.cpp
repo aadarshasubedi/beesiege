@@ -11,9 +11,11 @@
 #include "InputManager.h"
 #include "TextManager.h"
 #include "SoundManager.h"
+#include "UIManager.h"
 #include <NiFogProperty.h>
 #include <NiSystemCursor.h>
 #include <math.h>
+
 
 #pragma comment(lib, "NiBinaryShaderLibDX9.lib")
 #pragma comment(lib, "NiD3D10BinaryShaderLibD3D10.lib")
@@ -60,7 +62,6 @@ bool GameApp::Initialize()
 
 	if (!NiSample::Initialize())
 		return false;
-
 	ShowPointer();
 	return true;
 }
@@ -176,51 +177,14 @@ bool GameApp::CreateScene()
 
 bool GameApp::CreateUIElements()
 {
-	//if (!NiSample::CreateUIElements())
-      //  return false;
-
     unsigned int uiX, uiY;
     m_spRenderer->GetOnScreenCoord(0.0f, 0.0f, 0, 0, uiX, uiY, 
         NiRenderer::CORNER_TOP_LEFT);
 
     float fCurHeight = m_kUIElementGroupOffset.y;
     float fOffset = m_kUIElementGroupOffset.x;
-    float fElementWidth = m_fUIElementWidth;
-
-    NiUIGroup* pkUIGroup = NiNew NiUIGroup("Create Bees", m_fUIGroupHeaderHeight);
-    
-    NiUIButton* pkButton = NiNew NiUIButton("Honey Bees");
-    pkButton->SetOffset(fOffset, fCurHeight);
-    pkButton->SetDimensions(0.15f, m_fUIElementHeight);
-    //pkButton->SubscribeToPressEvent(&m_createHoneyBee);
-    pkButton->AddKeyboardHotkey(NiInputKeyboard::KEY_1);
-    pkUIGroup->AddChild(pkButton);
-    fCurHeight += m_fUIElementHeight;
-
-
-    pkButton = NiNew NiUIButton("Soldier Bees");
-    pkButton->SetOffset(fOffset, fCurHeight);
-    pkButton->SetDimensions(0.15f, m_fUIElementHeight);
-    //pkButton->SubscribeToPressEvent(&m_createSoldierBee);
-    pkButton->AddKeyboardHotkey(NiInputKeyboard::KEY_2);
-    pkUIGroup->AddChild(pkButton);
-    fCurHeight += m_fUIElementHeight;
-
-
-    pkButton = NiNew NiUIButton("Healer Bees");
-    pkButton->SetOffset(fOffset, fCurHeight);
-    pkButton->SetDimensions(0.15f, m_fUIElementHeight);
-    //pkButton->SubscribeToPressEvent(&m_createHealerBee);
-    pkButton->AddKeyboardHotkey(NiInputKeyboard::KEY_3);
-    pkUIGroup->AddChild(pkButton);
-    fCurHeight += m_fUIElementHeight;
-
-    float fGroupWidth = fElementWidth + 2.0f * fOffset;
-    pkUIGroup->SetOffset(1.0f - fGroupWidth, 0.0f);
-    pkUIGroup->SetDimensions(fGroupWidth, fCurHeight + 
-        0.5f * m_fUIElementHeight);
-    pkUIGroup->UpdateRect();
-    NiUIManager::GetUIManager()->AddUIGroup(pkUIGroup);
+   
+	UIManager::Get()->CreateUI(this,fCurHeight,fOffset,m_fUIElementWidth,m_fUIElementHeight,m_fUIGroupHeaderHeight);
 
     return true;
 }
@@ -288,6 +252,19 @@ void GameApp::RenderScreenItems()
 {
 	NiSample::RenderScreenItems();
 	TextManager::Get()->DisplayText();
+	ShowBeeQueue();
+}
+//--------------------------------------------------------------------
+/**
+* Updates the bee queue
+*/
+void GameApp::ShowBeeQueue()
+{
+	int queueSize = beeCreationQueue.GetSize();
+	for(int i = 0;i<queueSize; i++)
+	{
+
+	}
 }
 //--------------------------------------------------------------------- 
 /** 
