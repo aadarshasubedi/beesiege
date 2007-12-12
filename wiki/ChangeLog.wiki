@@ -236,7 +236,7 @@ The remaining systems that we have to implement are:
 
 If i forget something please add it to the list above.
 
-*11-Dec-2007 - _Ruhi
+*11-Dec-2007* - _Ruhi
 
 We also need to add a scoring mechanism? Or do we?
 
@@ -255,3 +255,7 @@ I need to use the function which refreshes the render every frame in order to sh
 Finally, I will work on the honey bee and boss models one of these days. So you can use any dummy right now. We'll have something by Friday.
 
 Yes, the honey collection by the bees is working fine and looks good. However, i see here that the healer bee models disappear after a fixed amount of time. What happens?
+
+*12-Dec-2007* - _Vaios
+
+Added dragonflies and their states. Dragonflies attack the queen only when she is in proximity.
