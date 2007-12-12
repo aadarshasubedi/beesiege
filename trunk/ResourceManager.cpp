@@ -59,7 +59,7 @@ bool ResourceManager::Init(NiStream* stream, NiRenderer* renderer)
 	if (!bSuccess) return false;
 	bSuccess = LoadNif(stream, string("models/locust_physx1.nif"), RES_MODEL_LOCUST);
 	if (!bSuccess) return false;
-	bSuccess = LoadNif(stream, string("models/enemyFinal.nif"), RES_MODEL_DRAGONFLY);
+	bSuccess = LoadNif(stream, string("models/dtagonfly_physx1.nif"), RES_MODEL_DRAGONFLY);
 	if (!bSuccess) return false;
 	bSuccess = LoadNif(stream, string("models/yellowbox.nif"), RES_MODEL_BASE);
 	if (!bSuccess) return false;

@@ -3,7 +3,7 @@
 UIManager::UIManager()
 {
 	m_createHoneyBee.Initialize(this, &UIManager::createHoneyBee);
-	m_createSoldierBee.Initialize(this, &UIManager::createHealerBee);
+	m_createSoldierBee.Initialize(this, &UIManager::createSoldierBee);
 	m_createHealerBee.Initialize(this, &UIManager::createHealerBee);
 	pkUIGroup2 = NiNew NiUIGroup("Bee factory", 0.0);
 }
