@@ -239,9 +239,15 @@ If i forget something please add it to the list above.
 *11-Dec-2007 - _Ruhi
 
 We also need to add a scoring mechanism? Or do we?
+
+
 1) I have moved the UI code to new UIManager files
+
 2) The bees can now be spawned using the UI buttons
-3) I've started working on the queuing mechanism. This will change the instantaneous spawing that we have right now. How and when do we take the elements out of the queue? Time based? 
+
+3) I've started working on the queuing mechanism. This will change the instantaneous 
+spawing that we have right now. How and when do we take the elements out of the queue? Time based? 
+
 I need to use the function which refreshes the render every frame in order to show the pictures of the queued bees correctly. which is this function exactly inside GameApp?
 
 4) I tried working with NiUIImage and NiUIImageButton classes to avoid using separate polygons for images but the above UI elements do not take any random pictures, only some Gamebryo fixed UI textures using a standard enum...very disappointing.
