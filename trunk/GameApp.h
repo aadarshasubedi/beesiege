@@ -9,6 +9,7 @@
 #include <NiPhysX.h>
 #include "CameraController.h"
 
+
 // Main Application
 class GameApp : public NiSample
 {
@@ -29,13 +30,14 @@ public:
 	// renders HUD
 	void RenderScreenItems();
 	// terminates the application
-	void Terminate();
-	
+	void Terminate();		
 	// getters
 	NiNodePtr       GetScene() const {return m_spScene;}
 	NiPhysXScenePtr GetPhysXScene() const {return m_spPhysXScene;}
 	NiCameraPtr     GetCamera() const {return m_spCamera;}
 	CameraControllerPtr GetCameraController() const {return m_spCameraController;}
+	NiTList<int> beeCreationQueue;
+		
 
 protected:
 	// sets up the PhysX SDK parameters
@@ -52,6 +54,8 @@ protected:
 	bool CreateCursor();
 	// Overrides NiSample::CreateCamera (does nothing)
 	bool CreateCamera();
+
+	void ShowBeeQueue();
 
 	// Pointer to the PhysX manager
 	NiPhysXManager* m_pPhysXManager;
