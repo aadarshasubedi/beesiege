@@ -9,14 +9,19 @@
 #include <NiPhysX.h>
 #include "CameraController.h"
 
-
 // Main Application
 class GameApp : public NiSample
 {
 public:
 	// ctor
     GameApp();
-  
+
+	//typedef struct queueElement
+	//{
+	//	int   i;
+	//	float f;
+	//}element;
+
 	// overloaded virtual functions inherited from
 	// NiApplication
 	// initializes the application
@@ -36,8 +41,10 @@ public:
 	NiPhysXScenePtr GetPhysXScene() const {return m_spPhysXScene;}
 	NiCameraPtr     GetCamera() const {return m_spCamera;}
 	CameraControllerPtr GetCameraController() const {return m_spCameraController;}
-	NiTList<int> beeCreationQueue;
-		
+	NiTPointerList<int> beeTypesQueue;
+	NiTPointerList<float> beeTimeQueue;	
+	bool hasQueueChanged;
+	float initialQueueOffset;
 
 protected:
 	// sets up the PhysX SDK parameters
@@ -55,7 +62,8 @@ protected:
 	// Overrides NiSample::CreateCamera (does nothing)
 	bool CreateCamera();
 
-	void ShowBeeQueue();
+	void UpdateBeeQueue();
+	void CreateBees();
 
 	// Pointer to the PhysX manager
 	NiPhysXManager* m_pPhysXManager;

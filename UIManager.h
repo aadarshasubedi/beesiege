@@ -22,7 +22,8 @@ private:
 	void createHoneyBee();
 	void createHealerBee();
 	NiUIGroup* pkUIGroup2;
-	
+	int maxQueueSize;
+
 	NiUIMemberSlot0<UIManager> m_createHoneyBee;
     NiUIMemberSlot0<UIManager> m_createHealerBee;
 	NiUIMemberSlot0<UIManager> m_createSoldierBee;

@@ -1,11 +1,11 @@
 #include "UIManager.h"
 
-UIManager::UIManager()
+UIManager::UIManager():maxQueueSize(10)
 {
 	m_createHoneyBee.Initialize(this, &UIManager::createHoneyBee);
 	m_createSoldierBee.Initialize(this, &UIManager::createSoldierBee);
 	m_createHealerBee.Initialize(this, &UIManager::createHealerBee);
-	pkUIGroup2 = NiNew NiUIGroup("Bee factory", 0.0);
+	pkUIGroup2 = NiNew NiUIGroup("Bee factory", 0.07);
 }
 
 UIManager::~UIManager()
@@ -55,7 +55,7 @@ bool UIManager::CreateUI(GameApp* gameApp, float fCurrentHeight,float fOffset,
     NiUIManager::GetUIManager()->AddUIGroup(pkUIGroup);
 
 	pkUIGroup2->SetOffset(0.0,0.0f);
-	pkUIGroup2->SetDimensions(fGroupWidth + 0.2, fCurrentHeight - 0.07);
+	pkUIGroup2->SetDimensions(fGroupWidth + 0.15, fCurrentHeight - 0.07);
     pkUIGroup2->UpdateRect();
 	NiUIManager::GetUIManager()->AddUIGroup(pkUIGroup2);
 
@@ -65,22 +65,66 @@ bool UIManager::CreateUI(GameApp* gameApp, float fCurrentHeight,float fOffset,
 void UIManager::createSoldierBee()
 {
 	GameManager* gameMgr = GameManager::Get();
-	gameMgr->GetGameApp()->beeCreationQueue.AddTail(ResourceManager::RES_MODEL_BEE);
-	gameMgr->CreateObject3d(ResourceManager::RES_MODEL_BEE);
+	float timerStart;
+	
+	if(gameMgr->GetGameApp()->beeTypesQueue.GetSize() < maxQueueSize)
+	{
+		if(gameMgr->GetGameApp()->beeTimeQueue.GetSize() > 0)
+			timerStart = gameMgr->GetGameApp()->beeTimeQueue.GetTail();
+		else
+			timerStart = gameMgr->GetGameApp()->GetAccumTime();
+
+		gameMgr->GetGameApp()->beeTypesQueue.AddTail(ResourceManager::RES_MODEL_BEE);
+		gameMgr->GetGameApp()->beeTimeQueue.AddTail(timerStart + 5.0f);
+		gameMgr->GetGameApp()->hasQueueChanged = true;
+	}
+	else
+	{
+		//you have to wait
+	}
 
 }
 
 void UIManager::createHoneyBee()
 {
 	GameManager* gameMgr = GameManager::Get();
-	gameMgr->GetGameApp()->beeCreationQueue.AddTail(ResourceManager::RES_MODEL_HONEYBEE);
-	gameMgr->CreateObject3d(ResourceManager::RES_MODEL_HONEYBEE);
+	float timerStart;
+	if(gameMgr->GetGameApp()->beeTypesQueue.GetSize() < maxQueueSize)
+	{
+		if(gameMgr->GetGameApp()->beeTimeQueue.GetSize() > 0)
+			timerStart = gameMgr->GetGameApp()->beeTimeQueue.GetTail();
+		else
+			timerStart = gameMgr->GetGameApp()->GetAccumTime();
+
+		gameMgr->GetGameApp()->beeTypesQueue.AddTail(ResourceManager::RES_MODEL_HONEYBEE);
+		gameMgr->GetGameApp()->beeTimeQueue.AddTail(timerStart + 5.0f);
+		gameMgr->GetGameApp()->hasQueueChanged = true;
+	}
+	else
+	{
+
+	}
 }
 
 void UIManager::createHealerBee()
 {
 	GameManager* gameMgr = GameManager::Get();
-	gameMgr->GetGameApp()->beeCreationQueue.AddTail(ResourceManager::RES_MODEL_HEALERBEE);
-	gameMgr->CreateObject3d(ResourceManager::RES_MODEL_HEALERBEE);
+	float timerStart;
+
+	if(gameMgr->GetGameApp()->beeTimeQueue.GetSize() > 0)
+			timerStart = gameMgr->GetGameApp()->beeTimeQueue.GetTail();
+		else
+			timerStart = gameMgr->GetGameApp()->GetAccumTime();
+
+	if(gameMgr->GetGameApp()->beeTypesQueue.GetSize() < maxQueueSize)
+	{
+		gameMgr->GetGameApp()->beeTypesQueue.AddTail(ResourceManager::RES_MODEL_HEALERBEE);
+		gameMgr->GetGameApp()->beeTimeQueue.AddTail(timerStart + 10.0f);
+		gameMgr->GetGameApp()->hasQueueChanged = true;
+	}
+	else
+	{
+
+	}
 }
 

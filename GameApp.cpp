@@ -38,7 +38,8 @@ NiApplication* NiApplication::Create()
  */
 //GameApp::GameApp() : NiApplication("BeeSiege",
 //    DEFAULT_WIDTH, DEFAULT_HEIGHT), m_fLastSimTime(0.0f)
-GameApp::GameApp():NiSample("BeeSiege",DEFAULT_WIDTH, DEFAULT_HEIGHT),m_fLastSimTime(0.0f)
+GameApp::GameApp():NiSample("BeeSiege",DEFAULT_WIDTH, DEFAULT_HEIGHT),m_fLastSimTime(0.0f),hasQueueChanged(false),
+initialQueueOffset(950.0)
 {
 	NiSample::SetMediaPath("../../res/");
 	m_bUseNavSystem = false;
@@ -241,7 +242,13 @@ void GameApp::UpdateFrame()
     m_spPhysXScene->UpdateSources(m_fAccumTime);
 	m_spCameraController->Update(m_fAccumTime);
 	m_spPhysXScene->Simulate(m_fAccumTime);
-    m_fLastSimTime = m_fAccumTime;	
+    m_fLastSimTime = m_fAccumTime;
+
+	//check whether the bee is to be created now and if it is then remove it from the queue
+	CreateBees();
+	
+	if(hasQueueChanged)
+		UpdateBeeQueue();
 }
 //--------------------------------------------------------------------------- 
 /** 
@@ -252,18 +259,69 @@ void GameApp::RenderScreenItems()
 {
 	NiSample::RenderScreenItems();
 	TextManager::Get()->DisplayText();
-	ShowBeeQueue();
 }
 //--------------------------------------------------------------------
 /**
-* Updates the bee queue
+* Updates the bee queue display
 */
-void GameApp::ShowBeeQueue()
+void GameApp::UpdateBeeQueue()
 {
-	int queueSize = beeCreationQueue.GetSize();
+	GetScreenTextures().RemoveAll();
+	CreateScreenPolygon("Textures/honey_bee_smaller.bmp", 20.0f, 60.0f);
+	CreateScreenPolygon("Textures/soldier_bee_smaller.bmp", 20.0f, 110.0f);
+	CreateScreenPolygon("Textures/healer_bee_smaller.bmp", 20.0f,160.0f);
+
+	int queueSize = beeTypesQueue.GetSize();
+	NiTListIterator index = beeTypesQueue.GetHeadPos();
+	float drawOffset = initialQueueOffset;
+	int beeType;
+
 	for(int i = 0;i<queueSize; i++)
 	{
+		beeType = beeTypesQueue.Get(index);
+		if(beeType == ResourceManager::RES_MODEL_BEE)
+			CreateScreenPolygon("Textures/soldier_bee_smaller.bmp", drawOffset, 60.0f);
+		else if(beeType == ResourceManager::RES_MODEL_HONEYBEE)
+			CreateScreenPolygon("Textures/honey_bee_smaller.bmp", drawOffset, 60.0f);
+		else if(beeType == ResourceManager::RES_MODEL_HEALERBEE)
+			CreateScreenPolygon("Textures/healer_bee_smaller.bmp", drawOffset, 60.0f);
 
+		drawOffset -= 50.0;
+		index = beeTypesQueue.GetNextPos(index);
+	}
+	hasQueueChanged = false;
+}
+
+//---------------------------------------------------------------------
+/**
+* Creates bees that are in queue and have completed their wait time
+*/
+void GameApp::CreateBees()
+{
+	int queueSize = beeTimeQueue.GetSize();
+	NiTListIterator indexTime = beeTimeQueue.GetHeadPos();
+	NiTListIterator indexType = beeTypesQueue.GetHeadPos();
+	float beeTimeComplete;
+	int beeType;
+	
+	for(int i = 0;i<queueSize; i++)
+	{
+		beeTimeComplete = beeTimeQueue.Get(indexTime);
+		if(m_fAccumTime >= beeTimeComplete)
+		{
+			beeType = beeTypesQueue.Get(indexType);
+			GameManager::Get()->CreateObject3d(ResourceManager::ResourceType(beeType));
+			beeTypesQueue.RemovePos(indexType);
+			beeTimeQueue.RemovePos(indexTime);
+			i++;
+			hasQueueChanged = true;
+		}
+		else
+		{
+			indexTime = beeTimeQueue.GetNextPos(indexTime);
+			indexType = beeTypesQueue.GetNextPos(indexType);
+		}
+			
 	}
 }
 //--------------------------------------------------------------------- 
