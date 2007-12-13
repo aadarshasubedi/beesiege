@@ -227,12 +227,12 @@ Added honey bees and their states (FSMHoneyBeeAIControl, StateHoneyBeeGather). I
 I didn't have enough time to fully test the system for bugs, but it seems to be working fine. So again we need a model for the honey bees. Also we need one or a few models for the bosses. One will work I guess. 
 
 The remaining systems that we have to implement are:
-    # Bosses
-    # Position the bases
+    # Bosses            
+    # Position the bases *IN PROGRESS*
     # Fix the spawn enemy function so that it spawns enemies at a good rate
-    # Queuing bees
-    # Add a win state (!)
-    # Dragonflies
+    # Queuing bees     - *DONE*
+    # Add a win state (!)  
+    # Dragonflies      - *DONE*
 
 If i forget something please add it to the list above.
 
