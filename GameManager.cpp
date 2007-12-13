@@ -94,13 +94,16 @@ bool GameManager::Init(NiNodePtr parent, NiPhysXScenePtr physXScene, NiSample* a
 	//m_spCurrentLevel = LevelManager::Get()->GetLevel(1);
 	//CopyLists(m_spCurrentLevel->GetEnemies(), m_lEnemies);
 
-	if (!AddObject((GameObj3dPtr)(NiNew EnemyBase), parent))
-	{
-		return false;
-	}
+	//if (!AddObject((GameObj3dPtr)(NiNew EnemyBase), parent))
+	//{
+	//	return false;
+	//}
+	
 	
 	// Create all the flowers in the scene
 	CreateFlowers(parent);
+
+	CreateEnemyBases(parent);
 
 	m_spAmbientSounds = ResourceManager::Get()->GetSound(
 		ResourceManager::RES_SOUND_AMBIENT, 0);
@@ -127,6 +130,35 @@ void GameManager::CreateFlowers(NiNodePtr parent)
 		NiNode* attacher1 = (NiNode*) parent->GetObjectByName(s1);
 		FlowerPtr flower = (Flower*)(GameObj3d*)CreateObject3d(ResourceManager::RES_MODEL_FLOWER);
 		flower->GetNode()->SetTranslate(attacher1->GetTranslate());
+		
+	}
+}
+
+//------------------------------------------------------------------------
+/**
+*Creates all the flowers and tranlates them to its position in the scene
+*/
+void GameManager::CreateEnemyBases(NiNodePtr parent)
+{	
+	for(int i=1;i<6;i++)
+	{
+		stringstream s;
+		s << i;
+		string str1 = "enemyBase" + s.str();
+		char* c = new char[str1.length()];
+		strcpy(c,str1.c_str());
+		NiFixedString s1 = c;
+		NiNode* attacher2 = (NiNode*) parent->GetObjectByName(s1);
+		EnemyBasePtr enemyBase = (EnemyBase*)(GameObj3d*)CreateObject3d(ResourceManager::RES_MODEL_BASE);
+		if(enemyBase)
+		{
+			// Inside here..... 
+		}
+		else
+		{
+			int a = 1; 
+		}
+		enemyBase->GetNode()->SetTranslate(attacher2->GetTranslate());
 	}
 }
 
@@ -248,6 +280,14 @@ GameObj3dPtr GameManager::CreateObject3d(ResourceManager::ResourceType type)
 				obj = 0;
 			}
 			m_lFlowers.AddTail((Flower*)(GameObj3d*)obj);
+			break;
+	case ResourceManager::RES_MODEL_BASE:
+		obj = NiNew EnemyBase;
+			if (!AddObject(obj, mainScene))
+			{
+				obj = 0;
+			}
+			m_lBases.AddTail((EnemyBase*)(GameObj3d*)obj);
 			break;
 	default:
 		return 0;

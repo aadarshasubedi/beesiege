@@ -44,6 +44,8 @@ public:
 	NiTPointerList<int> beeTypesQueue;
 	NiTPointerList<float> beeTimeQueue;	
 	bool hasQueueChanged;
+	bool hasAlphaChanged;
+	float alphaValue;
 	float initialQueueOffset;
 
 protected:
@@ -52,7 +54,8 @@ protected:
 	// creates the PhysX scene
 	bool CreatePhysXScene();
 	// creates screen polygons
-	void CreateScreenPolygon(const char* imageFile,float fLeft,float fTop);
+	void CreateScreenPolygon(const char* imageFile,float fLeft,float fTop, float alpha);
+	void ChangeAlphaOfHeadTexture(const char* imageFile,float fLeft, float fTop, float alpha);
 	//Creates UI Elements
 	bool CreateUIElements();
 	// Creates UI System

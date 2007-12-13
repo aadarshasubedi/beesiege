@@ -80,7 +80,7 @@ void UIManager::createSoldierBee()
 	}
 	else
 	{
-		//you have to wait
+		//show message you have to wait
 	}
 
 }
@@ -102,7 +102,7 @@ void UIManager::createHoneyBee()
 	}
 	else
 	{
-
+		//show message you have to wait
 	}
 }
 
@@ -124,7 +124,7 @@ void UIManager::createHealerBee()
 	}
 	else
 	{
-
+		//show message you have to wait
 	}
 }
 

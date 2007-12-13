@@ -12,6 +12,7 @@
 #include "Level.h"
 #include "ResourceManager.h"
 #include "Flower.h"
+#include "EnemyBase.h"
 
 class GameObj3d;
 NiSmartPointer(GameObj3d);
@@ -89,6 +90,10 @@ public:
 	{
 		return m_lFlowers;
 	}
+	const NiTPointerList<EnemyBasePtr>& GetEnemyBases() const 
+	{
+		return m_lBases;
+	}
 	const float GetDeltaTime() const
 	{
 		return m_fDeltaTime;
@@ -142,11 +147,14 @@ private:
 	void RemoveEnemy(EnemyPtr enemy);
 	// Creatas all the flowers in the scene
 	void CreateFlowers(NiNodePtr parent);
+	// Creates all enemybases in the scene
+	void CreateEnemyBases(NiNodePtr parent);
 
 	// object, agent and enemy lists
 	NiTPointerList<GameObj3dPtr> m_lObjects;
 	NiTPointerList<EnemyPtr>     m_lEnemies;
 	NiTPointerList<FlowerPtr>		 m_lFlowers;
+	NiTPointerList<EnemyBasePtr>		 m_lBases;
 	const NiTPointerList<AgentPtr>*    m_plAgents;
 	
 	// the main queen that the player controls
