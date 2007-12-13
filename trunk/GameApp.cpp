@@ -38,7 +38,7 @@ NiApplication* NiApplication::Create()
  */
 //GameApp::GameApp() : NiApplication("BeeSiege",
 //    DEFAULT_WIDTH, DEFAULT_HEIGHT), m_fLastSimTime(0.0f)
-GameApp::GameApp():NiSample("BeeSiege",DEFAULT_WIDTH, DEFAULT_HEIGHT),m_fLastSimTime(0.0f),hasQueueChanged(false),
+GameApp::GameApp():NiSample("BeeSiege",DEFAULT_WIDTH, DEFAULT_HEIGHT),m_fLastSimTime(0.0f),hasQueueChanged(false),hasAlphaChanged(false),alphaValue(1.0),
 initialQueueOffset(950.0)
 {
 	NiSample::SetMediaPath("../../res/");
@@ -166,9 +166,9 @@ bool GameApp::CreateScene()
     m_fLastSimTime = 0.001f;
 
 	//draw the rectangles for the bees onto the screen
-	CreateScreenPolygon("Textures/honey_bee_smaller.bmp", 20.0f, 60.0f);
-	CreateScreenPolygon("Textures/soldier_bee_smaller.bmp", 20.0f, 110.0f);
-	CreateScreenPolygon("Textures/healer_bee_smaller.bmp", 20.0f,160.0f);
+	CreateScreenPolygon("Textures/honey_bee_smaller.bmp", 20.0f, 60.0f, 1.0f);
+	CreateScreenPolygon("Textures/soldier_bee_smaller.bmp", 20.0f, 110.0f, 1.0f);
+	CreateScreenPolygon("Textures/healer_bee_smaller.bmp", 20.0f,160.0f, 1.0f);
 	/*GetScreenTextures().AddTail(m_spHoneyBeePolygon);
 	GetScreenTextures().AddTail(m_spSoldierBeePolygon);
 	GetScreenTextures().AddTail(m_spHealerBeePolygon);*/
@@ -247,7 +247,7 @@ void GameApp::UpdateFrame()
 	//check whether the bee is to be created now and if it is then remove it from the queue
 	CreateBees();
 	
-	if(hasQueueChanged)
+	//if(hasQueueChanged)
 		UpdateBeeQueue();
 }
 //--------------------------------------------------------------------------- 
@@ -266,30 +266,65 @@ void GameApp::RenderScreenItems()
 */
 void GameApp::UpdateBeeQueue()
 {
-	GetScreenTextures().RemoveAll();
-	CreateScreenPolygon("Textures/honey_bee_smaller.bmp", 20.0f, 60.0f);
-	CreateScreenPolygon("Textures/soldier_bee_smaller.bmp", 20.0f, 110.0f);
-	CreateScreenPolygon("Textures/healer_bee_smaller.bmp", 20.0f,160.0f);
-
 	int queueSize = beeTypesQueue.GetSize();
 	NiTListIterator index = beeTypesQueue.GetHeadPos();
+	//NiTListIterator timeIndex = beeTimeQueue.GetHeadPos();
+
 	float drawOffset = initialQueueOffset;
 	int beeType;
 
-	for(int i = 0;i<queueSize; i++)
+	if(hasAlphaChanged)
 	{
-		beeType = beeTypesQueue.Get(index);
-		if(beeType == ResourceManager::RES_MODEL_BEE)
-			CreateScreenPolygon("Textures/soldier_bee_smaller.bmp", drawOffset, 60.0f);
-		else if(beeType == ResourceManager::RES_MODEL_HONEYBEE)
-			CreateScreenPolygon("Textures/honey_bee_smaller.bmp", drawOffset, 60.0f);
-		else if(beeType == ResourceManager::RES_MODEL_HEALERBEE)
-			CreateScreenPolygon("Textures/healer_bee_smaller.bmp", drawOffset, 60.0f);
-
-		drawOffset -= 50.0;
-		index = beeTypesQueue.GetNextPos(index);
+		if(beeTypesQueue.GetSize() > 0)
+		{
+			if(beeTypesQueue.GetHead() == ResourceManager::RES_MODEL_BEE)
+					ChangeAlphaOfHeadTexture("Textures/soldier_bee_smaller.bmp", drawOffset, 60.0f, alphaValue);
+			else if(beeTypesQueue.GetHead() == ResourceManager::RES_MODEL_HONEYBEE)
+					ChangeAlphaOfHeadTexture("Textures/honey_bee_smaller.bmp", drawOffset, 60.0f, alphaValue);
+			else if(beeTypesQueue.GetHead() == ResourceManager::RES_MODEL_HEALERBEE)
+					ChangeAlphaOfHeadTexture("Textures/healer_bee_smaller.bmp", drawOffset, 60.0f, alphaValue);
+		}
+		hasAlphaChanged = false;
 	}
-	hasQueueChanged = false;
+	
+	if(hasQueueChanged)
+	{
+		GetScreenTextures().RemoveAll();
+		CreateScreenPolygon("Textures/honey_bee_smaller.bmp", 20.0f, 60.0f, 1.0f);
+		CreateScreenPolygon("Textures/soldier_bee_smaller.bmp", 20.0f, 110.0f, 1.0f);
+		CreateScreenPolygon("Textures/healer_bee_smaller.bmp", 20.0f,160.0f, 1.0f);
+		
+		if(beeTypesQueue.GetSize() > 0)
+		{
+			if(beeTypesQueue.GetHead() == ResourceManager::RES_MODEL_BEE)
+				CreateScreenPolygon("Textures/soldier_bee_smaller.bmp", drawOffset, 60.0f, alphaValue);
+			else if(beeTypesQueue.GetHead() == ResourceManager::RES_MODEL_HONEYBEE)
+					CreateScreenPolygon("Textures/honey_bee_smaller.bmp", drawOffset, 60.0f, alphaValue);
+			else if(beeTypesQueue.GetHead() == ResourceManager::RES_MODEL_HEALERBEE)
+					CreateScreenPolygon("Textures/healer_bee_smaller.bmp", drawOffset, 60.0f, alphaValue);
+			drawOffset -= 50.0f;
+			if(beeTypesQueue.GetSize() > 1)
+			{
+				index = beeTypesQueue.GetNextPos(index);
+				for(int i = 1;i<queueSize; i++)
+				{
+					beeType = beeTypesQueue.Get(index);
+					if(beeType == ResourceManager::RES_MODEL_BEE)
+						CreateScreenPolygon("Textures/soldier_bee_smaller.bmp", drawOffset, 60.0f, 1.0f);
+					else if(beeType == ResourceManager::RES_MODEL_HONEYBEE)
+						CreateScreenPolygon("Textures/honey_bee_smaller.bmp", drawOffset, 60.0f, 1.0f);
+					else if(beeType == ResourceManager::RES_MODEL_HEALERBEE)
+						CreateScreenPolygon("Textures/healer_bee_smaller.bmp", drawOffset, 60.0f, 1.0f);
+
+					drawOffset -= 50.0;
+					index = beeTypesQueue.GetNextPos(index);
+				}
+			}
+		}
+		hasQueueChanged = false;
+		hasAlphaChanged = false;
+	}
+
 }
 
 //---------------------------------------------------------------------
@@ -315,6 +350,7 @@ void GameApp::CreateBees()
 			beeTimeQueue.RemovePos(indexTime);
 			i++;
 			hasQueueChanged = true;
+			hasAlphaChanged = false;
 		}
 		else
 		{
@@ -322,6 +358,26 @@ void GameApp::CreateBees()
 			indexType = beeTypesQueue.GetNextPos(indexType);
 		}
 			
+	}
+
+	if(beeTimeQueue.GetSize() > 0)
+	{
+		float timeDiff = beeTimeQueue.GetHead() - m_fAccumTime;
+		if(timeDiff <= 5.0f && timeDiff > 0.0f)
+		{
+			/*for(float i = 5; i>=1; i--)
+			{
+				if((i/timeDiff) == 1.0f)
+				{*/
+					hasAlphaChanged = true;
+					alphaValue = timeDiff*0.1;
+					//break;
+				//}
+					
+			//}
+		}
+		else
+			alphaValue = 1.0;
 	}
 }
 //--------------------------------------------------------------------- 
@@ -438,12 +494,38 @@ bool GameApp::CreatePhysXScene()
  * 
  * Creates a screen texture
  */
-void GameApp::CreateScreenPolygon(const char* imageFile,float fLeft, float fTop)
+void GameApp::CreateScreenPolygon(const char* imageFile,float fLeft, float fTop, float alpha)
 {
-	NiSourceTexture* pkTexture = NiSourceTexture::Create(
-    NiApplication::ConvertMediaFilename(imageFile));
+	NiSourceTexture* pkTexture = NiSourceTexture::Create(NiApplication::ConvertMediaFilename(imageFile));
+	// We want the screen texture to display within the safe zone, so we first get the safe
+    // zone for the renderer 
+    unsigned int uiWidth, uiHeight;
+    NiRect<float> kSafeZone = m_spRenderer->GetSafeZone();
+    m_spRenderer->ConvertFromNDCToPixels(kSafeZone.m_right, kSafeZone.m_bottom,
+        uiWidth, uiHeight);
 
-    // We want the screen texture to display within the safe zone, so we first get the safe
+    NiScreenTexture* pkScreenTexture = NiNew NiScreenTexture(pkTexture);
+	//pkScreenTexture->SetApplyMode(NiTexturingProperty::APPLY_DECAL);
+    pkScreenTexture->AddNewScreenRect(fTop, uiWidth - fLeft - pkTexture->GetWidth(),
+        pkTexture->GetWidth(), pkTexture->GetHeight(), 0, 0);
+
+	
+
+    GetScreenTextures().AddTail(pkScreenTexture);
+	
+	pkScreenTexture->SetApplyMode(NiTexturingProperty::APPLY_DECAL);
+	pkScreenTexture->GetScreenRect(0).m_kColor.a = alpha;
+}
+
+//------------------------------------------------------------------------ 
+/** 
+ * 
+ * Creates a screen texture
+ */
+void GameApp::ChangeAlphaOfHeadTexture(const char* imageFile,float fLeft, float fTop, float alpha)
+{
+	NiSourceTexture* pkTexture = NiSourceTexture::Create(NiApplication::ConvertMediaFilename(imageFile));
+	// We want the screen texture to display within the safe zone, so we first get the safe
     // zone for the renderer 
     unsigned int uiWidth, uiHeight;
     NiRect<float> kSafeZone = m_spRenderer->GetSafeZone();
@@ -454,7 +536,27 @@ void GameApp::CreateScreenPolygon(const char* imageFile,float fLeft, float fTop)
     pkScreenTexture->AddNewScreenRect(fTop, uiWidth - fLeft - pkTexture->GetWidth(),
         pkTexture->GetWidth(), pkTexture->GetHeight(), 0, 0);
 
-    GetScreenTextures().AddTail(pkScreenTexture);
+	NiTListIterator headTex = GetScreenTextures().GetHeadPos();
+	//find the 4th texture = hackiness!!!
+	if(GetScreenTextures().GetSize() > 3)
+	{
+		for(int i = 0; i <3; i++)
+			headTex = GetScreenTextures().GetNextPos(headTex);
+		
+		GetScreenTextures().RemovePos(headTex);
+
+		headTex = GetScreenTextures().GetHeadPos();
+		for(int i = 0; i <2; i++)
+			headTex = GetScreenTextures().GetNextPos(headTex);
+		GetScreenTextures().InsertAfter(headTex,pkScreenTexture);
+	}
+	else
+	{
+		GetScreenTextures().AddTail(pkScreenTexture);
+	}
+
+	pkScreenTexture->SetApplyMode(NiTexturingProperty::APPLY_DECAL);
+	pkScreenTexture->GetScreenRect(0).m_kColor.a = alpha;
 }
 //------------------------------------------------------------------------ 
 /** 
