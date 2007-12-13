@@ -6,6 +6,7 @@
 #include "StateEnemyWander.h"
 #include "StateLocustAttack.h"
 #include "StateDragonflyAttack.h"
+#include "StateBossAttack.h"
 #include "GameManager.h"
 #include <NiTPointerList.h>
 #include "Bee.h"
@@ -27,6 +28,7 @@ FSMEnemyAIControl::FSMEnemyAIControl(Enemy* enemy) : FSMAIControl((GameCharacter
 	m_spMachine->AddState(defaultState, FSM_ENEMY_WANDER);
 	m_spMachine->AddState(NiNew StateLocustAttack(this), FSM_ENEMY_LOCUST_ATTACK);
 	m_spMachine->AddState(NiNew StateDragonflyAttack(this), FSM_ENEMY_DRAGONFLY_ATTACK);
+	m_spMachine->AddState(NiNew StateBossAttack(this), FSM_ENEMY_BOSS_ATTACK);
 	m_spMachine->SetDefaultState(defaultState);
 }
 //-----------------------------------------------------------------------
@@ -85,6 +87,51 @@ GameCharacter* FSMEnemyAIControl::IsTargetAtProximity(float radius)
 			NiIsKindOf(Bee, target) ||
 			NiIsKindOf(HealerBee, target)||
 			NiIsKindOf(HoneyBee, target))
+		{
+			GameCharacter* current = (GameCharacter*)target;
+			distance = current->GetActor()->getGlobalPosition() -
+					   curPos;
+			distanceMag = distance.magnitude();
+			if (distanceMag < minDistance)
+			{
+				minDistance = distanceMag;
+				closest = current;
+			}			
+		}				
+
+		it = targets.GetNextPos(it);
+	}
+
+	return closest;
+
+}
+
+//-----------------------------------------------------------------------
+/**
+* Searches for bees in a radius
+* @param delta time
+*/
+GameCharacter* FSMEnemyAIControl::IsBeeAtProximity(float radius)
+{
+	float minDistance = radius + 1.0f;
+	GameCharacter* closest = 0;
+	// find min distance
+	NxVec3 curPos = GetOwner()->GetActor()->getGlobalPosition();
+	// check in game objects for targets
+	NxVec3 distance;
+	float distanceMag;
+	
+	const NiTPointerList<GameObj3dPtr>& targets = m_pGameManager->GetObjects();
+	if (targets.IsEmpty())
+	{
+		return 0;
+	}
+
+	NiTListIterator it = targets.GetHeadPos();
+	for (int i=0; i<targets.GetSize(); i++)
+	{
+		GameObj3d* target = targets.Get(it);
+		if (NiIsKindOf(Bee, target))
 		{
 			GameCharacter* current = (GameCharacter*)target;
 			distance = current->GetActor()->getGlobalPosition() -

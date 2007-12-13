@@ -25,7 +25,7 @@ public:
 	{
 		return m_spNode;
 	} 
-	NiPhysXPropPtr GetProp() const 
+	NiPhysXPropPtr GetTheProp() const 
 	{
 		return m_spProp; 
 	}

@@ -18,7 +18,8 @@ NiImplementRTTI(ArmorAttribute,CharacterAttribute);
 */
 ArmorAttribute::ArmorAttribute(GameCharacter *owner)
 : CharacterAttribute(owner), m_fArmor(0.0f),
-m_fcMaxQueenDistance(ConfigurationManager::Get()->bee_armorEffectiveDistance)
+m_fcMaxQueenDistance(ConfigurationManager::Get()->bee_armorEffectiveDistance),
+m_fcArmorCoefficient(ConfigurationManager::Get()->bee_armorCoefficient)
 {
 }
 //-------------------------------------------------------------------------
@@ -39,17 +40,14 @@ void ArmorAttribute::Update(float fTime)
 	NxVec3 queenPos = GameManager::Get()->GetQueen()->GetActor()->getGlobalPosition();
 	NxVec3 ownerPos = GetOwner()->GetActor()->getGlobalPosition();
 	float distance = NxVec3(queenPos - ownerPos).magnitude();
-	m_fArmor = (m_fcMaxQueenDistance - distance) * 0.01f;
-
-	// if armor is negative then reduce health
-	/*
-	if (m_fArmor < 0.0f)
+    if (distance < 1.0f)
 	{
-		HealthAttribute* health = (HealthAttribute*)GetOwner()->GetAttribute(GameCharacter::ATTR_HEALTH);
-		if (health)
-		{
-			health->ReduceHealth(1.0f, -m_fArmor * 0.01f);
-		}
+		distance = 1.0f;
 	}
-	*/
+
+	m_fArmor = distance < m_fcMaxQueenDistance ? 
+		(m_fcMaxQueenDistance / distance) * m_fcArmorCoefficient :
+		0.0f;
+	
+
 }

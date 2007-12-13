@@ -355,7 +355,13 @@ bool ConfigurationManager::ReadCharacters(TiXmlElement* node)
 	if (!ReadHealer(node->FirstChildElement("healer")))
 		return false;
 
+	if (!ReadHoneyBee(node->FirstChildElement("honeyBee")))
+		return false;
+
 	if (!ReadDragonFly(node->FirstChildElement("dragonFly")))
+		return false;
+
+	if (!ReadBoss(node->FirstChildElement("boss")))
 		return false;
 
 	return true;
@@ -375,8 +381,10 @@ bool ConfigurationManager::ReadBee(TiXmlElement* node)
 	if (ReadFloat(bee_distanceFromTarget, node, "distanceFromTarget") &&
 		ReadFloat(bee_initialHealth, node, "initialHealth") &&
 		ReadFloat(bee_armorEffectiveDistance, node, "armorEffectiveDistance") &&
+		ReadFloat(bee_armorCoefficient, node, "armorCoefficient") &&
 		ReadFloat(bee_damageEffectiveDistance, node, "damageEffectiveDistance")&&
-		ReadFloat(bee_damageRadius, node, "damageRadius"))
+		ReadFloat(bee_damageRadius, node, "damageRadius") &&
+		ReadFloat(bee_damage, node, "damage"))
 	{
 		return true;
 	}
@@ -454,6 +462,27 @@ bool ConfigurationManager::ReadHealer(TiXmlElement* node)
 }
 //------------------------------------------------------------------------ 
 /** 
+ * Reads HoneyBees
+ * 
+ * @param node
+ * 
+ * @return bool
+ */ 
+bool ConfigurationManager::ReadHoneyBee(TiXmlElement* node)
+{
+	if (!node) return false;
+
+	if (ReadFloat(honeyBee_initialHealth, node, "initialHealth") &&
+		ReadFloat(honeyBee_duration, node, "duration")&&
+		ReadFloat(honeyBee_gatherAmount, node, "gatherAmount"))
+	{
+		return true;
+	}
+
+	return false;
+}
+//------------------------------------------------------------------------ 
+/** 
  * Reads Dragonflies
  * 
  * @param node
@@ -468,6 +497,28 @@ bool ConfigurationManager::ReadDragonFly(TiXmlElement* node)
 		ReadFloat(dragonfly_viewRadius, node, "viewRadius")&&
 		ReadFloat(dragonfly_damageRadius, node, "damageRadius")&&
 		ReadFloat(dragonfly_damage, node, "damage"))
+	{
+		return true;
+	}
+
+	return false;
+}
+//------------------------------------------------------------------------ 
+/** 
+ * Reads Bosses
+ * 
+ * @param node
+ * 
+ * @return bool
+ */ 
+bool ConfigurationManager::ReadBoss(TiXmlElement* node)
+{
+	if (!node) return false;
+
+	if (ReadFloat(boss_initialHealth, node, "initialHealth") &&
+		ReadFloat(boss_viewRadius, node, "viewRadius")&&
+		ReadFloat(boss_damageRadius, node, "damageRadius")&&
+		ReadFloat(boss_damage, node, "damage"))
 	{
 		return true;
 	}

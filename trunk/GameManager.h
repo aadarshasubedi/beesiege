@@ -131,6 +131,18 @@ public:
 	{
 		m_eSelectionMode = mode;
 	}
+
+	void QueenDead()
+	{
+		m_bIsQueenAlive = false;
+	}
+	const bool IsGameOver() const
+	{
+		return (!m_bIsQueenAlive || m_bWin);
+	}
+
+
+	void RestartGame();
 private:
 
 	// private ctor / dtor
@@ -187,6 +199,10 @@ private:
 	Flower* m_pCurrentFlowerTarget;
 	// selection mode
 	SelectionMode m_eSelectionMode;
+	// is the queen alive
+	bool m_bIsQueenAlive;
+	// did the player win
+	bool m_bWin;
 	
 };
 

@@ -18,9 +18,12 @@
 *	Ctor
 */
 StateHoneyBeeGather::StateHoneyBeeGather(FSMAIControl* control, int type) : 
-	  FSMState(control, type), m_pTarget(0), m_fcHoneyToken(1.0f),
-	  m_fcGatherTime(10.0), m_fGatherTimer(m_fcGatherTime), m_fGatherDelayTimer(0.0f)
+	  FSMState(control, type), m_pTarget(0), 
+	  m_fcHoneyToken(ConfigurationManager::Get()->honeyBee_gatherAmount),
+	  m_fcGatherTime(ConfigurationManager::Get()->honeyBee_duration),
+	  m_fGatherTimer(m_fcGatherTime), m_fGatherDelayTimer(0.0f)
 {
+	
 }
 //----------------------------------------------------------------------
 /**

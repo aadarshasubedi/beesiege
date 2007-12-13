@@ -75,7 +75,7 @@ void UIManager::createSoldierBee()
 			timerStart = gameMgr->GetGameApp()->GetAccumTime();
 
 		gameMgr->GetGameApp()->beeTypesQueue.AddTail(ResourceManager::RES_MODEL_BEE);
-		gameMgr->GetGameApp()->beeTimeQueue.AddTail(timerStart + 5.0f);
+		gameMgr->GetGameApp()->beeTimeQueue.AddTail(timerStart + 0.1f);
 		gameMgr->GetGameApp()->hasQueueChanged = true;
 	}
 	else

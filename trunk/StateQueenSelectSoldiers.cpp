@@ -50,6 +50,8 @@ void StateQueenSelectSoldiers::Enter()
 */
 void StateQueenSelectSoldiers::Update(float fTime)
 {
+	IsOwnerDead();
+
 	FSMQueenAIControl* controller = (FSMQueenAIControl*)m_control;
 	NIASSERT(controller);
 

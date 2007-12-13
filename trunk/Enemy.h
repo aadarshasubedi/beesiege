@@ -3,6 +3,8 @@
 
 #include "GameCharacter.h"
 
+class EnemyBase;
+
 class Enemy : public GameCharacter
 {
 	NiDeclareRTTI;
@@ -41,6 +43,23 @@ public:
 		return m_fViewRadius;
 	}
 
+	const bool IsBaseAlive() const
+	{
+		return m_bIsBaseAlive;
+	}
+	void SetBaseAlive (bool value)
+	{
+		m_bIsBaseAlive = value;
+	}
+
+	EnemyBase* GetBase() const
+	{
+		return m_pBase;;
+	}
+	void SetBase (EnemyBase* base)
+	{
+		m_pBase = base;
+	}
 protected:
 
 	// extra updates and initializations
@@ -55,6 +74,12 @@ protected:
 
 	// the enemy's view radius
 	float m_fViewRadius;
+
+	// is the enemy's base still there
+	bool m_bIsBaseAlive;
+
+	// the enemy's base
+	EnemyBase* m_pBase;
 
 };
 

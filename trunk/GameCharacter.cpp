@@ -6,7 +6,7 @@
 #include "GameManager.h"
 #include "FSMAIControl.h"
 #include "HealthAttribute.h"
-
+#include "Sound.h"
 //----------------------------------------------------------------------
 // implements RTTI
 NiImplementRTTI(GameCharacter, GameObj3d);
@@ -17,7 +17,8 @@ NiImplementRTTI(GameCharacter, GameObj3d);
  * @param type
  */
 GameCharacter::GameCharacter(ResourceManager::ResourceType type) : GameObj3d(type),																								   
-																   m_pActor(0)
+																   m_pActor(0),
+																   m_fMaxHealth(1.0f)
 {
 }
 //------------------------------------------------------------------------ 
@@ -27,8 +28,28 @@ GameCharacter::GameCharacter(ResourceManager::ResourceType type) : GameObj3d(typ
  */
 GameCharacter::~GameCharacter()
 {
+	Sound* snd = (Sound*)GetAttribute(ATTR_SOUND_DEFAULT);
+	if (snd)
+		snd->Stop();
+	snd = (Sound*)GetAttribute(ATTR_SOUND_1);
+	if (snd)
+		snd->Stop();
+	snd = (Sound*)GetAttribute(ATTR_SOUND_2);
+	if (snd)
+		snd->Stop();
+	snd = (Sound*)GetAttribute(ATTR_SOUND_3);
+	if (snd)
+		snd->Stop();
+
 	m_tAttributes.RemoveAll();
-	healthBill = 0;
+	
+	if (healthBill)
+	{
+		NiNode* parent = (NiNode*)healthBill->GetParent();
+		parent->DetachChild(healthBill);
+		healthBill = 0;
+	}
+
 }
 //------------------------------------------------------------------------ 
 /** 
@@ -50,8 +71,8 @@ void GameCharacter::DoExtraUpdates(float fTime)
 	HealthAttribute* h = ((HealthAttribute*)GetAttribute(GameCharacter::ATTR_HEALTH));
 	if (h)
 	{
-		float health = h->GetHealth();
-		SetEmmitanceForNode((NiAVObject*)healthBill, NiColor(1.0 - health/10.0f,health/10.0f,0.0));
+		float health = h->GetHealth() / m_fMaxHealth;
+		SetEmmitanceForNode((NiAVObject*)healthBill, NiColor(1.0 - health,health,0.0));
 	}
 }
 //------------------------------------------------------------------------ 

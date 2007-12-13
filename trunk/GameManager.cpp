@@ -12,6 +12,7 @@
 #include "HoneyBee.h"
 #include "Locust.h"
 #include "Dragonfly.h"
+#include "Boss.h"
 #include "ConfigurationManager.h"
 #include "TextManager.h"
 #include "LevelManager.h"
@@ -28,7 +29,8 @@ using namespace std;
 GameManager::GameManager() : 
 m_fDeltaTime(0.0f), m_plAgents(0), m_pCurrentTarget(0),
 m_fKillingRate(0.0f), m_fKillCount(0.0f), m_fLastKillTime(0.0f),
-m_spAmbientSounds(0),m_pCurrentFlowerTarget(0), m_eSelectionMode(SELECTION_SOLDIERS)
+m_spAmbientSounds(0),m_pCurrentFlowerTarget(0), m_eSelectionMode(SELECTION_SOLDIERS),
+m_bIsQueenAlive(true),m_bWin(false)
 {
 }
 //------------------------------------------------------------------------ 
@@ -84,7 +86,6 @@ bool GameManager::Init(NiNodePtr parent, NiPhysXScenePtr physXScene, NiSample* a
 		return false;
 	}
 	m_spQueen->GetActor()->setGlobalPosition(NxVec3(0.0, 100.0, -200.0));
-
 
 	if (!LevelManager::Get()->LoadLevel(1))
 	{
@@ -170,6 +171,17 @@ void GameManager::CreateEnemyBases(NiNodePtr parent)
  */
 void GameManager::UpdateAll(float fTime)
 {
+	if (!m_bIsQueenAlive)
+	{
+		TextManager::Get()->UpdateText(TextManager::STRING_GAMEOVER,"Game Over!!!\nRestart?\n(Press Y for yes or Esc for no)");
+		return;
+	}
+	else if (m_bWin)
+	{
+		TextManager::Get()->UpdateText(TextManager::STRING_WIN,"You Win!!!\nRestart?\n(Press Y for yes or Esc for no)");
+		return;
+	}
+
 	m_fDeltaTime = m_pGameApplication->GetFrameTime();
 	NiTListIterator it = m_lObjects.GetHeadPos();
 	int size = m_lObjects.GetSize();
@@ -191,29 +203,23 @@ void GameManager::UpdateAll(float fTime)
 			{
 				GetQueen()->RemoveHealer((HealerBee*)(GameObj3d*)obj);
 			}
+			else if (NiIsKindOf(HoneyBee, obj))
+			{
+				GetQueen()->RemoveGatherer((HoneyBee*)(GameObj3d*)obj);
+			}
 			RemoveObject(obj);
-			it = m_lObjects.GetNextPos(it);
+			m_lObjects.RemovePos(it);			
 			continue;
 		}
 		obj->Update(fTime);
 		it = m_lObjects.GetNextPos(it);
 	}
 
-	// if queen goes too high then increse fog significantly so 
-	// the player cannot see anything. This will make him want to 
-	// go back to a normal height where we want him.
+	// update fog
 	NiFogProperty* fog = (NiFogProperty*)m_pGameApplication->GetScene()->GetProperty(NiProperty::FOG);
 	if (fog)
 	{
-		float y = GetQueen()->GetActor()->getGlobalPosition().y; 
-		if ( y >= m_fMaxPlayerHeight)
-		{
-			//fog->SetDepth(y*y*y/m_fFogScaleValue);	
-		}
-		else
-		{
-			fog->SetDepth(m_fDefaultFogDepth);
-		}
+		fog->SetDepth(m_fDefaultFogDepth);
 	}
 }
 //------------------------------------------------------------------------ 
@@ -273,6 +279,14 @@ GameObj3dPtr GameManager::CreateObject3d(ResourceManager::ResourceType type)
 			}
 			m_lEnemies.AddTail((Enemy*)(GameObj3d*)obj);
 			break;
+	case ResourceManager::RES_MODEL_BOSS:
+			obj = NiNew Boss;
+			if (!AddObject(obj, mainScene, physxScene))
+			{
+				obj = 0;
+			}
+			m_lEnemies.AddTail((Enemy*)(GameObj3d*)obj);
+			break;
 	case ResourceManager::RES_MODEL_FLOWER:
 		obj = NiNew Flower;
 			if (!AddObject(obj, mainScene))
@@ -308,10 +322,6 @@ void GameManager::RecordKill()
 
 	m_fKillCount += 1.0f;
 	m_fKillingRate += (killingInterval - m_fKillingRate)/ m_fKillCount;
-
-	char rate[50];
-	sprintf_s(rate, "rate: %f", m_fKillingRate);
-	TextManager::Get()->UpdateText(TextManager::STRING_KILLINGRATE, rate); 
 }
 //------------------------------------------------------------------------ 
 /** 
@@ -362,40 +372,24 @@ bool GameManager::AddObject(GameObj3dPtr object, NiNodePtr parent, NiPhysXSceneP
  */
 void GameManager::RemoveObject(GameObj3dPtr object)
 {
-	if (!m_lObjects.IsEmpty())
+	if (!object) return;
+	// remove physx prop and actor from scene
+	NiPhysXPropPtr prop = object->GetTheProp();
+	if (prop)
 	{
-		// remove physx prop and actor from scene
-		NiPhysXPropPtr prop = object->GetProp();
-		if (prop)
+		prop->DetachSceneCallback(m_pGameApplication->GetPhysXScene());
+		if (NiIsKindOf(GameCharacter, object))
 		{
-			prop->DetachSceneCallback(m_pGameApplication->GetPhysXScene());
-			if (NiIsKindOf(GameCharacter, object))
-			{
-				((GameCharacter*)(GameObj3d*)object)->ResetActor(0);
-			}
+			((GameCharacter*)(GameObj3d*)object)->ResetActor(0);
 		}
-
-		// remove scene node
-		NiNode* parent = object->GetNode()->GetParent();
-		if (parent)
-			parent->DetachChild(object->GetNode());
-
-		m_lObjects.Remove(object);
 	}
+
+	// remove scene node
+	NiNode* parent = object->GetNode()->GetParent();
+	if (parent)
+		parent->DetachChild(object->GetNode());
+
 	
-}
-//------------------------------------------------------------------------
-/** 
- * Removes an agent from the list
- * 
- * @param agent
- *//*
-void GameManager::RemoveAgent(AgentPtr agent)
-{
-	if (!m_lAgents.IsEmpty())
-	{
-		m_lAgents.Remove(agent);
-	}
 	
 }
 //------------------------------------------------------------------------
@@ -410,4 +404,75 @@ void GameManager::RemoveEnemy(EnemyPtr enemy)
 	{
 		m_lEnemies.Remove(enemy);
 	}
+}
+//------------------------------------------------------------------------
+/** 
+ * Restarts game
+ * 
+ */
+void GameManager::RestartGame()
+{
+	if (m_spAmbientSounds)
+	{
+		m_spAmbientSounds->Stop();
+	}
+
+	m_pCurrentTarget = 0;
+	m_pCurrentFlowerTarget = 0;
+	NiTListIterator it = m_lObjects.GetHeadPos();
+	int size = m_lObjects.GetSize();
+	for (int i=0; i<size; i++)
+	{
+		if (NiIsKindOf(Queen, m_lObjects.Get(it)) ||
+			NiIsKindOf(Flower, m_lObjects.Get(it)) ||
+			NiIsKindOf(EnemyBase, m_lObjects.Get(it)))
+		{
+			it = m_lObjects.GetNextPos(it);
+			continue;
+		}
+		else
+		{
+			RemoveObject(m_lObjects.Get(it));
+			m_lObjects.RemovePos(it);
+		}
+	}
+
+	m_spQueen->Reset();
+	m_spQueen->GetActor()->setGlobalPosition(NxVec3(0.0, 100.0, -200.0));
+
+	m_lEnemies.RemoveAll();
+	m_plAgents = 0;
+	
+	it = m_lFlowers.GetHeadPos();
+	size = m_lFlowers.GetSize();
+	for (int i=0; i<size; i++)
+	{
+		m_lFlowers.Get(it)->ResetHoney();
+	}
+
+	/*
+	it = m_lEnemyBases.GetHeadPos();
+	size = m_lEnemyBases.GetSize();
+	for (int i=0; i<size; i++)
+	{
+		m_lEnemyBases.Get(it)->Reset();
+	}
+	*/
+
+	if (m_spAmbientSounds)
+	{
+		m_spAmbientSounds->Play();
+	}
+
+	m_bIsQueenAlive = true;
+	m_bWin = false;
+
+	m_fKillingRate = 0.0f;
+	
+	m_fKillCount = 0.0f;
+
+	m_fLastKillTime = 0.0f;
+
+	TextManager::Get()->UpdateText(TextManager::STRING_GAMEOVER,"");
+	TextManager::Get()->UpdateText(TextManager::STRING_WIN,"");
 }

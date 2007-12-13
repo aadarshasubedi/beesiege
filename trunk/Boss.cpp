@@ -1,8 +1,8 @@
 /**
- * Enemy: DragonFly
+ * Enemy: Boss
  */
 
-#include "DragonFly.h"
+#include "Boss.h"
 #include "GameManager.h"
 #include "ResourceManager.h"
 #include "FSMEnemyAIControl.h"
@@ -11,13 +11,13 @@
 #include "Sound.h"
 //----------------------------------------------------------------------
 // implements RTTI
-NiImplementRTTI(DragonFly, Enemy);
+NiImplementRTTI(Boss, Enemy);
 //------------------------------------------------------------------------ 
 /** 
  * Ctor
  * 
  */
-DragonFly::DragonFly() : Enemy(ResourceManager::RES_MODEL_DRAGONFLY)
+Boss::Boss() : Enemy(ResourceManager::RES_MODEL_BOSS)
 					
 {
 }
@@ -26,9 +26,9 @@ DragonFly::DragonFly() : Enemy(ResourceManager::RES_MODEL_DRAGONFLY)
  * Dtor
  * 
  */
-DragonFly::~DragonFly()
+Boss::~Boss()
 {
-
+	int a=1;
 }
 //------------------------------------------------------------------------ 
 /** 
@@ -36,7 +36,7 @@ DragonFly::~DragonFly()
  * 
  * @param fTime
  */
-void DragonFly::DoExtraUpdates(float fTime)
+void Boss::DoExtraUpdates(float fTime)
 {
 	Enemy::DoExtraUpdates(fTime);
 }
@@ -47,20 +47,20 @@ void DragonFly::DoExtraUpdates(float fTime)
  * 
  * @return bool
  */
-bool DragonFly::DoExtraInits()
+bool Boss::DoExtraInits()
 {
 	if (!Enemy::DoExtraInits())
 	{
 		return false;
 	}
 
-	m_fViewRadius = ConfigurationManager::Get()->dragonfly_viewRadius;
+	m_fViewRadius = ConfigurationManager::Get()->boss_viewRadius;
 
 	// add a controller
 	AddAttribute(GameCharacter::ATTR_CONTROLLER, NiNew FSMEnemyAIControl(this));
 	// set initial health
 	HealthAttribute* health = (HealthAttribute*)GetAttribute(GameCharacter::ATTR_HEALTH);
-	m_fMaxHealth = ConfigurationManager::Get()->dragonfly_initialHealth;
+	m_fMaxHealth = ConfigurationManager::Get()->boss_initialHealth;
 	if (health)
 		health->Reset(m_fMaxHealth);
 	
@@ -75,8 +75,8 @@ bool DragonFly::DoExtraInits()
 	AddAttribute(GameCharacter::ATTR_SOUND_1, (CharacterAttribute*) ResourceManager::Get()->GetSound(
 		ResourceManager::RES_SOUND_LOCUST_DYING, this));
 
-	m_pActor->setLinearDamping(5.0f);
-	m_pActor->setAngularDamping(5.0f);
+	m_pActor->setLinearDamping(8.0f);
+	m_pActor->setAngularDamping(8.0f);
 
 	return true;
 }

@@ -9,6 +9,7 @@
 #include "Bee.h"
 #include "HealerBee.h"
 #include "HoneyBee.h"
+#include "Queen.h"
 //------------------------------------------------------
 /**
 * Ctor
@@ -44,19 +45,28 @@ bool FSMState::IsOwnerDead()
 		if (m_pOwnerHealth->GetHealth() <= 0.0f)
 		{
 			GameCharacter* owner = m_control->GetOwner();
-			owner->SetActive(false);
-			if (NiIsKindOf(Bee, owner))
+			
+			if (NiIsKindOf(Queen, owner))
 			{
-				m_pGameManager->GetQueen()->RemoveSoldier((Bee*)owner);
+				m_pGameManager->QueenDead();
 			}
-			else if (NiIsKindOf(HealerBee, owner))
+			else
 			{
-				m_pGameManager->GetQueen()->RemoveHealer((HealerBee*)owner);
+				owner->SetActive(false);
+				if (NiIsKindOf(Bee, owner))
+				{
+					m_pGameManager->GetQueen()->RemoveSoldier((Bee*)owner);
+				}
+				else if (NiIsKindOf(HealerBee, owner))
+				{
+					m_pGameManager->GetQueen()->RemoveHealer((HealerBee*)owner);
+				}
+				else if (NiIsKindOf(HoneyBee, owner))
+				{
+					m_pGameManager->GetQueen()->RemoveGatherer((HoneyBee*)owner);
+				}
 			}
-			else if (NiIsKindOf(HoneyBee, owner))
-			{
-				m_pGameManager->GetQueen()->RemoveGatherer((HoneyBee*)owner);
-			}
+			
 			return true;
 		}
 	}

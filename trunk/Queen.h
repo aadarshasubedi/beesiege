@@ -26,6 +26,9 @@ public:
 	void AddGatherer (HoneyBeePtr gatherer);
 	void RemoveGatherer (HoneyBeePtr gatherer);
 
+	// reset queen
+	void Reset();
+
 	// getters / setters
 	const NiTPointerList<BeePtr>& GetSoldiers() const
 	{

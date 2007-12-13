@@ -57,7 +57,8 @@ bool HealerBee::DoExtraInits()
 
 	// add a health attribute
 	HealthAttributePtr health = NiNew HealthAttribute(this);
-	health->Reset(ConfigurationManager::Get()->healer_initialHealth);
+	m_fMaxHealth = ConfigurationManager::Get()->healer_initialHealth;
+	health->Reset(m_fMaxHealth);
 	AddAttribute(GameCharacter::ATTR_HEALTH, (CharacterAttribute*)health);
 	// add an armor attribute
 	AddAttribute(GameCharacter::ATTR_ARMOR, NiNew ArmorAttribute(this));

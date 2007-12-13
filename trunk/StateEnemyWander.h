@@ -23,7 +23,8 @@ private:
 	enum AIControlType
 	{
 		LOCUST_AI_CONTROL,
-		DRAGONFLY_AI_CONTROL		
+		DRAGONFLY_AI_CONTROL,
+		BOSS_AI_CONTROL
 	};
 
 	AIControlType m_eType;

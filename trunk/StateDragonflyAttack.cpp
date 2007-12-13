@@ -5,6 +5,7 @@
 #include "StateEnemyWander.h"
 #include "FSMMachine.h"
 #include "GameManager.h"
+#include "EnemyBase.h"
 #include "FSMEnemyAIControl.h"
 #include "Seek.h"
 #include "HealthAttribute.h"
@@ -87,10 +88,26 @@ FSMState* StateDragonflyAttack::CheckTransitions(float fTime)
 		// dead so record a 
 		// kill for the player
 		GameManager::Get()->RecordKill();
+		((Enemy*)controller->GetOwner())->GetBase()->IncreaseKilled();
 		if (GameManager::Get()->GetCurrentTarget() == m_control->GetOwner())
 		{
 			GameManager::Get()->SetCurrentTarget(0);
 		}
+	}
+	// if the boss of the enemy's base is dead then die 
+	else if (!((Enemy*)controller->GetOwner())->GetBase()->IsBossAlive())
+	{
+		controller->GetOwner()->SetActive(false);
+		controller->PlayDyingSound();
+		// dead so record a 
+		// kill for the player
+		m_pGameManager->RecordKill();
+		if (m_pGameManager->GetCurrentTarget() == controller->GetOwner())
+		{
+			m_pGameManager->SetCurrentTarget(0);
+		}
+
+		((Enemy*)controller->GetOwner())->GetBase()->IncreaseKilled();
 	}
 	else if (!m_pTarget)
 	{

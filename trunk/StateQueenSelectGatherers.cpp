@@ -46,6 +46,8 @@ void StateQueenSelectGatherers::Enter()
 */
 void StateQueenSelectGatherers::Update(float fTime)
 {
+	IsOwnerDead();
+
 	FSMQueenAIControl* controller = (FSMQueenAIControl*)m_control;
 	NIASSERT(controller);
 

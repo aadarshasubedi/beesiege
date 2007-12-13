@@ -25,13 +25,13 @@ public:
 	
 private:
 	
-	// the locust's target
+	// the dragonfly's target
 	GameCharacter* m_pTarget;
-	// the locust's view radius
+	// the dragonfly's view radius
 	float m_fViewRadius;
-	// the locust's damage radius
+	// the dragonfly's damage radius
 	float m_fDamageRadius;
-	// the locust's damage modifier
+	// the dragonfly's damage modifier
 	float m_fDamage;
 	// the target's health attribute
 	HealthAttribute* m_pTargetHealth;
