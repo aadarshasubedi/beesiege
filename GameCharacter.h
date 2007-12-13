@@ -57,6 +57,7 @@ protected:
 
 	// health billboard (debugging)
 	NiNodePtr healthBill;
+	float m_fMaxHealth;
 };
 
 NiSmartPointer(GameCharacter);

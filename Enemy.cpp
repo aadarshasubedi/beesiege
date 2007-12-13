@@ -14,7 +14,8 @@ NiImplementRTTI(Enemy, GameCharacter);
  * 
  */
 Enemy::Enemy(ResourceManager::ResourceType type) :
-GameCharacter(type), m_bIsAttackStrong(false), m_fViewRadius(0.0f)
+GameCharacter(type), m_bIsAttackStrong(false), m_fViewRadius(0.0f),
+m_bIsBaseAlive(true),m_pBase(0)
 					
 {
 }

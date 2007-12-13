@@ -7,6 +7,7 @@
 #include "ResourceManager.h"
 #include "HealthAttribute.h"
 #include "ConfigurationManager.h"
+#include <NxScene.h>
 //----------------------------------------------------------------------
 // implements RTTI
 NiImplementRTTI(Queen, GameCharacter);
@@ -100,6 +101,40 @@ void Queen::RemoveGatherer(HoneyBeePtr gatherer)
 	m_lGatherers.Remove(gatherer);
 }
 //------------------------------------------------------------------------ 
+/**
+* Resets queen
+*/
+void Queen::Reset()
+{
+	m_lSoldiers.RemoveAll();
+	m_lHealers.RemoveAll();
+	m_lGatherers.RemoveAll();
+
+	m_bIssuedSelectSoldiers = false;
+	m_bIssuedSelectGatherers = false;
+	m_bIssuedAttackEnemy = false;
+	m_bIssuedGather = false;
+	m_bIssuedTargetEnemy = false;
+	m_bIssuedMoveForward = false;
+	m_bIssuedMoveBackward = false;
+	m_bIssuedMoveLeft = false;
+	m_bIssuedMoveRight = false;
+	m_bIssuedMoveVertical = false;
+	m_bIssuedRotate = false;
+	
+	m_fHoney = 0.0f;
+
+	HealthAttribute* health = (HealthAttribute*)GetAttribute(GameCharacter::ATTR_HEALTH);
+	if (health)
+	{
+		health->Reset(m_fMaxHealth);
+	}
+
+	m_tAttributes.RemoveAt(GameCharacter::ATTR_CONTROLLER);
+	// add a controller
+	AddAttribute(GameCharacter::ATTR_CONTROLLER, NiNew FSMQueenAIControl(this));
+}
+//------------------------------------------------------------------------ 
 /** 
  * Does extra updates
  * 
@@ -125,7 +160,8 @@ bool Queen::DoExtraInits()
 
 	// add a health attribute
 	HealthAttributePtr health = NiNew HealthAttribute(this);
-	health->Reset(ConfigurationManager::Get()->queen_initialHealth);
+	m_fMaxHealth = ConfigurationManager::Get()->queen_initialHealth;
+	health->Reset(m_fMaxHealth);
 	AddAttribute(GameCharacter::ATTR_HEALTH, (CharacterAttribute*)health);
 	// add a controller
 	AddAttribute(GameCharacter::ATTR_CONTROLLER, NiNew FSMQueenAIControl(this));

@@ -29,6 +29,7 @@ private:
 	// the max distance from the queen so that armor is
 	// greater than zero
 	const float m_fcMaxQueenDistance;
+	const float m_fcArmorCoefficient;
 };
 
 NiSmartPointer(ArmorAttribute);

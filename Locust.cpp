@@ -54,13 +54,15 @@ bool Locust::DoExtraInits()
 		return false;
 	}
 
+	m_fViewRadius = ConfigurationManager::Get()->locust_viewRadius;
+
 	// add a controller
 	AddAttribute(GameCharacter::ATTR_CONTROLLER, NiNew FSMEnemyAIControl(this));
 	// set initial health
 	HealthAttribute* health = (HealthAttribute*)GetAttribute(GameCharacter::ATTR_HEALTH);
-	if (health) health->Reset(ConfigurationManager::Get()->locust_initialHealth);
-
-	m_fViewRadius = ConfigurationManager::Get()->locust_viewRadius;
+	m_fMaxHealth = ConfigurationManager::Get()->locust_initialHealth;
+	if (health)
+		health->Reset(m_fMaxHealth);
 
 	SoundPtr sound = ResourceManager::Get()->GetSound(
 		ResourceManager::RES_SOUND_LOCUST, this);

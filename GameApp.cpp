@@ -30,6 +30,7 @@
 NiApplication* NiApplication::Create()
 {
     return NiNew GameApp;
+	
 }
 //--------------------------------------------------------------------------- 
 /** 
@@ -44,6 +45,7 @@ initialQueueOffset(950.0)
 	NiSample::SetMediaPath("../../res/");
 	m_bUseNavSystem = false;
 	//SetMediaPath("../../res/");
+	
 }
 //---------------------------------------------------------------------- 
 /** 
@@ -226,17 +228,24 @@ void GameApp::UpdateFrame()
 	m_spScene->UpdateEffects();
 
 	// Update the current listener position (for sound - FMOD)
-	NxActor* queenActor = GameManager::Get()->GetQueen()->GetActor();
-	NxVec3 nxPos = queenActor->getGlobalPosition()/50.0f;
-	NxVec3 nxVel = queenActor->getLinearVelocity() / 50.0f;
-	NxVec3 nxFor = queenActor->getGlobalOrientation().getColumn(0);
-	
-	
-	SoundManager::Get()->Update(nxPos,
-							    nxVel,
-								NxVec3(0.0, 1.0, 0.0),nxFor);
-	
-	
+	NxActor* queenActor = 0;
+	if (GameManager::Get()->GetQueen())
+	{
+		queenActor = GameManager::Get()->GetQueen()->GetActor();
+		NxVec3 nxPos = queenActor->getGlobalPosition()/50.0f;
+		NxVec3 nxVel = queenActor->getLinearVelocity() / 50.0f;
+		NxVec3 nxFor = queenActor->getGlobalOrientation().getColumn(0);
+		
+		
+		SoundManager::Get()->Update(nxPos,
+									nxVel,
+									NxVec3(0.0, 1.0, 0.0),nxFor);
+	}
+	else
+	{
+		SoundManager::Get()->Update();
+	}
+
     // Now we start the next step, giving a time that will actually be
     // in the past by the time we get the results.
     m_spPhysXScene->UpdateSources(m_fAccumTime);
@@ -626,7 +635,8 @@ bool GameApp::CreateCursor()
 	
 	NIASSERT(m_spCursor);
 	return true;
-	
+
+
 }
 //------------------------------------------------------------------------ 
 /** 

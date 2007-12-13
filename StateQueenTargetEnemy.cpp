@@ -27,6 +27,8 @@ void StateQueenTargetEnemy::Enter()
 */
 void StateQueenTargetEnemy::Update(float fTime)
 {
+	IsOwnerDead();
+
 	FSMQueenAIControl* controller = (FSMQueenAIControl*)m_control;
 	NIASSERT(controller);
 

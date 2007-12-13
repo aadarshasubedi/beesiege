@@ -45,65 +45,56 @@ void InputManager::ProcessKeyboard(NiInputKeyboard* keyboard,GameApp* gameApp)
 	GameManager* gameMgr = GameManager::Get();
 	if (keyboard != 0)
     {
-		// move queen forward
-		if (keyboard->KeyIsDown(NiInputKeyboard::KEY_W))
+		if (gameMgr->IsGameOver())
 		{
-			gameMgr->GetQueen()->SetMoveForward();
+			if (keyboard->KeyWasPressed(NiInputKeyboard::KEY_Y))
+			{
+				gameMgr->RestartGame();
+				return;
+			}
 		}
-		// move queen backward
-		else if (keyboard->KeyIsDown(NiInputKeyboard::KEY_S))
+		else
 		{
-			gameMgr->GetQueen()->SetMoveBackward();
-		}
-		// move queen left
-		if (keyboard->KeyIsDown(NiInputKeyboard::KEY_A))
-		{
-			gameMgr->GetQueen()->SetMoveLeft();
-		}
-		// move queen right
-		else if (keyboard->KeyIsDown(NiInputKeyboard::KEY_D))
-		{
-			gameMgr->GetQueen()->SetMoveRight();	
-		}
+			// move queen forward
+			if (keyboard->KeyIsDown(NiInputKeyboard::KEY_W))
+			{
+				gameMgr->GetQueen()->SetMoveForward();
+			}
+			// move queen backward
+			else if (keyboard->KeyIsDown(NiInputKeyboard::KEY_S))
+			{
+				gameMgr->GetQueen()->SetMoveBackward();
+			}
+			// move queen left
+			if (keyboard->KeyIsDown(NiInputKeyboard::KEY_A))
+			{
+				gameMgr->GetQueen()->SetMoveLeft();
+			}
+			// move queen right
+			else if (keyboard->KeyIsDown(NiInputKeyboard::KEY_D))
+			{
+				gameMgr->GetQueen()->SetMoveRight();	
+			}
+			
+			// cycle through targets
+			if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_SPACE))
+			{
+				gameMgr->GetQueen()->SetTargetEnemy();			
+			}
 
-		/*
-		// add a honey bee
-		if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_1))
-		{
-			gameApp->beeCreationQueue.AddTail(ResourceManager::RES_MODEL_HONEYBEE);
-			gameMgr->CreateObject3d(ResourceManager::RES_MODEL_HONEYBEE);						
+			// change selection mode
+			if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_LSHIFT))
+			{
+				gameMgr->SetSelectionMode(GameManager::SELECTION_GATHERERS);
+			}
+
+			if(keyboard->KeyWasReleased(NiInputKeyboard::KEY_LSHIFT))
+			{
+				gameMgr->SetSelectionMode(GameManager::SELECTION_SOLDIERS);
+				gameMgr->GetQueen()->SetGather();
+			}
 		}
-		// add a soldier bee
-		if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_2))
-		{
-			gameApp->beeCreationQueue.AddTail(ResourceManager::RES_MODEL_BEE);
-			gameMgr->CreateObject3d(ResourceManager::RES_MODEL_BEE);						
-		}
-		// add a healer bee
-		if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_3))
-		{
-			gameApp->beeCreationQueue.AddTail(ResourceManager::RES_MODEL_HEALERBEE);
-			gameMgr->CreateObject3d(ResourceManager::RES_MODEL_HEALERBEE);						
-		}
-		*/
 		
-		// cycle through targets
-		if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_SPACE))
-		{
-			gameMgr->GetQueen()->SetTargetEnemy();			
-		}
-
-		// change selection mode
-		if(keyboard->KeyWasPressed(NiInputKeyboard::KEY_LSHIFT))
-		{
-			gameMgr->SetSelectionMode(GameManager::SELECTION_GATHERERS);
-		}
-
-		if(keyboard->KeyWasReleased(NiInputKeyboard::KEY_LSHIFT))
-		{
-			gameMgr->SetSelectionMode(GameManager::SELECTION_SOLDIERS);
-			gameMgr->GetQueen()->SetGather();
-		}
     }
 }
 //------------------------------------------------------------------- 
@@ -121,6 +112,8 @@ void InputManager::ProcessMouse(NiInputMouse* mouse, GameApp* gameApp)
 		mouse->GetPositionDelta(mx, my, mz);
 
 		GameManager* gameMgr = GameManager::Get();
+		if (gameMgr->IsGameOver())
+			return;
 
 		// select more soldiers
 		if(mouse->ButtonIsDown(NiInputMouse::NIM_LEFT))

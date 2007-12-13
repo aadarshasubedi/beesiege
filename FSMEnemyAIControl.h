@@ -15,6 +15,8 @@ public:
 
 	// is a target close by
 	GameCharacter* IsTargetAtProximity(float radius);
+	// is a bee close by
+	GameCharacter* IsBeeAtProximity(float radius);
 	// play sound when dying
 	void PlayDyingSound();
 

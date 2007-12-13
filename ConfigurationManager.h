@@ -43,8 +43,10 @@ public:
 	float bee_distanceFromTarget;
 	float bee_initialHealth;
 	float bee_armorEffectiveDistance;
+	float bee_armorCoefficient;
 	float bee_damageEffectiveDistance;
 	float bee_damageRadius;
+	float bee_damage;
 	float queen_speedGain;
 	float queen_rotationGain;
 	float queen_moveUpSpeedGain;
@@ -60,10 +62,17 @@ public:
 	float dragonfly_viewRadius;
 	float dragonfly_damageRadius;
 	float dragonfly_damage;
+	float boss_initialHealth;
+	float boss_viewRadius;
+	float boss_damageRadius;
+	float boss_damage;
 	float healer_initialHealth;
 	float healer_radius;
 	float healer_duration;
 	float healer_healAmount;
+	float honeyBee_initialHealth;
+	float honeyBee_duration;
+	float honeyBee_gatherAmount;
 	float timer_selectSoldiers;
 	float scene_fogDefaultDepth;
 
@@ -91,7 +100,9 @@ private:
 	bool ReadQueen(TiXmlElement* node);
 	bool ReadLocust(TiXmlElement* node);
 	bool ReadDragonFly(TiXmlElement* node);
+	bool ReadBoss(TiXmlElement* node);
 	bool ReadHealer(TiXmlElement* node);
+	bool ReadHoneyBee(TiXmlElement* node);
 	bool ReadTimers(TiXmlElement* node);
 	bool ReadScene(TiXmlElement* node);
 };

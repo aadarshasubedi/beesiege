@@ -16,7 +16,9 @@ public:
 	enum StringType
 	{
 		STRING_SELECTEDSOLDIERS = 0,
-		STRING_KILLINGRATE
+		STRING_KILLINGRATE,
+		STRING_GAMEOVER,
+		STRING_WIN
 	};
 	
 	// initializes the manager

@@ -24,16 +24,16 @@ public:
 		m_fHoneyCapacity -= value;
 	}
 
+	void ResetHoney()
+	{
+		m_fHoneyCapacity = m_fcMaxHoney;
+	}
 
 protected:
 
 	void DoExtraUpdates(float fTime);
 	bool DoExtraInits();
 	
-	void ResetHoney()
-	{
-		m_fHoneyCapacity = m_fcMaxHoney;
-	}
 
 	// maxi honey capacity
 	const float m_fcMaxHoney;

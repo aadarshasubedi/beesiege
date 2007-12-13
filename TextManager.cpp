@@ -3,7 +3,7 @@
  */
 #include "TextManager.h"
 #include "ResourceManager.h"
-
+#include "GameManager.h"
 //--------------------------------------------------------------------------- 
 /** 
  * Ctor
@@ -67,8 +67,14 @@ bool TextManager::Init(NiRenderer* renderer)
 		(ResourceManager::RES_FONT_SELECTEDSOLDIERS);
 	if (!font) return false;
 
-	bool bSuccess = AddString("Rate: 0", font , NiFontString::COLORED |
-		NiFontString::CENTERED, 50, NiColorA(1.0, 1.0, 0.0, 1.0), 150, 20, STRING_KILLINGRATE);
+	int w = GameManager::Get()->GetGameApp()->GetAppWindow()->GetWidth();
+	int h = GameManager::Get()->GetGameApp()->GetAppWindow()->GetHeight();
+	bool bSuccess = AddString("", font , NiFontString::COLORED |
+		NiFontString::CENTERED, 50, NiColorA(1.0, 0.0, 0.0, 1.0), w/2, h/2, STRING_GAMEOVER);
+	if (!bSuccess) return false;
+
+	bSuccess = AddString("", font , NiFontString::COLORED |
+		NiFontString::CENTERED, 50, NiColorA(1.0, 1.0, 0.0, 1.0), w/2, h/2, STRING_WIN);
 
 	return bSuccess;
 }
