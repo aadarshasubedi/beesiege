@@ -388,7 +388,7 @@ void GameApp::CreateBees()
 				if((i/timeDiff) == 1.0f)
 				{*/
 					hasAlphaChanged = true;
-					alphaValue = timeDiff*0.1;
+					alphaValue = timeDiff/5.0f;//*0.1;
 					//break;
 				//}
 					
