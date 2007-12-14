@@ -65,12 +65,27 @@ bool TextManager::Init(NiRenderer* renderer)
 	m_pRenderer = renderer;
 	NiFontPtr font = ResourceManager::Get()->GetFont
 		(ResourceManager::RES_FONT_SELECTEDSOLDIERS);
+
 	if (!font) return false;
 
 	int w = GameManager::Get()->GetGameApp()->GetAppWindow()->GetWidth();
 	int h = GameManager::Get()->GetGameApp()->GetAppWindow()->GetHeight();
 	bool bSuccess = AddString("", font , NiFontString::COLORED |
 		NiFontString::CENTERED, 50, NiColorA(1.0, 0.0, 0.0, 1.0), w/2, h/2, STRING_GAMEOVER);
+
+
+	bSuccess = AddString("Queen health: ", font, NiFontString::COLORED 
+		, 15, NiColorA(1.0, 1.0, 1.0, 0.7), w*0.025, h*0.9, STRING_QUEENHEALTHTEXT);
+
+	bSuccess = AddString("0.0", font, NiFontString::COLORED 
+		, 8, NiColorA(1.0, 1.0, 1.0, 0.7), w*0.18, h*0.9, STRING_QUEENHEALTH);
+
+	bSuccess = AddString("Honey Reserve: ", font, NiFontString::COLORED 
+		, 15, NiColorA(1.0, 1.0, 1.0, 0.7), w*0.025, h*0.95, STRING_QUEENHONEYTEXT);
+
+	bSuccess = AddString("0.0", font, NiFontString::COLORED
+		, 8, NiColorA(1.0, 1.0, 1.0, 0.7), w*0.18, h*0.95, STRING_QUEENHONEY);
+
 	if (!bSuccess) return false;
 
 	bSuccess = AddString("", font , NiFontString::COLORED |

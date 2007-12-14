@@ -15,6 +15,7 @@
 #include <NiFogProperty.h>
 #include <NiSystemCursor.h>
 #include <math.h>
+#include "HealthAttribute.h"
 
 
 #pragma comment(lib, "NiBinaryShaderLibDX9.lib")
@@ -252,12 +253,20 @@ void GameApp::UpdateFrame()
 	m_spCameraController->Update(m_fAccumTime);
 	m_spPhysXScene->Simulate(m_fAccumTime);
     m_fLastSimTime = m_fAccumTime;
-
+	
 	//check whether the bee is to be created now and if it is then remove it from the queue
 	CreateBees();
-	
-	//if(hasQueueChanged)
-		UpdateBeeQueue();
+	UpdateBeeQueue();
+
+	char* qValue = new char[5];
+	HealthAttribute* health = (HealthAttribute*)(GameManager::Get()->GetQueen())->GetAttribute(GameCharacter::ATTR_HEALTH);
+	sprintf(qValue,"%.1f", health->GetHealth());
+
+	TextManager::Get()->UpdateText(TextManager::STRING_QUEENHEALTH, qValue);
+
+	sprintf(qValue, "%.1f", GameManager::Get()->GetQueen()->GetHoney());
+	TextManager::Get()->UpdateText(TextManager::STRING_QUEENHONEY, qValue);
+
 }
 //--------------------------------------------------------------------------- 
 /** 
