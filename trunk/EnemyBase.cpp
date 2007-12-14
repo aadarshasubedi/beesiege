@@ -24,7 +24,7 @@ m_bIsBossAlive(true),
 m_uiSpawnedCount(0),
 m_uicMaxSpawned(15),
 m_uiSpawnedKilled(0),
-m_uiMaxRemainingSpawned(14)
+m_uiMaxRemainingSpawned(4)
 {
 }
 //-----------------------------------------------------------------------------
