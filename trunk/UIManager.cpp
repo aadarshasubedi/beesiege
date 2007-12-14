@@ -121,7 +121,7 @@ void UIManager::createHealerBee()
 	if(gameMgr->GetGameApp()->beeTypesQueue.GetSize() < maxQueueSize)
 	{
 		gameMgr->GetGameApp()->beeTypesQueue.AddTail(ResourceManager::RES_MODEL_HEALERBEE);
-		gameMgr->GetGameApp()->beeTimeQueue.AddTail(timerStart + 10.0f);
+		gameMgr->GetGameApp()->beeTimeQueue.AddTail(timerStart + 5.0f);
 		gameMgr->GetGameApp()->hasQueueChanged = true;
 		gameMgr->GetQueen()->DecreaseHoney(15.0);
 	}
