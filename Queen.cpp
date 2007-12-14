@@ -31,7 +31,7 @@ Queen::Queen()
   m_bIssuedRotate(false),
   m_fRotateDx(0.0f),
   m_fRotateDy(0.0f),
-  m_fHoney(0.0f)
+  m_fHoney(100.0f)
 {
 	
 }
@@ -122,7 +122,7 @@ void Queen::Reset()
 	m_bIssuedMoveVertical = false;
 	m_bIssuedRotate = false;
 	
-	m_fHoney = 0.0f;
+	m_fHoney = 100.0f;
 
 	HealthAttribute* health = (HealthAttribute*)GetAttribute(GameCharacter::ATTR_HEALTH);
 	if (health)

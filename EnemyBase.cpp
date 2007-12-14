@@ -42,7 +42,7 @@ EnemyBase::~EnemyBase()
  */
 void EnemyBase::DoExtraUpdates(float fTime)
 {
-	//SpawnEnemy();
+	SpawnEnemy();
 }
 //------------------------------------------------------------------------ 
 /** 
