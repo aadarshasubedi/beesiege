@@ -296,11 +296,11 @@ void GameApp::UpdateBeeQueue()
 		if(beeTypesQueue.GetSize() > 0)
 		{
 			if(beeTypesQueue.GetHead() == ResourceManager::RES_MODEL_BEE)
-					ChangeAlphaOfHeadTexture("Textures/soldier_bee_smaller.bmp", drawOffset, 60.0f, alphaValue);
+					ChangeAlphaOfHeadTexture("Textures/soldier_bee_smaller_Q.bmp", drawOffset, 60.0f, alphaValue);
 			else if(beeTypesQueue.GetHead() == ResourceManager::RES_MODEL_HONEYBEE)
-					ChangeAlphaOfHeadTexture("Textures/honey_bee_smaller.bmp", drawOffset, 60.0f, alphaValue);
+					ChangeAlphaOfHeadTexture("Textures/honey_bee_smaller_Q.bmp", drawOffset, 60.0f, alphaValue);
 			else if(beeTypesQueue.GetHead() == ResourceManager::RES_MODEL_HEALERBEE)
-					ChangeAlphaOfHeadTexture("Textures/healer_bee_smaller.bmp", drawOffset, 60.0f, alphaValue);
+					ChangeAlphaOfHeadTexture("Textures/healer_bee_smaller_Q.bmp", drawOffset, 60.0f, alphaValue);
 		}
 		hasAlphaChanged = false;
 	}
@@ -315,11 +315,11 @@ void GameApp::UpdateBeeQueue()
 		if(beeTypesQueue.GetSize() > 0)
 		{
 			if(beeTypesQueue.GetHead() == ResourceManager::RES_MODEL_BEE)
-				CreateScreenPolygon("Textures/soldier_bee_smaller.bmp", drawOffset, 60.0f, alphaValue);
+				CreateScreenPolygon("Textures/soldier_bee_smaller_Q.bmp", drawOffset, 60.0f, alphaValue);
 			else if(beeTypesQueue.GetHead() == ResourceManager::RES_MODEL_HONEYBEE)
-					CreateScreenPolygon("Textures/honey_bee_smaller.bmp", drawOffset, 60.0f, alphaValue);
+					CreateScreenPolygon("Textures/honey_bee_smaller_Q.bmp", drawOffset, 60.0f, alphaValue);
 			else if(beeTypesQueue.GetHead() == ResourceManager::RES_MODEL_HEALERBEE)
-					CreateScreenPolygon("Textures/healer_bee_smaller.bmp", drawOffset, 60.0f, alphaValue);
+					CreateScreenPolygon("Textures/healer_bee_smaller_Q.bmp", drawOffset, 60.0f, alphaValue);
 			drawOffset -= 50.0f;
 			if(beeTypesQueue.GetSize() > 1)
 			{
@@ -328,11 +328,11 @@ void GameApp::UpdateBeeQueue()
 				{
 					beeType = beeTypesQueue.Get(index);
 					if(beeType == ResourceManager::RES_MODEL_BEE)
-						CreateScreenPolygon("Textures/soldier_bee_smaller.bmp", drawOffset, 60.0f, 1.0f);
+						CreateScreenPolygon("Textures/soldier_bee_smaller_Q.bmp", drawOffset, 60.0f, 1.0f);
 					else if(beeType == ResourceManager::RES_MODEL_HONEYBEE)
-						CreateScreenPolygon("Textures/honey_bee_smaller.bmp", drawOffset, 60.0f, 1.0f);
+						CreateScreenPolygon("Textures/honey_bee_smaller_Q.bmp", drawOffset, 60.0f, 1.0f);
 					else if(beeType == ResourceManager::RES_MODEL_HEALERBEE)
-						CreateScreenPolygon("Textures/healer_bee_smaller.bmp", drawOffset, 60.0f, 1.0f);
+						CreateScreenPolygon("Textures/healer_bee_smaller_Q.bmp", drawOffset, 60.0f, 1.0f);
 
 					drawOffset -= 50.0;
 					index = beeTypesQueue.GetNextPos(index);
