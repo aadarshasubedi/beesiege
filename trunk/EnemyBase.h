@@ -12,10 +12,8 @@ public:
 	EnemyBase();
 	virtual ~EnemyBase();
 
-	void SetBossAlive (bool value)
-	{
-		m_bIsBossAlive = value;
-	}
+	void SetBossAlive (bool value);
+
 	const bool IsBossAlive() const
 	{
 		return m_bIsBossAlive;

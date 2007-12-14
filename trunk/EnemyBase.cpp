@@ -42,7 +42,7 @@ EnemyBase::~EnemyBase()
  */
 void EnemyBase::DoExtraUpdates(float fTime)
 {
-	SpawnEnemy();
+	//SpawnEnemy();
 }
 //------------------------------------------------------------------------ 
 /** 
@@ -127,4 +127,17 @@ void EnemyBase::Reset()
 	m_bIsBossAlive = false;
 	m_uiSpawnedCount = 0;
 	m_uiSpawnedKilled = 0;
+}
+//------------------------------------------------------------------------ 
+/** 
+ * Sets bass alive and updates gamemanager
+ */
+void EnemyBase::SetBossAlive(bool value)
+{
+	if (!value)
+	{
+		GameManager::Get()->BaseDestroyed();
+	}
+
+	m_bIsBossAlive = value;
 }

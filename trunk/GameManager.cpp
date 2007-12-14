@@ -30,7 +30,7 @@ GameManager::GameManager() :
 m_fDeltaTime(0.0f), m_plAgents(0), m_pCurrentTarget(0),
 m_fKillingRate(0.0f), m_fKillCount(0.0f), m_fLastKillTime(0.0f),
 m_spAmbientSounds(0),m_pCurrentFlowerTarget(0), m_eSelectionMode(SELECTION_SOLDIERS),
-m_bIsQueenAlive(true),m_bWin(false)
+m_bIsQueenAlive(true),m_bWin(false),m_icBasesCount(5),m_iCountBasesDestroyed(0)
 {
 }
 //------------------------------------------------------------------------ 
@@ -49,6 +49,7 @@ GameManager::~GameManager()
 	m_lObjects.RemoveAll();
 	m_lEnemies.RemoveAll();
 	m_lFlowers.RemoveAll();
+	m_lBases.RemoveAll();
 	m_spQueen = 0;
 	m_spCurrentLevel = 0;
 	ConfigurationManager::Destroy();
@@ -141,7 +142,7 @@ void GameManager::CreateFlowers(NiNodePtr parent)
 */
 void GameManager::CreateEnemyBases(NiNodePtr parent)
 {	
-	for(int i=1;i<6;i++)
+	for(int i=1;i<m_icBasesCount+1;i++)
 	{
 		stringstream s;
 		s << i;
@@ -153,13 +154,9 @@ void GameManager::CreateEnemyBases(NiNodePtr parent)
 		EnemyBasePtr enemyBase = (EnemyBase*)(GameObj3d*)CreateObject3d(ResourceManager::RES_MODEL_BASE);
 		if(enemyBase)
 		{
-			// Inside here..... 
+			enemyBase->GetNode()->SetTranslate(attacher2->GetTranslate());
 		}
-		else
-		{
-			int a = 1; 
-		}
-		enemyBase->GetNode()->SetTranslate(attacher2->GetTranslate());
+		
 	}
 }
 
@@ -450,14 +447,14 @@ void GameManager::RestartGame()
 		m_lFlowers.Get(it)->ResetHoney();
 	}
 
-	/*
-	it = m_lEnemyBases.GetHeadPos();
-	size = m_lEnemyBases.GetSize();
+	
+	it = m_lBases.GetHeadPos();
+	size = m_lBases.GetSize();
 	for (int i=0; i<size; i++)
 	{
-		m_lEnemyBases.Get(it)->Reset();
+		m_lBases.Get(it)->Reset();
 	}
-	*/
+	
 
 	if (m_spAmbientSounds)
 	{
