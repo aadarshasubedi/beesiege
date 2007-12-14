@@ -101,15 +101,8 @@ void HoneyBee::GiveHoneyToQueen()
 		return;
 	}
 
-	NiPoint3 pos = m_spNode->GetTranslate();
 	Queen* queen = m_pGameManager->GetQueen();
-	NxVec3 queenPos = queen->GetActor()->getGlobalPosition();
-
-	NxVec3 distance = NxVec3(pos.x, pos.y, pos.z) - queenPos;
-	if (distance.magnitude() <= 100.0f)
-	{
-		queen->IncreaseHoney(m_fHoneyGathered);
-		m_fHoneyGathered = 0.0f;
-	}
+	queen->IncreaseHoney(m_fHoneyGathered);
+	m_fHoneyGathered = 0.0f;
 					  
 }
