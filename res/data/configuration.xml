@@ -5,7 +5,7 @@
         <agent>
             <maxForce> 1500.0 </maxForce>
             <maxTorque> 40.5 </maxTorque>
-            <maxVelocity> 150.0 </maxVelocity>
+            <maxVelocity> 170.0 </maxVelocity>
             <maxAngVel> 10.0 </maxAngVel>
             <maxHeight> 450.0 </maxHeight>
         </agent>
@@ -42,26 +42,28 @@
             <radius> 100.0 </radius>
         </separation>
         <wander>
-            <constant> 5.0 </constant>
+            <constant> 8.0 </constant>
             <noise> 1.0 </noise>
         </wander>
     </behaviors>
     <characters>
         <bee>
             <distanceFromTarget> 0.0 </distanceFromTarget>
-            <initialHealth> 10.0 </initialHealth>
-            <armorEffectiveDistance> 500.0 </armorEffectiveDistance>
-            <damageEffectiveDistance> 500.0 </damageEffectiveDistance>
+            <initialHealth> 35.0 </initialHealth>
+            <armorEffectiveDistance> 300.0 </armorEffectiveDistance>
+            <damageEffectiveDistance> 300.0 </damageEffectiveDistance>
+            <armorCoefficient> 1.0 </armorCoefficient>
             <damageRadius> 20.0 </damageRadius>
+            <damage> 2.0f </damage>
         </bee>
         <queen>
-            <speedGain> 500.0 </speedGain>
+            <speedGain> 530.0 </speedGain>
             <rotationGain> 10.0 </rotationGain>
             <moveUpSpeedGain> 20.0 </moveUpSpeedGain>
             <viewRadius> 500.0 </viewRadius>
             <maxHeight> 578.495 </maxHeight>
             <fogScaleValue> 27000000.0 </fogScaleValue>
-            <initialHealth> 500.0 </initialHealth>
+            <initialHealth> 200.0 </initialHealth>
         </queen>
         <locust>
             <initialHealth> 100.0 </initialHealth>
@@ -75,12 +77,23 @@
             <duration> 10.0 </duration>
             <healingAmount> 0.03 </healingAmount>
         </healer>
+        <honeyBee>
+            <initialHealth> 10.0 </initialHealth>            
+            <duration> 10.0 </duration>
+            <gatherAmount> 1.0 </gatherAmount>
+        </honeyBee>
         <dragonFly>
             <initialHealth> 100.0 </initialHealth>
             <viewRadius> 150.0 </viewRadius>
             <damageRadius> 20.0 </damageRadius>
             <damage> 5.0 </damage>
         </dragonFly>
+        <boss>
+            <initialHealth> 500.0 </initialHealth>
+            <viewRadius> 150.0 </viewRadius>
+            <damageRadius> 20.0 </damageRadius>
+            <damage> 13.0 </damage>
+        </boss>
     </characters>
     <timers>
         <selectSoldiersTimer> 0.5 </selectSoldiersTimer>
