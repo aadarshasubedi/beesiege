@@ -141,6 +141,12 @@ public:
 		return (!m_bIsQueenAlive || m_bWin);
 	}
 
+	void BaseDestroyed()
+	{
+		m_iCountBasesDestroyed++;
+		m_bWin = (m_iCountBasesDestroyed >= m_icBasesCount);
+	}
+
 
 	void RestartGame();
 private:
@@ -203,6 +209,10 @@ private:
 	bool m_bIsQueenAlive;
 	// did the player win
 	bool m_bWin;
+	// num of enemy bases
+	const int m_icBasesCount;
+	// num of bases destroyed
+	int m_iCountBasesDestroyed;
 	
 };
 
