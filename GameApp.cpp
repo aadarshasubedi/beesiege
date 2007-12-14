@@ -247,6 +247,19 @@ void GameApp::UpdateFrame()
 		SoundManager::Get()->Update();
 	}
 
+	CreateBees();
+	UpdateBeeQueue();
+
+	
+	char qValue[10];
+	HealthAttribute* health = (HealthAttribute*)(GameManager::Get()->GetQueen())->GetAttribute(GameCharacter::ATTR_HEALTH);
+	sprintf(qValue,"%.1f", health->GetHealth());
+
+	TextManager::Get()->UpdateText(TextManager::STRING_QUEENHEALTH, qValue);
+
+	sprintf(qValue, "%.1f", GameManager::Get()->GetQueen()->GetHoney());
+	TextManager::Get()->UpdateText(TextManager::STRING_QUEENHONEY, qValue);
+	
     // Now we start the next step, giving a time that will actually be
     // in the past by the time we get the results.
     m_spPhysXScene->UpdateSources(m_fAccumTime);
@@ -255,17 +268,8 @@ void GameApp::UpdateFrame()
     m_fLastSimTime = m_fAccumTime;
 	
 	//check whether the bee is to be created now and if it is then remove it from the queue
-	CreateBees();
-	UpdateBeeQueue();
+	
 
-	char* qValue = new char[5];
-	HealthAttribute* health = (HealthAttribute*)(GameManager::Get()->GetQueen())->GetAttribute(GameCharacter::ATTR_HEALTH);
-	sprintf(qValue,"%.1f", health->GetHealth());
-
-	TextManager::Get()->UpdateText(TextManager::STRING_QUEENHEALTH, qValue);
-
-	sprintf(qValue, "%.1f", GameManager::Get()->GetQueen()->GetHoney());
-	TextManager::Get()->UpdateText(TextManager::STRING_QUEENHONEY, qValue);
 
 }
 //--------------------------------------------------------------------------- 
