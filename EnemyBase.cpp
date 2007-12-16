@@ -22,9 +22,9 @@ m_fSpawnTimerInitial(10.0f),
 m_bSpawnedBoss(false),
 m_bIsBossAlive(true),
 m_uiSpawnedCount(0),
-m_uicMaxSpawned(15),
+m_uicMaxSpawned(8),
 m_uiSpawnedKilled(0),
-m_uiMaxRemainingSpawned(4)
+m_uiMaxRemainingSpawned(7)
 {
 }
 //-----------------------------------------------------------------------------
@@ -53,7 +53,7 @@ void EnemyBase::DoExtraUpdates(float fTime)
  */
 bool EnemyBase::DoExtraInits()
 {
-	m_spNode->SetTranslate(1000.0f, 250.0f, -200.0f);
+
 	return true;
 }
 //------------------------------------------------------------------------ 
@@ -75,7 +75,7 @@ void EnemyBase::SpawnEnemy()
 			if (enemy)
 			{
 				NiPoint3 pos = m_spNode->GetTranslate();
-				enemy->GetActor()->setGlobalPosition(NxVec3(pos.x, pos.y, pos.z));
+				enemy->GetActor()->setGlobalPosition(NxVec3(pos.x, pos.y+50.0f, pos.z));
 				enemy->SetBase(this);
 				m_bSpawnedBoss = true;
 			}
@@ -96,7 +96,7 @@ void EnemyBase::SpawnEnemy()
 			if (enemy)
 			{
 				NiPoint3 pos = m_spNode->GetTranslate();
-				enemy->GetActor()->setGlobalPosition(NxVec3(pos.x, pos.y, pos.z));
+				enemy->GetActor()->setGlobalPosition(NxVec3(pos.x, pos.y+50.0f, pos.z));
 				enemy->SetBase(this);
 				m_uiSpawnedCount++;
 			}
@@ -108,7 +108,7 @@ void EnemyBase::SpawnEnemy()
 			if (enemy)
 			{
 				NiPoint3 pos = m_spNode->GetTranslate();
-				enemy->GetActor()->setGlobalPosition(NxVec3(pos.x, pos.y, pos.z));
+				enemy->GetActor()->setGlobalPosition(NxVec3(pos.x, pos.y+50.0f, pos.z));
 				enemy->SetBase(this);
 				m_uiSpawnedCount++;
 			}

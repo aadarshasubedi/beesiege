@@ -121,14 +121,13 @@ bool GameManager::Init(NiNodePtr parent, NiPhysXScenePtr physXScene, NiSample* a
 */
 void GameManager::CreateFlowers(NiNodePtr parent)
 {	
-	for(int i=1;i<20;i++)
+	for(int i=1;i<37;i++)
 	{
 		stringstream s;
 		s << i;
 		string str1 = "attachmentBox" + s.str();
-		char* c = new char[str1.length()];
-		strcpy(c,str1.c_str());
-		NiFixedString s1 = c;
+		
+		NiFixedString s1 = str1.c_str();;
 		NiNode* attacher1 = (NiNode*) parent->GetObjectByName(s1);
 		FlowerPtr flower = (Flower*)(GameObj3d*)CreateObject3d(ResourceManager::RES_MODEL_FLOWER);
 		flower->GetNode()->SetTranslate(attacher1->GetTranslate());
@@ -147,9 +146,8 @@ void GameManager::CreateEnemyBases(NiNodePtr parent)
 		stringstream s;
 		s << i;
 		string str1 = "enemyBase" + s.str();
-		char* c = new char[str1.length()];
-		strcpy(c,str1.c_str());
-		NiFixedString s1 = c;
+	
+		NiFixedString s1 = str1.c_str();
 		NiNode* attacher2 = (NiNode*) parent->GetObjectByName(s1);
 		EnemyBasePtr enemyBase = (EnemyBase*)(GameObj3d*)CreateObject3d(ResourceManager::RES_MODEL_BASE);
 		if(enemyBase)

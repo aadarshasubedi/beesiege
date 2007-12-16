@@ -127,7 +127,7 @@ void StateQueenSelectGatherers::SelectMoreGatherers()
 	// add the soldier to the selected Gatherers list
 	if (selected)
 	{
-		selected->SetEmmitance(NiColor(0.0, 0.8, 0.0));
+		selected->SetEmmitance(NiColor(0.7, 0.8, 0.0));
 		m_lSelectedGatherers.AddTail(selected);
 		FSMQueenAIControl* controller = (FSMQueenAIControl*)m_control;
 		((Queen*)controller->GetOwner())->RemoveGatherer(selected);
