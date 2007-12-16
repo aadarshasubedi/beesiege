@@ -415,6 +415,7 @@ void GameApp::Terminate()
 	GameManager::Destroy();
 	ResourceManager::Destroy();
 	InputManager::Destroy();
+	UIManager::Destroy();
 	NiSample::Terminate();
 	if (m_pPhysXManager)
         m_pPhysXManager->Shutdown();
